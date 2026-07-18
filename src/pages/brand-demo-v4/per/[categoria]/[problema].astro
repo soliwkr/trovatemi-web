@@ -1,0 +1,50 @@
+---
+import V4Layout from '../../../../layouts/V4Layout.astro';
+import { v4Categories } from '../../../../data/v4';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return v4Categories.map((category) => ({ params: { categoria: category.slug, problema: category.problemSlug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+---
+
+<V4Layout title={`${category.problemLabel} — TROVATEMI per ${category.name}`} description={`${category.problemTitle} Scopri il problema e la soluzione TROVATEMI.IT per ${category.name.toLowerCase()}.`} accent={category.accent} eyebrow={`PROBLEMA / SOLUZIONE · ${category.name.toUpperCase()}`}>
+  <section class="v4-page-hero" data-watermark="PROBLEMA">
+    <div class="v4-wrap">
+      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / <a href={`/brand-demo-v4/per/${category.slug}/`}>{category.name}</a> / {category.problemLabel}</div>
+      <p class="v4-kicker"><span>★</span> {category.problemLabel}</p>
+      <h1>{category.problemTitle}</h1>
+      <p class="v4-lede">{category.problemBody}</p>
+    </div>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <article class="v4-wrap v4-long-copy">
+      <p>Il punto più doloroso non è ricevere un rifiuto. È non sapere che una persona stava cercando proprio ciò che fai e ha scelto qualcun altro prima ancora di parlarti.</p>
+
+      <h2>IL CLIENTE NON HA TEMPO DI INDAGARE.</h2>
+      <p>Apre Google, guarda pochi risultati e usa i segnali che ha davanti. Non può vedere la tua esperienza dall’interno. Non sa quanto tieni ai clienti. Non conosce il lavoro che fai quando nessuno guarda.</p>
+      <p>Può vedere soltanto una presenza più o meno chiara, più o meno recente, più o meno credibile.</p>
+
+      <div class="v4-callout"><span>LA VERITÀ SCOMODA</span><blockquote>NON TI HA DETTO DI NO.<br />NON TI HA MAI TROVATO.</blockquote></div>
+
+      <h2>IL VUOTO VIENE RIEMPITO DAL CONCORRENTE.</h2>
+      <p>Quando le tue informazioni sono incomplete, le fotografie sono vecchie o le recensioni arrivano raramente, Google non lascia uno spazio bianco. Mostra altre attività. Il cliente continua il proprio percorso e tu resti fuori dalla decisione.</p>
+
+      <h2>{category.solutionTitle}</h2>
+      <p>{category.solutionBody}</p>
+      <p>La soluzione non consiste nel dichiararsi migliori. Consiste nel rendere visibili esperienze vere, informazioni corrette e una presenza curata nel momento in cui il cliente le sta cercando.</p>
+
+      <div class="v4-proof-list">
+        {category.proof.map((item, index) => <div><span>0{index + 1}</span><b>{item}</b></div>)}
+      </div>
+
+      <h2>IL PRIMO CONTROLLO RICHIEDE TRENTA SECONDI.</h2>
+      <p>Prendi il telefono. Cerca “{category.query}”. Guarda chi compare, quante recensioni mostra e quale attività chiameresti se non conoscessi nessuno.</p>
+    </article>
+  </section>
+
+  <section class="v4-cta-band"><div class="v4-wrap"><h2>ORA GUARDA LA TUA ATTIVITÀ CON GLI OCCHI DEL CLIENTE.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Fallo con Chris <span>↗</span></button></div></section>
+</V4Layout>
