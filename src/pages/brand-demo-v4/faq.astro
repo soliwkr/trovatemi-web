@@ -1,0 +1,13 @@
+---
+import V4Layout from '../../layouts/V4Layout.astro';
+import { v4Faq } from '../../data/v4';
+export const prerender = true;
+---
+
+<V4Layout title="Domande frequenti — TROVATEMI.IT" description="Risposte chiare su Google, Maps, recensioni, NFC e sul sistema TROVATEMI.IT.">
+  <section class="v4-page-hero" data-watermark="FAQ">
+    <div class="v4-wrap"><div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / FAQ</div><p class="v4-kicker"><span>★</span> DOMANDE DIRETTE. RISPOSTE PULITE.</p><h1>QUELLO CHE VORRESTI CHIEDERE PRIMA DI CHIAMARE.</h1><p class="v4-lede">Nessuna promessa di posizione, nessun filtro sulle recensioni e nessuna tecnologia usata come fumo.</p></div>
+  </section>
+  <section class="v4-section v4-surface"><div class="v4-wrap v4-faq-list">{v4Faq.map(([question, answer]) => <details class="v4-reveal"><summary>{question}</summary><p>{answer}</p></details>)}</div></section>
+  <section class="v4-cta-band"><div class="v4-wrap"><h2>LA TUA DOMANDA NON È QUI?</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Chiedila a Chris <span>↗</span></button></div></section>
+</V4Layout>

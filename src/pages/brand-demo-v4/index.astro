@@ -1,0 +1,116 @@
+---
+import V4Layout from '../../layouts/V4Layout.astro';
+import { v4Categories, v4Faq, v4Posts } from '../../data/v4';
+
+export const prerender = true;
+---
+
+<V4Layout
+  title="TROVATEMI.IT — Il cliente ti sta già cercando"
+  description="TROVATEMI.IT aiuta le attività locali a farsi trovare su Google, Maps e recensioni quando il cliente sta già cercando."
+>
+  <section class="v4-hero">
+    <div class="v4-wrap v4-hero-grid">
+      <div class="v4-hero-copy v4-reveal">
+        <p class="v4-kicker"><span>★</span> TI FACCIAMO TROVARE DOVE CONTA</p>
+        <h1 class="v4-display">IL CLIENTE TI STA GIÀ CERCANDO.<br /><em>IL PROBLEMA È CHE TROVA UN ALTRO.</em></h1>
+        <p>Google. Maps. Recensioni. Telefonate. Mettiamo in ordine ciò che il cliente vede nel momento esatto in cui sta decidendo chi chiamare.</p>
+        <div class="v4-actions"><a class="v4-button" href="/brand-demo-v4/fatti-trovare-su-google/">Guarda cosa vede il cliente <span>↗</span></a><a class="v4-text-link" href="#categorie">Scegli la tua categoria</a></div>
+      </div>
+
+      <div class="v4-search-stage v4-reveal">
+        <span class="v4-search-label">LA RICERCA CHE CONTA</span>
+        <div class="v4-search-panel">
+          <div class="v4-search-input"><b>G</b><span>agenzia immobiliare formia</span><i>⌕</i></div>
+          <div class="v4-result"><span class="v4-pin">●</span><div><b>Il concorrente più visibile</b><small>Attività locale · Aperto</small><em>★★★★★ 4,8 · 91 recensioni</em></div><strong>☎</strong></div>
+          <div class="v4-result"><span class="v4-pin">●</span><div><b>Un altro concorrente</b><small>Attività locale · Aperto</small><em>★★★★★ 4,7 · 60 recensioni</em></div><strong>☎</strong></div>
+          <div class="v4-result"><span class="v4-pin">●</span><div><b>La tua attività?</b><small>Più in basso, dove pochi arrivano</small><em>★★★★☆ · poche prove recenti</em></div><strong>↓</strong></div>
+        </div>
+        <div class="v4-lost-card"><span>IL CLIENTE CHE NON VEDI</span><strong>HA GIÀ SCELTO.</strong><p>Non ti ha detto di no. Non ti ha mai trovato.</p></div>
+        <div class="v4-found-card"><span>LA PROVA</span><strong>È SUL SUO TELEFONO.</strong><small>Apri Google. Cerca. Confronta.</small></div>
+      </div>
+    </div>
+    <div class="v4-wrap v4-hero-strip"><span>GOOGLE</span><i></i><span>MAPS</span><i></i><span>RECENSIONI</span><i></i><span>NFC + QR</span><i></i><span>CHIAMATE</span></div>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-rule-heading v4-reveal">
+      <span>01 / IL MOMENTO</span>
+      <h2 class="v4-section-title">NON DEVI DIVENTARE FAMOSO.<br /><em>DEVI ESSERE LA SCELTA OVVIA.</em></h2>
+      <p>Quando una persona cerca, confronta e chiama, ogni dettaglio visibile diventa una ragione per scegliere te oppure continuare a scorrere.</p>
+    </div>
+    <div class="v4-wrap v4-three">
+      <article class="v4-step v4-reveal"><span>01 / CERCA</span><div>⌕</div><h3>FORMULA LA DOMANDA</h3><p>“Categoria + città”. Non sta passando il tempo: vuole trovare qualcuno.</p></article>
+      <article class="v4-step v4-reveal"><span>02 / CONFRONTA</span><div>★</div><h3>RIDUCE IL RISCHIO</h3><p>Guarda recensioni, fotografie, risposte e informazioni per capire chi gli ispira fiducia.</p></article>
+      <article class="v4-step v4-reveal"><span>03 / CHIAMA</span><div>☎</div><h3>PRENDE UNA DECISIONE</h3><p>Una telefonata parte. Se non è la tua, spesso non saprai mai di averla persa.</p></article>
+    </div>
+  </section>
+
+  <section id="categorie" class="v4-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal">
+      <span>02 / LE CATEGORIE</span>
+      <h2 class="v4-section-title">STESSO SISTEMA.<br /><em>PROBLEMI DIVERSI.</em></h2>
+      <p>TROVATEMI parla il linguaggio della tua attività: il valore di una chiamata, il dubbio del cliente e il motivo concreto per cui sceglie.</p>
+    </div>
+    <div class="v4-wrap v4-category-grid">
+      {v4Categories.map((category) => (
+        <article class="v4-category-card v4-reveal" style={`--card-accent:${category.accent}`}>
+          <span>{category.code} · {category.territory}</span>
+          <h3>{category.name}</h3>
+          <p>{category.hero}</p>
+          <a href={`/brand-demo-v4/per/${category.slug}/`}>Entra nella categoria ↗</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="v4-section v4-dark">
+    <div class="v4-wrap v4-rule-heading v4-reveal">
+      <span>03 / LA PROVA</span>
+      <h2 class="v4-section-title">NON CHIEDIAMO FEDE.<br /><em>CHIEDIAMO DI CONTROLLARE.</em></h2>
+      <p>Niente grafici inventati: la ricerca, il profilo e il contatore delle recensioni sono pubblici.</p>
+    </div>
+    <div class="v4-wrap v4-proof-grid">
+      <article class="v4-proof-card v4-reveal">
+        <span class="v4-kicker"><span>★</span> IL CONTATORE</span>
+        <h3>I CLIENTI CONTENTI LI HAI GIÀ.</h3>
+        <p>Rendiamo semplice chiedere una recensione vera, senza filtri e senza suggerire il voto. Il cambiamento resta visibile sul tuo profilo.</p>
+        <div class="v4-counter-visual"><div><span>PRIMA</span><strong>20</strong></div><div><span>DOPO</span><strong>?</strong><small>Lo misura Google, non noi.</small></div></div>
+      </article>
+      <article class="v4-proof-card v4-proof-card-dark v4-reveal">
+        <span class="v4-kicker"><span>★</span> IL GESTO</span>
+        <h3>TOCCA. APRI. RACCONTA.</h3>
+        <p>Anello, targhetta NFC e QR portano ogni cliente allo stesso link Google. Pochi secondi, nessuna applicazione.</p>
+        <div class="v4-nfc-visual"><div class="v4-nfc-ring">NFC</div><div class="v4-nfc-phone"><span>Come ti sei trovato?</span><b>★★★★★</b><button>Lascia una recensione</button></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-rule-heading v4-reveal">
+      <span>04 / LE GUIDE</span>
+      <h2 class="v4-section-title">PRIMA CAPISCI.<br /><em>POI DECIDI.</em></h2>
+      <p>Guide brevi, concrete e scritte per i problemi reali delle attività locali.</p>
+    </div>
+    <div class="v4-wrap v4-post-grid">
+      {v4Posts.slice(0, 3).map((post) => {
+        const category = v4Categories.find((item) => item.slug === post.categorySlug)!;
+        return <article class="v4-post-card v4-reveal"><div><span>{category.name.toUpperCase()}</span><span>{post.readTime}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a href={`/brand-demo-v4/blog/${post.slug}/`}>Leggi la guida ↗</a></article>;
+      })}
+    </div>
+    <div class="v4-wrap" style="margin-top:30px"><a class="v4-text-link" href="/brand-demo-v4/blog/">Vedi tutte le guide →</a></div>
+  </section>
+
+  <section class="v4-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal">
+      <span>05 / FAQ</span>
+      <h2 class="v4-section-title">DOMANDE DIRETTE.<br /><em>RISPOSTE PULITE.</em></h2>
+      <p>Nessuna promessa di posizione, nessun filtro sulle recensioni, nessun linguaggio tecnico.</p>
+    </div>
+    <div class="v4-wrap v4-faq-list">
+      {v4Faq.slice(0, 5).map(([question, answer]) => <details class="v4-reveal"><summary>{question}</summary><p>{answer}</p></details>)}
+    </div>
+  </section>
+
+  <section class="v4-cta-band"><div class="v4-wrap"><h2>IL PRIMO PASSO È CERCARE LA TUA ATTIVITÀ COME FAREBBE UN CLIENTE.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Fammi vedere <span>↗</span></button></div></section>
+</V4Layout>

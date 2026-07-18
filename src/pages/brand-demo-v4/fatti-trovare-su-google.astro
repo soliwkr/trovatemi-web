@@ -1,0 +1,40 @@
+---
+import V4Layout from '../../layouts/V4Layout.astro';
+import { v4Categories } from '../../data/v4';
+export const prerender = true;
+---
+
+<V4Layout title="Fatti trovare su Google — TROVATEMI.IT" description="Scopri cosa vede un cliente quando cerca la tua attività su Google e come TROVATEMI.IT rende visibile la fiducia che hai già guadagnato.">
+  <section class="v4-page-hero" data-watermark="CERCA">
+    <div class="v4-wrap">
+      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / Come funziona</div>
+      <p class="v4-kicker"><span>★</span> LA RICERCA CHE CONTA</p>
+      <h1>OGNI GIORNO QUALCUNO CERCA ESATTAMENTE CIÒ CHE VENDI.</h1>
+      <p class="v4-lede">Non ti segue. Non mette like. Cerca su Google, confronta tre attività e chiama quella che gli trasmette più fiducia.</p>
+    </div>
+  </section>
+
+  <section class="v4-problem-solution">
+    <article class="v4-problem"><span>01 / IL PROBLEMA</span><h2>IL CLIENTE NON VEDE QUANTO SEI BRAVO.</h2><p>Vede ciò che Google riesce a mostrare: informazioni, fotografie, recensioni, risposte e attività recente. Se un concorrente sembra più credibile, la telefonata parte senza di te.</p></article>
+    <article class="v4-solution"><span>02 / LA SOLUZIONE</span><h2>RENDIAMO VISIBILE LA FIDUCIA CHE HAI GIÀ GUADAGNATO.</h2><p>Mettiamo in ordine il profilo, rendiamo semplice chiedere recensioni vere e manteniamo vivo ciò che il cliente controlla prima di chiamare.</p></article>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>03 / IL METODO</span><h2 class="v4-section-title">QUATTRO COSE.<br /><em>NESSUNA MAGIA.</em></h2><p>Un sistema semplice, verificabile e costruito intorno alle azioni che il cliente compie davvero.</p></div>
+    <div class="v4-wrap v4-proof-list">
+      <div><span>01</span><b>Guardiamo la ricerca dal telefono del cliente.</b></div>
+      <div><span>02</span><b>Mettiamo in ordine ciò che Google mostra.</b></div>
+      <div><span>03</span><b>Rendiamo semplice lasciare recensioni vere.</b></div>
+      <div><span>04</span><b>Rispondiamo e manteniamo la presenza viva.</b></div>
+      <div><span>05</span><b>Controlliamo il contatore pubblico.</b></div>
+      <div><span>06</span><b>Misuriamo chiamate, non applausi.</b></div>
+    </div>
+  </section>
+
+  <section class="v4-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>04 / SCEGLI</span><h2 class="v4-section-title">IL SISTEMA È UNO.<br /><em>IL PROBLEMA CAMBIA.</em></h2><p>Entra nella categoria che assomiglia alla tua attività.</p></div>
+    <div class="v4-wrap v4-category-grid">{v4Categories.map((category) => <article class="v4-category-card v4-reveal" style={`--card-accent:${category.accent}`}><span>{category.code}</span><h3>{category.name}</h3><p>{category.problemLabel}</p><a href={`/brand-demo-v4/per/${category.slug}/`}>Apri la landing ↗</a></article>)}</div>
+  </section>
+
+  <section class="v4-cta-band"><div class="v4-wrap"><h2>NON DEVI CREDERCI. APRI GOOGLE E CONTROLLA.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Guarda con Chris <span>↗</span></button></div></section>
+</V4Layout>

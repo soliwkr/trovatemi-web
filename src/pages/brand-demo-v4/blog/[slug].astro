@@ -1,0 +1,26 @@
+---
+import V4Layout from '../../../layouts/V4Layout.astro';
+import { v4Categories, v4Posts } from '../../../data/v4';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return v4Posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const category = v4Categories.find((item) => item.slug === post.categorySlug)!;
+---
+
+<V4Layout title={`${post.title} — TROVATEMI.IT`} description={post.excerpt} accent={category.accent} eyebrow={`GUIDA · ${category.name.toUpperCase()}`}>
+  <section class="v4-page-hero" data-watermark="GUIDA">
+    <div class="v4-wrap"><div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / <a href="/brand-demo-v4/blog/">Guide</a> / {category.name}</div><p class="v4-kicker"><span>★</span> {category.name} · {post.readTime}</p><h1>{post.title}</h1><p class="v4-lede">{post.excerpt}</p></div>
+  </section>
+  <section class="v4-section v4-surface">
+    <article class="v4-wrap v4-article">
+      <div class="v4-article-meta"><span>{category.name.toUpperCase()}</span><span>{category.territory.toUpperCase()}</span><span>{post.readTime.toUpperCase()}</span></div>
+      <p>{post.intro}</p>
+      {post.sections.map((section) => <><h2>{section.title}</h2><p>{section.body}</p></>)}
+      <div class="v4-article-end"><span class="v4-kicker"><span>★</span> LA DOMANDA FINALE</span><h2>SE UN CLIENTE CERCASSE OGGI “{category.query}”, TROVEREBBE TE?</h2><button class="v4-button js-v4-contact" type="button">Guardiamolo insieme <span>↗</span></button></div>
+    </article>
+  </section>
+</V4Layout>

@@ -1,0 +1,44 @@
+---
+import V4Layout from '../../../../layouts/V4Layout.astro';
+import { getV4PostForCategory, v4Categories } from '../../../../data/v4';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return v4Categories.map((category) => ({ params: { categoria: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+const post = getV4PostForCategory(category.slug)!;
+---
+
+<V4Layout title={`TROVATEMI per ${category.name}`} description={`${category.hero} TROVATEMI.IT aiuta ${category.name.toLowerCase()} a farsi trovare su Google, Maps e recensioni.`} accent={category.accent} eyebrow={`${category.name.toUpperCase()} · ${category.territory.toUpperCase()}`}>
+  <section class="v4-page-hero" data-watermark={category.name.toUpperCase()}>
+    <div class="v4-wrap">
+      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / <a href="/brand-demo-v4/#categorie">Categorie</a> / {category.name}</div>
+      <div class="v4-category-hero-grid">
+        <div><p class="v4-kicker"><span>★</span> TROVATEMI PER {category.name.toUpperCase()}</p><h1>{category.hero}</h1><p class="v4-lede">{category.subhero}</p><div class="v4-actions"><a class="v4-button" href={`#problema`}>{category.cta} <span>↓</span></a></div></div>
+        <aside class="v4-query-card"><span>COSA CERCA IL CLIENTE</span><div class="v4-search-input"><b>G</b><span>{category.query}</span><i>⌕</i></div><p>In pochi secondi confronta ciò che trova.</p><strong>LA TUA ATTIVITÀ È LA SCELTA OVVIA?</strong></aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="problema" class="v4-problem-solution">
+    <article class="v4-problem"><span>IL PROBLEMA / {category.problemLabel.toUpperCase()}</span><h2>{category.problemTitle}</h2><p>{category.problemBody}</p></article>
+    <article class="v4-solution"><span>LA SOLUZIONE / TROVATEMI.IT</span><h2>{category.solutionTitle}</h2><p>{category.solutionBody}</p></article>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>LA PROVA</span><h2 class="v4-section-title">NON UN REPORT.<br /><em>IL TUO PROFILO PUBBLICO.</em></h2><p>Partiamo da ciò che un cliente può verificare in questo momento dal proprio telefono.</p></div>
+    <div class="v4-wrap v4-proof-list">{category.proof.map((item, index) => <div class="v4-reveal"><span>0{index + 1}</span><b>{item}</b></div>)}<div class="v4-reveal"><span>04</span><b>Nessuna promessa di posizione.</b></div><div class="v4-reveal"><span>05</span><b>Stesso link recensione per tutti.</b></div><div class="v4-reveal"><span>06</span><b>Se chiami, risponde Chris.</b></div></div>
+  </section>
+
+  <section class="v4-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>APPROFONDISCI</span><h2 class="v4-section-title">IL PROBLEMA,<br /><em>SENZA GIRI DI PAROLE.</em></h2><p>Una pagina dedicata e una guida scritta per questa categoria.</p></div>
+    <div class="v4-wrap v4-post-grid">
+      <article class="v4-post-card v4-reveal"><div><span>PROBLEMA / SOLUZIONE</span><span>LEGGI</span></div><h3>{category.problemTitle}</h3><p>{category.problemBody}</p><a href={`/brand-demo-v4/per/${category.slug}/${category.problemSlug}/`}>Apri il problema ↗</a></article>
+      <article class="v4-post-card v4-reveal"><div><span>GUIDA</span><span>{post.readTime}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a href={`/brand-demo-v4/blog/${post.slug}/`}>Leggi la guida ↗</a></article>
+    </div>
+  </section>
+
+  <section class="v4-cta-band"><div class="v4-wrap"><h2>{category.cta.toUpperCase()}.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Fammi vedere <span>↗</span></button></div></section>
+</V4Layout>
