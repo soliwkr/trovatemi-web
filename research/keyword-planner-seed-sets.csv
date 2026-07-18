@@ -1,0 +1,90 @@
+set_id,layer,category,territory,cluster,keyword,landing_candidate,validation_note
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,categoria_citta,agenzia immobiliare formia,/per/agenzie-immobiliari/,Core Formia
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,categoria_citta,agenzie immobiliari formia,/per/agenzie-immobiliari/,Close variant da non sommare automaticamente
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,categoria_citta,immobiliare formia,/per/agenzie-immobiliari/,Verificare ambiguità
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,venditore,vendere casa formia,/per/agenzie-immobiliari/,Intento proprietario
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,venditore,valutazione casa formia,/per/agenzie-immobiliari/,Intento proprietario alto
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,acquirente,case in vendita formia,/per/agenzie-immobiliari/,Intento acquirente
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,espansione,agenzia immobiliare gaeta,/per/agenzie-immobiliari/,Espansione dopo prova Formia
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,espansione,agenzia immobiliare minturno,/per/agenzie-immobiliari/,Espansione dopo prova Formia
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,espansione,agenzia immobiliare fondi,/per/agenzie-immobiliari/,Espansione dopo prova Formia
+IMM_SP_01,customer_demand,agenzie-immobiliari,Sud Pontino,espansione,agenzia immobiliare terracina,/per/agenzie-immobiliari/,Espansione dopo prova Formia
+IMM_OWN_01,owner_problem,agenzie-immobiliari,Italia,recensioni,come ottenere recensioni google agenzia immobiliare,/per/agenzie-immobiliari/poche-recensioni-google/,Problema titolare
+IMM_OWN_01,owner_problem,agenzie-immobiliari,Italia,recensioni,come aumentare recensioni agenzia immobiliare,/per/agenzie-immobiliari/poche-recensioni-google/,Problema titolare
+IMM_OWN_01,owner_problem,agenzie-immobiliari,Italia,maps,come comparire su google maps agenzia immobiliare,/per/agenzie-immobiliari/,Problema titolare
+IMM_OWN_01,owner_problem,agenzie-immobiliari,Italia,profilo,profilo google agenzia immobiliare,/per/agenzie-immobiliari/,Problema titolare
+IMM_OWN_01,owner_problem,agenzie-immobiliari,Italia,nfc,nfc recensioni google agenzia immobiliare,/per/agenzie-immobiliari/poche-recensioni-google/,Verificare domanda esistente
+
+CAR_PE_01,customer_demand,cardiologi,Pescara,categoria_citta,cardiologo pescara,/per/cardiologi/,Core Pescara
+CAR_PE_01,customer_demand,cardiologi,Pescara,recensioni,cardiologo pescara recensioni,/per/cardiologi/,Intento fiducia
+CAR_PE_01,customer_demand,cardiologi,Pescara,privato,cardiologo privato pescara,/per/cardiologi/,Intento prenotazione
+CAR_PE_01,customer_demand,cardiologi,Pescara,visita,visita cardiologica pescara,/per/cardiologi/,Verificare servizio del fondatore
+CAR_PE_01,customer_demand,cardiologi,Pescara,esame,ecocardiogramma pescara,/per/cardiologi/,Pubblicare solo se servizio reale
+CAR_PE_01,customer_demand,cardiologi,Pescara,esame,elettrocardiogramma pescara,/per/cardiologi/,Pubblicare solo se servizio reale
+CAR_PE_01,customer_demand,cardiologi,Pescara,espansione,cardiologo montesilvano,/per/cardiologi/,Verificare area realmente servita
+CAR_PE_01,customer_demand,cardiologi,Pescara,espansione,cardiologo spoltore,/per/cardiologi/,Verificare area realmente servita
+CAR_PE_01,customer_demand,cardiologi,Pescara,espansione,cardiologo francavilla al mare,/per/cardiologi/,Verificare area realmente servita
+CAR_PE_01,customer_demand,cardiologi,Pescara,espansione,cardiologo san giovanni teatino,/per/cardiologi/,Verificare area realmente servita
+CAR_OWN_01,owner_problem,cardiologi,Italia,recensioni,come ottenere recensioni google studio medico,/per/cardiologi/profilo-google-poco-chiaro/,Problema titolare
+CAR_OWN_01,owner_problem,cardiologi,Italia,profilo,profilo google medico,/per/cardiologi/,Problema titolare
+CAR_OWN_01,owner_problem,cardiologi,Italia,maps,come comparire su google maps medico,/per/cardiologi/,Problema titolare
+CAR_OWN_01,owner_problem,cardiologi,Italia,reputazione,reputazione online medico,/per/cardiologi/profilo-google-poco-chiaro/,Richiede linguaggio prudente
+CAR_OWN_01,owner_problem,cardiologi,Italia,recensioni,recensioni google cardiologo,/per/cardiologi/profilo-google-poco-chiaro/,Problema titolare
+
+PAL_SP_01,customer_demand,palestre,Sud Pontino,categoria_citta,palestra formia,/per/palestre/,Core Formia
+PAL_SP_01,customer_demand,palestre,Sud Pontino,vicino,palestra vicino a me formia,/per/palestre/,Intento visita
+PAL_SP_01,customer_demand,palestre,Sud Pontino,recensioni,palestra formia recensioni,/per/palestre/,Intento fiducia
+PAL_SP_01,customer_demand,palestre,Sud Pontino,servizio,personal trainer formia,/per/palestre/,Verificare servizio reale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,servizio,allenamento funzionale formia,/per/palestre/,Verificare servizio reale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,servizio,sala pesi formia,/per/palestre/,Verificare servizio reale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,espansione,palestra gaeta,/per/palestre/,Espansione territoriale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,espansione,palestra minturno,/per/palestre/,Espansione territoriale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,espansione,palestra fondi,/per/palestre/,Espansione territoriale
+PAL_SP_01,customer_demand,palestre,Sud Pontino,espansione,palestra terracina,/per/palestre/,Espansione territoriale
+PAL_OWN_01,owner_problem,palestre,Italia,recensioni,come ottenere recensioni google palestra,/per/palestre/profilo-google-fermo/,Problema titolare
+PAL_OWN_01,owner_problem,palestre,Italia,maps,come comparire su google maps palestra,/per/palestre/,Problema titolare
+PAL_OWN_01,owner_problem,palestre,Italia,profilo,profilo google palestra,/per/palestre/,Problema titolare
+PAL_OWN_01,owner_problem,palestre,Italia,clienti,come trovare clienti palestra su google,/per/palestre/,Problema titolare
+PAL_OWN_01,owner_problem,palestre,Italia,nfc,nfc recensioni palestra,/per/palestre/profilo-google-fermo/,Verificare domanda esistente
+
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,categoria_citta,barbiere formia,/per/barbieri/,Core Formia
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,categoria_citta,barber shop formia,/per/barbieri/,Anglicismo da confrontare
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,categoria_citta,parrucchiere uomo formia,/per/barbieri/,Close category
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,servizio,taglio uomo formia,/per/barbieri/,Servizio core
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,servizio,barba formia,/per/barbieri/,Verificare ambiguità
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,recensioni,barbiere formia recensioni,/per/barbieri/,Intento fiducia
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,espansione,barbiere gaeta,/per/barbieri/,Espansione territoriale
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,espansione,barbiere minturno,/per/barbieri/,Espansione territoriale
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,espansione,barbiere fondi,/per/barbieri/,Espansione territoriale
+BARB_SP_01,customer_demand,barbieri,Sud Pontino,espansione,barbiere terracina,/per/barbieri/,Espansione territoriale
+BARB_OWN_01,owner_problem,barbieri,Italia,recensioni,come ottenere recensioni google barbiere,/per/barbieri/clienti-soddisfatti-invisibili/,Problema titolare
+BARB_OWN_01,owner_problem,barbieri,Italia,maps,come comparire su google maps barbiere,/per/barbieri/,Problema titolare
+BARB_OWN_01,owner_problem,barbieri,Italia,profilo,profilo google barbiere,/per/barbieri/,Problema titolare
+BARB_OWN_01,owner_problem,barbieri,Italia,clienti,come trovare clienti barbiere su google,/per/barbieri/,Problema titolare
+BARB_OWN_01,owner_problem,barbieri,Italia,nfc,nfc recensioni barbiere,/per/barbieri/clienti-soddisfatti-invisibili/,Verificare domanda esistente
+
+BAR_SP_01,customer_demand,bar,Sud Pontino,categoria_citta,bar formia,/per/bar/,Core Formia
+BAR_SP_01,customer_demand,bar,Sud Pontino,aperitivo,aperitivo formia,/per/bar/,Intento serale
+BAR_SP_01,customer_demand,bar,Sud Pontino,cocktail,cocktail bar formia,/per/bar/,Intento specifico
+BAR_SP_01,customer_demand,bar,Sud Pontino,locale,locali formia,/per/bar/,Intento esplorativo
+BAR_SP_01,customer_demand,bar,Sud Pontino,zona,bar gianola,/per/bar/,Micro-area da verificare
+BAR_SP_01,customer_demand,bar,Sud Pontino,recensioni,bar formia recensioni,/per/bar/,Intento fiducia
+BAR_SP_01,customer_demand,bar,Sud Pontino,espansione,aperitivo gaeta,/per/bar/,Espansione territoriale
+BAR_SP_01,customer_demand,bar,Sud Pontino,espansione,cocktail bar gaeta,/per/bar/,Espansione territoriale
+BAR_SP_01,customer_demand,bar,Sud Pontino,espansione,bar minturno,/per/bar/,Espansione territoriale
+BAR_SP_01,customer_demand,bar,Sud Pontino,espansione,aperitivo fondi,/per/bar/,Espansione territoriale
+BAR_SP_01,customer_demand,bar,Sud Pontino,espansione,bar terracina,/per/bar/,Espansione territoriale
+BAR_OWN_01,owner_problem,bar,Italia,recensioni,come ottenere recensioni google bar,/per/bar/locale-vivo-profilo-spento/,Problema titolare
+BAR_OWN_01,owner_problem,bar,Italia,maps,come comparire su google maps bar,/per/bar/,Problema titolare
+BAR_OWN_01,owner_problem,bar,Italia,profilo,profilo google bar,/per/bar/,Problema titolare
+BAR_OWN_01,owner_problem,bar,Italia,clienti,come trovare clienti bar su google,/per/bar/,Problema titolare
+BAR_OWN_01,owner_problem,bar,Italia,nfc,nfc recensioni bar,/per/bar/locale-vivo-profilo-spento/,Verificare domanda esistente
+
+GEN_OWN_01,owner_problem,tutte,Italia,recensioni,come aumentare recensioni google,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,recensioni,come chiedere recensioni google,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,maps,come comparire su google maps,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,maps,come farsi trovare su google,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,profilo,come migliorare profilo google attività,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,nfc,nfc recensioni google,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,qr,qr code recensioni google,/fatti-trovare-su-google/,Cluster trasversale
+GEN_OWN_01,owner_problem,tutte,Italia,risposte,come rispondere alle recensioni google,/fatti-trovare-su-google/,Cluster trasversale
