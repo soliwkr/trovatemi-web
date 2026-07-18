@@ -1,0 +1,308 @@
+---
+import { benefits, brand, pricingPlans } from '../data/site';
+import '../styles/global.css';
+
+const formatPrice = (plan: (typeof pricingPlans)[number]) => {
+  if (plan.amount === 0) return 'Gratis';
+  if (plan.amount == null) return 'Prezzo personalizzato';
+  return new Intl.NumberFormat('it-IT', {
+    style: 'currency',
+    currency: plan.currency ?? 'EUR',
+    maximumFractionDigits: 0,
+  }).format(plan.amount);
+};
+
+const locationLabel = (max: number | null) => {
+  if (max == null) return 'Sedi senza limite predefinito';
+  if (max === 1) return 'Una singola sede';
+  if (max <= 10) return `Fino a ${max} sedi`;
+  return 'Gestione multi-sede avanzata';
+};
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content={brand.primaryColor} />
+    <meta name="description" content="Trovatemi.it aiuta le attività locali a raccogliere recensioni, rafforzare la presenza su Google e trasformare il feedback in crescita." />
+    <link rel="icon" href={brand.faviconUrl} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Trovatemi.it — Recensioni, visibilità e crescita locale</title>
+  </head>
+  <body>
+    <header class="nav-shell" data-nav>
+      <nav class="nav container" aria-label="Navigazione principale">
+        <a class="brand-logo" href="#top" aria-label="Trovatemi.it, torna all'inizio">
+          <img src={brand.logoUrl} alt="Trovatemi.it" width="150" height="42" />
+        </a>
+        <div class="nav-links">
+          <a href="#how-it-works">Come funziona</a>
+          <a href="#ai-agents">Agenti AI</a>
+          <a href="#pricing">Prezzi</a>
+          <a href="#pricing">Contatti</a>
+        </div>
+        <div class="nav-actions">
+          <a class="button button-ghost button-small" href="#pricing">Accedi</a>
+          <a class="button button-light button-small" href="#pricing">Inizia ora</a>
+        </div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Apri menu">
+          <span></span><span></span>
+        </button>
+      </nav>
+      <div class="mobile-menu" id="mobile-menu">
+        <a href="#how-it-works">Come funziona</a>
+        <a href="#ai-agents">Agenti AI</a>
+        <a href="#pricing">Prezzi</a>
+        <a class="button button-light" href="#pricing">Inizia ora</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section-dark">
+        <div class="hero-glow hero-glow-one"></div>
+        <div class="hero-glow hero-glow-two"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <div class="eyebrow eyebrow-dark"><span></span> Il sistema operativo per la crescita locale</div>
+            <h1>Più recensioni.<br /><span>Più visibilità.</span><br />Più clienti locali.</h1>
+            <p>Trovatemi.it trasforma ogni esperienza del cliente in reputazione, contenuti e presenza online — con automazioni AI che lavorano anche quando tu non lo fai.</p>
+            <div class="hero-actions">
+              <a class="button button-light" href="#pricing">Inizia ora <span aria-hidden="true">↗</span></a>
+              <a class="button button-ghost" href="#pricing">Scopri come funziona</a>
+            </div>
+            <div class="hero-proof">
+              <div class="avatar-stack" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div><b>Un’unica piattaforma</b><span>Recensioni · Google · Social · AI</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal delay-1">
+            <div class="photo-frame">
+              <img src="/images/hero-local-business.webp" alt="Titolare di un'attività locale che controlla il feedback dei clienti" width="1536" height="1024" fetchpriority="high" />
+              <div class="photo-shade"></div>
+            </div>
+            <div class="floating-card review-card">
+              <div class="review-head"><span class="google-g">G</span><span>Nuova recensione</span><b>5.0 ★</b></div>
+              <p>“Servizio impeccabile e attenzione vera al cliente.”</p>
+              <div class="review-footer"><span>Appena ricevuta</span><span class="status-dot">●</span></div>
+            </div>
+            <div class="floating-card metric-card">
+              <span>Visibilità locale</span>
+              <b>+34%</b>
+              <div class="mini-chart" aria-hidden="true"><i style="height:31%"></i><i style="height:43%"></i><i style="height:39%"></i><i style="height:62%"></i><i style="height:74%"></i><i style="height:94%"></i></div>
+            </div>
+            <div class="dashboard-card">
+              <div class="dashboard-top"><span>La tua reputazione</span><span class="live-pill">● In tempo reale</span></div>
+              <div class="score-row"><strong>4,9</strong><div><div class="stars">★★★★★</div><span>218 recensioni</span></div><em>↗ 18%</em></div>
+              <div class="dashboard-bars"><span style="--w:92%"></span><span style="--w:76%"></span><span style="--w:64%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="trust-strip container">
+          <span>Pensato per attività locali ambiziose</span>
+          <b>RISTORAZIONE</b><b>BEAUTY</b><b>STUDI PROFESSIONALI</b><b>FITNESS</b><b>RETAIL</b>
+        </div>
+      </section>
+
+      <section class="problem section-pad">
+        <div class="container split-heading reveal">
+          <div><div class="eyebrow"><span></span> La nuova prima impressione</div><h2>La tua reputazione online entra in ogni decisione d’acquisto.</h2></div>
+          <div class="body-large"><p>Prima di entrare, chiamare o prenotare, le persone confrontano. Guardano le recensioni, osservano quanto sei attivo e cercano segnali che riducano il rischio.</p><p>Oggi anche ChatGPT, Gemini e Perplexity cambiano il modo in cui un’attività viene scoperta.</p></div>
+        </div>
+        <div class="container insight-panel reveal">
+          <div class="insight-stat"><strong>01</strong><span>ESSERE TROVATI</span><p>Google e la ricerca AI devono comprendere chiaramente chi sei, dove sei e perché sceglierti.</p></div>
+          <div class="insight-stat"><strong>02</strong><span>ESSERE CREDIBILI</span><p>Recensioni recenti e risposte curate rendono la fiducia immediatamente visibile.</p></div>
+          <div class="insight-stat"><strong>03</strong><span>RESTARE PRESENTI</span><p>Un profilo vivo continua a generare segnali anche mentre il tuo team è impegnato altrove.</p></div>
+        </div>
+        <div class="container statement reveal">La reputazione non è più soltanto ciò che le persone dicono di te. <span>È ciò che motori di ricerca e piattaforme AI comprendono della tua attività.</span></div>
+      </section>
+
+      <section class="collection section-pad section-soft">
+        <div class="container section-intro reveal">
+          <div class="eyebrow"><span></span> Raccolta recensioni</div>
+          <h2>Lasciare una recensione diventa naturale.</h2>
+          <p>Riduci i passaggi, scegli il momento giusto e dai a ogni cliente un modo semplice per raccontare la propria esperienza o lasciare un feedback privato.</p>
+        </div>
+        <div class="container collection-grid">
+          <article class="feature-card feature-card-wide reveal">
+            <div class="feature-copy"><span class="feature-index">01</span><h3>Un gesto, un QR code</h3><p>Il cliente inquadra il codice e arriva subito alla schermata giusta. Dal tavolo, dalla cassa o da un supporto stampato.</p><b>Scansiona. Racconta. Fatto.</b></div>
+            <div class="qr-visual" aria-label="Anteprima del flusso QR code">
+              <div class="print-card"><small>COM’È ANDATA?</small><div class="qr-code" aria-hidden="true"></div><b>La tua opinione conta.</b><span>Inquadra il QR code</span></div>
+              <div class="phone"><div class="phone-notch"></div><div class="phone-screen"><span class="tiny-logo">T.</span><small>Raccontaci la tua esperienza</small><div class="big-stars">★★★★★</div><button>Continua</button></div></div>
+            </div>
+          </article>
+
+          <article class="feature-card reveal delay-1">
+            <div class="feature-copy"><span class="feature-index">02</span><h3>Richieste automatiche</h3><p>Messaggi puntuali via SMS, email e WhatsApp, senza rincorrere manualmente ogni cliente.</p></div>
+            <div class="messages-ui">
+              <div class="automation-line"><i></i><span>Richiesta inviata automaticamente</span><b>10:32</b></div>
+              <div class="message-bubble"><span>Ciao Marco 👋</span><p>Grazie per averci scelto. Ti va di raccontarci com’è andata?</p><button>Lascia una recensione</button></div>
+              <div class="delivery"><span>✓✓ Consegnato</span><span>WhatsApp</span></div>
+            </div>
+          </article>
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-copy"><span class="feature-index">03</span><h3>Una vista unica</h3><p>Segui Google e Facebook in un solo posto. Rispondi più velocemente e individua ciò che migliora davvero l’esperienza.</p></div>
+            <div class="feed-ui">
+              <div class="feed-tabs"><b>Tutte</b><span>Google</span><span>Facebook</span></div>
+              <div class="feed-item"><i class="avatar-a">MR</i><div><b>Marco R.</b><span>★★★★★</span><p>Accoglienza fantastica e servizio rapido.</p></div></div>
+              <div class="feed-item"><i class="avatar-b">EC</i><div><b>Elena C.</b><span>★★★★★</span><p>Finalmente un posto che cura i dettagli.</p></div></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="ai-agents" class="agents section-pad section-dark">
+        <div class="container section-intro section-intro-dark reveal">
+          <div class="eyebrow eyebrow-dark"><span></span> Automazione intelligente</div>
+          <h2>Il tuo team di crescita AI.</h2>
+          <p>Agenti specializzati trasformano recensioni e informazioni locali in risposte, contenuti e nuova visibilità. Sempre con un tono naturale.</p>
+        </div>
+
+        <div class="container agent-stack">
+          <article class="agent-row reveal">
+            <div class="agent-copy"><span class="agent-number">01 / RISPOSTE</span><div class="agent-mark agent-blue">R</div><h3>Ogni recensione riceve la risposta giusta.</h3><p>Analizza il tono, riconosce servizi e località, poi prepara risposte professionali che rafforzano fiducia e rilevanza locale.</p><div class="result-line"><span>Risultato</span><b>Profilo più attivo. Fiducia più forte.</b></div></div>
+            <div class="agent-ui reply-ui">
+              <div class="ui-top"><span>Rispondi alla recensione</span><b class="ai-chip">✦ Generato con AI</b></div>
+              <div class="source-review"><div class="source-author"><i>AL</i><span><b>Alessia L.</b><small>Google · 2 ore fa</small></span><em>★★★★★</em></div><p>Professionali e velocissimi. Lo studio è facile da raggiungere e mi hanno seguita con grande attenzione.</p></div>
+              <div class="generated-reply"><div><span>Risposta suggerita</span><b>96% tono del brand</b></div><p>Grazie Alessia! Siamo felici che tu abbia apprezzato la <mark>cura del nostro team</mark> e la comodità del nostro <mark>studio a Formia</mark>. A presto!</p><div class="reply-actions"><span>↻ Rigenera</span><button>Pubblica risposta</button></div></div>
+            </div>
+          </article>
+
+          <article class="agent-row agent-row-reverse reveal">
+            <div class="agent-copy"><span class="agent-number">02 / SOCIAL</span><div class="agent-mark agent-coral">S</div><h3>Le recensioni diventano contenuti.</h3><p>Trasforma la voce dei clienti in caption, quote card e post pronti per Facebook e Instagram. La prova sociale continua a circolare.</p><div class="result-line"><span>Risultato</span><b>Più presenza, senza creare ogni post da zero.</b></div></div>
+            <div class="agent-ui social-ui">
+              <div class="social-sidebar"><span class="active">▦</span><span>✦</span><span>◉</span><span>↗</span></div>
+              <div class="social-editor"><div class="ui-top"><span>Da recensione a post</span><b class="ai-chip">Pronto</b></div><div class="canvas"><span class="quote-mark">“</span><p>Finalmente un posto che si ricorda cosa significa prendersi cura del cliente.</p><small>— ELENA, GOOGLE REVIEW</small><div class="canvas-brand">TROVATEMI ★</div></div></div>
+              <div class="caption-panel"><small>CAPTION GENERATA</small><p>La fiducia nasce dai dettagli. Grazie Elena per averli notati. ✨</p><div class="tag-row"><span>#Formia</span><span>#LocalBusiness</span></div><button>Programma post</button></div>
+            </div>
+          </article>
+
+          <article class="agent-row reveal">
+            <div class="agent-copy"><span class="agent-number">03 / VISIBILITÀ</span><div class="agent-mark agent-violet">G</div><h3>Dalle parole dei clienti a contenuti trovabili.</h3><p>Usa linguaggio reale, informazioni dell’attività e intenti locali per creare contenuti utili a Google e alle nuove esperienze di ricerca AI.</p><div class="result-line"><span>Risultato</span><b>Una presenza digitale più ampia e comprensibile.</b></div></div>
+            <div class="agent-ui geo-ui">
+              <div class="article-preview"><div class="article-bar"><i></i><i></i><i></i><span>Contenuto locale</span></div><small>GUIDA LOCALE · FORMIA</small><h4>Come scegliere uno studio professionale vicino a te</h4><p>Esperienza, tempi di risposta e attenzione personale sono i segnali più citati dai clienti...</p><div class="content-block"><span></span><span></span><span></span></div></div>
+              <div class="visibility-panel"><small>SEGNALI DI VISIBILITÀ</small><div><span>Google locale</span><b>Ottimizzato</b></div><div><span>Ricerca AI</span><b>Strutturato</b></div><div><span>Intento locale</span><b>Alto</b></div><div class="visibility-score"><strong>88</strong><span>Copertura<br />stimata</span></div></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="flywheel section-pad">
+        <div class="container section-intro reveal"><div class="eyebrow"><span></span> Crescita che si accumula</div><h2>Il motore reputazione & visibilità.</h2><p>Configura il sistema una volta. Ogni nuova esperienza alimenta quella successiva.</p></div>
+        <div class="container flywheel-wrap reveal">
+          <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+          <div class="flywheel-core"><span>TROVATEMI</span><b>GROWTH<br />ENGINE</b><small>SEMPRE ATTIVO</small></div>
+          <div class="orbit-node node-1"><i>01</i><div><b>I clienti lasciano recensioni</b><span>QR e richieste automatiche</span></div></div>
+          <div class="orbit-node node-2"><i>02</i><div><b>L’AI risponde</b><span>Tono umano e rilevanza locale</span></div></div>
+          <div class="orbit-node node-3"><i>03</i><div><b>Nascono nuovi contenuti</b><span>Social, sito e segnali locali</span></div></div>
+          <div class="orbit-node node-4"><i>04</i><div><b>La visibilità cresce</b><span>Google e ricerca AI</span></div></div>
+          <div class="orbit-node node-5"><i>05</i><div><b>Arrivano nuovi clienti</b><span>Il ciclo riparte più forte</span></div></div>
+        </div>
+        <p class="flywheel-caption reveal">Imposta il sistema una volta. <b>Lascialo costruire slancio.</b></p>
+      </section>
+
+      <section class="benefits section-pad section-soft">
+        <div class="container section-intro reveal"><div class="eyebrow"><span></span> Risultati concreti</div><h2>Cosa ottiene davvero la tua attività.</h2></div>
+        <div class="container benefits-grid">
+          {benefits.map((benefit, index) => (
+            <article class="benefit-card reveal" style={`--delay:${index * 60}ms`}>
+              <span class="benefit-index">0{index + 1}</span><h3>{benefit.title}</h3><p>{benefit.text}</p>
+              <div class:list={['benefit-visual', `visual-${benefit.icon}`]} aria-hidden="true">
+                <div class="visual-grid"></div><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="how-it-works" class="steps section-pad">
+        <div class="container steps-layout">
+          <div class="steps-copy reveal"><div class="eyebrow"><span></span> Come funziona</div><h2>Operativi in pochi giorni.</h2><p>Nessun progetto interminabile. Colleghiamo ciò che serve, prepariamo i flussi e il sistema comincia a lavorare.</p><a class="text-link" href="#pricing">Scegli il piano <span>↗</span></a></div>
+          <ol class="steps-list">
+            <li class="reveal"><span>01</span><div><h3>Collega e configura</h3><p>Inserisci le informazioni dell’attività, collega i profili e definisci il tono.</p></div><i>→</i></li>
+            <li class="reveal"><span>02</span><div><h3>Inizia a raccogliere</h3><p>Attiva QR code e richieste automatiche nei momenti che contano.</p></div><i>→</i></li>
+            <li class="reveal"><span>03</span><div><h3>Lascia lavorare gli agenti AI</h3><p>Risposte, contenuti e segnali di visibilità continuano a muoversi.</p></div><i>✓</i></li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="pricing" class="pricing section-pad section-dark">
+        <div class="container section-intro section-intro-dark reveal"><div class="eyebrow eyebrow-dark"><span></span> Prezzi chiari</div><h2>Scegli il piano giusto.</h2><p>Parti senza complicazioni. Il piano principale concentra ciò che serve per trasformare la reputazione in un sistema di crescita.</p></div>
+        <div class="container pricing-grid">
+          {pricingPlans.map((plan) => (
+            <article class:list={['price-card', plan.recommended && 'price-card-featured', 'reveal']}>
+              {plan.recommended && <div class="recommended">PIÙ SCELTO</div>}
+              <div class="plan-head"><div><span>PIANO</span><h3>{plan.name}</h3></div><span class="plan-source">{plan.source === 'free' ? 'Demo' : 'Completo'}</span></div>
+              <div class="price"><strong>{formatPrice(plan)}</strong>{plan.amount && <span>/ mese</span>}</div>
+              <p class="locations">{locationLabel(plan.maxLocations)}</p>
+              {plan.trial && <div class="trial">Prova gratuita di {plan.trial.days} giorni{!plan.trial.cardRequired ? ' · senza carta' : ''}</div>}
+              <ul>{plan.capabilities.map((capability) => <li><span>✓</span>{capability}</li>)}</ul>
+              {plan.checkoutUrl ? <a class="button button-dark price-button" href={plan.checkoutUrl}>Inizia ora <span>↗</span></a> : <a class="button button-outline-dark price-button" href="#contact">Inizia gratis</a>}
+              <small>{plan.source === 'stripe' ? 'Pagamento sicuro. Puoi gestire il piano in autonomia.' : 'Ambiente dimostrativo. Nessun dato reale richiesto.'}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="testimonials section-pad">
+        <div class="container section-intro reveal"><div class="eyebrow"><span></span> Storie reali, quando arrivano</div><h2>La fiducia non si inventa.</h2><p>Questi spazi sono pronti per accogliere testimonianze verificate dei clienti Trovatemi.it.</p></div>
+        <div class="container testimonial-grid">
+          {['Ristorazione', 'Studio professionale', 'Beauty & wellness'].map((sector) => (
+            <article class="testimonial-placeholder reveal"><span>TESTIMONIANZA VERIFICATA · IN ARRIVO</span><div class="quote-placeholder">“</div><p>Spazio riservato alla voce di un cliente reale, con risultato documentato e autorizzazione alla pubblicazione.</p><div><i></i><b>{sector}</b></div></article>
+          ))}
+        </div>
+      </section>
+
+      <section id="contact" class="final-cta">
+        <div class="final-photo"><img src="/images/hero-local-business.webp" alt="Team di una moderna attività locale" width="1536" height="1024" loading="lazy" /></div>
+        <div class="final-overlay"></div>
+        <div class="container final-content reveal"><div class="eyebrow eyebrow-dark"><span></span> Il prossimo cliente sta già cercando</div><h2>Pronto a trasformare la reputazione in un motore di crescita?</h2><p>Più recensioni, più visibilità e più fiducia. In un’unica piattaforma intelligente.</p><a class="button button-light button-large" href="#pricing">Inizia ora <span>↗</span></a><small>Configurazione semplice. Risultati chiari. Pensato per le attività locali di oggi.</small></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-main"><img src={brand.logoUrl} alt="Trovatemi.it" width="150" height="42" /><p>Recensioni, presenza e crescita locale. Una piattaforma intelligente, costruita per chi lavora sul territorio.</p><div class="footer-links"><div><b>Prodotto</b><a href="#how-it-works">Come funziona</a><a href="#ai-agents">Agenti AI</a><a href="#pricing">Prezzi</a></div><div><b>Azienda</b><a href="#pricing">Contatti</a><a href="#pricing">Accedi</a></div></div></div>
+      <div class="container footer-bottom"><span>© {new Date().getFullYear()} Trovatemi.it. Tutti i diritti riservati.</span><div><a href="#">Privacy</a><a href="#">Termini</a></div></div>
+    </footer>
+
+    <script>
+      const nav = document.querySelector('[data-nav]');
+      const toggle = document.querySelector('.menu-toggle');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const revealNodes = document.querySelectorAll('.reveal');
+
+      const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 24);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        mobileMenu?.classList.toggle('is-open', !open);
+      });
+      mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('is-open');
+      }));
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealNodes.forEach((node) => observer.observe(node));
+      } else {
+        revealNodes.forEach((node) => node.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

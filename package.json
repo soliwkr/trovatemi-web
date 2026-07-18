@@ -1,0 +1,28 @@
+{
+  "name": "trovatemi-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "wrangler types && astro check && wrangler types --check",
+    "cf-typegen": "wrangler types",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:dry": "npm run build && wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "14.1.3",
+    "astro": "7.1.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@types/node": "latest",
+    "typescript": "6.0.3",
+    "wrangler": "4.112.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
