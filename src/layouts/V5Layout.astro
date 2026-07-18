@@ -1,0 +1,122 @@
+---
+import '../styles/v5.css';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#08090c" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="v5-preview"><span>V5</span><span>INTERACTIVE PRODUCT STORY</span><span>SIMULAZIONE · NESSUN DATO INVIATO</span></div>
+
+    <header class="v5-header">
+      <nav class="v5-wrap v5-nav" aria-label="Navigazione principale">
+        <a class="v5-logo" href="/brand-demo-v5/" aria-label="TROVATEMI.IT, torna alla home">TROVATEM<span>I<i>★</i></span>.IT</a>
+        <div class="v5-navlinks">
+          <a href="#ciclo">Come funziona</a>
+          <a href="#agenti">Il prodotto</a>
+          <a href="#portale">La prova</a>
+        </div>
+        <button class="v5-button v5-button-small js-v5-open" type="button">Simula la tua attività <span>↗</span></button>
+        <button class="v5-menu" type="button" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+      </nav>
+      <div class="v5-mobile-nav">
+        <a href="#ciclo">Come funziona</a>
+        <a href="#agenti">Il prodotto</a>
+        <a href="#portale">La prova</a>
+        <button class="v5-button js-v5-open" type="button">Simula la tua attività</button>
+      </div>
+    </header>
+
+    <main><slot /></main>
+
+    <footer class="v5-footer">
+      <div class="v5-wrap v5-footer-main">
+        <div><a class="v5-logo v5-logo-light" href="/brand-demo-v5/">TROVATEM<span>I<i>★</i></span>.IT</a><p>Il cliente ti sta già cercando.<br />Facciamo in modo che trovi te.</p></div>
+        <div><span>PRODOTTO</span><a href="#ciclo">Il ciclo</a><a href="#agenti">Gli agenti</a><a href="#portale">Il portale</a></div>
+        <div><span>CONTATTO</span><button class="js-v5-open" type="button">Prepara la demo</button><a href="#chris">Parla con Chris</a></div>
+      </div>
+      <div class="v5-wrap v5-footer-bottom"><span>© 2026 TROVATEMI.IT</span><span>TI FACCIAMO TROVARE DOVE CONTA.</span><span>PROTOTIPO V5 · NOINDEX</span></div>
+    </footer>
+
+    <dialog class="v5-dialog" aria-labelledby="v5-dialog-title">
+      <button class="v5-dialog-close" type="button" aria-label="Chiudi">×</button>
+      <div class="v5-dialog-head"><span>SIMULATORE LOCALE</span><i>NESSUN DATO VIENE INVIATO</i></div>
+      <div class="v5-dialog-grid">
+        <div class="v5-dialog-copy">
+          <span class="v5-dialog-step">01 / 01</span>
+          <h2 id="v5-dialog-title">METTI LA TUA ATTIVITÀ DENTRO IL PRODOTTO.</h2>
+          <p>Questi dati modificano soltanto la demo nel tuo browser. Non cerchiamo, salviamo o trasmettiamo nulla.</p>
+        </div>
+        <form class="v5-simulator-form">
+          <label>Nome dell’attività<input name="business" type="text" autocomplete="organization" value="Attività Demo" required /></label>
+          <label>Categoria<select name="category" required><option>Agenzia immobiliare</option><option>Studio medico</option><option>Palestra</option><option>Barbiere</option><option>Bar</option><option>Altra attività locale</option></select></label>
+          <div class="v5-form-pair">
+            <label>Le tue recensioni<input name="reviews" type="number" inputmode="numeric" min="0" max="9999" value="24" required /></label>
+            <label>Concorrente visibile<input name="competitor" type="number" inputmode="numeric" min="0" max="9999" value="186" required /></label>
+          </div>
+          <button class="v5-button v5-simulator-submit" type="submit">Genera la simulazione <span>→</span></button>
+        </form>
+      </div>
+    </dialog>
+
+    <script is:inline>
+      const menuButton = document.querySelector('.v5-menu');
+      const mobileNav = document.querySelector('.v5-mobile-nav');
+      menuButton?.addEventListener('click', () => {
+        const open = mobileNav?.classList.toggle('open') ?? false;
+        menuButton.setAttribute('aria-expanded', String(open));
+      });
+      mobileNav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        menuButton?.setAttribute('aria-expanded', 'false');
+      }));
+
+      const dialog = document.querySelector('.v5-dialog');
+      document.querySelectorAll('.js-v5-open').forEach((button) => button.addEventListener('click', () => dialog?.showModal()));
+      document.querySelector('.v5-dialog-close')?.addEventListener('click', () => dialog?.close());
+      dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+
+      const form = document.querySelector('.v5-simulator-form');
+      form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const business = String(data.get('business') || 'Attività Demo').trim();
+        const category = String(data.get('category') || 'Attività locale');
+        const reviews = Math.max(0, Number(data.get('reviews') || 0));
+        const competitor = Math.max(0, Number(data.get('competitor') || 0));
+        const target = Math.max(reviews + 18, Math.min(competitor, reviews + 64));
+        document.querySelectorAll('[data-demo-business]').forEach((element) => { element.textContent = business; });
+        document.querySelectorAll('[data-demo-category]').forEach((element) => { element.textContent = category; });
+        document.querySelectorAll('[data-demo-reviews]').forEach((element) => { element.textContent = String(reviews); });
+        document.querySelectorAll('[data-demo-competitor]').forEach((element) => { element.textContent = String(competitor); });
+        document.querySelectorAll('[data-demo-target]').forEach((element) => { element.textContent = String(target); });
+        document.documentElement.style.setProperty('--v5-demo-progress', `${Math.max(10, Math.min(88, (reviews / Math.max(competitor, 1)) * 100))}%`);
+        dialog.close();
+        document.querySelector('#portale')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      const reveal = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); reveal.unobserve(entry.target); }
+      }), { threshold: 0.12 });
+      document.querySelectorAll('.v5-reveal').forEach((element) => reveal.observe(element));
+    </script>
+  </body>
+</html>
