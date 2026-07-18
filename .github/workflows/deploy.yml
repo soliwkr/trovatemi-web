@@ -7,10 +7,11 @@ on:
 
 permissions:
   contents: read
+  statuses: write
 
 concurrency:
   group: production
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -23,6 +24,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Mark deployment pending
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh api --method POST
+          "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA"
+          -f state=pending
+          -f context=cloudflare/deployment
+          -f description="Cloudflare deployment in progress"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -57,6 +68,29 @@ jobs:
           command: deploy
 
       - name: Publish deployment summary
+        if: steps.deploy.outcome == 'success'
         env:
           DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
         run: echo "Production URL — $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish deployment status
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
+        run: |
+          if [ "$DEPLOY_OUTCOME" = "success" ]; then
+            gh api --method POST \
+              "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
+              -f state=success \
+              -f context=cloudflare/deployment \
+              -f description="Cloudflare Worker deployed" \
+              -f target_url="$DEPLOYMENT_URL"
+          else
+            gh api --method POST \
+              "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
+              -f state=failure \
+              -f context=cloudflare/deployment \
+              -f description="Cloudflare deployment failed"
+          fi
