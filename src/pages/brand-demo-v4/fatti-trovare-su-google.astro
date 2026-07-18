@@ -4,37 +4,35 @@ import { v4Categories } from '../../data/v4';
 export const prerender = true;
 ---
 
-<V4Layout title="Fatti trovare su Google — TROVATEMI.IT" description="Scopri cosa vede un cliente quando cerca la tua attività su Google e come TROVATEMI.IT rende visibile la fiducia che hai già guadagnato.">
-  <section class="v4-page-hero" data-watermark="CERCA">
+<V4Layout title="Come funziona TROVATEMI — Dal cliente alla nuova scelta" description="Scopri come TROVATEMI raccoglie recensioni reali e le trasforma in risposte, contenuti e presenza comprensibile da persone, Google e assistenti AI.">
+  <section class="v4-page-hero" data-watermark="SYSTEM">
     <div class="v4-wrap">
-      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / Come funziona</div>
-      <p class="v4-kicker"><span>★</span> LA RICERCA CHE CONTA</p>
-      <h1>OGNI GIORNO QUALCUNO CERCA ESATTAMENTE CIÒ CHE VENDI.</h1>
-      <p class="v4-lede">Non ti segue. Non mette like. Cerca su Google, confronta tre attività e chiama quella che gli trasmette più fiducia.</p>
+      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / Prodotto</div>
+      <p class="v4-kicker"><span>★</span> UN INPUT REALE. PIÙ OUTPUT UTILI.</p>
+      <h1>IL CLIENTE ESCE SODDISFATTO. TROVATEMI INIZIA A LAVORARE.</h1>
+      <p class="v4-lede">Il prodotto raccoglie la sua esperienza, prepara la risposta, crea prova sociale e mantiene aggiornate le informazioni che persone e motori usano per scegliere.</p>
     </div>
   </section>
 
   <section class="v4-problem-solution">
-    <article class="v4-problem"><span>01 / IL PROBLEMA</span><h2>IL CLIENTE NON VEDE QUANTO SEI BRAVO.</h2><p>Vede ciò che Google riesce a mostrare: informazioni, fotografie, recensioni, risposte e attività recente. Se un concorrente sembra più credibile, la telefonata parte senza di te.</p></article>
-    <article class="v4-solution"><span>02 / LA SOLUZIONE</span><h2>RENDIAMO VISIBILE LA FIDUCIA CHE HAI GIÀ GUADAGNATO.</h2><p>Mettiamo in ordine il profilo, rendiamo semplice chiedere recensioni vere e manteniamo vivo ciò che il cliente controlla prima di chiamare.</p></article>
+    <article class="v4-problem"><span>01 / SENZA SISTEMA</span><h2>LA FIDUCIA SPARISCE APPENA IL CLIENTE ESCE.</h2><p>Il lavoro è stato fatto bene, ma nessuno chiede la recensione, le risposte restano indietro e i contenuti dipendono dal tempo libero.</p></article>
+    <article class="v4-solution"><span>02 / CON TROVATEMI</span><h2>OGNI ESPERIENZA DIVENTA MATERIALE PER LA PROSSIMA SCELTA.</h2><p>Un solo flusso collega richiesta, recensione, risposta, contenuto e pagina. L’AI esegue il lavoro ripetitivo; tu controlli ciò che richiede giudizio.</p></article>
   </section>
 
   <section class="v4-section v4-surface">
-    <div class="v4-wrap v4-rule-heading v4-reveal"><span>03 / IL METODO</span><h2 class="v4-section-title">QUATTRO COSE.<br /><em>NESSUNA MAGIA.</em></h2><p>Un sistema semplice, verificabile e costruito intorno alle azioni che il cliente compie davvero.</p></div>
-    <div class="v4-wrap v4-proof-list">
-      <div><span>01</span><b>Guardiamo la ricerca dal telefono del cliente.</b></div>
-      <div><span>02</span><b>Mettiamo in ordine ciò che Google mostra.</b></div>
-      <div><span>03</span><b>Rendiamo semplice lasciare recensioni vere.</b></div>
-      <div><span>04</span><b>Rispondiamo e manteniamo la presenza viva.</b></div>
-      <div><span>05</span><b>Controlliamo il contatore pubblico.</b></div>
-      <div><span>06</span><b>Misuriamo chiamate, non applausi.</b></div>
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>03 / IL FLUSSO</span><h2 class="v4-section-title">QUATTRO PASSAGGI.<br /><em>UN SOLO SISTEMA.</em></h2><p>Non una collezione di servizi. Una sequenza che riparte ogni volta che entra una nuova esperienza reale.</p></div>
+    <div class="v4-wrap v4-module-grid">
+      <article><span>01</span><i>⌁</i><h3>Chiedi</h3><p>NFC, QR, SMS, email o WhatsApp nel momento giusto.</p></article>
+      <article><span>02</span><i>★</i><h3>Raccogli</h3><p>La recensione entra senza filtri sul voto o sull’umore.</p></article>
+      <article><span>03</span><i>✦</i><h3>Trasforma</h3><p>Gli agenti preparano risposta, contenuto e aggiornamento.</p></article>
+      <article><span>04</span><i>◎</i><h3>Distribuisci</h3><p>La prova arriva nei luoghi in cui il prossimo cliente decide.</p></article>
     </div>
   </section>
 
-  <section class="v4-section">
-    <div class="v4-wrap v4-rule-heading v4-reveal"><span>04 / SCEGLI</span><h2 class="v4-section-title">IL SISTEMA È UNO.<br /><em>IL PROBLEMA CAMBIA.</em></h2><p>Entra nella categoria che assomiglia alla tua attività.</p></div>
-    <div class="v4-wrap v4-category-grid">{v4Categories.map((category) => <article class="v4-category-card v4-reveal" style={`--card-accent:${category.accent}`}><span>{category.code}</span><h3>{category.name}</h3><p>{category.problemLabel}</p><a href={`/brand-demo-v4/per/${category.slug}/`}>Apri la landing ↗</a></article>)}</div>
+  <section class="v4-section v4-proof-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>04 / CASI D’USO</span><h2 class="v4-section-title">IL MOTORE È UNO.<br /><em>IL MOMENTO CAMBIA.</em></h2><p>Entra nella configurazione più vicina alla tua attività. Nessuna città: il problema appartiene alla categoria, non al CAP.</p></div>
+    <div class="v4-wrap v4-category-grid">{v4Categories.map((category) => <article class="v4-category-card v4-reveal" style={`--card-accent:${category.accent}`}><span>{category.code}</span><i>↗</i><h3>{category.name}</h3><p>{category.solutionBody}</p><a href={`/brand-demo-v4/per/${category.slug}/`}>Apri il caso d’uso</a></article>)}</div>
   </section>
 
-  <section class="v4-cta-band"><div class="v4-wrap"><h2>NON DEVI CREDERCI. APRI GOOGLE E CONTROLLA.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Guarda con Chris <span>↗</span></button></div></section>
+  <section class="v4-cta-band v4-product-cta"><div class="v4-wrap"><div><span>NON UNA SLIDE.</span><h2>VEDI IL FLUSSO SULLA TUA ATTIVITÀ.</h2></div><button class="v4-button v4-button-dark js-v4-contact" type="button">Chiedi la demo a Chris <span>↗</span></button></div></section>
 </V4Layout>

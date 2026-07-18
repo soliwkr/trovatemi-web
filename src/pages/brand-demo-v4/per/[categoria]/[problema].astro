@@ -30,19 +30,20 @@ const { category } = Astro.props;
 
       <div class="v4-callout"><span>LA VERITÀ SCOMODA</span><blockquote>NON TI HA DETTO DI NO.<br />NON TI HA MAI TROVATO.</blockquote></div>
 
-      <h2>IL VUOTO VIENE RIEMPITO DAL CONCORRENTE.</h2>
-      <p>Quando le tue informazioni sono incomplete, le fotografie sono vecchie o le recensioni arrivano raramente, Google non lascia uno spazio bianco. Mostra altre attività. Il cliente continua il proprio percorso e tu resti fuori dalla decisione.</p>
+      <h2>IL PROBLEMA NON È FARE UNA CAMPAGNA. È NON AVERE UN SISTEMA.</h2>
+      <p>Senza un flusso, la richiesta di recensione dipende dalla memoria, le risposte arrivano tardi e ogni contenuto riparte da zero. Il valore creato nel lavoro quotidiano non diventa mai un patrimonio digitale che continua ad accumularsi.</p>
 
       <h2>{category.solutionTitle}</h2>
       <p>{category.solutionBody}</p>
-      <p>La soluzione non consiste nel dichiararsi migliori. Consiste nel rendere visibili esperienze vere, informazioni corrette e una presenza curata nel momento in cui il cliente le sta cercando.</p>
+      <p>TROVATEMI collega il gesto fisico dell’NFC o del QR alla piattaforma: la recensione entra, l’agente prepara la risposta, l’esperienza può diventare contenuto e le informazioni alimentano pagine leggibili anche dai motori di risposta AI.</p>
+      <p>Non serve dichiararsi migliori. Serve fare in modo che il prodotto trasformi continuamente ciò che i clienti reali raccontano in prove comprensibili e verificabili.</p>
 
       <div class="v4-proof-list">
         {category.proof.map((item, index) => <div><span>0{index + 1}</span><b>{item}</b></div>)}
       </div>
 
       <h2>IL PRIMO CONTROLLO RICHIEDE TRENTA SECONDI.</h2>
-      <p>Prendi il telefono. Cerca “{category.query}”. Guarda chi compare, quante recensioni mostra e quale attività chiameresti se non conoscessi nessuno.</p>
+      <p>Prendi il telefono. Cerca “{category.query}” e poi formula la stessa domanda a un assistente AI. Guarda quali attività vengono comprese, quali prove vengono mostrate e quale chiameresti se non conoscessi nessuno.</p>
     </article>
   </section>
 

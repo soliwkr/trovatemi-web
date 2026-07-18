@@ -11,34 +11,50 @@ const { category } = Astro.props;
 const post = getV4PostForCategory(category.slug)!;
 ---
 
-<V4Layout title={`TROVATEMI per ${category.name}`} description={`${category.hero} TROVATEMI.IT aiuta ${category.name.toLowerCase()} a farsi trovare su Google, Maps e recensioni.`} accent={category.accent} eyebrow={`${category.name.toUpperCase()} · ${category.territory.toUpperCase()}`}>
-  <section class="v4-page-hero" data-watermark={category.name.toUpperCase()}>
+<V4Layout title={`TROVATEMI per ${category.name}`} description={`${category.hero} Scopri come il SaaS TROVATEMI trasforma recensioni reali in risposte, contenuti e presenza digitale per ${category.name.toLowerCase()}.`} accent={category.accent} eyebrow={`PRODUCT USE CASE · ${category.name.toUpperCase()}`}>
+  <section class="v4-page-hero v4-usecase-hero" data-watermark={category.name.toUpperCase()}>
     <div class="v4-wrap">
-      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / <a href="/brand-demo-v4/#categorie">Categorie</a> / {category.name}</div>
+      <div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / <a href="/brand-demo-v4/#categorie">Casi d’uso</a> / {category.name}</div>
       <div class="v4-category-hero-grid">
-        <div><p class="v4-kicker"><span>★</span> TROVATEMI PER {category.name.toUpperCase()}</p><h1>{category.hero}</h1><p class="v4-lede">{category.subhero}</p><div class="v4-actions"><a class="v4-button" href={`#problema`}>{category.cta} <span>↓</span></a></div></div>
-        <aside class="v4-query-card"><span>COSA CERCA IL CLIENTE</span><div class="v4-search-input"><b>G</b><span>{category.query}</span><i>⌕</i></div><p>In pochi secondi confronta ciò che trova.</p><strong>LA TUA ATTIVITÀ È LA SCELTA OVVIA?</strong></aside>
+        <div><p class="v4-kicker"><span>★</span> TROVATEMI CONFIGURATO PER {category.name.toUpperCase()}</p><h1>{category.hero}</h1><p class="v4-lede">{category.subhero}</p><div class="v4-actions"><a class="v4-button" href="#sistema">Vedi cosa attiva il prodotto <span>↓</span></a></div></div>
+        <aside class="v4-usecase-console">
+          <div class="v4-usecase-top"><span>TROVATEMI / {category.name}</span><i>● LIVE</i></div>
+          <div class="v4-usecase-event"><span>INPUT</span><div><b>Nuova esperienza cliente</b><small>NFC · QR · messaggio</small></div><strong>+1</strong></div>
+          <div class="v4-usecase-flow"><i>✦</i><span></span><i>↗</i><span></span><i>◎</i></div>
+          <ul><li><span>RISPOSTA</span><b>Preparata</b></li><li><span>CONTENUTO</span><b>Generato</b></li><li><span>PRESENZA</span><b>Aggiornata</b></li></ul>
+          <p>Simulazione del flusso prodotto. Gli output sensibili possono richiedere approvazione.</p>
+        </aside>
       </div>
     </div>
   </section>
 
-  <section id="problema" class="v4-problem-solution">
+  <section id="sistema" class="v4-problem-solution">
     <article class="v4-problem"><span>IL PROBLEMA / {category.problemLabel.toUpperCase()}</span><h2>{category.problemTitle}</h2><p>{category.problemBody}</p></article>
-    <article class="v4-solution"><span>LA SOLUZIONE / TROVATEMI.IT</span><h2>{category.solutionTitle}</h2><p>{category.solutionBody}</p></article>
+    <article class="v4-solution"><span>IL PRODOTTO / TROVATEMI.IT</span><h2>{category.solutionTitle}</h2><p>{category.solutionBody}</p></article>
   </section>
 
   <section class="v4-section v4-surface">
-    <div class="v4-wrap v4-rule-heading v4-reveal"><span>LA PROVA</span><h2 class="v4-section-title">NON UN REPORT.<br /><em>IL TUO PROFILO PUBBLICO.</em></h2><p>Partiamo da ciò che un cliente può verificare in questo momento dal proprio telefono.</p></div>
-    <div class="v4-wrap v4-proof-list">{category.proof.map((item, index) => <div class="v4-reveal"><span>0{index + 1}</span><b>{item}</b></div>)}<div class="v4-reveal"><span>04</span><b>Nessuna promessa di posizione.</b></div><div class="v4-reveal"><span>05</span><b>Stesso link recensione per tutti.</b></div><div class="v4-reveal"><span>06</span><b>Se chiami, risponde Chris.</b></div></div>
-  </section>
-
-  <section class="v4-section">
-    <div class="v4-wrap v4-rule-heading v4-reveal"><span>APPROFONDISCI</span><h2 class="v4-section-title">IL PROBLEMA,<br /><em>SENZA GIRI DI PAROLE.</em></h2><p>Una pagina dedicata e una guida scritta per questa categoria.</p></div>
-    <div class="v4-wrap v4-post-grid">
-      <article class="v4-post-card v4-reveal"><div><span>PROBLEMA / SOLUZIONE</span><span>LEGGI</span></div><h3>{category.problemTitle}</h3><p>{category.problemBody}</p><a href={`/brand-demo-v4/per/${category.slug}/${category.problemSlug}/`}>Apri il problema ↗</a></article>
-      <article class="v4-post-card v4-reveal"><div><span>GUIDA</span><span>{post.readTime}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a href={`/brand-demo-v4/blog/${post.slug}/`}>Leggi la guida ↗</a></article>
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>01 / CONFIGURAZIONE</span><h2 class="v4-section-title">NON UN PACCHETTO GENERICO.<br /><em>UN MOTORE TARATO SUL MOMENTO GIUSTO.</em></h2><p>Cambiano il gesto della richiesta, il tono delle risposte e le prove che aiutano il cliente a scegliere.</p></div>
+    <div class="v4-wrap v4-module-grid">
+      <article><span>01</span><i>⌁</i><h3>Raccolta</h3><p>NFC, QR o messaggio nel momento più naturale per questa attività.</p></article>
+      <article><span>02</span><i>✦</i><h3>Risposte AI</h3><p>Tono e istruzioni configurati, con approvazione sulle situazioni sensibili.</p></article>
+      <article><span>03</span><i>↗</i><h3>Contenuti</h3><p>Le esperienze migliori diventano prova sociale pronta per i canali collegati.</p></article>
+      <article><span>04</span><i>◎</i><h3>Presenza AI</h3><p>Informazioni e prove alimentano pagine coerenti e comprensibili dai motori.</p></article>
     </div>
   </section>
 
-  <section class="v4-cta-band"><div class="v4-wrap"><h2>{category.cta.toUpperCase()}.</h2><button class="v4-button v4-button-dark js-v4-contact" type="button">Fammi vedere <span>↗</span></button></div></section>
+  <section class="v4-section v4-proof-section">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>02 / OUTPUT</span><h2 class="v4-section-title">IL SOFTWARE È DIETRO.<br /><em>LA PROVA È PUBBLICA.</em></h2><p>Il valore non è “avere una dashboard”. È vedere esperienze reali diventare segnali che il prossimo cliente può controllare.</p></div>
+    <div class="v4-wrap v4-proof-list">{category.proof.map((item, index) => <div class="v4-reveal"><span>0{index + 1}</span><b>{item}</b></div>)}<div class="v4-reveal"><span>04</span><b>Stesso link recensione per tutti.</b></div><div class="v4-reveal"><span>05</span><b>Nessuna posizione o citazione promessa.</b></div><div class="v4-reveal"><span>06</span><b>Se chiami, risponde Chris.</b></div></div>
+  </section>
+
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-rule-heading v4-reveal"><span>03 / DECISIONE</span><h2 class="v4-section-title">IL PROBLEMA CREA URGENZA.<br /><em>IL PRODOTTO CREA CONTINUITÀ.</em></h2><p>Approfondisci il problema oppure guarda come incide sulla scelta del cliente.</p></div>
+    <div class="v4-wrap v4-post-grid">
+      <article class="v4-post-card v4-reveal"><div><span>PROBLEMA / SOLUZIONE</span><span>LEGGI</span></div><h3>{category.problemTitle}</h3><p>{category.problemBody}</p><a href={`/brand-demo-v4/per/${category.slug}/${category.problemSlug}/`}>Apri il problema ↗</a></article>
+      <article class="v4-post-card v4-reveal"><div><span>INTELLIGENCE</span><span>{post.readTime}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a href={`/brand-demo-v4/blog/${post.slug}/`}>Leggi l’analisi ↗</a></article>
+    </div>
+  </section>
+
+  <section class="v4-cta-band v4-product-cta"><div class="v4-wrap"><div><span>CONFIGURAZIONE {category.name.toUpperCase()}</span><h2>{category.cta.toUpperCase()}.</h2></div><button class="v4-button v4-button-dark js-v4-contact" type="button">Vedi la demo sul tuo caso <span>↗</span></button></div></section>
 </V4Layout>
