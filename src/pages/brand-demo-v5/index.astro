@@ -3,231 +3,290 @@ import V5Layout from '../../layouts/V5Layout.astro';
 
 export const prerender = true;
 
-const categories = [
-  ['IMM', 'Agenzie immobiliari', 'La fiducia prima dell’incarico.'],
-  ['MED', 'Studi medici', 'La rassicurazione prima della prenotazione.'],
-  ['FIT', 'Palestre', 'La prova prima di ricominciare.'],
-  ['BAR', 'Barbieri', 'Il risultato prima della sedia.'],
-  ['LOC', 'Bar e locali', 'L’atmosfera prima di entrare.'],
+const included = [
+  ['01', 'Richieste al momento giusto', 'Invia il link con WhatsApp o email, oppure fallo aprire con NFC e QR.'],
+  ['02', 'Recensioni in un solo posto', 'Segui le nuove recensioni e non perdere quelle a cui devi ancora rispondere.'],
+  ['03', 'Aiuto nelle risposte', 'Parti da una risposta preparata e mantieni sempre l’ultima parola prima di pubblicare.'],
+  ['04', 'Contatore verificabile', 'Vedi quante recensioni avevi all’inizio e quante ne hai raccolte nel tempo.'],
+];
+
+const faqs = [
+  ['TROVATEMI è un servizio di marketing?', 'No. Il prodotto di partenza serve a chiedere, raccogliere e gestire recensioni vere. È un’attività precisa, con un numero pubblico che puoi controllare anche dal tuo telefono.'],
+  ['Il cliente deve scaricare un’app?', 'No. Tocca l’NFC, inquadra il QR oppure apre il link ricevuto. Da lì continua sul percorso Google.'],
+  ['Mostrate il link Google soltanto ai clienti soddisfatti?', 'No. Tutti i clienti reali arrivano allo stesso link. Non filtriamo le persone in base al voto e non compriamo recensioni.'],
+  ['Le risposte vengono pubblicate senza controllo?', 'La demo mostra un aiuto alla scrittura. Sei tu a leggere, modificare e approvare la risposta prima che venga usata.'],
+  ['Chi mi aiuta a configurarlo?', 'Chris prepara con te il collegamento, i materiali e il primo utilizzo. Se chiami, risponde Chris.'],
 ];
 ---
 
 <V5Layout
-  title="TROVATEMI.IT — Il sistema che fa lavorare ogni esperienza reale"
-  description="TROVATEMI raccoglie recensioni reali, mantiene viva la presenza dell’attività e mostra risultati verificabili in un unico portale."
+  title="TROVATEMI.IT — Più recensioni vere, senza rincorrerle"
+  description="TROVATEMI aiuta le attività a chiedere, raccogliere e gestire recensioni Google in un unico prodotto."
 >
   <section class="v5-hero">
-    <div class="v5-hero-grid-bg"></div>
-    <div class="v5-hero-orb one"></div><div class="v5-hero-orb two"></div>
-    <div class="v5-wrap v5-hero-grid">
+    <div class="v5-hero-grid"></div>
+    <div class="v5-wrap v5-hero-layout">
       <div class="v5-hero-copy v5-reveal">
-        <p class="v5-kicker"><span>★</span> REPUTAZIONE · PRESENZA · AUTOMAZIONE</p>
-        <h1>IL CLIENTE TI STA GIÀ CERCANDO. <em>FAI LAVORARE CHI TI HA GIÀ SCELTO.</em></h1>
-        <p class="v5-lede">TROVATEMI raccoglie esperienze vere e le trasforma in recensioni, risposte, contenuti e presenza. Il software lavora. Tu vedi cosa sta succedendo.</p>
-        <div class="v5-hero-actions"><button class="v5-button js-v5-open" type="button">Metti qui la tua attività <span>↗</span></button><a href="#ciclo">Guarda il ciclo</a></div>
-        <div class="v5-hero-signals"><span><i></i> Portale TROVATEMI</span><span><i></i> Tre agenti AI</span><span><i></i> Configurato con Chris</span></div>
+        <p class="v5-kicker"><span>★</span> REVIEW MANAGEMENT PER ATTIVITÀ LOCALI</p>
+        <h1>PIÙ RECENSIONI VERE. <em>SENZA RINCORRERLE.</em></h1>
+        <p class="v5-lede">TROVATEMI ti aiuta a chiedere una recensione nel momento giusto, seguirla e rispondere da un unico posto.</p>
+        <div class="v5-hero-actions">
+          <button class="v5-button js-v5-open" type="button">Provalo sulla tua attività <span>↗</span></button>
+          <a href="#come-funziona">Guarda come funziona <span>↓</span></a>
+        </div>
+        <ul class="v5-proof-list" aria-label="Caratteristiche principali">
+          <li><i>✓</i> Nessuna app per il cliente</li>
+          <li><i>✓</i> Tutti allo stesso link Google</li>
+          <li><i>✓</i> Numeri controllabili</li>
+        </ul>
       </div>
 
-      <div class="v5-hero-product v5-reveal" aria-label="Simulazione del portale TROVATEMI">
-        <div class="v5-browser-bar"><div><i></i><i></i><i></i></div><span>https://os.trovatemi.it</span><b>SIMULAZIONE</b></div>
-        <div class="v5-app-shell">
-          <aside class="v5-app-sidebar"><div class="v5-app-logo">T<i>★</i></div><nav><span class="active">⌂</span><span>☆</span><span>↗</span><span>◎</span><span>✦</span></nav><span class="avatar">CF</span></aside>
-          <div class="v5-app-body">
-            <div class="v5-app-business"><div class="v5-app-business-mark">AD</div><div><b data-demo-business>Attività Demo</b><small data-demo-category>Agenzia immobiliare</small></div><span><i></i> AGENTI ATTIVI</span></div>
-            <div class="v5-app-title"><div><small>RISULTATI DA QUANDO HAI INIZIATO</small><h2>Le prove crescono.</h2></div><button type="button">Chiedi a TROVATEMI ✦</button></div>
-            <div class="v5-app-dashboard">
-              <article class="v5-app-chart"><header><span>COSTRUISCI FIDUCIA</span><b><i></i> recensioni</b></header><div class="v5-chart-number"><strong data-demo-reviews>24</strong><small>verso <b data-demo-target>88</b></small></div><svg viewBox="0 0 360 116" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="v5HeroArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6f63ff" stop-opacity=".32"/><stop offset="1" stop-color="#6f63ff" stop-opacity="0"/></linearGradient></defs><path class="area" d="M0 100 C38 98 55 83 92 86 S148 70 181 66 S232 49 266 50 S326 23 360 18 L360 116 L0 116Z"/><path class="line" d="M0 100 C38 98 55 83 92 86 S148 70 181 66 S232 49 266 50 S326 23 360 18"/></svg><footer><span>GEN</span><span>MAR</span><span>MAG</span><span>OGGI</span></footer></article>
-              <article class="v5-app-activity"><header><span>ATTIVITÀ AGENTI</span><b>LIVE</b></header><ul><li><i class="reply">↳</i><p><b>Risposta preparata</b><small>Tono dell’attività applicato</small></p><em>ora</em></li><li><i class="social">★</i><p><b>Contenuto creato</b><small>Dall’ultima recensione</small></p><em>2m</em></li><li><i class="geo">◎</i><p><b>Presenza aggiornata</b><small>Nuova esperienza collegata</small></p><em>5m</em></li></ul></article>
-              <article class="v5-app-gap"><span>CONFRONTO PUBBLICO</span><div><b>Tu</b><i><em></em></i><strong data-demo-reviews>24</strong></div><div><b>Attività visibile</b><i><em></em></i><strong data-demo-competitor>186</strong></div><small>Numeri inseriti nella simulazione</small></article>
+      <div class="v5-hero-product v5-reveal" aria-label="Anteprima del prodotto TROVATEMI">
+        <div class="v5-window-top">
+          <div><i></i><i></i><i></i></div>
+          <span>Panoramica</span>
+          <b>DEMO</b>
+        </div>
+        <div class="v5-mini-app">
+          <aside>
+            <div class="v5-mini-logo">T<i>★</i></div>
+            <nav aria-label="Anteprima navigazione prodotto">
+              <span class="active">⌂</span><span>☆</span><span>↗</span><span>⌁</span>
+            </nav>
+            <b>CF</b>
+          </aside>
+          <div class="v5-mini-main">
+            <header>
+              <div><small>BUONGIORNO</small><h2 data-demo-business>Attività Demo</h2></div>
+              <button type="button">+ Chiedi una recensione</button>
+            </header>
+            <div class="v5-mini-stats">
+              <article class="primary">
+                <span>RECENSIONI GOOGLE</span>
+                <div><strong data-demo-reviews>24</strong><i>+6 questo mese</i></div>
+                <svg viewBox="0 0 340 88" preserveAspectRatio="none" aria-hidden="true">
+                  <defs><linearGradient id="v5Area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6857ff" stop-opacity=".3"/><stop offset="1" stop-color="#6857ff" stop-opacity="0"/></linearGradient></defs>
+                  <path class="area" d="M0 77 C35 73 53 69 79 70 S121 53 153 56 S202 38 229 43 S284 20 340 12 L340 88 L0 88Z" />
+                  <path class="line" d="M0 77 C35 73 53 69 79 70 S121 53 153 56 S202 38 229 43 S284 20 340 12" />
+                </svg>
+              </article>
+              <article><span>MEDIA</span><strong>4,8 <i>★</i></strong><small>su Google</small></article>
+              <article><span>DA RISPONDERE</span><strong>2</strong><small>recensioni</small></article>
+            </div>
+            <div class="v5-mini-bottom">
+              <article>
+                <header><span>ULTIME RECENSIONI</span><b>Vedi tutte</b></header>
+                <div><i class="v5-avatar">MG</i><p><b>Maria G.</b><small>★★★★★</small></p><span>2 min</span></div>
+                <div><i class="v5-avatar alt">LP</i><p><b>Luca P.</b><small>★★★★★</small></p><span>ieri</span></div>
+              </article>
+              <article class="v5-quick-request">
+                <span>CHIEDI ADESSO</span>
+                <div><button type="button">⌁<small>NFC</small></button><button type="button">▦<small>QR</small></button><button type="button">↗<small>LINK</small></button></div>
+              </article>
             </div>
           </div>
         </div>
-        <div class="v5-product-caption"><span>IL CLIENTE VEDE TROVATEMI.</span><b>IL MOTORE LAVORA DIETRO.</b></div>
+        <div class="v5-new-review"><i>★</i><p><b>Nuova recensione ricevuta</b><small>Il contatore è appena cresciuto.</small></p><span>ora</span></div>
       </div>
     </div>
-    <div class="v5-wrap v5-hero-bottom"><span>NON DEVI DIVENTARE VIRALE.</span><strong>DEVI DIVENTARE INEVITABILE.</strong><i>SCROLL ↓</i></div>
-  </section>
-
-  <section id="ciclo" class="v5-section v5-cycle-section">
-    <div class="v5-wrap v5-section-head v5-reveal"><span>01 / IL MOTORE</span><div><h2>NON È UNA CAMPAGNA.<br /><em>È UN CICLO CHE CONTINUA.</em></h2><p>Una sola esperienza entra nel sistema. TROVATEMI la accompagna fino ai punti in cui il prossimo cliente costruisce fiducia.</p></div></div>
-
-    <div class="v5-wrap v5-cycle-console v5-reveal" data-flow-state="0">
-      <div class="v5-cycle-top"><span>REVIEW MARKETING LOOP</span><div><i></i> SIMULAZIONE PRONTA</div><button class="v5-cycle-play" type="button"><span>▶</span> Avvia il ciclo</button></div>
-      <div class="v5-cycle-track">
-        <article data-flow-step="1"><span>01</span><div class="v5-cycle-icon touch">⌁</div><small>IN LOCO</small><h3>Il cliente tocca.</h3><p>NFC, QR, WhatsApp, SMS o email aprono lo stesso percorso.</p></article>
-        <i class="v5-cycle-arrow">→</i>
-        <article data-flow-step="2"><span>02</span><div class="v5-cycle-icon review">★</div><small>ESPERIENZA</small><h3>La recensione entra.</h3><p>Una voce reale diventa il nuovo input del sistema.</p></article>
-        <i class="v5-cycle-arrow">→</i>
-        <article data-flow-step="3"><span>03</span><div class="v5-cycle-icon agents">✦</div><small>AUTOMAZIONE</small><h3>Gli agenti lavorano.</h3><p>Risposta, contenuto e presenza partono dalla stessa prova.</p></article>
-        <i class="v5-cycle-arrow">→</i>
-        <article data-flow-step="4"><span>04</span><div class="v5-cycle-icon proof">↗</div><small>PROVA</small><h3>Il titolare vede.</h3><p>Contatore e attività diventano visibili nel portale.</p></article>
-      </div>
-      <div class="v5-cycle-log" aria-live="polite"><span>● CONSOLE</span><p>Premi “Avvia il ciclo” per vedere il prodotto muoversi.</p><em>00:00</em></div>
+    <div class="v5-wrap v5-hero-note">
+      <span>IL PRODOTTO FA UNA COSA PRECISA.</span>
+      <strong>TRASFORMA IL MOMENTO GIUSTO IN UNA RECENSIONE.</strong>
     </div>
   </section>
 
-  <section class="v5-section v5-touch-section">
-    <div class="v5-wrap v5-touch-grid">
-      <div class="v5-touch-stage v5-reveal">
-        <div class="v5-touch-rings"><i></i><i></i><i></i><button class="v5-nfc-button" type="button"><span>NFC</span><b>TOCCA</b></button></div>
-        <div class="v5-phone" data-phone-state="idle">
-          <div class="v5-phone-notch"></div>
-          <div class="v5-phone-screen idle"><span>PRONTO PER IL TAP</span><div class="v5-phone-signal">⌁</div><b>Avvicina l’anello</b><small>Non serve scaricare un’app.</small></div>
-          <div class="v5-phone-screen opened"><span data-demo-business>Attività Demo</span><div class="v5-google-g">G</div><b>Com’è stata la tua esperienza?</b><div class="v5-stars">★★★★★</div><button type="button">Apri Google</button><small>Lo stesso link per ogni cliente.</small></div>
+  <section id="come-funziona" class="v5-section v5-how">
+    <div class="v5-wrap v5-section-heading v5-reveal">
+      <span>COME FUNZIONA</span>
+      <div><h2>DAL CLIENTE SODDISFATTO<br />A GOOGLE. <em>SENZA GIRI.</em></h2><p>Non è una campagna e non è un pacchetto di attività. È sempre lo stesso percorso, ripetuto bene.</p></div>
+    </div>
+
+    <div class="v5-wrap v5-how-grid v5-reveal">
+      <article><span>01</span><div>⌁</div><h3>Chiedi</h3><p>Subito dopo il servizio, di persona o con un messaggio.</p></article>
+      <i>→</i>
+      <article><span>02</span><div>G</div><h3>Il cliente apre Google</h3><p>Un solo percorso, uguale per ogni cliente reale.</p></article>
+      <i>→</i>
+      <article><span>03</span><div>★</div><h3>Gestisci</h3><p>La recensione e la risposta restano sotto controllo.</p></article>
+    </div>
+  </section>
+
+  <section id="product-demo" class="v5-section v5-demo-section">
+    <div class="v5-wrap v5-demo-layout">
+      <div class="v5-demo-copy v5-reveal">
+        <span>PROVALO ADESSO</span>
+        <h2>UN TOCCO.<br />UN PERCORSO.<br /><em>UN NUMERO IN PIÙ.</em></h2>
+        <p>Questa simulazione mostra esattamente il pezzo di lavoro che TROVATEMI rende semplice. Non si collega a Google e non invia messaggi reali.</p>
+        <button class="v5-demo-run" type="button">Simula il percorso</button>
+        <small><i></i> DEMO LOCALE · NESSUN DATO INVIATO</small>
+      </div>
+
+      <div class="v5-live-demo v5-reveal" data-state="idle">
+        <div class="v5-live-status"><span>DEMO PRODOTTO</span><b><i></i> PRONTA</b></div>
+        <div class="v5-live-flow">
+          <article class="request">
+            <span>1 · RICHIESTA</span>
+            <div class="v5-nfc-object"><i></i><b>★</b><small>TROVATEMI</small></div>
+            <h3>Il cliente tocca.</h3>
+            <p>NFC, QR o link: cambia il mezzo, non il percorso.</p>
+            <em>Richiesta aperta ✓</em>
+          </article>
+          <article class="phone">
+            <div class="v5-phone-notch"></div>
+            <span data-demo-business>Attività Demo</span>
+            <div class="v5-google-mark">G</div>
+            <h3>Com’è stata la tua esperienza?</h3>
+            <div class="v5-stars">★★★★★</div>
+            <button type="button">Scrivi su Google</button>
+            <em>Recensione completata ✓</em>
+          </article>
+          <article class="counter">
+            <span>3 · PRODOTTO</span>
+            <div><small>RECENSIONI GOOGLE</small><strong data-demo-reviews>24</strong><b><i>+1</i> ricevuta adesso</b></div>
+            <h3>Tu la vedi arrivare.</h3>
+            <p>Il contatore passa a <b data-demo-next>25</b>. Questa è la prova.</p>
+            <em>Dashboard aggiornata ✓</em>
+          </article>
         </div>
-        <div class="v5-touch-status"><i></i><span>ANELLO PRONTO</span><b>Toccalo per simulare</b></div>
-      </div>
-
-      <div class="v5-touch-copy v5-reveal">
-        <span>02 / IL MOMENTO GIUSTO</span>
-        <h2>CHIEDERE UNA RECENSIONE NON DEVE SEMBRARE <em>CHIEDERE UN FAVORE.</em></h2>
-        <p>Il cliente ha ancora il telefono in mano e l’esperienza in testa. Un gesto apre il percorso. Nessuna app, nessuna password, nessun foglio dimenticato sul bancone.</p>
-        <div class="v5-channel-row"><span>NFC</span><span>QR</span><span>WHATSAPP</span><span>SMS</span><span>EMAIL</span></div>
-        <div class="v5-touch-rule"><strong>UNA REGOLA.</strong><p>Tutti i clienti reali arrivano allo stesso link Google. Nessun filtro sul voto.</p></div>
+        <div class="v5-live-progress"><i></i><i></i><i></i></div>
       </div>
     </div>
   </section>
 
-  <section id="agenti" class="v5-section v5-agents-section">
-    <div class="v5-wrap v5-section-head light v5-reveal"><span>03 / IL PRODOTTO</span><div><h2>UNA RECENSIONE ENTRA.<br /><em>TRE AGENTI SI MUOVONO.</em></h2><p>Il cliente non deve imparare tre strumenti. Configura una volta il modo di lavorare; TROVATEMI esegue dietro le quinte.</p></div></div>
-
-    <div class="v5-wrap v5-agent-machine v5-reveal">
-      <div class="v5-review-source">
-        <span>NUOVO INPUT</span><div><b>MG</b><p><strong>Maria G.</strong><i>★★★★★</i></p><small>ora</small></div><blockquote>“Mi hanno seguito con chiarezza dall’inizio alla fine.”</blockquote><em>RECENSIONE REALE · DATI DEMO</em>
-      </div>
-      <div class="v5-agent-router"><span>✦</span><i></i><i></i><i></i></div>
-      <div class="v5-agent-workspace">
-        <div class="v5-agent-tabs" role="tablist" aria-label="Agenti TROVATEMI">
-          <button class="active" type="button" data-agent-tab="reply" role="tab" aria-selected="true"><i>↳</i><span><b>RISPOSTE</b><small>ATTIVO</small></span></button>
-          <button type="button" data-agent-tab="social" role="tab" aria-selected="false"><i>★</i><span><b>CONTENUTI</b><small>IN CODA</small></span></button>
-          <button type="button" data-agent-tab="geo" role="tab" aria-selected="false"><i>◎</i><span><b>PRESENZA</b><small>IN CODA</small></span></button>
-        </div>
-        <div class="v5-agent-panels">
-          <article class="active" data-agent-panel="reply"><div><span>AGENTE RISPOSTE</span><h3>Una risposta coerente, non una frase in serie.</h3><p>Prepara il testo usando tono, servizi e istruzioni dell’attività. Le situazioni sensibili possono fermarsi prima della pubblicazione.</p><ul><li>✓ Tono configurato</li><li>✓ Servizio riconosciuto</li><li>✓ Controllo sui casi delicati</li></ul></div><div class="v5-agent-output reply"><span>RISPOSTA PREPARATA</span><p>Grazie Maria. La chiarezza è parte del modo in cui vogliamo accompagnare ogni cliente, dall’inizio alla fine.</p><div><button type="button">Modifica</button><button type="button">Approva ↗</button></div></div></article>
-          <article data-agent-panel="social"><div><span>AGENTE CONTENUTI</span><h3>La prova non resta chiusa dentro Google.</h3><p>L’esperienza diventa un contenuto coerente con il brand, pronto per il Profilo Google e i canali collegati.</p><ul><li>✓ Grafica brandizzata</li><li>✓ Frequenza configurabile</li><li>✓ Pubblicazione o approvazione</li></ul></div><div class="v5-agent-output social"><span data-demo-business>ATTIVITÀ DEMO</span><i>★★★★★</i><blockquote>“Chiarezza dall’inizio alla fine.”</blockquote><small>ESPERIENZA REALE</small></div></article>
-          <article data-agent-panel="geo"><div><span>AGENTE PRESENZA</span><h3>Ciò che fai diventa più facile da capire.</h3><p>Servizi, informazioni ed esperienze alimentano pagine coerenti e strutturate per ricerca tradizionale e motori AI.</p><ul><li>✓ Informazioni sincronizzate</li><li>✓ Esperienze collegate</li><li>✓ Pagine mantenute vive</li></ul></div><div class="v5-agent-output geo"><span>SCHEDA ATTIVITÀ</span><div><b>Servizi</b><i>12 segnali</i></div><div><b>Esperienze</b><i><b data-demo-reviews>24</b> segnali</i></div><div><b>Informazioni</b><i>coerenti</i></div><footer><em></em><p><b>Pagina aggiornata</b><small>Nuova esperienza collegata</small></p><strong>LIVE</strong></footer></div></article>
-        </div>
-      </div>
+  <section id="prodotto" class="v5-section v5-product-section">
+    <div class="v5-wrap v5-product-heading v5-reveal">
+      <span>IL PRODOTTO</span>
+      <h2>TUTTO CIÒ CHE SERVE ALLE RECENSIONI. <em>NIENTE CHE TI DISTRAGGA.</em></h2>
     </div>
-  </section>
 
-  <section id="portale" class="v5-section v5-portal-section">
-    <div class="v5-wrap v5-portal-heading v5-reveal"><span>04 / LA PROVA</span><h2>IL CLIENTE NON DEVE CHIEDERE<br /><em>“MA COSA STATE FACENDO?”</em></h2><p>Apre il proprio portale TROVATEMI e vede il contatore, l’attività degli agenti e l’evoluzione dal giorno in cui ha iniziato.</p></div>
+    <div class="v5-wrap v5-included-grid v5-reveal">
+      {included.map(([number, title, text]) => (
+        <article><span>{number}</span><h3>{title}</h3><p>{text}</p></article>
+      ))}
+    </div>
 
-    <div class="v5-wrap v5-portal-window v5-reveal">
-      <div class="v5-browser-bar dark"><div><i></i><i></i><i></i></div><span>https://os.trovatemi.it</span><b>DATI DEMO</b></div>
-      <div class="v5-portal-shell">
-        <aside class="v5-portal-sidebar"><div class="v5-app-logo">T<i>★</i></div><nav><span class="active"><i>⌂</i><b>Panoramica</b></span><span><i>☆</i><b>Recensioni</b></span><span><i>↗</i><b>Richieste</b></span><span><i>◎</i><b>Presenza</b></span><span><i>✦</i><b>Agenti</b></span></nav><div><span>CF</span><b>Chris</b></div></aside>
-        <div class="v5-portal-body">
-          <header><div><small>BUONGIORNO</small><h3 data-demo-business>Attività Demo</h3><p data-demo-category>Agenzia immobiliare</p></div><div class="v5-period-tabs"><button class="active" type="button" data-period="30">30 giorni</button><button type="button" data-period="90">90 giorni</button></div></header>
-          <div class="v5-portal-summary">
-            <div><span>RECENSIONI</span><strong><b data-demo-reviews>24</b><i data-period-delta>+8</i></strong><small>da quando hai iniziato</small></div>
-            <div><span>VALUTAZIONE</span><strong>4,7<i data-period-rating>+0,2</i></strong><small>media pubblica · demo</small></div>
-            <div><span>AZIONI ESEGUITE</span><strong data-period-actions>32</strong><small>dagli agenti · demo</small></div>
+    <div class="v5-wrap v5-product-window v5-reveal">
+      <div class="v5-window-top dark">
+        <div><i></i><i></i><i></i></div>
+        <span>TROVATEMI · <b data-demo-business>Attività Demo</b></span>
+        <em>DATI DEMO</em>
+      </div>
+      <div class="v5-product-app">
+        <aside>
+          <div class="v5-product-brand">T<i>★</i></div>
+          <nav aria-label="Sezioni del prodotto">
+            <button class="active" type="button" data-product-tab="overview" role="tab" aria-selected="true"><i>⌂</i><span>Panoramica</span></button>
+            <button type="button" data-product-tab="requests" role="tab" aria-selected="false"><i>↗</i><span>Richieste</span></button>
+            <button type="button" data-product-tab="reviews" role="tab" aria-selected="false"><i>☆</i><span>Recensioni</span></button>
+          </nav>
+          <div><b>CF</b><p><span>Chris</span><small>Supporto</small></p></div>
+        </aside>
+        <div class="v5-product-body">
+          <div class="v5-product-mobile-tabs" role="tablist" aria-label="Sezioni del prodotto">
+            <button class="active" type="button" data-product-tab="overview" aria-selected="true">Panoramica</button>
+            <button type="button" data-product-tab="requests" aria-selected="false">Richieste</button>
+            <button type="button" data-product-tab="reviews" aria-selected="false">Recensioni</button>
           </div>
-          <div class="v5-portal-grid">
-            <article class="v5-portal-chart"><header><div><span>COSTRUISCI FIDUCIA</span><b>Recensioni nel tempo</b></div><div><span><i class="purple"></i> Totale</span><span><i class="yellow"></i> Valutazione</span></div></header><svg viewBox="0 0 700 250" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="v5PortalArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6f63ff" stop-opacity=".25"/><stop offset="1" stop-color="#6f63ff" stop-opacity="0"/></linearGradient></defs><g class="grid"><path d="M0 45H700M0 95H700M0 145H700M0 195H700"/></g><path class="area" d="M0 218 C70 210 90 195 145 197 S230 170 280 162 S360 145 415 127 S500 112 552 82 S635 55 700 35 L700 250 L0 250Z"/><path class="review-line" d="M0 218 C70 210 90 195 145 197 S230 170 280 162 S360 145 415 127 S500 112 552 82 S635 55 700 35"/><path class="rating-line" d="M0 130 C100 132 135 122 205 125 S315 106 380 112 S490 94 550 97 S635 80 700 82"/></svg><footer><span>INIZIO</span><span>SETTIMANA 1</span><span>SETTIMANA 2</span><span>OGGI</span></footer></article>
-            <article class="v5-portal-feed"><header><span>ATTIVITÀ AGENTI</span><b><i></i> LIVE</b></header><ul><li><i class="reply">↳</i><div><b>Risposta preparata</b><small>Recensione di Maria G.</small></div><em>ora</em></li><li><i class="social">★</i><div><b>Post pubblicato</b><small>Profilo Google</small></div><em>2m</em></li><li><i class="geo">◎</i><div><b>Pagina aggiornata</b><small>Esperienza collegata</small></div><em>5m</em></li><li><i class="request">⌁</i><div><b>Richiesta aperta</b><small>Tramite anello NFC</small></div><em>1h</em></li></ul><button type="button">Vedi tutta l’attività →</button></article>
-            <article class="v5-portal-goal"><div><span>PROSSIMO TRAGUARDO</span><b><strong data-demo-target>88</strong> recensioni</b></div><div class="v5-goal-track"><i></i></div><p>Oggi: <b data-demo-reviews>24</b> · Attività visibile: <b data-demo-competitor>186</b></p></article>
-          </div>
+
+          <section class="v5-product-panel active" data-product-panel="overview">
+            <header><div><small>PANORAMICA</small><h3>Buongiorno, <span data-demo-business>Attività Demo</span>.</h3><p>Ecco cosa è successo alle tue recensioni.</p></div><button type="button">+ Nuova richiesta</button></header>
+            <div class="v5-overview-stats">
+              <article><span>RECENSIONI TOTALI</span><strong data-demo-reviews>24</strong><small><i>↑</i> 6 negli ultimi 30 giorni</small></article>
+              <article><span>MEDIA GOOGLE</span><strong>4,8 <i>★</i></strong><small>Aggiornata oggi</small></article>
+              <article><span>DA RISPONDERE</span><strong>2</strong><small>Apri le recensioni</small></article>
+            </div>
+            <div class="v5-overview-lower">
+              <article class="v5-big-chart">
+                <header><span>CRESCITA DEL CONTATORE</span><b>ULTIMI 90 GIORNI</b></header>
+                <svg viewBox="0 0 640 210" preserveAspectRatio="none" aria-hidden="true">
+                  <defs><linearGradient id="v5BigArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6857ff" stop-opacity=".25"/><stop offset="1" stop-color="#6857ff" stop-opacity="0"/></linearGradient></defs>
+                  <path class="area" d="M0 184 C58 179 80 162 129 166 S215 140 264 141 S345 109 399 118 S495 65 543 75 S603 35 640 28 L640 210 L0 210Z"/>
+                  <path class="line" d="M0 184 C58 179 80 162 129 166 S215 140 264 141 S345 109 399 118 S495 65 543 75 S603 35 640 28"/>
+                </svg>
+                <footer><span>APR</span><span>MAG</span><span>GIU</span><span>OGGI</span></footer>
+              </article>
+              <article class="v5-today-list"><header><span>OGGI</span><b>LIVE</b></header><div><i>★</i><p><b>Nuova recensione</b><small>Maria G. · 5 stelle</small></p><span>10:42</span></div><div><i>↗</i><p><b>Richiesta aperta</b><small>Link diretto</small></p><span>09:18</span></div><div><i>✓</i><p><b>Risposta approvata</b><small>Luca P.</small></p><span>08:54</span></div></article>
+            </div>
+          </section>
+
+          <section class="v5-product-panel" data-product-panel="requests">
+            <header><div><small>RICHIESTE</small><h3>Chiedi senza improvvisare.</h3><p>Scegli il canale. Il cliente arriva sempre allo stesso percorso.</p></div><button type="button">+ Nuova richiesta</button></header>
+            <div class="v5-request-builder">
+              <article><span>NUOVA RICHIESTA</span><label>Nome del cliente<input type="text" value="Marco" readonly /></label><label>Canale</label><div><button class="active" type="button">WhatsApp</button><button type="button">Email</button><button type="button">Copia link</button></div><button type="button">Prepara richiesta →</button><small>Simulazione: nessun messaggio verrà inviato.</small></article>
+              <article><header><span>MATERIALI IN LOCO</span><b>PRONTI</b></header><div class="v5-material"><i>⌁</i><p><b>NFC</b><small>Avvicina il telefono</small></p><span>ATTIVO</span></div><div class="v5-material"><i>▦</i><p><b>Codice QR</b><small>Stesso percorso Google</small></p><span>SCARICA</span></div><footer>Tutti i clienti reali vedono lo stesso link.</footer></article>
+            </div>
+          </section>
+
+          <section class="v5-product-panel" data-product-panel="reviews">
+            <header><div><small>RECENSIONI</small><h3>Leggi. Rispondi. Continua.</h3><p>Tutto il lavoro sulle recensioni resta in una schermata.</p></div><button type="button">Filtra ▾</button></header>
+            <div class="v5-review-list">
+              <article class="v5-review-row">
+                <div class="v5-review-person"><i>MG</i><p><b>Maria G.</b><span>★★★★★</span><small>2 minuti fa · Google</small></p></div>
+                <blockquote>“Servizio chiarissimo e molto più semplice di quanto pensassi. Mi sono sentita seguita dall’inizio alla fine.”</blockquote>
+                <div class="v5-review-actions"><span>RISPOSTA MANCANTE</span><button class="v5-response-button" type="button">Aiutami a rispondere</button></div>
+                <div class="v5-response-draft"><span>BOZZA DA CONTROLLARE</span><p>Grazie Maria. La chiarezza è parte del modo in cui vogliamo accompagnare ogni cliente, dall’inizio alla fine.</p><div><button type="button">Modifica</button><button type="button">Approva risposta</button></div></div>
+              </article>
+              <article class="v5-review-row compact"><div class="v5-review-person"><i class="alt">LP</i><p><b>Luca P.</b><span>★★★★★</span><small>ieri · Google</small></p></div><blockquote>“Veloci, disponibili e precisi.”</blockquote><div class="v5-review-actions done"><span>✓ RISPOSTA PUBBLICATA</span></div></article>
+            </div>
+          </section>
         </div>
       </div>
-      <div class="v5-portal-note"><span>QUESTO È CIÒ CHE COMPRA IL CLIENTE.</span><b>UN SISTEMA CHE LAVORA E UNA PROVA CHE PUÒ APRIRE.</b></div>
     </div>
   </section>
 
-  <section class="v5-section v5-category-section">
-    <div class="v5-wrap v5-category-head v5-reveal"><span>05 / LO STESSO MOTORE</span><div><h2>CAMBIA IL LAVORO.<br /><em>CAMBIA IL MOMENTO.</em></h2><p>Il prodotto resta uno. Chris configura richiesta, tono, frequenza e controllo attorno a come vive davvero ogni attività.</p></div></div>
-    <div class="v5-wrap v5-category-list">
-      {categories.map(([code, name, line], index) => <article class="v5-reveal"><span>{String(index + 1).padStart(2, '0')}</span><i>{code}</i><h3>{name}</h3><p>{line}</p><b>↗</b></article>)}
+  <section class="v5-section v5-promise">
+    <div class="v5-promise-star">★</div>
+    <div class="v5-wrap v5-promise-inner v5-reveal">
+      <span>PERCHÉ CONTA</span>
+      <h2>NON DEVI DIVENTARE VIRALE.<br /><em>DEVI DIVENTARE INEVITABILE.</em></h2>
+      <div><p>Quando qualcuno ti cerca, confronta ciò che trova. Le recensioni vere non sono “contenuti”: sono persone che stanno già spiegando perché scegliere te.</p><strong>IL CLIENTE TI STA GIÀ CERCANDO.<br />IL PROBLEMA È CHE TROVA UN ALTRO.</strong></div>
+    </div>
+  </section>
+
+  <section id="prezzo" class="v5-section v5-price-section">
+    <div class="v5-wrap v5-price-layout">
+      <div class="v5-price-copy v5-reveal">
+        <span>UN PRODOTTO. UNA CIFRA.</span>
+        <h2>PARTI DAL NUMERO CHE TUTTI POSSONO <em>CONTROLLARE.</em></h2>
+        <p>Niente pacchetti vaghi. Si parte dalle recensioni: le chiedi meglio, le gestisci da un solo posto e misuri il contatore pubblico.</p>
+      </div>
+      <article class="v5-price-card v5-reveal">
+        <header><span>★ TROVATO</span><b>PRODOTTO COMPLETO</b></header>
+        <div class="v5-price"><strong>€100</strong><span>/ mese</span></div>
+        <p>€250 di configurazione iniziale · disdetta libera</p>
+        <ul><li>Richieste recensione</li><li>NFC e QR collegati</li><li>Pannello recensioni</li><li>Aiuto nelle risposte</li><li>Contatore verificabile</li></ul>
+        <button class="v5-button js-v5-open" type="button">Vedi la demo sulla tua attività <span>↗</span></button>
+        <small>La demo non attiva abbonamenti e non raccoglie dati.</small>
+      </article>
     </div>
   </section>
 
   <section id="chris" class="v5-section v5-chris-section">
-    <div class="v5-wrap v5-chris-grid">
-      <div class="v5-chris-copy v5-reveal"><span>06 / LA PARTE UMANA</span><h2>IL SOFTWARE LAVORA.<br /><em>CHRIS TE LO FA VEDERE.</em></h2><p>La demo non parte da cento funzioni. Parte dal tuo telefono, dal concorrente che oggi rassicura di più e dal punto esatto in cui perdi fiducia.</p><div class="v5-chris-signature"><b>CF</b><p><strong>Se chiami, risponde Chris.</strong><small>Niente call center. Niente presentazione registrata.</small></p></div></div>
-      <div class="v5-demo-card v5-reveal"><header><span>DEMO TROVATEMI</span><i>20 MINUTI · DAL VIVO</i></header><ol><li><span>01</span><p><b>Apriamo Google.</b><small>Vediamo ciò che vede un cliente.</small></p></li><li><span>02</span><p><b>Provi l’anello.</b><small>Il percorso si apre sul tuo telefono.</small></p></li><li><span>03</span><p><b>Entri nel portale.</b><small>Vedi cosa succede dopo la recensione.</small></p></li><li><span>04</span><p><b>Decidiamo.</b><small>Se il problema è reale, continuiamo.</small></p></li></ol><button class="v5-button js-v5-open" type="button">Prepara la mia simulazione <span>↗</span></button></div>
+    <div class="v5-wrap v5-chris-card v5-reveal">
+      <div class="v5-chris-mark"><span>C</span><i>★</i></div>
+      <div><span>UNA PERSONA VERA, PRIMA E DOPO IL SOFTWARE</span><h2>SE CHIAMI,<br /><em>RISPONDE CHRIS.</em></h2></div>
+      <p>Ti mostra il prodotto sulla tua attività, prepara il primo percorso e resta il riferimento quando serve. Niente rimbalzi tra reparti.</p>
+      <button class="v5-button js-v5-open" type="button">Prepara la demo <span>↗</span></button>
     </div>
   </section>
 
   <section class="v5-section v5-faq-section">
-    <div class="v5-wrap v5-faq-grid">
-      <div class="v5-faq-head v5-reveal"><span>DOMANDE DIRETTE</span><h2>IL PRODOTTO,<br />SENZA FUMO.</h2></div>
-      <div class="v5-faq-list v5-reveal">
-        <details><summary>È una piattaforma o un servizio?</summary><p>Entrambi. Il cliente usa il portale TROVATEMI; Chris configura il sistema, collega gli strumenti e accompagna l’attività nei momenti importanti.</p></details>
-        <details><summary>Le recensioni vengono filtrate?</summary><p>No. Ogni cliente reale arriva allo stesso link Google. TROVATEMI non compra, gonfia o seleziona recensioni in base al voto.</p></details>
-        <details><summary>L’AI pubblica qualsiasi cosa da sola?</summary><p>Il livello di controllo viene configurato. Le azioni ripetitive possono essere automatiche; identità, promesse e casi sensibili possono richiedere approvazione.</p></details>
-        <details><summary>Questa demo usa i miei dati?</summary><p>No. La V5 è una simulazione front-end: i valori inseriti cambiano soltanto ciò che vedi nel browser e non vengono inviati o salvati.</p></details>
+    <div class="v5-wrap v5-faq-layout">
+      <div class="v5-faq-heading v5-reveal"><span>DOMANDE DIRETTE</span><h2>NIENTE ZONE <em>GRIGIE.</em></h2></div>
+      <div class="v5-faqs v5-reveal">
+        {faqs.map(([question, answer], index) => (
+          <details open={index === 0}><summary><span>0{index + 1}</span>{question}<i>+</i></summary><p>{answer}</p></details>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="v5-final-cta"><div class="v5-wrap"><span>IL CLIENTE TI STA GIÀ CERCANDO.</span><h2>NON LASCIARGLI<br />SOLO PROMESSE.</h2><p>Fagli trovare prove.</p><button class="v5-button js-v5-open" type="button">Metti qui la tua attività <span>↗</span></button></div></section>
-
-  <script is:inline>
-    const cycleConsole = document.querySelector('.v5-cycle-console');
-    const cycleButton = document.querySelector('.v5-cycle-play');
-    const cycleLog = document.querySelector('.v5-cycle-log p');
-    const cycleTime = document.querySelector('.v5-cycle-log em');
-    const cycleMessages = [
-      'Il cliente ha avvicinato il telefono all’anello NFC.',
-      'Il percorso recensione TROVATEMI è stato aperto.',
-      'Nuova recensione ricevuta: gli agenti sono stati attivati.',
-      'Risposta, contenuto e aggiornamento sono visibili nel portale.',
-    ];
-    let flowTimer;
-    cycleButton?.addEventListener('click', () => {
-      clearInterval(flowTimer);
-      let step = 0;
-      cycleButton.disabled = true;
-      cycleButton.innerHTML = '<span>●</span> Ciclo in corso';
-      cycleConsole?.setAttribute('data-flow-state', '0');
-      if (cycleLog) cycleLog.textContent = 'Avvio del percorso…';
-      if (cycleTime) cycleTime.textContent = '00:01';
-      flowTimer = setInterval(() => {
-        step += 1;
-        cycleConsole?.setAttribute('data-flow-state', String(step));
-        if (cycleLog) cycleLog.textContent = cycleMessages[step - 1];
-        if (cycleTime) cycleTime.textContent = `00:0${step + 1}`;
-        if (step >= 4) {
-          clearInterval(flowTimer);
-          cycleButton.disabled = false;
-          cycleButton.innerHTML = '<span>↻</span> Ripeti il ciclo';
-        }
-      }, 850);
-    });
-
-    const nfcButton = document.querySelector('.v5-nfc-button');
-    const phone = document.querySelector('.v5-phone');
-    const touchStatus = document.querySelector('.v5-touch-status');
-    nfcButton?.addEventListener('click', () => {
-      const opened = phone?.getAttribute('data-phone-state') === 'opened';
-      phone?.setAttribute('data-phone-state', opened ? 'idle' : 'opened');
-      touchStatus?.classList.toggle('active', !opened);
-      const statusTitle = touchStatus?.querySelector('span');
-      const statusText = touchStatus?.querySelector('b');
-      if (statusTitle) statusTitle.textContent = opened ? 'ANELLO PRONTO' : 'PERCORSO APERTO';
-      if (statusText) statusText.textContent = opened ? 'Toccalo per simulare' : 'La richiesta è sul telefono';
-    });
-
-    const agentTabs = document.querySelectorAll('[data-agent-tab]');
-    const agentPanels = document.querySelectorAll('[data-agent-panel]');
-    agentTabs.forEach((tab) => tab.addEventListener('click', () => {
-      const target = tab.getAttribute('data-agent-tab');
-      agentTabs.forEach((item) => { item.classList.toggle('active', item === tab); item.setAttribute('aria-selected', String(item === tab)); });
-      agentPanels.forEach((panel) => panel.classList.toggle('active', panel.getAttribute('data-agent-panel') === target));
-    }));
-
-    const periodTabs = document.querySelectorAll('[data-period]');
-    periodTabs.forEach((tab) => tab.addEventListener('click', () => {
-      periodTabs.forEach((item) => item.classList.toggle('active', item === tab));
-      const isNinety = tab.getAttribute('data-period') === '90';
-      const delta = document.querySelector('[data-period-delta]');
-      const rating = document.querySelector('[data-period-rating]');
-      const actions = document.querySelector('[data-period-actions]');
-      if (delta) delta.textContent = isNinety ? '+27' : '+8';
-      if (rating) rating.textContent = isNinety ? '+0,4' : '+0,2';
-      if (actions) actions.textContent = isNinety ? '104' : '32';
-    }));
-  </script>
+  <section class="v5-final">
+    <div class="v5-final-grid"></div>
+    <div class="v5-wrap v5-final-inner v5-reveal">
+      <span>IL PROSSIMO NUMERO È QUELLO CHE CONTA.</span>
+      <h2>FAI ARRIVARE LA<br /><em>PROSSIMA RECENSIONE.</em></h2>
+      <button class="v5-button js-v5-open" type="button">Provalo sulla tua attività <span>↗</span></button>
+      <small>Demo simulata · nessuna integrazione · nessun dato inviato</small>
+    </div>
+  </section>
 </V5Layout>
