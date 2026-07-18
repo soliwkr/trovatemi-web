@@ -1,0 +1,311 @@
+---
+import '../styles/brand-demo.css';
+
+type Plan = {
+  stars: string;
+  name: string;
+  question: string;
+  price: string;
+  setup: string;
+  featured?: boolean;
+  features: readonly string[];
+};
+
+const plans: readonly Plan[] = [
+  {
+    stars: '★',
+    name: 'TROVATO',
+    question: 'Perché scelgono il concorrente?',
+    price: '100',
+    setup: '250',
+    features: [
+      'Richiesta recensioni semplice con NFC e QR',
+      'Profilo Google sistemato',
+      'Aiuto nelle risposte alle recensioni',
+      'Contatore pubblico, verificabile dal tuo telefono',
+    ],
+  },
+  {
+    stars: '★★',
+    name: 'VISIBILE',
+    question: 'Perché non mi trovano?',
+    price: '300',
+    setup: '250',
+    featured: true,
+    features: [
+      'Tutto ciò che trovi in TROVATO',
+      'Profilo Google mantenuto vivo',
+      'Calendario chiaro per foto, video e aggiornamenti',
+      'Prima Google, poi i social',
+    ],
+  },
+  {
+    stars: '★★★',
+    name: 'INEVITABILE',
+    question: 'Posso possedere la ricerca nella mia città?',
+    price: '500',
+    setup: '500',
+    features: [
+      'Tutto ciò che trovi in VISIBILE',
+      'Un sito locale che intercetta chi sta cercando',
+      'Richieste girate direttamente alla tua attività',
+      'Un solo cliente per categoria e città',
+    ],
+  },
+] as const;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#12161B" />
+    <meta name="description" content="TROVATEMI.IT aiuta le attività locali a farsi trovare su Google e Maps quando il cliente sta già cercando." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>TROVATEMI.IT — Ti facciamo trovare dove conta</title>
+  </head>
+  <body>
+    <div class="demo-ribbon">ANTEPRIMA BRAND · CTA NON COLLEGATA</div>
+
+    <header class="site-header">
+      <nav class="shell nav" aria-label="Navigazione principale">
+        <a class="wordmark" href="#inizio" aria-label="TROVATEMI.IT, torna all'inizio">
+          TROVATEM<span class="wordmark-i">I<span aria-hidden="true">★</span></span>.IT
+        </a>
+        <div class="nav-links">
+          <a href="#come-funziona">Come funziona</a>
+          <a href="#livelli">I tre livelli</a>
+          <a href="#chris">Chi risponde</a>
+        </div>
+        <button class="button button-small js-demo-contact" type="button">Parla con Chris</button>
+        <button class="menu-button" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span>
+        </button>
+      </nav>
+      <div class="mobile-menu" id="mobile-menu">
+        <a href="#come-funziona">Come funziona</a>
+        <a href="#livelli">I tre livelli</a>
+        <a href="#chris">Chi risponde</a>
+        <button class="button js-demo-contact" type="button">Parla con Chris</button>
+      </div>
+    </header>
+
+    <main id="inizio">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy reveal">
+            <p class="kicker"><span>★</span> Visibilità locale, quella vera</p>
+            <h1>IL CLIENTE TI STA GIÀ CERCANDO.<br /><em>IL PROBLEMA È CHE TROVA UN ALTRO.</em></h1>
+            <p class="hero-text">Ti facciamo trovare su Google e Maps nel momento in cui una persona sta scegliendo chi chiamare. Senza promesse vuote. Con numeri che controlli dal tuo telefono.</p>
+            <div class="hero-actions">
+              <button class="button js-demo-contact" type="button">Fammi vedere dove mi trovano <span aria-hidden="true">↗</span></button>
+              <a class="text-link" href="#come-funziona">Guarda come funziona</a>
+            </div>
+            <p class="human-note"><span class="human-avatar">CF</span><span><b>Se chiami, risponde Chris.</b><small>Una persona vera, non un centralino.</small></span></p>
+          </div>
+
+          <div class="search-demo reveal delay-1" aria-label="Esempio dimostrativo di una ricerca locale su Maps">
+            <div class="demo-label">ESEMPIO DIMOSTRATIVO</div>
+            <div class="phone-frame">
+              <div class="phone-top"><span>9:41</span><span>● ●●</span></div>
+              <div class="maps-head">
+                <div class="maps-title"><span class="maps-g">G</span><b>Maps</b></div>
+                <div class="search-bar"><span>⌕</span><span>servizio vicino a me</span><b>×</b></div>
+              </div>
+              <div class="mini-map" aria-hidden="true">
+                <i class="road road-one"></i><i class="road road-two"></i><i class="road road-three"></i>
+                <span class="map-pin pin-a">1</span><span class="map-pin pin-b">2</span><span class="map-pin pin-c">3</span>
+              </div>
+              <div class="results">
+                <article class="result competitor">
+                  <span class="result-number">1</span>
+                  <div><b>Un concorrente</b><span><strong>4,7</strong> <i>★★★★★</i> (86)</span><small>Aperto · 1,2 km</small></div>
+                  <span class="call-icon">☎</span>
+                </article>
+                <article class="result your-business">
+                  <span class="result-number">2</span>
+                  <div><b>La tua attività</b><span><strong>4,6</strong> <i>★★★★★</i> (17)</span><small>Aperto · 900 m</small></div>
+                  <span class="call-icon">☎</span>
+                </article>
+              </div>
+            </div>
+            <div class="choice-card">
+              <span>IL MOMENTO DELLA SCELTA</span>
+              <b>Il cliente confronta.<br />Poi chiama.</b>
+              <p>Non vede il tuo lavoro migliore. Vede ciò che trova.</p>
+            </div>
+          </div>
+        </div>
+        <div class="shell hero-foot">
+          <span>GOOGLE</span><i></i><span>MAPS</span><i></i><span>RECENSIONI</span><i></i><span>TELEFONATE</span>
+        </div>
+      </section>
+
+      <section class="manifesto">
+        <div class="shell manifesto-grid">
+          <p class="section-number">01 / LA REALTÀ</p>
+          <div class="manifesto-copy reveal">
+            <p class="overline">CHI CERCA VALE PIÙ DI CHI SCROLLA.</p>
+            <h2>NON TI SERVE DIVENTARE VIRALE.<br /><span>TI SERVE ESSERE TROVATO.</span></h2>
+            <p>Un cliente che cerca su Google ha già un bisogno. Sta scegliendo. La tua presenza deve dargli un motivo semplice per fermarsi su di te e chiamare.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="how" id="come-funziona">
+        <div class="shell section-heading reveal">
+          <div><p class="section-number">02 / COME FUNZIONA</p><h2>IL TELEFONO DEVE<br />FARE IL SUO MESTIERE.</h2></div>
+          <p>Niente parole difficili. Guardiamo ciò che vede oggi il cliente e sistemiamo i passaggi che separano una ricerca da una chiamata.</p>
+        </div>
+
+        <div class="shell steps-grid">
+          <article class="step-card reveal">
+            <span class="step-index">01</span>
+            <div class="step-visual search-visual"><span>⌕</span><b>attività vicino a me</b></div>
+            <h3>TI CERCA</h3>
+            <p>La persona apre Google o Maps con un bisogno già chiaro.</p>
+          </article>
+          <article class="step-card reveal delay-1">
+            <span class="step-index">02</span>
+            <div class="step-visual compare-visual"><span>4,7 ★</span><span>86 recensioni</span></div>
+            <h3>TI CONFRONTA</h3>
+            <p>Guarda chi compare, legge le recensioni e riduce il rischio.</p>
+          </article>
+          <article class="step-card reveal delay-2">
+            <span class="step-index">03</span>
+            <div class="step-visual call-visual"><span>☎</span><b>Chiamata in arrivo</b></div>
+            <h3>TI CHIAMA</h3>
+            <p>Se trova segnali chiari e credibili, il telefono squilla.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="counter-section">
+        <div class="shell counter-grid">
+          <div class="counter-copy reveal">
+            <p class="section-number">03 / LA PROVA</p>
+            <h2>UN NUMERO CHE VEDI ANCHE TU.</h2>
+            <p>La prova non è un nostro grafico. È il contatore recensioni pubblico sul tuo profilo Google. Lo apri dal tuo telefono e controlli.</p>
+            <ul>
+              <li><span>✓</span> Tutti arrivano allo stesso link Google</li>
+              <li><span>✓</span> Nessuna recensione comprata o filtrata</li>
+              <li><span>✓</span> Nessuna promessa di prima posizione</li>
+            </ul>
+          </div>
+          <div class="counter-demo reveal delay-1">
+            <div class="counter-card before">
+              <span>PRIMA</span><strong>17</strong><small>recensioni pubbliche</small>
+            </div>
+            <span class="counter-arrow">→</span>
+            <div class="counter-card after">
+              <span>DOPO</span><strong>?</strong><small>lo decide il lavoro vero</small>
+            </div>
+            <p>Rete di sicurezza di 90 giorni: se il contatore non sale, ci stringiamo la mano.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="plans" id="livelli">
+        <div class="shell section-heading plans-heading reveal">
+          <div><p class="section-number">04 / I TRE LIVELLI</p><h2>QUANTO VUOI<br />FARTI TROVARE?</h2></div>
+          <p>La differenza non è “più roba”. È quanto spazio occupi nel momento in cui il cliente cerca.</p>
+        </div>
+
+        <div class="shell plans-grid">
+          {plans.map((plan) => (
+            <article class:list={['plan-card', plan.featured && 'featured', 'reveal']}>
+              {plan.featured && <span class="plan-label">PIÙ COMPLETO PER PARTIRE</span>}
+              <div class="plan-top"><span class="plan-stars">{plan.stars}</span><span>0{plans.indexOf(plan) + 1}</span></div>
+              <h3>{plan.name}</h3>
+              <p class="plan-question">“{plan.question}”</p>
+              <div class="plan-price"><span>€</span><strong>{plan.price}</strong><small>/mese</small></div>
+              <p class="setup">+ €{plan.setup} una tantum per partire</p>
+              <ul>{plan.features.map((feature) => <li><span>✓</span>{feature}</li>)}</ul>
+              <button class:list={['button', !plan.featured && 'button-outline', 'js-demo-contact']} type="button">Parliamone</button>
+            </article>
+          ))}
+        </div>
+        <p class="shell plans-note">Disdetta libera · Nessun vincolo annuale · Prezzi mostrati IVA esclusa</p>
+      </section>
+
+      <section class="chris" id="chris">
+        <div class="shell chris-card reveal">
+          <div class="chris-mark"><span>CF</span><i>★</i></div>
+          <div class="chris-copy">
+            <p class="section-number">05 / CHI RISPONDE</p>
+            <h2>SE CHIAMI,<br />RISPONDE CHRIS.</h2>
+            <p>Non ti promette il primo posto. Ti fa vedere cosa trova oggi il cliente, traduce il problema in parole semplici e ti accompagna nel sistemarlo.</p>
+            <button class="button button-paper js-demo-contact" type="button">Scrivi a Chris su WhatsApp <span aria-hidden="true">↗</span></button>
+          </div>
+          <blockquote>“Non devo convincerti.<br />Devo fartelo vedere.”</blockquote>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-main">
+        <a class="wordmark footer-wordmark" href="#inizio">TROVATEM<span class="wordmark-i">I<span aria-hidden="true">★</span></span>.IT</a>
+        <p>Ti facciamo trovare dove conta.</p>
+        <button class="button button-small js-demo-contact" type="button">Parla con Chris</button>
+      </div>
+      <div class="shell footer-bottom">
+        <span>★ Powered by trovatemi.it</span>
+        <span>DEMO BRAND · 2026</span>
+      </div>
+    </footer>
+
+    <dialog class="contact-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" type="button" aria-label="Chiudi">×</button>
+      <span class="dialog-star">★</span>
+      <p>ANTEPRIMA</p>
+      <h2 id="dialog-title">IL MESSAGGIO È PRONTO.</h2>
+      <p>Questa demo non invia ancora messaggi. Prima della pubblicazione definitiva collegheremo qui il numero WhatsApp ufficiale di Chris.</p>
+      <div class="message-preview">Ciao Chris, vorrei vedere come compare oggi la mia attività su Google e Maps.</div>
+      <button class="button dialog-ok" type="button">Ho capito</button>
+    </dialog>
+
+    <script>
+      const menuButton = document.querySelector<HTMLButtonElement>('.menu-button');
+      const mobileMenu = document.querySelector<HTMLElement>('.mobile-menu');
+      const dialog = document.querySelector<HTMLDialogElement>('.contact-dialog');
+
+      menuButton?.addEventListener('click', () => {
+        const open = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!open));
+        mobileMenu?.classList.toggle('open', !open);
+      });
+
+      mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        menuButton?.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+      }));
+
+      document.querySelectorAll('.js-demo-contact').forEach((button) => {
+        button.addEventListener('click', () => dialog?.showModal());
+      });
+
+      document.querySelectorAll('.dialog-close, .dialog-ok').forEach((button) => {
+        button.addEventListener('click', () => dialog?.close());
+      });
+
+      dialog?.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+    </script>
+  </body>
+</html>
