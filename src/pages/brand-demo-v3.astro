@@ -1,0 +1,189 @@
+---
+import '../styles/brand-demo-v3.css';
+
+type Plan = {
+  stars: string;
+  name: string;
+  question: string;
+  price: string;
+  setup: string;
+  featured?: boolean;
+  features: readonly string[];
+};
+
+const plans: readonly Plan[] = [
+  {
+    stars: '★', name: 'TROVATO', question: 'Perché scelgono il concorrente?', price: '100', setup: '250',
+    features: ['NFC e QR per chiedere recensioni', 'Profilo Google sistemato', 'Aiuto nelle risposte', 'Contatore pubblico verificabile'],
+  },
+  {
+    stars: '★★', name: 'VISIBILE', question: 'Perché non mi trovano?', price: '300', setup: '250', featured: true,
+    features: ['Tutto il livello TROVATO', 'Profilo Google mantenuto vivo', 'Calendario per foto e video', 'Prima Google, poi i social'],
+  },
+  {
+    stars: '★★★', name: 'INEVITABILE', question: 'Posso possedere la ricerca nella mia città?', price: '500', setup: '500',
+    features: ['Tutto il livello VISIBILE', 'Sito locale in affitto esclusivo', 'Richieste girate alla tua attività', 'Uno per categoria e città'],
+  },
+] as const;
+
+const outcomes = [
+  ['01', 'PIÙ RECENSIONI', 'Chiederle diventa un gesto semplice, nel momento giusto.'],
+  ['02', 'PIÙ PRESENZA', 'Il profilo racconta un’attività aperta, curata e reale.'],
+  ['03', 'PIÙ FIDUCIA', 'Il cliente trova segnali recenti che lo aiutano a scegliere.'],
+  ['04', 'MENO RINCORSE', 'Il sistema ricorda i passaggi mentre tu lavori.'],
+] as const;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#12161B" />
+    <meta name="description" content="TROVATEMI.IT ti fa trovare su Google e Maps quando il cliente sta già cercando." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>TROVATEMI.IT — Brand demo V3</title>
+  </head>
+  <body>
+    <div class="preview-bar"><span>VERSIONE 3</span><span>CONTENUTO RICCO · ANIMA TROVATEMI.IT</span><span>CTA DEMO</span></div>
+
+    <header class="header">
+      <nav class="wrap nav" aria-label="Navigazione principale">
+        <a class="logo" href="#top" aria-label="TROVATEMI.IT, torna all'inizio">TROVATEM<span class="logo-i">I<i>★</i></span>.IT</a>
+        <div class="nav-links">
+          <a href="#recensioni">Recensioni</a><a href="#google">Google</a><a href="#offerta">I tre livelli</a><a href="#chris">Chris</a>
+        </div>
+        <button class="btn btn-small js-contact" type="button">Fammi vedere</button>
+        <button class="menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
+      </nav>
+      <div class="mobile-nav"><a href="#recensioni">Recensioni</a><a href="#google">Google</a><a href="#offerta">I tre livelli</a><a href="#chris">Chris</a><button class="btn js-contact" type="button">Fammi vedere</button></div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-photo">
+          <img src="/images/hero-local-business.webp" alt="Una titolare di attività locale al lavoro" width="1536" height="1024" fetchpriority="high" />
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="wrap hero-layout">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span>★</span> TI FACCIAMO TROVARE DOVE CONTA</p>
+            <h1>IL CLIENTE TI STA GIÀ CERCANDO.<br /><em>IL PROBLEMA È CHE TROVA UN ALTRO.</em></h1>
+            <p>Google. Maps. Recensioni. Telefonate. Sistemiamo ciò che il cliente vede nel momento esatto in cui sta decidendo chi chiamare.</p>
+            <div class="hero-actions"><button class="btn js-contact" type="button">Guarda cosa vede il cliente <span>↗</span></button><a href="#momento">Scopri come</a></div>
+          </div>
+
+          <div class="hero-proof reveal delay-1" aria-label="Esempio dimostrativo di presenza locale">
+            <span class="demo-chip">ESEMPIO DIMOSTRATIVO</span>
+            <div class="search-card">
+              <div class="search-row"><b>G</b><span>attività vicino a me</span><i>⌕</i></div>
+              <div class="local-result"><span class="pin">●</span><div><b>La tua attività</b><span><i>★★★★★</i> 4,7 · 86 recensioni</span><small>Aperto · Chiama</small></div><strong>☎</strong></div>
+            </div>
+            <div class="review-pop"><span>NUOVA RECENSIONE</span><b>5,0 ★</b><p>“Servizio attento, risposta veloce.”</p><small>Visibile sul profilo Google</small></div>
+            <div class="counter-pop"><span>CONTATORE PUBBLICO</span><strong>86</strong><small>lo controlli dal tuo telefono</small></div>
+          </div>
+        </div>
+        <div class="wrap hero-strip"><span>GOOGLE</span><i></i><span>MAPS</span><i></i><span>RECENSIONI</span><i></i><span>TELEFONO</span></div>
+      </section>
+
+      <section class="moment" id="momento">
+        <div class="wrap heading reveal"><p class="index">01 / IL MOMENTO</p><div><span class="red-note">NON DEVI ESSERE VIRALE.</span><h2>DEVI ESSERCI<br />QUANDO CERCANO.</h2></div><p>Chi scrolla può dimenticarti. Chi cerca ha già un bisogno e sta per scegliere. È lì che la tua attività deve essere chiara, credibile e facile da chiamare.</p></div>
+        <div class="wrap decision-grid">
+          <article class="decision reveal"><span>01</span><div class="decision-icon">⌕</div><h3>CERCA</h3><p>Apre Google o Maps e scrive ciò che gli serve.</p></article>
+          <article class="decision reveal delay-1"><span>02</span><div class="decision-icon stars">★★★★★</div><h3>CONFRONTA</h3><p>Guarda recensioni, foto, distanza e attività recente.</p></article>
+          <article class="decision reveal delay-2"><span>03</span><div class="decision-icon call">☎</div><h3>CHIAMA</h3><p>Sceglie chi gli dà fiducia prima ancora di entrare.</p></article>
+        </div>
+      </section>
+
+      <section class="reviews" id="recensioni">
+        <div class="wrap heading heading-light reveal"><p class="index">02 / RECENSIONI</p><div><span>UN GESTO SEMPLICE</span><h2>IL CLIENTE È CONTENTO.<br />CHIEDIGLIELO ADESSO.</h2></div><p>Non serve rincorrerlo tre giorni dopo. Avvicina il telefono, inquadra il QR oppure manda un messaggio quando l’esperienza è ancora fresca.</p></div>
+
+        <div class="wrap review-grid">
+          <article class="feature feature-large reveal">
+            <div class="feature-copy"><span>01 / NFC + QR</span><h3>AVVICINA.<br />RECENSISCI.<br />FATTO.</h3><p>Una targhetta alla cassa, sul tavolo o in mano al cliente. Un passaggio e si apre la pagina giusta.</p></div>
+            <div class="tap-demo">
+              <div class="nfc-card"><span>★</span><b>COM’È ANDATA?</b><div class="qr" aria-hidden="true"></div><small>Avvicina o inquadra</small></div>
+              <div class="tap-phone"><i></i><span>TROVATEMI.IT</span><p>Racconta la tua esperienza</p><div>★★★★★</div><button type="button">Continua</button></div>
+              <div class="tap-ring"><span>)))</span><small>UN TOCCO</small></div>
+            </div>
+          </article>
+
+          <article class="feature reveal delay-1">
+            <div class="feature-copy"><span>02 / IL MOMENTO GIUSTO</span><h3>IL MESSAGGIO PARTE. TU CONTINUI A LAVORARE.</h3><p>La richiesta arriva quando ha senso, senza affidarsi alla memoria della giornata.</p></div>
+            <div class="message-demo"><small>OGGI, 18:42</small><div><b>Ciao Marco 👋</b><p>Grazie per averci scelto. Ti va di raccontare com’è andata?</p><button type="button">Lascia una recensione</button></div><span>✓✓ Consegnato</span></div>
+          </article>
+
+          <article class="feature ethical reveal delay-2">
+            <div class="feature-copy"><span>03 / PULITO, SEMPRE</span><h3>UNA SOLA PORTA. PER TUTTI.</h3><p>Ogni cliente arriva allo stesso link Google. Nessun filtro per umore, nessuna recensione comprata, nessuna scorciatoia.</p></div>
+            <div class="same-link"><div><span>🙂</span><span>😐</span><span>🙁</span></div><i>↓</i><strong>STESSO LINK GOOGLE</strong><small>ZERO GATING</small></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="google" id="google">
+        <div class="wrap google-grid">
+          <div class="google-copy reveal"><p class="index">03 / GOOGLE VIVO</p><span class="yellow-note">PRIMA GOOGLE. POI I SOCIAL.</span><h2>IL PROFILO NON DEVE SEMBRARE ABBANDONATO.</h2><p>Foto, video e aggiornamenti raccontano che l’attività è viva. Tu o chi già crea i tuoi contenuti li producete; TROVATEMI.IT dà ordine e li porta prima dove il cliente cerca.</p><ul><li><span>✓</span> Calendario semplice</li><li><span>✓</span> Foto e video distribuiti con ordine</li><li><span>✓</span> Risposte alle recensioni curate</li></ul></div>
+          <div class="profile-ui reveal delay-1">
+            <div class="profile-head"><div class="profile-cover"></div><div class="profile-avatar">LA</div><div><h3>LA TUA ATTIVITÀ</h3><span>Attività locale · Aperto</span><i>★★★★★ 4,7 (86)</i></div></div>
+            <div class="profile-actions"><span>☎<small>Chiama</small></span><span>⌖<small>Indicazioni</small></span><span>↗<small>Condividi</small></span></div>
+            <div class="profile-tabs"><b>Panoramica</b><span>Aggiornamenti</span><span>Recensioni</span></div>
+            <article class="profile-post"><span>AGGIORNAMENTO · QUESTA SETTIMANA</span><div class="post-photo"><i>NUOVO</i></div><h4>Una novità pensata per i nostri clienti.</h4><p>Scopri cosa cambia e chiamaci per saperne di più.</p></article>
+            <div class="calendar-card"><span>PROSSIMI 7 GIORNI</span><div><b>LUN</b><i>FOTO</i></div><div><b>GIO</b><i>VIDEO</i></div><div><b>SAB</b><i>POST</i></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="momentum">
+        <div class="wrap heading reveal"><p class="index">04 / OGNI GIRO CONTA</p><div><span>NESSUN GRAFICO MAGICO</span><h2>UN CLIENTE SODDISFATTO AIUTA IL PROSSIMO A SCEGLIERTI.</h2></div><p>Il risultato si accumula in pubblico: più esperienze vere, più segnali recenti, più fiducia per chi ti trova domani.</p></div>
+        <div class="wrap loop reveal"><div><span>01</span><b>TI TROVA</b><small>Google e Maps</small></div><i>→</i><div><span>02</span><b>TI SCEGLIE</b><small>Fiducia visibile</small></div><i>→</i><div><span>03</span><b>LO SERVI BENE</b><small>Esperienza reale</small></div><i>→</i><div><span>04</span><b>LO RACCONTA</b><small>Recensione pubblica</small></div></div>
+      </section>
+
+      <section class="outcomes">
+        <div class="wrap outcomes-head reveal"><p class="index">05 / COSA CAMBIA</p><h2>COSE CHE VEDI.<br />NON REPORT DA LEGGERE.</h2></div>
+        <div class="wrap outcome-grid">{outcomes.map(([number, title, text]) => <article class="outcome reveal"><span>{number}</span><h3>{title}</h3><p>{text}</p><div aria-hidden="true"></div></article>)}</div>
+      </section>
+
+      <section class="pricing" id="offerta">
+        <div class="wrap heading heading-light reveal"><p class="index">06 / I TRE LIVELLI</p><div><span>PREZZI CHIARI</span><h2>QUANTO VUOI<br />FARTI TROVARE?</h2></div><p>La scala non aggiunge cose inutili. Aumenta lo spazio che occupi quando il cliente cerca nella tua città.</p></div>
+        <div class="wrap plan-grid">{plans.map((plan, index) => <article class:list={['plan', plan.featured && 'plan-featured', 'reveal']}>
+          {plan.featured && <span class="popular">LIVELLO CENTRALE</span>}
+          <div class="plan-head"><span>{plan.stars}</span><small>0{index + 1}</small></div><h3>{plan.name}</h3><p class="question">“{plan.question}”</p>
+          <div class="price"><span>€</span><strong>{plan.price}</strong><small>/mese</small></div><p class="setup">+ €{plan.setup} una tantum per partire</p>
+          <ul>{plan.features.map((feature) => <li><span>✓</span>{feature}</li>)}</ul><button class:list={['btn', !plan.featured && 'btn-outline', 'js-contact']} type="button">Parliamone</button>
+        </article>)}</div>
+        <div class="wrap safety"><span>90 GIORNI</span><p>Se il contatore non sale, ci stringiamo la mano.</p><small>Disdetta libera · Nessun vincolo annuale · Nessuna promessa di posizione</small></div>
+      </section>
+
+      <section class="chris" id="chris">
+        <div class="wrap chris-grid reveal">
+          <div class="chris-portrait"><span>CF</span><i>★</i><small>CHRISTIAN FIORAVANTI</small></div>
+          <div class="chris-copy"><p class="index">07 / UNA PERSONA VERA</p><h2>SE CHIAMI,<br />RISPONDE CHRIS.</h2><p>Non ti vende una piattaforma. Apre Google insieme a te, ti fa vedere cosa trova oggi il cliente e traduce il problema in cose semplici da sistemare.</p><button class="btn btn-paper js-contact" type="button">Scrivi a Chris su WhatsApp <span>↗</span></button></div>
+          <blockquote>“Non prometto.<br />Ti faccio vedere.”</blockquote>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-top"><a class="logo footer-logo" href="#top">TROVATEM<span class="logo-i">I<i>★</i></span>.IT</a><h2>IL PROSSIMO CLIENTE<br />STA GIÀ CERCANDO.</h2><button class="btn js-contact" type="button">Fammi trovare <span>↗</span></button></div>
+      <div class="wrap footer-bottom"><span>★ Powered by trovatemi.it</span><span>Ti facciamo trovare dove conta.</span><span>DEMO V3 · 2026</span></div>
+    </footer>
+
+    <dialog class="contact-dialog" aria-labelledby="contact-title"><button class="dialog-close" type="button" aria-label="Chiudi">×</button><span class="dialog-star">★</span><p>CTA DIMOSTRATIVA</p><h2 id="contact-title">IL MESSAGGIO È PRONTO.</h2><p>Il numero WhatsApp ufficiale non è ancora collegato. Nella versione definitiva questo pulsante aprirà direttamente la conversazione con Chris.</p><div class="message-preview">Ciao Chris, vorrei vedere cosa trova oggi un cliente quando cerca la mia attività.</div><button class="btn dialog-ok" type="button">Ho capito</button></dialog>
+
+    <script>
+      const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');
+      const dialog = document.querySelector<HTMLDialogElement>('.contact-dialog');
+      menuButton?.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') === 'true'; menuButton.setAttribute('aria-expanded', String(!open)); mobileNav?.classList.toggle('open', !open); });
+      mobileNav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menuButton?.setAttribute('aria-expanded', 'false'); mobileNav.classList.remove('open'); }));
+      document.querySelectorAll('.js-contact').forEach((button) => button.addEventListener('click', () => dialog?.showModal()));
+      document.querySelectorAll('.dialog-close, .dialog-ok').forEach((button) => button.addEventListener('click', () => dialog?.close()));
+      dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .1 });
+      document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+    </script>
+  </body>
+</html>
