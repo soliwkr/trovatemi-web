@@ -31,27 +31,27 @@ const {
     <title>{title}</title>
   </head>
   <body>
-    <div class="v4-preview"><span>V4.1</span><span>{eyebrow}</span><span>PRIVATE PREVIEW · NOINDEX</span></div>
+    <div class="v4-preview"><span>V4.2</span><span>{eyebrow}</span><span>PRIVATE PREVIEW · NOINDEX</span></div>
 
     <header class="v4-header">
       <nav class="v4-wrap v4-nav" aria-label="Navigazione principale">
         <a class="v4-logo" href="/brand-demo-v4/" aria-label="TROVATEMI.IT, torna alla home">TROVATEM<span>I<i>★</i></span>.IT</a>
         <div class="v4-navlinks">
-          <a href="/brand-demo-v4/#prodotto">Prodotto</a>
-          <a href="/brand-demo-v4/#agenti">Agenti AI</a>
+          <a href="/brand-demo-v4/#decisione">Come ti scelgono</a>
+          <a href="/brand-demo-v4/#prodotto">Il prodotto</a>
           <a href="/brand-demo-v4/#categorie">Categorie</a>
           <a href="/brand-demo-v4/blog/">Guide</a>
         </div>
-        <button class="v4-button v4-button-small js-v4-contact" type="button">Vedi il prodotto <span>↗</span></button>
+        <button class="v4-button v4-button-small js-v4-contact" type="button">Scopri cosa vedono <span>↗</span></button>
         <button class="v4-menu" type="button" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
       </nav>
       <div class="v4-mobile-nav">
-        <a href="/brand-demo-v4/#prodotto">Prodotto</a>
-        <a href="/brand-demo-v4/#agenti">Agenti AI</a>
+        <a href="/brand-demo-v4/#decisione">Come ti scelgono</a>
+        <a href="/brand-demo-v4/#prodotto">Il prodotto</a>
         <a href="/brand-demo-v4/#categorie">Categorie</a>
         <a href="/brand-demo-v4/blog/">Guide</a>
         <a href="/brand-demo-v4/faq/">FAQ</a>
-        <button class="v4-button js-v4-contact" type="button">Vedi il prodotto</button>
+        <button class="v4-button js-v4-contact" type="button">Scopri cosa vedono</button>
       </div>
     </header>
 
@@ -60,8 +60,8 @@ const {
     <footer class="v4-footer">
       <div class="v4-wrap v4-footer-lead">
         <a class="v4-logo v4-logo-light" href="/brand-demo-v4/">TROVATEM<span>I<i>★</i></span>.IT</a>
-        <h2>OGNI CLIENTE SERVITO PUÒ PORTARTI <em>IL PROSSIMO.</em></h2>
-        <button class="v4-button js-v4-contact" type="button">Vedi TROVATEMI sulla tua attività <span>↗</span></button>
+        <h2>NON DEVI DIVENTARE VIRALE.<br /><em>DEVI DIVENTARE INEVITABILE.</em></h2>
+        <button class="v4-button js-v4-contact" type="button">Prepara il confronto <span>↗</span></button>
       </div>
       <div class="v4-wrap v4-footer-grid">
         <div><span>CATEGORIE</span>{v4Categories.map((category) => <a href={`/brand-demo-v4/per/${category.slug}/`}>{category.name}</a>)}</div>
@@ -73,12 +73,39 @@ const {
 
     <dialog class="v4-dialog" aria-labelledby="v4-dialog-title">
       <button class="v4-dialog-close" type="button" aria-label="Chiudi">×</button>
-      <span class="v4-dialog-star">★</span>
-      <p>UNA DEMO. SULLA TUA ATTIVITÀ.</p>
-      <h2 id="v4-dialog-title">VEDI COSA FA IL PRODOTTO DOPO OGNI CLIENTE.</h2>
-      <p>Copia il messaggio e mandalo a Chris. Ti mostra TROVATEMI con un caso reale, senza slide e senza promesse di ranking.</p>
-      <div class="v4-message">Ciao Chris, voglio vedere come funzionerebbe TROVATEMI sulla mia attività.</div>
-      <button class="v4-button v4-dialog-copy" type="button">Copia il messaggio</button>
+      <div class="v4-dialog-progress" aria-label="Avanzamento"><i class="active"></i><i></i><i></i></div>
+      <form class="v4-qualifier">
+        <fieldset class="v4-qualifier-step active" data-qualifier-step="0">
+          <span class="v4-dialog-star">★</span>
+          <p>PARTIAMO DALLA TUA ATTIVITÀ.</p>
+          <h2 id="v4-dialog-title">COSA VEDE CHI TI CERCA?</h2>
+          <label>Come si chiama l’attività?<input name="business" type="text" autocomplete="organization" placeholder="Nome dell’attività" required /></label>
+          <label>In quale categoria lavori?<select name="category" required><option value="">Scegli una categoria</option>{v4Categories.map((category) => <option value={category.name}>{category.name}</option>)}<option value="Altra attività locale">Altra attività locale</option></select></label>
+          <button class="v4-button v4-dialog-next" type="button">Continua <span>→</span></button>
+        </fieldset>
+
+        <fieldset class="v4-qualifier-step" data-qualifier-step="1">
+          <span class="v4-dialog-star">02</span>
+          <p>DUE NUMERI. NIENTE FUMO.</p>
+          <h2>DA DOVE PARTIAMO?</h2>
+          <label>Quante recensioni Google hai oggi?<select name="reviews" required><option value="">Scegli una fascia</option><option>Meno di 20</option><option>Tra 20 e 50</option><option>Tra 51 e 100</option><option>Più di 100</option><option>Non lo so</option></select></label>
+          <label>Un concorrente vicino ne ha molte di più?<select name="competitor" required><option value="">Scegli una risposta</option><option>Sì</option><option>No</option><option>Non lo so ancora</option></select></label>
+          <div class="v4-dialog-controls"><button class="v4-dialog-back" type="button">← Indietro</button><button class="v4-button v4-dialog-next" type="button">Continua <span>→</span></button></div>
+        </fieldset>
+
+        <fieldset class="v4-qualifier-step" data-qualifier-step="2">
+          <span class="v4-dialog-star">03</span>
+          <p>LA PROVA, SUL TUO TELEFONO.</p>
+          <h2>COME VUOI VEDERLO?</h2>
+          <div class="v4-choice-grid">
+            <label><input type="radio" name="meeting" value="al telefono" checked /><span><b>Al telefono</b><small>Apriamo Google e guardiamo gli stessi numeri.</small></span></label>
+            <label><input type="radio" name="meeting" value="di persona" /><span><b>Di persona</b><small>Porto il prodotto e provi l’NFC con il tuo telefono.</small></span></label>
+          </div>
+          <div class="v4-message" aria-live="polite"></div>
+          <p class="v4-dialog-note">Questa demo non invia né conserva dati. Prepara il messaggio da mandare direttamente a Chris.</p>
+          <div class="v4-dialog-controls"><button class="v4-dialog-back" type="button">← Indietro</button><button class="v4-button v4-dialog-copy" type="button">Copia per Chris</button></div>
+        </fieldset>
+      </form>
     </dialog>
 
     <script is:inline>
@@ -90,15 +117,45 @@ const {
       });
 
       const dialog = document.querySelector('.v4-dialog');
-      document.querySelectorAll('.js-v4-contact').forEach((button) => button.addEventListener('click', () => dialog?.showModal()));
+      const qualifier = document.querySelector('.v4-qualifier');
+      const qualifierSteps = [...document.querySelectorAll('[data-qualifier-step]')];
+      const progressDots = [...document.querySelectorAll('.v4-dialog-progress i')];
+      let qualifierStep = 0;
+
+      const showQualifierStep = (nextStep) => {
+        qualifierStep = Math.max(0, Math.min(nextStep, qualifierSteps.length - 1));
+        qualifierSteps.forEach((step, index) => step.classList.toggle('active', index === qualifierStep));
+        progressDots.forEach((dot, index) => dot.classList.toggle('active', index <= qualifierStep));
+        if (qualifierStep === 2) {
+          const data = new FormData(qualifier);
+          const message = `Ciao Chris, sono di ${data.get('business')} (${data.get('category')}). Oggi ho ${String(data.get('reviews')).toLowerCase()} recensioni e alla domanda sul concorrente ho risposto: ${data.get('competitor')}. Vorrei vedere TROVATEMI ${data.get('meeting')}, partendo dalla mia situazione reale.`;
+          const messageBox = document.querySelector('.v4-message');
+          if (messageBox) messageBox.textContent = message;
+          window.dispatchEvent(new CustomEvent('trovatemi:lead-qualified', { detail: Object.fromEntries(data.entries()) }));
+        }
+      };
+
+      document.querySelectorAll('.js-v4-contact').forEach((button) => button.addEventListener('click', () => {
+        showQualifierStep(0);
+        dialog?.showModal();
+      }));
       document.querySelector('.v4-dialog-close')?.addEventListener('click', () => dialog?.close());
       dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+
+      document.querySelectorAll('.v4-dialog-next').forEach((button) => button.addEventListener('click', () => {
+        const current = qualifierSteps[qualifierStep];
+        const requiredFields = [...current.querySelectorAll('[required]')];
+        if (!requiredFields.every((field) => field.reportValidity())) return;
+        showQualifierStep(qualifierStep + 1);
+      }));
+      document.querySelectorAll('.v4-dialog-back').forEach((button) => button.addEventListener('click', () => showQualifierStep(qualifierStep - 1)));
+      document.querySelectorAll('input[name="meeting"]').forEach((input) => input.addEventListener('change', () => showQualifierStep(2)));
 
       const copyButton = document.querySelector('.v4-dialog-copy');
       copyButton?.addEventListener('click', async () => {
         const message = document.querySelector('.v4-message')?.textContent?.trim() ?? '';
         await navigator.clipboard?.writeText(message);
-        copyButton.textContent = 'Messaggio copiato ✓';
+        copyButton.textContent = 'Copiato ✓';
       });
 
       const reveal = new IntersectionObserver((entries) => entries.forEach((entry) => {
