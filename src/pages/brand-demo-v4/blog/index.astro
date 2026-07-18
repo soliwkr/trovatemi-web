@@ -1,0 +1,19 @@
+---
+import V4Layout from '../../../layouts/V4Layout.astro';
+import { v4Categories, v4Posts } from '../../../data/v4';
+export const prerender = true;
+---
+
+<V4Layout title="Guide per farti trovare — TROVATEMI.IT" description="Guide TROVATEMI.IT per agenzie immobiliari, cardiologi, palestre, barbieri e bar che vogliono farsi trovare su Google.">
+  <section class="v4-page-hero" data-watermark="GUIDE">
+    <div class="v4-wrap"><div class="v4-breadcrumb"><a href="/brand-demo-v4/">Home</a> / Guide</div><p class="v4-kicker"><span>★</span> PRIMA CAPISCI. POI DECIDI.</p><h1>GUIDE PER CHI VUOLE FARSI TROVARE.</h1><p class="v4-lede">Niente formule magiche. Solo problemi reali, prove verificabili e azioni che puoi spiegare guardando il cliente negli occhi.</p></div>
+  </section>
+  <section class="v4-section v4-surface">
+    <div class="v4-wrap v4-post-grid">
+      {v4Posts.map((post) => {
+        const category = v4Categories.find((item) => item.slug === post.categorySlug)!;
+        return <article class="v4-post-card v4-reveal"><div><span>{category.name.toUpperCase()}</span><span>{post.readTime}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a href={`/brand-demo-v4/blog/${post.slug}/`}>Leggi la guida ↗</a></article>;
+      })}
+    </div>
+  </section>
+</V4Layout>
