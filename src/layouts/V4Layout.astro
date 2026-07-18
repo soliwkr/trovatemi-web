@@ -31,23 +31,23 @@ const {
     <title>{title}</title>
   </head>
   <body>
-    <div class="v4-preview"><span>V4.2</span><span>{eyebrow}</span><span>PRIVATE PREVIEW · NOINDEX</span></div>
+    <div class="v4-preview"><span>V4.3</span><span>{eyebrow}</span><span>PRIVATE PREVIEW · NOINDEX</span></div>
 
     <header class="v4-header">
       <nav class="v4-wrap v4-nav" aria-label="Navigazione principale">
         <a class="v4-logo" href="/brand-demo-v4/" aria-label="TROVATEMI.IT, torna alla home">TROVATEM<span>I<i>★</i></span>.IT</a>
         <div class="v4-navlinks">
-          <a href="/brand-demo-v4/#decisione">Come ti scelgono</a>
+          <a href="/brand-demo-v4/#decisione">Il problema</a>
           <a href="/brand-demo-v4/#prodotto">Il prodotto</a>
-          <a href="/brand-demo-v4/#categorie">Categorie</a>
-          <a href="/brand-demo-v4/blog/">Guide</a>
+          <a href="/brand-demo-v4/#demo">La demo</a>
         </div>
         <button class="v4-button v4-button-small js-v4-contact" type="button">Scopri cosa vedono <span>↗</span></button>
         <button class="v4-menu" type="button" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
       </nav>
       <div class="v4-mobile-nav">
-        <a href="/brand-demo-v4/#decisione">Come ti scelgono</a>
+        <a href="/brand-demo-v4/#decisione">Il problema</a>
         <a href="/brand-demo-v4/#prodotto">Il prodotto</a>
+        <a href="/brand-demo-v4/#demo">La demo</a>
         <a href="/brand-demo-v4/#categorie">Categorie</a>
         <a href="/brand-demo-v4/blog/">Guide</a>
         <a href="/brand-demo-v4/faq/">FAQ</a>
@@ -65,7 +65,7 @@ const {
       </div>
       <div class="v4-wrap v4-footer-grid">
         <div><span>CATEGORIE</span>{v4Categories.map((category) => <a href={`/brand-demo-v4/per/${category.slug}/`}>{category.name}</a>)}</div>
-        <div><span>PRODOTTO</span><a href="/brand-demo-v4/#prodotto">Come funziona</a><a href="/brand-demo-v4/#agenti">Agenti AI</a><a href="/brand-demo-v4/faq/">Domande frequenti</a></div>
+        <div><span>PRODOTTO</span><a href="/brand-demo-v4/#prodotto">Come funziona</a><a href="/brand-demo-v4/#demo">La demo</a><a href="/brand-demo-v4/faq/">Domande frequenti</a></div>
         <p>Recensioni. Risposte. Contenuti. Presenza AI.<br /><b>Ti facciamo trovare dove conta.</b></p>
       </div>
       <div class="v4-wrap v4-footer-bottom"><span>© 2026 TROVATEMI.IT</span><span>SE CHIAMI, RISPONDE CHRIS.</span></div>
