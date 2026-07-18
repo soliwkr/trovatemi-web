@@ -13,7 +13,7 @@ const {
   title,
   description,
   accent = '#f4b400',
-  eyebrow = 'TROVATEMI.IT · VERSIONE 4',
+  eyebrow = 'TROVATEMI.IT · PRODUCT DEMO',
 } = Astro.props;
 ---
 
@@ -27,30 +27,31 @@ const {
     <meta name="robots" content="noindex, nofollow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
   <body>
-    <div class="v4-preview"><span>V4</span><span>{eyebrow}</span><span>BOZZA · NOINDEX</span></div>
+    <div class="v4-preview"><span>V4.1</span><span>{eyebrow}</span><span>PRIVATE PREVIEW · NOINDEX</span></div>
 
     <header class="v4-header">
       <nav class="v4-wrap v4-nav" aria-label="Navigazione principale">
         <a class="v4-logo" href="/brand-demo-v4/" aria-label="TROVATEMI.IT, torna alla home">TROVATEM<span>I<i>★</i></span>.IT</a>
         <div class="v4-navlinks">
-          <a href="/brand-demo-v4/fatti-trovare-su-google/">Come funziona</a>
+          <a href="/brand-demo-v4/#prodotto">Prodotto</a>
+          <a href="/brand-demo-v4/#agenti">Agenti AI</a>
           <a href="/brand-demo-v4/#categorie">Categorie</a>
           <a href="/brand-demo-v4/blog/">Guide</a>
-          <a href="/brand-demo-v4/faq/">FAQ</a>
         </div>
-        <button class="v4-button v4-button-small js-v4-contact" type="button">Fammi vedere <span>↗</span></button>
+        <button class="v4-button v4-button-small js-v4-contact" type="button">Vedi il prodotto <span>↗</span></button>
         <button class="v4-menu" type="button" aria-label="Apri il menu" aria-expanded="false"><span></span><span></span></button>
       </nav>
       <div class="v4-mobile-nav">
-        <a href="/brand-demo-v4/fatti-trovare-su-google/">Come funziona</a>
+        <a href="/brand-demo-v4/#prodotto">Prodotto</a>
+        <a href="/brand-demo-v4/#agenti">Agenti AI</a>
         <a href="/brand-demo-v4/#categorie">Categorie</a>
         <a href="/brand-demo-v4/blog/">Guide</a>
         <a href="/brand-demo-v4/faq/">FAQ</a>
-        <button class="v4-button js-v4-contact" type="button">Fammi vedere</button>
+        <button class="v4-button js-v4-contact" type="button">Vedi il prodotto</button>
       </div>
     </header>
 
@@ -59,13 +60,13 @@ const {
     <footer class="v4-footer">
       <div class="v4-wrap v4-footer-lead">
         <a class="v4-logo v4-logo-light" href="/brand-demo-v4/">TROVATEM<span>I<i>★</i></span>.IT</a>
-        <h2>IL CLIENTE STA GIÀ CERCANDO.<br /><em>FACCIAMOGLI TROVARE TE.</em></h2>
-        <button class="v4-button js-v4-contact" type="button">Parla con Chris <span>↗</span></button>
+        <h2>OGNI CLIENTE SERVITO PUÒ PORTARTI <em>IL PROSSIMO.</em></h2>
+        <button class="v4-button js-v4-contact" type="button">Vedi TROVATEMI sulla tua attività <span>↗</span></button>
       </div>
       <div class="v4-wrap v4-footer-grid">
         <div><span>CATEGORIE</span>{v4Categories.map((category) => <a href={`/brand-demo-v4/per/${category.slug}/`}>{category.name}</a>)}</div>
-        <div><span>ESPLORA</span><a href="/brand-demo-v4/fatti-trovare-su-google/">Come funziona</a><a href="/brand-demo-v4/blog/">Guide</a><a href="/brand-demo-v4/faq/">Domande frequenti</a></div>
-        <p>Google. Maps. Recensioni. Telefonate.<br /><b>Ti facciamo trovare dove conta.</b></p>
+        <div><span>PRODOTTO</span><a href="/brand-demo-v4/#prodotto">Come funziona</a><a href="/brand-demo-v4/#agenti">Agenti AI</a><a href="/brand-demo-v4/faq/">Domande frequenti</a></div>
+        <p>Recensioni. Risposte. Contenuti. Presenza AI.<br /><b>Ti facciamo trovare dove conta.</b></p>
       </div>
       <div class="v4-wrap v4-footer-bottom"><span>© 2026 TROVATEMI.IT</span><span>SE CHIAMI, RISPONDE CHRIS.</span></div>
     </footer>
@@ -73,10 +74,10 @@ const {
     <dialog class="v4-dialog" aria-labelledby="v4-dialog-title">
       <button class="v4-dialog-close" type="button" aria-label="Chiudi">×</button>
       <span class="v4-dialog-star">★</span>
-      <p>IL PRIMO PASSO NON È COMPRARE.</p>
-      <h2 id="v4-dialog-title">È GUARDARE COSA VEDE IL CLIENTE.</h2>
-      <p>Copia il messaggio e mandalo a Chris. Partiamo dalla tua ricerca reale su Google.</p>
-      <div class="v4-message">Ciao Chris, voglio vedere cosa trova un cliente quando cerca la mia attività su Google.</div>
+      <p>UNA DEMO. SULLA TUA ATTIVITÀ.</p>
+      <h2 id="v4-dialog-title">VEDI COSA FA IL PRODOTTO DOPO OGNI CLIENTE.</h2>
+      <p>Copia il messaggio e mandalo a Chris. Ti mostra TROVATEMI con un caso reale, senza slide e senza promesse di ranking.</p>
+      <div class="v4-message">Ciao Chris, voglio vedere come funzionerebbe TROVATEMI sulla mia attività.</div>
       <button class="v4-button v4-dialog-copy" type="button">Copia il messaggio</button>
     </dialog>
 
