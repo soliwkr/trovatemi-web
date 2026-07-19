@@ -1,6 +1,6 @@
 # TROVATEMI — Product Brief
 
-**Versione:** 1.1  
+**Versione:** 1.2  
 **Stato:** product truth approvata; packaging alternativo in ricerca  
 **Owner:** Chris  
 **Scopo:** fissare la verità di prodotto prima di architettura, copy, design, sviluppo e deploy  
@@ -241,6 +241,7 @@ Questa è una campagna commerciale circoscritta, non un “free plan” permanen
 - TROVATEMI OS, stack Google interno, automazioni private o strumenti di back-office;
 - garanzie di prima posizione, ranking, chiamate, fatturato o citazioni nelle risposte AI;
 - recensioni comprate, filtrate o instradate in base al voto;
+- dichiarazioni di piena conformità GDPR senza verifica legale e tecnica aggiornata;
 - funzioni demo presentate come incluse nel piano acquistato;
 - “facciamo SEO/social/siti” come definizione centrale dell'offerta;
 - dashboard, report o quantità di lavoro usati come sostituti del risultato.
@@ -257,10 +258,10 @@ Questa è una campagna commerciale circoscritta, non un “free plan” permanen
 | **D4** | Trial pubblico | Trial assistito e limitato; programma fondatori separato; niente self-service indiscriminato | Chris |
 | **D5** | Packaging e prezzi | Confrontare listino canonico con alternativa 199/399/RETE; nessuna sostituzione implicita | Chris |
 | **D6** | Review routing | Disabilitare qualsiasi percorso diverso in base al voto | Vincolo non negoziabile |
-| **D7** | Piano e checkout | Verificare dal vivo moduli abilitati, Stripe e provisioning prima di accettare pagamenti | Verifica tecnica |
+| **D7** | Piano e checkout | Verificare dal vivo moduli, Stripe, provisioning, consenso, privacy e localizzazione prima di accettare pagamenti | Verifica tecnica |
 | **D8** | pSEO | Progettare tassonomia ora; pubblicare su scala solo dopo primo caso studio e controllo qualità | Chris |
 | **D9** | Costi Climbo | Licenza lifetime confermata; simulare e limitare soltanto costi variabili | Risolto in parte |
-| **D10** | Commenti community | Integrare il deep audit comment-level e aggiornare consenso, obiezioni e WTP | Chris + ricerca |
+| **D10** | Commenti community | Integrati 757 corpi dal top 20: confermano trial assistito e wedge reputazione; prezzi restano da validare in Italia | Risolto per il campione; copertura residua |
 
 ---
 
