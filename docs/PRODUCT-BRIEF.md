@@ -1,10 +1,10 @@
 # TROVATEMI — Product Brief
 
-**Versione:** 1.0 draft  
-**Stato:** in approvazione  
+**Versione:** 1.1  
+**Stato:** product truth approvata; packaging alternativo in ricerca  
 **Owner:** Chris  
 **Scopo:** fissare la verità di prodotto prima di architettura, copy, design, sviluppo e deploy  
-**Gate:** nessuna modifica al sito di produzione finché questo documento non è approvato
+**Gate:** nessuna modifica al sito di produzione finché packaging, configurazione e claims non sono approvati
 
 ---
 
@@ -102,21 +102,23 @@ Il feedback privato può esistere come canale aggiuntivo, ma non può sostituire
 
 La piattaforma ha più capacità di quelle incluse nel piano iniziale. Il sito non deve trasformare “tecnicamente disponibile” in “incluso per tutti”.
 
-| Capacità | Piattaforma | Piano ★ secondo fonti canoniche | Stato pubblico |
-|---|---:|---:|---|
-| Link e richieste di recensione | Sì | Incluso | Comunicabile |
-| QR e attivazione NFC | Sì | Incluso | Comunicabile |
-| Invii via WhatsApp/SMS/email | Sì | Incluso, configurazione da verificare | Comunicare solo i canali realmente attivi |
-| Inbox recensioni e richieste | Sì | Incluso | Comunicabile |
-| Assistenza alle risposte / SEO Agent | Sì | Incluso | Comunicare il beneficio, non il nome interno dell'agente |
-| Portale cliente e contatore | Sì | Incluso | Comunicabile dopo verifica live |
-| Social Agent: recensione → post | Sì | ★★ nelle fonti; risulta attivo in una configurazione ★ | **Decisione necessaria** |
-| Gestione continuativa Google Business Profile | Sì | ★★ | Comunicabile solo nel piano corretto |
-| Sito/blog GEO per ricerca AI | Sì | Associato all'espansione avanzata | Da validare prima di una promessa pubblica |
-| Reward e QR per dipendente | Sì | Non incluso nel ★ corrente | Non lanciare ora |
-| Listing, widget e piattaforme aggiuntive | Sì | Non inclusi nel ★ corrente | Non lanciare ora |
-| Assistente AI nel portale | Sì | Perimetro non definito | Non promettere finché non configurato |
-| Rank-and-rent territoriale | Esterno a Climbo | ★★★ | Vendere come asset TROVATEMI, non come funzione software |
+| Capacità | Piattaforma | Offerta canonica corrente | Ricerca alternativa |
+|---|---:|---|---|
+| Link e richieste di recensione | Sì | ★ TROVATO | TROVATO + INEVITABILE |
+| QR e attivazione NFC | Sì | ★ TROVATO | TROVATO + INEVITABILE |
+| Invii via WhatsApp/SMS/email | Sì | ★, configurazione da verificare | Entrambi, con limiti diversi |
+| Inbox recensioni e richieste | Sì | ★ TROVATO | TROVATO + INEVITABILE |
+| Assistenza alle risposte / SEO Agent | Sì | ★ TROVATO | TROVATO + INEVITABILE |
+| Portale cliente e contatore | Sì | ★ TROVATO | TROVATO + INEVITABILE |
+| Social Agent: recensione → post | Sì | ★★; risulta attivo in una configurazione ★ | INEVITABILE |
+| Gestione continuativa Google Business Profile | Sì + componente umana | ★★ VISIBILE | Fuori dal puro SaaS o da definire separatamente |
+| Sito/blog GEO per ricerca AI | Sì | Non definito nel listino canonico | INEVITABILE, dopo verifica |
+| AI ranking e sentiment | Sì | Non definito | Da allocare dopo test live |
+| Reward e QR per dipendente | Sì | Non incluso | Bloccato per rischio policy |
+| Listing, widget e piattaforme aggiuntive | Sì | Non incluso nel ★ | Futuro / da verificare |
+| Assistente AI nel portale | Sì | Non definito | INEVITABILE candidato |
+| Multi-sede | Sì | Non definito | RETE, prezzo per sede |
+| Rank-and-rent territoriale | Esterno a Climbo | ★★★ INEVITABILE | Escluso dai piani SaaS alternativi |
 
 ### Principio di verità commerciale
 
@@ -124,9 +126,11 @@ Il prodotto può essere raccontato come piattaforma completa. La pagina di ogni 
 
 ---
 
-## 6. Offerta corrente
+## 6. Offerta canonica e ricerca alternativa
 
-| Piano | Ruolo | Include | Prezzo indicato | Setup indicato |
+### Offerta canonica corrente
+
+| Piano | Ruolo | Include | Prezzo | Setup |
 |---|---|---|---:|---:|
 | **★ TROVATO** | Motore reputazione | Raccolta recensioni, NFC/QR, configurazione Google, aiuto alle risposte, contatore pubblico | €100/mese | €250 |
 | **★★ VISIBILE** | Reputazione + presenza attiva | Tutto ★, più flusso continuativo per profilo, post, foto e video | €300/mese | €250 |
@@ -134,11 +138,25 @@ Il prodotto può essere raccontato come piattaforma completa. La pagina di ogni 
 
 Condizioni indicate: cancellazione libera e sicurezza a 90 giorni sul contatore pubblico.
 
-### Stato di approvazione economica
+Questa resta l'offerta normativa finché Chris non approva e aggiorna esplicitamente la fonte canonica.
 
-- Il prezzo di **★ TROVATO a €100/mese** risulta una decisione consolidata.
-- Prezzi, perimetro e sostenibilità di **★★ e ★★★** devono essere confermati prima della pubblicazione definitiva.
-- Costi operativi Climbo risultano descritti in modo incoerente nelle fonti interne (`€99/mese` contro licenza già coperta/costo ricorrente nullo): il margine deve essere riverificato prima di accettare pagamenti.
+### Ricerca counterfactual
+
+Chris ha chiesto di ricavare un'offerta da community, vendite, video e costi d'uso come se i piani non fossero mai stati formulati. La [ricerca community-derived](research/CLIMBO-COMMUNITY-OFFER-RESEARCH.md) propone, per validazione:
+
+| Edizione | Ruolo | Prezzo ipotesi | Setup ipotesi |
+|---|---|---:|---:|
+| **TROVATO** | Raccolta, gestione, risposte e prova pubblica | €199/mese per sede | €490 |
+| **INEVITABILE** | Flywheel completo con social, GEO e presenza AI verificata | €399/mese per sede | €490 |
+| **RETE** | TROVATO o INEVITABILE applicato da 3 sedi in su | Quotazione per sede | Da quotare |
+
+La proposta alternativa non sostituisce il listino canonico e non può essere pubblicata o configurata come piano vendibile prima dell'approvazione umana.
+
+### Stato economico
+
+- La licenza Climbo è **lifetime**, confermato da Chris il 19 luglio 2026.
+- Restano costi variabili di SMS, WhatsApp, token AI, hardware e terze parti.
+- Nessun checkout pubblico viene attivato prima di simulazione costi, piano sandbox e almeno tre vendite pagate.
 
 ---
 
@@ -234,14 +252,15 @@ Questa è una campagna commerciale circoscritta, non un “free plan” permanen
 | ID | Decisione | Raccomandazione | Owner |
 |---|---|---|---|
 | **D1** | CTA: self-service o vendita assistita | Product-led, sales-assisted: “Provalo sulla tua attività”, con presa in carico di Chris | Chris |
-| **D2** | Social Agent nel ★ | Allineare la configurazione al listino: Social nel ★★; oppure aggiornare formalmente il piano | Chris |
-| **D3** | GEO/ricerca AI | Mostrare la capacità solo dopo verifica live; nessuna garanzia di visibilità nelle AI | Chris + verifica tecnica |
-| **D4** | Trial pubblico | Non promettere trial generale ora; usare programma fondatori o demo/attivazione assistita | Chris |
-| **D5** | Prezzi ★★/★★★ | Confermare margine, delivery ed esclusività prima del go-live | Chris |
+| **D2** | Social Agent | Risolvere conflitto fra ★★ canonico e configurazione ★; alternativa: solo INEVITABILE | Chris |
+| **D3** | GEO/ricerca AI | Non definito nel canonico; alternativa INEVITABILE dopo verifica live | Chris + verifica tecnica |
+| **D4** | Trial pubblico | Trial assistito e limitato; programma fondatori separato; niente self-service indiscriminato | Chris |
+| **D5** | Packaging e prezzi | Confrontare listino canonico con alternativa 199/399/RETE; nessuna sostituzione implicita | Chris |
 | **D6** | Review routing | Disabilitare qualsiasi percorso diverso in base al voto | Vincolo non negoziabile |
 | **D7** | Piano e checkout | Verificare dal vivo moduli abilitati, Stripe e provisioning prima di accettare pagamenti | Verifica tecnica |
 | **D8** | pSEO | Progettare tassonomia ora; pubblicare su scala solo dopo primo caso studio e controllo qualità | Chris |
-| **D9** | Costi Climbo | Risolvere il conflitto sul costo ricorrente prima del modello economico finale | Chris |
+| **D9** | Costi Climbo | Licenza lifetime confermata; simulare e limitare soltanto costi variabili | Risolto in parte |
+| **D10** | Commenti community | Integrare il deep audit comment-level e aggiornare consenso, obiezioni e WTP | Chris + ricerca |
 
 ---
 
@@ -254,7 +273,7 @@ Questa non è ancora la sitemap definitiva. È il perimetro da sviluppare dopo l
 | **Home prodotto** | Far capire in pochi secondi che TROVATEMI è un SaaS per attività locali e mostrare il ciclo completo |
 | **Come funziona** | Spiegare raccolta → gestione → risposta → riuso → misura |
 | **Prodotto** | Mostrare interfaccia e capacità reali, senza nomi interni |
-| **Piani** | Separare chiaramente ciò che è incluso in ★, ★★ e ★★★ |
+| **Piani** | Mostrare il listino approvato al gate D5, senza fondere SaaS, servizio e asset territoriale |
 | **Fondatori / prova** | Offerta circoscritta, con condizioni trasparenti |
 | **Categorie** | Tradurre lo stesso prodotto nei problemi specifici di una categoria |
 | **Problema / soluzione** | Landing ad alta intenzione, una promessa e una CTA coerenti |
@@ -269,7 +288,8 @@ Il pSEO non deve produrre pagine fotocopia. Ogni pagina indicizzata dovrà avere
 
 | Fase | Output | Criterio di uscita |
 |---|---|---|
-| **1. Product truth** | Questo brief | Decisioni D1–D9 approvate |
+| **1. Product truth** | Questo brief | Identità, prodotto e confini approvati |
+| **1B. Offer validation** | Ricerca community, piani sandbox e dieci conversazioni | Decisioni D1–D10, COGS e tre vendite approvati |
 | **2. Information architecture** | Sitemap, journey, matrice pagine/intenti | Ogni pagina ha pubblico, promessa, prova e CTA |
 | **3. Messaging** | Message house e copy deck | Nessun conflitto tra prodotto, piano e promessa |
 | **4. Design system** | Token, tipografia, contrasti, componenti e prototipo | Accessibilità, gerarchia e resa mobile approvate |
@@ -321,6 +341,6 @@ Il brief è approvabile solo se Chris può confermare tutte queste frasi:
 
 Scegliere uno dei tre stati:
 
-1. **APPROVATO** — il brief diventa base vincolante per architettura e copy.
+1. **APPROVATO PER VALIDAZIONE** — si configurano piani sandbox e protocollo commerciale, senza pubblicazione.
 2. **APPROVATO CON MODIFICHE** — indicare ID decisione e modifica richiesta.
-3. **RESPINTO** — fermare la produzione e ridefinire la verità di prodotto.
+3. **RESPINTO** — la product truth resta valida, ma il packaging viene ricostruito.
