@@ -1,6 +1,6 @@
 # TROVATEMI — Ricerca offerta dalla community Climbo
 
-**Versione:** 1.0  
+**Versione:** 1.1 — delta commenti integrato  
 **Data:** 19 luglio 2026  
 **Stato:** proposta da approvare  
 **Domanda:** se TROVATEMI non avesse ancora formulato i piani, quale offerta emergerebbe dai comportamenti, dalle vendite e dalle conversazioni della community Climbo?
@@ -56,6 +56,7 @@ Il valore di questa alternativa non è soltanto il prezzo. È la separazione net
 - periodo: 5 dicembre 2025 – 11 luglio 2026;
 - 345.806 caratteri di contenuto disponibile;
 - 5.637 commenti conteggiati sui post unici;
+- 757 commenti con corpo completo nei 20 thread più discussi;
 - post di vendita, win, supporto, pricing, trial, onboarding, feature request e compliance.
 
 ### Video
@@ -76,31 +77,32 @@ Il valore di questa alternativa non è soltanto il prezzo. È la separazione net
 
 ### Limite del dataset
 
-Il dump pubblico conserva il testo disponibile dei post, il numero dei commenti e i partecipanti rilevati, ma **non conserva il corpo dei 5.637 commenti**. Alcuni post risultano inoltre troncati perché la community richiede autenticazione per il contenuto completo. Le pagine pubbliche di Skool confermano il conteggio delle discussioni, ma non espongono i commenti senza accesso.
+Il dump generale conserva testo e metriche dei post, ma non il corpo di tutti i 5.637 commenti conteggiati. Il commit `65f33bde` del 19 luglio aggiunge però `skool/top-posts-comments.json`, un export autenticato dei 20 thread con più commenti.
+
+Il delta contiene:
+
+- 20 post, pari al 2,1% delle 933 righe del dump;
+- 435 commenti di primo livello e 322 risposte annidate;
+- 757 corpi testuali, esattamente quanti i commenti dichiarati dai 20 thread;
+- zero corpi vuoti;
+- 126.738 caratteri di conversazione;
+- 140 autori distinti;
+- 112 interventi del team Climbo, pari al 14,8% del campione;
+- conversazioni dal 12 gennaio al 7 luglio 2026.
+
+I 757 corpi rappresentano circa il 13,4% di tutti i commenti conteggiati, ma provengono deliberatamente dai thread più discussi. Sono quindi un campione qualitativo ad alta intensità, non un campione casuale della community. Sovrarappresentano annunci, AMA, win, compliance ed employee tracking; non consentono di attribuire consenso all'intera base di membri.
 
 Di conseguenza:
 
-- il testo dei post è evidenza qualitativa;
-- il numero dei commenti è un segnale di intensità, non di consenso;
-- nessuna frase viene attribuita a commenti non disponibili;
-- la proposta può essere raffinata ulteriormente con un export autenticato comment-level.
+- il testo disponibile può essere letto a livello di thread, inclusi dissenso e chiarimenti;
+- il numero dei commenti dei restanti post resta solo un segnale di intensità;
+- le frequenze del top 20 non sono quote di mercato né misure di willingness-to-pay;
+- i circa 4.880 commenti non esportati restano un limite residuo;
+- allegati e link citati nei commenti non sono stati automaticamente trattati come verificati.
 
 ### Delta audit commenti
 
-Chris sta preparando un deep audit separato dei commenti. Quando sarà disponibile, verrà aggiunto come secondo livello di ricerca senza ricominciare da zero.
-
-Formato ideale per ogni commento:
-
-- `post_id` e/o `post_slug`;
-- `comment_id`;
-- testo completo;
-- autore;
-- data;
-- like/reazioni;
-- `parent_comment_id` per le risposte;
-- eventuali allegati o link.
-
-Il testo sarà codificato con queste etichette:
+Il testo è stato codificato con queste etichette:
 
 | Codice | Domanda |
 |---|---|
@@ -115,7 +117,36 @@ Il testo sarà codificato con queste etichette:
 | `COMPLIANCE` | Esiste un rischio policy, privacy o promessa? |
 | `SENTIMENT` | Il commento supporta, contesta o chiarisce il post? |
 
-Il numero dei commenti sarà quindi sostituito da una lettura thread-level: consenso, dissenso, domande irrisolte, casi reali e rumore. Un piano cambierà solo per pattern ripetuti, non per un singolo commentatore molto attivo.
+La codifica assistita per parole chiave è stata usata soltanto per localizzare i passaggi e non per inferire sentiment. I segnali si sovrappongono: 95 corpi parlano di recensioni, 76 di clienti/vendita, 45 di NFC/QR, 42 di employee tracking, 38 di prezzo o costo, 34 di integrazioni, 34 di supporto/problemi, 25 di GEO/ricerca AI e 24 di compliance. La lettura finale è stata fatta sul thread completo.
+
+### Cosa emerge davvero dai commenti
+
+| Evidenza comment-level | Lettura | Conseguenza per TROVATEMI |
+|---|---|---|
+| Un cliente viene convertito dopo 14 giorni di prova, contatto personale via WhatsApp/telefono/demo e risultati pubblici visibili | Il trial efficace è guidato verso un momento di prova; non è accesso gratuito lasciato a sé stesso | Rafforza il modello product-led, sales-assisted e il checkpoint sui risultati |
+| Un altro trial produce una recensione e poi la conversione a pagamento; un caso usa un mese di prova | La durata può variare, ma il meccanismo comune è vedere valore prima del pagamento | Testare 14 giorni come default, con estensione solo motivata |
+| Un'attivazione limitata a QR e risposte AI viene venduta a $100 per una sede e $200 per due sedi | Esiste domanda anche per un wedge semplice; non serve mostrare tutto il prodotto per chiudere | TROVATO deve restare comprensibile e attivabile, non diventare un pacco di feature |
+| Cinque ristoranti vengono chiusi a €3.000 annui complessivi | Hospitality può convertire in blocco, ma con ricavo per sede molto basso | Non usare questo caso come benchmark del listino; misurare economics per sede |
+| NFC regalato o mostrato dal vivo apre conversazioni che altrimenti non avverrebbero | Il supporto fisico è un door opener e un momento demo ad alta memorabilità | NFC resta acquisizione/attivazione, non definizione del SaaS |
+| Il lancio GEO genera entusiasmo ma anche problemi di dominio, pubblicazione, continuità free→paid, approvazione e contenuti duplicati | GEO ha valore percepito, ma il valore dipende dalla continuità tecnica e dalla prova degli output | Può sostenere INEVITABILE solo dopo verifica live e senza promessa di ranking |
+| Il cambio Google sulla review policy obbliga alcuni reseller a rifare materiali per €3–4k e mette a rischio annuali già venduti | Una feature fragile può distruggere il posizionamento se diventa la ragione principale d'acquisto | Zero gating deve stare nella product truth; nessuna vendita deve dipendere da scorciatoie policy |
+| Il thread GDPR parte da una dichiarazione di piena conformità, poi espone font remoti, link privacy, localizzazione e fix ancora in corso | La dichiarazione del fornitore non basta come verifica legale o tecnica | Vietato promettere “piena conformità” senza audit aggiornato e responsabilità definite |
+| Employee tracking riceve feedback ricco su obiettivi, premi e vendita, ma anche obiezioni su manipolazione, equità e incentivi | Interesse alto non equivale a prodotto sicuro o orizzontale | Resta fuori dal lancio e richiede un gate policy separato |
+| I materiali QuickSuite includono newsletter e citation work eseguito con strumenti esterni | Una parte del prezzo osservato remunera servizi manuali, non il solo software | Non usare quei pacchetti per giustificare il prezzo SaaS e non fondere delivery e prodotto |
+
+### Verdetto dopo il delta
+
+I commenti **non smentiscono** l'architettura a due edizioni più multi-sede, ma ne aumentano i vincoli:
+
+1. rafforzano trial assistito, vendita umana e prova pubblica;
+2. rafforzano NFC come gancio fisico, non come promessa centrale;
+3. confermano un wedge reputazione semplice e vendibile;
+4. mantengono GEO come premium trigger, ma solo dopo QA tecnico;
+5. confermano che Social non emerge come job autonomo sufficiente per un piano da €299;
+6. rendono ancora più netti zero gating, prudenza GDPR e blocco employee tracking;
+7. **non validano da soli €199/€399**: soltanto vendite italiane con perimetro e margine noti possono farlo.
+
+Un piano cambia solo per pattern ripetuti e coerenti con clienti finali, non per un singolo commentatore attivo o per entusiasmo su una feature appena rilasciata.
 
 ---
 
@@ -529,6 +560,8 @@ Esito: entrambe le edizioni superano la Prova del Fuoco. Employee tracking e gar
 
 ### Post community
 
+- `skool/top-posts-comments.json` — 20 thread completi, 757 corpi comment-level e risposte annidate, commit `65f33bde`.
+- `skool/DEEP-DIVE.md` — sintesi generata dal nuovo audit; usata come indice, non come sostituto dei commenti grezzi.
 - `automated-review-responses` — valore percepito di $100/mese per le sole risposte.
 - `pricing` — fascia £199 e necessità di capire i tier.
 - `wins`, `another-win`, `wins-ad3da22c`, `another-one-bites-the-dust` — vendite 199–299.
