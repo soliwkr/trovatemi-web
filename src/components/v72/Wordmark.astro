@@ -1,0 +1,12 @@
+---
+type Props = {
+  href?: string;
+  class?: string;
+};
+
+const { href = '/', class: className = '' } = Astro.props;
+---
+
+<a class:list={['brand-wordmark', className]} href={href} aria-label="Trovatemi.it, torna all’inizio">
+  TROVATEM<span class="brand-wordmark__i">I<span class="brand-wordmark__star" aria-hidden="true">★</span></span>.IT
+</a>

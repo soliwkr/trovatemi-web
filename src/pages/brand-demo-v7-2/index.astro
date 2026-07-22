@@ -1,0 +1,317 @@
+---
+import V72Layout from '../../layouts/V72Layout.astro';
+
+export const prerender = true;
+
+const foundFeatures = [
+  'Raccolta centralizzata delle recensioni',
+  'QR personalizzato e NFC',
+  'Richieste automatiche nei limiti previsti',
+  'Risposte assistite dall’AI, sotto il tuo controllo',
+  'Gestione centralizzata',
+  'Monitoraggio degli output',
+  'Assistenza',
+];
+
+const inevitableFeatures = [
+  'Tutto TROVATO',
+  'Recensioni trasformate in contenuti',
+  'Distribuzione sui canali collegati',
+  'Aggiornamenti Google',
+  'Contenuti locali costruiti da servizi, territorio, domande e recensioni reali',
+  'Hub editoriale',
+  'Monitoraggio e revisione periodica',
+  'Supporto prioritario',
+];
+
+const faqs = [
+  ['Mi garantite il primo posto su Google?', 'No. Nessuno controlla completamente le posizioni di Google. Trovatemi installa e gestisce un processo misurabile; non vende classifiche garantite.'],
+  ['Filtrate le recensioni negative?', 'No. Ogni cliente riceve lo stesso percorso. Non compriamo recensioni, non selezioniamo chi può lasciare un’opinione e non utilizziamo review gating.'],
+  ['È un software che devo imparare a usare?', 'No. La tecnologia è solo una parte. Configuriamo il sistema sulla tua attività e ti accompagniamo nell’utilizzo.'],
+  ['Cosa succede nei 14 giorni?', 'Attivazione, prima richiesta, controllo al giorno 7 e revisione al giorno 14.'],
+  ['Devo avere qualcuno che segue i social?', 'No per TROVATO. Per INEVITABILE eventuali professionisti già presenti possono essere coinvolti senza essere sostituiti.'],
+  ['Posso scegliere il mensile?', 'Sì. Il mensile prevede una quota di attivazione; l’annuale la include.'],
+  ['Mi garantite nuovi clienti?', 'No. Possiamo misurare sistema, richieste, recensioni, contenuti e output. La scelta finale dipende anche da servizio, mercato, prezzi e capacità commerciale dell’attività.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V72Layout
+  title="Trovatemi.it | Recensioni e presenza Google per attività locali"
+  description="Trasforma clienti soddisfatti in recensioni e presenza pubblica. Prova Trovatemi per 14 giorni sulla tua vera attività, con attivazione assistita."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="poster-grid border-b-2 border-ink">
+    <div class="brand-wrap grid min-h-[calc(100dvh-7rem)] items-center gap-12 py-10 sm:py-14 lg:grid-cols-[1.18fr_0.82fr] lg:py-20">
+      <div class="reveal">
+        <p class="section-kicker max-w-xl normal-case">Per attività locali che lavorano bene, ma online non lo dimostrano abbastanza.</p>
+        <h1 class="display-title--hero mt-7 font-display">
+          Il cliente ti sta già cercando.<br />
+          <em class="display-mark">Il problema è che trova un altro.</em>
+        </h1>
+        <p class="type-lede mt-8 text-ink/78">Trovatemi installa nella tua attività un sistema semplice per trasformare clienti soddisfatti in recensioni, risposte e prove pubbliche che aiutano chi ti cerca a scegliere te.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button class="btn btn-primary brand-btn" type="button" data-audit-open>Fammi vedere cosa trova un cliente <span>↗</span></button>
+          <button class="btn btn-ghost brand-btn justify-start px-1 sm:px-5" type="button" data-demo-open><span class="grid size-8 place-items-center bg-ink text-paper">▶</span> Guarda come funziona in 60 secondi</button>
+        </div>
+        <div class="mt-10 flex items-end gap-4 border-t-2 border-ink pt-5">
+          <span class="hero-number">14</span>
+          <p class="type-micro max-w-sm pb-0.5">giorni di prova assistita. Sulla tua vera attività. Con clienti reali.</p>
+        </div>
+      </div>
+
+      <div class="reveal lg:pl-6">
+        <div class="hard-shadow border-2 border-ink bg-paper">
+          <figure class="photo-halftone relative overflow-hidden border-b-2 border-ink">
+            <img class="aspect-[4/3] w-full object-cover" src="/images/nfc-review-counter-v7.webp" width="1536" height="1024" alt="Un cliente avvicina il telefono a un supporto NFC sul bancone di un’attività locale" fetchpriority="high" />
+            <figcaption class="type-micro absolute bottom-4 left-4 z-10 bg-primary px-4 py-3">Il gesto che il cliente capisce subito.</figcaption>
+            <span class="absolute top-4 right-4 z-10 grid size-14 place-items-center bg-ink text-2xl text-primary" aria-hidden="true">★</span>
+          </figure>
+          <div class="type-micro grid grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch border-b-2 border-ink text-[0.62rem]">
+            <div class="grid min-h-20 content-center gap-1 p-3"><b>01</b><span>Cliente soddisfatto</span></div>
+            <i class="grid place-items-center border-x border-ink px-2 not-italic">→</i>
+            <div class="grid min-h-20 content-center gap-1 p-3"><b>02</b><span>NFC o QR</span></div>
+            <i class="grid place-items-center border-x border-ink px-2 not-italic">→</i>
+            <div class="grid min-h-20 content-center gap-1 bg-primary p-3"><b>03</b><span>Recensione pubblica</span></div>
+          </div>
+          <div class="flex items-center gap-4 p-5"><span class="grid size-10 shrink-0 place-items-center bg-ink text-primary">★</span><p class="grid gap-1"><b>Niente da cercare.</b><small>Avvicina il telefono e il percorso si apre.</small></p></div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t-2 border-ink bg-ink text-paper">
+      <div class="brand-wrap type-micro flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"><span>Non devi farti vedere da tutti.</span><strong class="text-primary">Devi farti scegliere da chi ti sta cercando.</strong></div>
+    </div>
+  </section>
+
+  <section id="problema" class="py-20 sm:py-28">
+    <div class="brand-wrap grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
+      <div class="reveal lg:sticky lg:top-32">
+        <span class="section-kicker">01 · Una scena che conosci</span>
+        <h2 class="display-title mt-7">Ogni mese servi clienti soddisfatti.<br /><em class="display-mark">Quanti diventano una recensione?</em></h2>
+        <div class="mt-10 border-2 border-ink bg-white p-6 shadow-[7px_7px_0_#12161B] sm:p-8">
+          <div class="type-story space-y-2.5 font-semibold"><p>Il cliente paga.</p><p>Ti ringrazia.</p><p>Dice che si è trovato benissimo.</p><p>Gli chiedi una recensione.</p></div>
+          <blockquote class="type-quote mt-7 bg-primary px-5 py-6">“Certo, la faccio dopo.”</blockquote>
+          <p class="pin-line type-body-lg mt-7 bg-base-200 p-5 font-bold">Poi esce. Torna alla sua giornata. E se ne dimentica.</p>
+        </div>
+      </div>
+
+      <figure class="reveal border-2 border-ink bg-ink text-paper">
+        <img class="aspect-[4/5] w-full object-cover object-center grayscale-[20%]" src="/images/hero-local-business.webp" width="1536" height="1024" loading="lazy" alt="Titolare di un’attività locale che guarda il telefono dietro il bancone" />
+        <figcaption class="p-7 sm:p-9"><span class="type-micro text-primary">Nel frattempo</span><p class="type-emphasis mt-4">Chi cerca il tuo servizio trova il concorrente con recensioni più recenti, risposte presenti e più motivi visibili per fidarsi.</p></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="border-y-2 border-ink bg-base-200 py-20 sm:py-28">
+    <div class="brand-wrap">
+      <header class="reveal max-w-5xl">
+        <span class="section-kicker">02 · La scelta avviene qui</span>
+        <h2 class="display-title mt-7">Non significa che il concorrente lavori meglio.<br /><em class="display-mark">Significa che online sembra più facile fidarsi di lui.</em></h2>
+        <p class="type-body-lg mt-6 max-w-[62ch]">Mettiamoci per un momento nei panni di una persona che non conosce nessuno dei due.</p>
+      </header>
+
+      <div class="reveal mt-12 grid items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
+        <article class="card card-border border-2 border-ink bg-paper opacity-75">
+          <div class="card-body gap-0 p-6 sm:p-8">
+            <header class="flex items-center gap-4 border-b border-ink/25 pb-5"><div class="avatar placeholder"><div class="w-12 bg-ink text-paper"><span class="font-metric font-bold">A</span></div></div><div class="grid gap-0.5"><strong class="type-card-title">Attività A</strong><span class="type-body-sm text-ink/55">Servizio locale</span></div><i class="ml-auto not-italic">⋮</i></header>
+            <div class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1"><b class="font-metric text-[2.25rem] leading-none">4,7</b><span class="review-stars text-lg">★★★★★</span><small class="type-body-sm w-full text-ink/55">23 recensioni</small></div>
+            <dl class="type-body-sm mt-7 divide-y divide-ink/15 border-y border-ink/15"><div class="flex justify-between gap-4 py-3"><dt>Ultima recensione</dt><dd class="font-bold">5 mesi fa</dd></div><div class="flex justify-between gap-4 py-3"><dt>Risposte del titolare</dt><dd class="font-bold">Non presenti</dd></div><div class="flex justify-between gap-4 py-3"><dt>Ultimo aggiornamento</dt><dd class="font-bold">7 mesi fa</dd></div></dl>
+            <button class="btn btn-outline brand-btn mt-7" type="button">Chiama</button>
+          </div>
+        </article>
+
+        <div class="grid place-items-center"><span class="grid size-16 place-items-center border-2 border-ink bg-paper font-display text-3xl">VS</span></div>
+
+        <article class="card card-border hard-shadow border-2 border-ink bg-white">
+          <div class="h-3 bg-primary"></div>
+          <div class="card-body gap-0 p-6 sm:p-8">
+            <header class="flex items-center gap-4 border-b border-ink/25 pb-5"><div class="avatar placeholder"><div class="w-12 bg-primary text-ink"><span class="font-metric font-bold">B</span></div></div><div class="grid gap-0.5"><strong class="type-card-title">Attività B</strong><span class="type-body-sm text-ink/55">Servizio locale</span></div><i class="ml-auto not-italic">⋮</i></header>
+            <div class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1"><b class="font-metric text-[2.25rem] leading-none">4,8</b><span class="review-stars text-lg">★★★★★</span><small class="type-body-sm w-full text-ink/55">84 recensioni</small></div>
+            <dl class="type-body-sm mt-7 divide-y divide-ink/15 border-y border-ink/15"><div class="flex justify-between gap-4 py-3"><dt>Ultima recensione</dt><dd class="font-bold">3 giorni fa</dd></div><div class="flex justify-between gap-4 py-3"><dt>Risposte del titolare</dt><dd class="font-bold">Presenti</dd></div><div class="flex justify-between gap-4 py-3"><dt>Ultimo aggiornamento</dt><dd class="font-bold">1 settimana fa</dd></div></dl>
+            <button class="btn btn-primary brand-btn mt-7" type="button">Chiama</button>
+          </div>
+        </article>
+      </div>
+
+      <p class="type-micro mt-7 max-w-3xl text-ink/55">Esempio illustrativo. Attività e numeri sono inventati per mostrare il tipo di confronto; non sono risultati Trovatemi.</p>
+      <div class="reveal mt-12 grid gap-7 border-t-2 border-ink pt-8 lg:grid-cols-[0.35fr_1fr_auto] lg:items-end"><span class="section-kicker">La domanda è semplice</span><h3 class="type-emphasis">Se non conoscessi nessuna delle due attività, quale chiameresti per prima?</h3><button class="btn btn-neutral brand-btn" type="button" data-audit-open>Ora guardiamo il tuo confronto <b>↗</b></button></div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-paper sm:py-28">
+    <div class="brand-wrap grid gap-14 lg:grid-cols-[1fr_0.88fr] lg:items-center">
+      <div class="reveal">
+        <span class="section-kicker text-primary">03 · Il momento che conta</span>
+        <h2 class="display-title mt-7">Chi cerca vale molto più di chi scrolla.</h2>
+        <div class="type-story mt-8 space-y-2.5 text-paper/75"><p>Chi scrolla sta passando il tempo.</p><p>Chi cerca ha un problema, sta confrontando e deve scegliere.</p></div>
+        <strong class="type-pullquote mt-8 block border-l-4 border-primary pl-6">Non devi farti vedere da tutti. Devi essere credibile davanti alle persone giuste, nel momento giusto.</strong>
+      </div>
+
+      <div class="reveal grid border-2 border-paper/40 sm:grid-cols-2" aria-label="Confronto tra una persona che scorre e una persona che cerca">
+        <article class="border-b border-paper/30 p-6 opacity-55 sm:border-r sm:border-b-0 sm:p-8">
+          <span class="type-micro">Sta scorrendo</span>
+          <div class="mt-9 grid gap-4"><i class="search-art__line"></i><i class="search-art__line"></i><i class="search-art__line"></i><i class="search-art__line"></i></div>
+          <p class="type-card-title mt-10 font-display text-[1.85rem]">Vede. Passa. Dimentica.</p>
+        </article>
+        <article class="bg-primary p-6 text-ink sm:p-8">
+          <span class="type-micro">Sta cercando</span>
+          <div class="type-body-sm mt-9 flex min-h-14 items-center gap-3 border-2 border-ink bg-paper px-4"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><b>servizio vicino a me</b></div>
+          <ul class="type-body-sm mt-7 space-y-3.5 font-bold"><li class="flex items-center gap-3"><i class="size-2 bg-ink"></i>Confronta le prove</li><li class="flex items-center gap-3"><i class="size-2 bg-ink"></i>Legge le recensioni</li><li class="flex items-center gap-3"><i class="size-2 bg-ink"></i>Sceglie chi chiamare</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="come-funziona" class="py-20 sm:py-28">
+    <div class="brand-wrap">
+      <header class="reveal max-w-5xl">
+        <span class="section-kicker">04 · Come funziona</span>
+        <h2 class="display-title mt-7">Dal complimento alla recensione,<br /><em class="display-mark">senza lasciare tutto alla memoria.</em></h2>
+        <p class="type-body-lg mt-6 max-w-[62ch]">Niente percorso complicato. Niente lezione di marketing al personale. Quattro passaggi chiari.</p>
+      </header>
+
+      <ul class="timeline timeline-compact how-timeline timeline-vertical mt-14 lg:timeline-horizontal">
+        <li class="reveal">
+          <div class="timeline-start mb-3 font-metric text-[2.25rem] leading-none font-bold lg:mb-5">01</div><div class="timeline-middle grid size-5 place-items-center bg-primary"></div><div class="timeline-end timeline-box max-w-md border-2 border-ink bg-white p-6 shadow-none lg:mt-5"><small class="type-micro">Il momento</small><h3 class="type-card-title mt-4">Il cliente è soddisfatto.</h3><p class="type-card-copy mt-3 text-ink/65">La richiesta avviene quando l’esperienza è ancora fresca. Non tre giorni dopo.</p><i class="type-card-copy mt-5 block bg-base-200 p-3 font-semibold not-italic">“È andato tutto bene?”</i></div><hr class="bg-ink" />
+        </li>
+        <li class="reveal">
+          <hr class="bg-ink" /><div class="timeline-start mb-3 font-metric text-[2.25rem] leading-none font-bold lg:mb-5">02</div><div class="timeline-middle grid size-5 place-items-center bg-primary"></div><div class="timeline-end timeline-box max-w-md border-2 border-ink bg-white p-6 shadow-none lg:mt-5"><small class="type-micro">Il gesto</small><h3 class="type-card-title mt-4">Avvicina il telefono o apre il QR.</h3><p class="type-card-copy mt-3 text-ink/65">Niente ricerche complicate. Il percorso si apre dal bancone, dalla reception o dal messaggio.</p><button class="btn btn-outline brand-btn mt-5 w-full" type="button" data-demo-open>Vedi il gesto NFC <b>▶</b></button></div><hr class="bg-ink" />
+        </li>
+        <li class="reveal">
+          <hr class="bg-ink" /><div class="timeline-start mb-3 font-metric text-[2.25rem] leading-none font-bold lg:mb-5">03</div><div class="timeline-middle grid size-5 place-items-center bg-primary"></div><div class="timeline-end timeline-box max-w-md border-2 border-ink bg-white p-6 shadow-none lg:mt-5"><small class="type-micro">L’esperienza</small><h3 class="type-card-title mt-4">Lascia la sua opinione.</h3><p class="type-card-copy mt-3 text-ink/65">Il percorso è semplice e trasparente. Tutti ricevono lo stesso link, senza filtri sul voto.</p><i class="review-stars mt-5 block text-2xl not-italic">★★★★★</i></div><hr class="bg-ink" />
+        </li>
+        <li class="reveal">
+          <hr class="bg-ink" /><div class="timeline-start mb-3 font-metric text-[2.25rem] leading-none font-bold lg:mb-5">04</div><div class="timeline-middle grid size-5 place-items-center bg-primary"></div><div class="timeline-end timeline-box max-w-md border-2 border-ink bg-white p-6 shadow-none lg:mt-5"><small class="type-micro">Il controllo</small><h3 class="type-card-title mt-4">Tu vedi cosa sta succedendo.</h3><p class="type-card-copy mt-3 text-ink/65">Recensioni, risposte e output diventano visibili e misurabili da un unico punto.</p><i class="type-micro mt-5 block bg-ink p-3 text-paper not-italic">Richiesta → recensione → risposta</i></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="trial" class="border-y-2 border-ink bg-primary py-20 sm:py-28">
+    <div class="brand-wrap grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+      <div class="reveal lg:sticky lg:top-32">
+        <span class="section-kicker">05 · La prova</span>
+        <h2 class="display-title mt-7">Non devi crederci sulla parola.<br /><em>Provalo per 14 giorni sulla tua attività.</em></h2>
+        <div class="type-body-lg mt-7 max-w-[62ch] space-y-3.5"><p class="font-bold">Non ti consegniamo una dashboard da esplorare.</p><p>Configuriamo il sistema, colleghiamo il profilo, prepariamo QR e NFC e facciamo partire la prima richiesta con clienti reali.</p></div>
+        <button class="btn btn-neutral brand-btn on-dark mt-8" type="button" data-audit-open>Richiedi la prova assistita <span>↗</span></button>
+        <small class="type-micro mt-6 block max-w-[62ch]">Il trial è riservato alle attività che hanno clienti reali durante i 14 giorni e vogliono utilizzare concretamente il sistema.</small>
+      </div>
+
+      <ul class="timeline timeline-compact trial-timeline timeline-snap-icon timeline-vertical reveal">
+        <li><div class="timeline-middle grid size-7 place-items-center border-2 border-ink bg-paper font-metric text-xs font-bold">1</div><div class="timeline-end timeline-box mb-10 w-full border-2 border-ink bg-paper p-6 shadow-[6px_6px_0_#12161B]"><span class="type-micro">Giorno <b class="text-xl">1</b></span><h3 class="type-card-title mt-4">Attivazione e prima richiesta.</h3><p class="type-card-copy mt-3 text-ink/65">Colleghiamo il profilo, prepariamo il percorso e lo usiamo davvero.</p></div><hr class="bg-ink" /></li>
+        <li><hr class="bg-ink" /><div class="timeline-middle grid size-7 place-items-center border-2 border-ink bg-paper font-metric text-xs font-bold">7</div><div class="timeline-end timeline-box mb-10 w-full border-2 border-ink bg-paper p-6 shadow-[6px_6px_0_#12161B]"><span class="type-micro">Giorno <b class="text-xl">7</b></span><h3 class="type-card-title mt-4">Controlliamo dove si blocca.</h3><p class="type-card-copy mt-3 text-ink/65">Guardiamo cosa viene utilizzato, cosa viene dimenticato e cosa va corretto.</p></div><hr class="bg-ink" /></li>
+        <li><hr class="bg-ink" /><div class="timeline-middle grid size-7 place-items-center border-2 border-ink bg-ink font-metric text-xs font-bold text-primary">14</div><div class="timeline-end timeline-box w-full border-2 border-ink bg-ink p-6 text-paper shadow-[6px_6px_0_#F7F5EF]"><span class="type-micro text-primary">Giorno <b class="text-xl">14</b></span><h3 class="type-card-title mt-4">Guardiamo cosa è successo.</h3><p class="type-card-copy mt-3 text-paper/70">Output, utilizzo e limiti davanti agli occhi. Poi decidi se continuare.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="piani" class="py-20 sm:py-28">
+    <div class="brand-wrap">
+      <header class="reveal grid gap-8 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+        <div><span class="section-kicker">06 · Due piani, non tre</span><h2 class="display-title mt-7">Prima raccogli la prova.<br /><em class="display-mark">Poi decidi fin dove farla arrivare.</em></h2></div>
+        <p class="type-body-lg max-w-[46ch]">Se ti bastano recensioni raccolte e gestite bene, c’è TROVATO. Se resta anche il problema della continuità, c’è INEVITABILE.</p>
+      </header>
+
+      <div class="mt-14 grid items-start gap-8 lg:grid-cols-2">
+        <article class="card card-border reveal border-2 border-ink bg-white">
+          <div class="card-body gap-0 p-0">
+            <header class="border-b-2 border-ink p-7 sm:p-9"><span class="type-micro">Raccoglie e gestisce</span><h3 class="type-plan-name mt-5">★ Trovato</h3><p class="type-card-title mt-3">Raccoglie e gestisce la prova.</p></header>
+            <div class="p-7 sm:p-9">
+              <p class="type-card-copy min-h-16 max-w-[52ch] text-ink/70">Per attività che vogliono rendere semplice e continuativa la raccolta delle recensioni.</p>
+              <div class="mt-7 flex items-end gap-3 border-y-2 border-ink py-6"><strong class="type-price">€199</strong><span class="type-body-sm pb-1 font-bold">al mese</span></div>
+              <div class="type-body-sm grid grid-cols-2 gap-4 border-b border-ink/25 py-4"><span class="type-micro">Attivazione</span><b>€290 una tantum</b></div>
+              <div class="type-body-sm grid grid-cols-2 gap-4 border-b border-ink/25 py-4"><span class="type-micro">Oppure annuale</span><p><b>€1.990 all’anno</b><small class="mt-1 block text-ink/55">Attivazione inclusa</small></p></div>
+              <ul class="type-card-copy mt-7 space-y-3">{foundFeatures.map((feature) => <li class="flex items-start gap-3"><i class="mt-0.5 grid size-5 shrink-0 place-items-center bg-primary text-xs font-bold not-italic">✓</i><span>{feature}</span></li>)}</ul>
+              <button class="btn btn-outline brand-btn mt-9 w-full" type="button" data-audit-open>Prova TROVATO per 14 giorni <span>↗</span></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card card-border reveal border-2 border-ink bg-ink text-paper shadow-[8px_8px_0_#F5B301]">
+          <div class="card-body gap-0 p-0">
+            <header class="border-b-2 border-paper/25 p-7 sm:p-9"><span class="type-micro text-primary">Raccoglie · trasforma · distribuisce</span><h3 class="type-plan-name mt-5">★★ Inevitabile</h3><p class="type-card-title mt-3">Raccoglie, trasforma e distribuisce la prova.</p></header>
+            <div class="p-7 sm:p-9">
+              <p class="type-card-copy min-h-16 max-w-[52ch] text-paper/70">Per attività che non vogliono soltanto più recensioni, ma una presenza continuativa su Google, social e ricerca AI.</p>
+              <div class="mt-7 flex items-end gap-3 border-y-2 border-paper py-6"><strong class="type-price">€399</strong><span class="type-body-sm pb-1 font-bold">al mese</span></div>
+              <div class="type-body-sm grid grid-cols-2 gap-4 border-b border-paper/20 py-4"><span class="type-micro text-primary">Attivazione</span><b>€490 una tantum</b></div>
+              <div class="type-body-sm grid grid-cols-2 gap-4 border-b border-paper/20 py-4"><span class="type-micro text-primary">Oppure annuale</span><p><b>€3.990 all’anno</b><small class="mt-1 block text-paper/55">Attivazione inclusa</small></p></div>
+              <ul class="type-card-copy mt-7 space-y-3">{inevitableFeatures.map((feature) => <li class="flex items-start gap-3"><i class="mt-0.5 grid size-5 shrink-0 place-items-center bg-primary text-xs font-bold text-ink not-italic">✓</i><span>{feature}</span></li>)}</ul>
+              <details class="collapse collapse-plus mt-7 border border-paper/30 bg-paper/5"><summary class="collapse-title type-micro">Quello che non comprende</summary><div class="collapse-content type-body-sm text-paper/70"><p>Gestione social completa, foto o video, community management, campagne pubblicitarie, rifacimento completo del sito, SEO manuale illimitata o posizioni garantite.</p></div></details>
+              <button class="btn btn-primary brand-btn mt-7 w-full" type="button" data-audit-open>Scopri se ti serve INEVITABILE <span>↗</span></button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="reveal mt-12 grid gap-5 border-2 border-ink bg-base-200 p-7 lg:grid-cols-[0.35fr_1fr] lg:items-center"><span class="section-kicker">Non ti spingiamo sul piano più caro.</span><h3 class="type-emphasis max-w-[66ch]">Se raccogliere più recensioni risolve il problema, scegli TROVATO. Se dopo rimane da tenere viva la presenza, valutiamo INEVITABILE.</h3></div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden border-y-2 border-ink bg-ink py-24 text-paper sm:py-36">
+    <span class="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 font-display text-[24rem] leading-none text-primary/10 sm:text-[34rem]" aria-hidden="true">★</span>
+    <div class="brand-wrap relative reveal">
+      <span class="section-kicker text-primary">07 · La direzione</span>
+      <h2 class="type-vision-title mt-8">Non devi diventare virale.<br /><em class="text-primary not-italic">Devi diventare inevitabile.</em></h2>
+      <p class="type-pullquote mt-9 max-w-[46ch] border-l-4 border-primary pl-6 text-paper/75">Non ti servono migliaia di persone che scorrono senza cercarti. Ti serve essere presente, credibile e riconoscibile quando qualcuno cerca proprio quello che fai.</p>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="brand-wrap grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <header class="reveal lg:sticky lg:top-32">
+        <span class="section-kicker">08 · Quello che possiamo provare oggi</span>
+        <h2 class="display-title mt-7">Niente testimonianze inventate.<br /><em class="display-mark">Ti facciamo vedere il processo.</em></h2>
+        <p class="type-body-lg mt-6 max-w-[54ch]">I casi studio arriveranno dopo risultati verificati e autorizzati. Nel frattempo, la prova è trasparente.</p>
+      </header>
+
+      <div class="reveal border-t-2 border-ink">
+        <article class="grid gap-5 border-b-2 border-ink py-7 sm:grid-cols-[auto_1fr_auto] sm:items-center"><span class="font-metric text-[1.9rem] leading-none font-bold">01</span><div><h3 class="type-card-title">Una demo che puoi toccare.</h3><p class="type-card-copy mt-2 text-ink/65">Avvicini il telefono, apri il percorso e vedi cosa succede.</p></div><button class="btn btn-outline brand-btn" type="button" data-demo-open>Apri la demo <b>↗</b></button></article>
+        <article class="grid gap-5 border-b-2 border-ink py-7 sm:grid-cols-[auto_1fr_auto] sm:items-center"><span class="font-metric text-[1.9rem] leading-none font-bold">02</span><div><h3 class="type-card-title">Una baseline prima di partire.</h3><p class="type-card-copy mt-2 text-ink/65">Segniamo il punto di partenza. Niente “prima” ricostruiti dopo.</p></div><i class="type-micro bg-base-200 px-4 py-3 not-italic">Prima → dopo</i></article>
+        <article class="grid gap-5 border-b-2 border-ink py-7 sm:grid-cols-[auto_1fr_auto] sm:items-center"><span class="font-metric text-[1.9rem] leading-none font-bold">03</span><div><h3 class="type-card-title">Output, non miracoli.</h3><p class="type-card-copy mt-2 text-ink/65">Richieste, recensioni, risposte, contenuti e aggiornamenti. Non chiamate o fatturato attribuiti a caso.</p></div><i class="type-micro bg-base-200 px-4 py-3 not-italic">Dati controllabili</i></article>
+        <article class="grid gap-5 border-b-2 border-ink py-7 sm:grid-cols-[auto_1fr_auto] sm:items-center"><span class="font-metric text-[1.9rem] leading-none font-bold">04</span><div><h3 class="type-card-title">Una persona che risponde.</h3><p class="type-card-copy mt-2 text-ink/65">Chris configura, controlla e ti mostra cosa sta succedendo. Al telefono o di persona.</p></div><button class="btn btn-neutral brand-btn" type="button" data-audit-open>Parla con Chris <b>↗</b></button></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="border-y-2 border-ink bg-base-200 py-20 sm:py-28">
+    <div class="brand-wrap grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+      <header class="reveal lg:sticky lg:top-32"><span class="section-kicker">09 · Domande vere</span><h2 class="display-title mt-7">Prima di dirci di sì,<br /><em class="display-mark">ecco dove ti diciamo di no.</em></h2></header>
+      <div class="reveal divide-y-2 divide-ink border-y-2 border-ink bg-paper">
+        {faqs.map(([question, answer], index) => (
+          <details class="collapse collapse-plus" open={index === 0}>
+            <summary class="collapse-title type-card-title grid min-h-20 grid-cols-[auto_1fr] items-center gap-4 pr-14"><span class="font-metric text-sm">0{index + 1}</span><b>{question}</b></summary>
+            <div class="collapse-content type-card-copy pl-14 text-ink/70 sm:pl-16"><p>{answer}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary py-20 sm:py-28">
+    <div class="brand-wrap grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div class="reveal">
+        <span class="section-kicker">10 · Partiamo da Google</span>
+        <h2 class="display-title mt-7">Vuoi vedere cosa trova oggi un cliente quando cerca il tuo servizio?</h2>
+        <p class="type-body-lg mt-6 max-w-[58ch]">Partiamo dal tuo profilo, non da una presentazione. Guardiamo il confronto e capiamo se esiste davvero qualcosa da correggere.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row"><button class="btn btn-neutral brand-btn on-dark" type="button" data-audit-open>Analizza la mia attività <span>↗</span></button><button class="btn btn-outline brand-btn" type="button" data-audit-open>Scrivi a Chris su WhatsApp</button></div>
+        <small class="type-micro mt-6 block max-w-[70ch]">Nessuna promessa di primo posto. Nessuna recensione falsa. Nessuna presentazione da agenzia.</small>
+      </div>
+
+      <aside class="reveal hard-shadow border-2 border-ink bg-paper p-7 sm:p-9">
+        <span class="type-micro">L’audit parte da qui</span>
+        <ol class="type-body mt-7 divide-y divide-ink/20 border-y border-ink/20"><li class="flex items-center gap-4 py-4"><b class="grid size-8 place-items-center bg-ink font-metric text-paper">1</b><p>Apriamo il tuo profilo.</p></li><li class="flex items-center gap-4 py-4"><b class="grid size-8 place-items-center bg-ink font-metric text-paper">2</b><p>Guardiamo cosa vede un estraneo.</p></li><li class="flex items-center gap-4 py-4"><b class="grid size-8 place-items-center bg-ink font-metric text-paper">3</b><p>Confrontiamo le prove.</p></li><li class="flex items-center gap-4 py-4"><b class="grid size-8 place-items-center bg-ink font-metric text-paper">4</b><p>Decidiamo se serve intervenire.</p></li></ol>
+        <div class="mt-7 flex items-center gap-4"><i class="grid size-12 place-items-center bg-ink font-metric font-bold text-primary not-italic">CF</i><p class="type-body-sm grid"><strong>Christian Fioravanti</strong><small>Se chiami, rispondo io.</small></p></div>
+      </aside>
+    </div>
+  </section>
+</V72Layout>
