@@ -4,6 +4,16 @@
   "main": "./src/worker.ts",
   "compatibility_date": "2026-07-18",
   "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "trovatemi.it",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.trovatemi.it",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist"
