@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.deployment-url }}
+      url: https://trovatemi.it/
 
     steps:
       - name: Checkout
@@ -70,17 +70,27 @@ jobs:
       - name: Publish deployment summary
         if: steps.deploy.outcome == 'success'
         env:
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          DEPLOYMENT_URL: https://trovatemi.it/
         run: echo "Production URL — $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify production homepage
+        id: verify
+        if: steps.deploy.outcome == 'success'
+        run: |
+          curl --fail --silent --show-error \
+            --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
+            https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "Il cliente ti sta già cercando." "$RUNNER_TEMP/trovatemi-home.html"
 
       - name: Publish deployment status
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          DEPLOYMENT_URL: https://trovatemi.it/
           DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
+          VERIFY_OUTCOME: ${{ steps.verify.outcome }}
         run: |
-          if [ "$DEPLOY_OUTCOME" = "success" ]; then
+          if [ "$DEPLOY_OUTCOME" = "success" ] && [ "$VERIFY_OUTCOME" = "success" ]; then
             gh api --method POST \
               "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
               -f state=success \
