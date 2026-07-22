@@ -12,12 +12,16 @@ type Props = {
 
 const { title, description } = Astro.props;
 const isPreview = Astro.url.pathname.startsWith('/brand-demo-v7-2');
+const canonicalUrl = 'https://trovatemi.it/';
+const socialImageUrl = 'https://trovatemi.it/images/nfc-review-counter-v7.webp';
+const socialImageAlt = 'Un cliente avvicina il telefono a un supporto NFC di Trovatemi.it sul bancone di un’attività locale';
 
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Trovatemi.it',
-  url: 'https://trovatemi.it/',
+  url: canonicalUrl,
+  image: socialImageUrl,
   description,
   areaServed: 'IT',
   knowsAbout: [
@@ -35,12 +39,29 @@ const organizationSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#12161B" />
     <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1536" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     {isPreview ? (
       <meta name="robots" content="noindex, nofollow" />
     ) : (
       <>
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://trovatemi.it/" />
+        <link rel="canonical" href={canonicalUrl} />
       </>
     )}
     <title>{title}</title>
