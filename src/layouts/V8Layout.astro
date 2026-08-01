@@ -294,12 +294,22 @@ const organizationSchema = {
         });
 
         const hero = $('[data-v8-hero]');
-        if (hero && 'IntersectionObserver' in window) {
-          const observer = new IntersectionObserver(([entry]) => {
-            heroVisible = entry.isIntersecting;
-            syncAuditBar();
-          }, { threshold: 0.08 });
-          observer.observe(hero);
+        let auditBarFrame = 0;
+        const syncHeroPosition = () => {
+          auditBarFrame = 0;
+          if (!hero) return;
+          const heroBottom = hero.getBoundingClientRect().bottom;
+          heroVisible = heroBottom > Math.max(112, window.innerHeight * 0.28);
+          syncAuditBar();
+        };
+        const requestAuditBarSync = () => {
+          if (auditBarFrame) return;
+          auditBarFrame = window.requestAnimationFrame(syncHeroPosition);
+        };
+        if (hero) {
+          syncHeroPosition();
+          window.addEventListener('scroll', requestAuditBarSync, { passive: true });
+          window.addEventListener('resize', requestAuditBarSync);
         }
 
         const phone = $('[data-demo-phone]');
