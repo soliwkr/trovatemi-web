@@ -1,14 +1,21 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "trovatemi-web-v8-preview",
-  "main": "./src/worker.ts",
+  "main": "./dist/server/entry.mjs",
   "compatibility_date": "2026-07-18",
   "compatibility_flags": ["nodejs_compat"],
+  "no_bundle": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": ["**/*.js", "**/*.mjs"]
+    }
+  ],
   "workers_dev": true,
   "preview_urls": true,
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist"
+    "directory": "./dist/client"
   },
   "observability": {
     "enabled": true,
