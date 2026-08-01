@@ -1,0 +1,72 @@
+name: Preview V8 on Cloudflare Workers
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/preview-v8.yml"
+      - "src/layouts/V8Layout.astro"
+      - "src/pages/brand-demo-v8/**"
+      - "src/styles/v8.css"
+      - "wrangler.preview.jsonc"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-v8-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Validate and publish isolated preview
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate project
+        run: npm run check
+
+      - name: Build Astro Worker
+        run: npm run build
+
+      - name: Verify Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+
+      - name: Publish isolated preview Worker
+        id: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          command: deploy --config wrangler.preview.jsonc
+
+      - name: Verify preview route
+        env:
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
+          PREVIEW_URL="${PREVIEW_BASE_URL%/}/brand-demo-v8/"
+          curl --fail --silent --show-error \
+            --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
+            "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-v8.html"
+          grep -Fq "Il cliente ti sta già cercando." "$RUNNER_TEMP/trovatemi-v8.html"
+          echo "Preview V8 — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
