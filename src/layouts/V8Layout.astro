@@ -1,0 +1,365 @@
+---
+import '@fontsource/anton/latin.css';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '../styles/v8.css';
+import Wordmark from '../components/v72/Wordmark.astro';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const previewUrl = 'https://trovatemi.it/brand-demo-v8/';
+const socialImageUrl = 'https://trovatemi.it/images/nfc-review-counter-v7.webp';
+const socialImageAlt = 'Un cliente avvicina il telefono a un supporto NFC sul bancone di un’attività locale';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Trovatemi.it',
+  url: 'https://trovatemi.it/',
+  image: socialImageUrl,
+  description,
+  areaServed: 'IT',
+  knowsAbout: [
+    'Raccolta recensioni',
+    'Reputazione locale',
+    'Presenza Google per attività locali',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi-v8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#12161B" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={previewUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1536" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+  </head>
+  <body>
+    <a class="v8-skip" href="#contenuto">Vai al contenuto</a>
+
+    <div class="v8-preview-strip" role="status">
+      <div class="v8-wrap">
+        <span>V8 · preview privata</span>
+        <span>Root e V7.2 restano intatte</span>
+      </div>
+    </div>
+
+    <header class="v8-header" data-header>
+      <div class="v8-wrap">
+        <nav class="v8-nav" aria-label="Navigazione principale">
+          <Wordmark href="/brand-demo-v8/" />
+
+          <ul class="v8-nav__links" aria-label="Sezioni della pagina">
+            <li><a href="#problema">Il problema</a></li>
+            <li><a href="#come-funziona">Come funziona</a></li>
+            <li><a href="#trial">14 giorni</a></li>
+            <li><a href="#piani">I piani</a></li>
+          </ul>
+
+          <button class="btn btn-primary v8-button v8-nav__cta" type="button" data-audit-open data-source="header">
+            Guarda la mia attività <span aria-hidden="true">↗</span>
+          </button>
+
+          <details class="v8-menu" data-mobile-menu>
+            <summary aria-label="Apri il menu"><span></span><span></span></summary>
+            <div class="v8-menu__panel">
+              <a href="#problema">Il problema</a>
+              <a href="#come-funziona">Come funziona</a>
+              <a href="#trial">14 giorni</a>
+              <a href="#piani">I piani</a>
+              <button class="btn btn-primary v8-button" type="button" data-audit-open data-source="menu">Guarda la mia attività ↗</button>
+              <button class="v8-text-link" type="button" data-whatsapp-open>Scrivi a Chris su WhatsApp</button>
+            </div>
+          </details>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenuto"><slot /></main>
+
+    <footer class="v8-footer">
+      <div class="v8-wrap v8-footer__main">
+        <div>
+          <Wordmark href="/brand-demo-v8/" class="v8-footer__wordmark" />
+          <p>Recensioni e presenza pubblica per attività locali che lavorano bene.</p>
+        </div>
+        <div>
+          <span class="v8-kicker v8-kicker--on-dark">Il percorso</span>
+          <a href="#problema">Guarda il problema</a>
+          <a href="#trial">Prova 14 giorni</a>
+          <a href="#piani">Confronta i piani</a>
+        </div>
+        <div>
+          <span class="v8-kicker v8-kicker--on-dark">Le regole</span>
+          <a href="#faq">Niente posizioni garantite</a>
+          <a href="#faq">Niente recensioni filtrate</a>
+          <button type="button" data-whatsapp-open>Parla con Chris</button>
+        </div>
+      </div>
+      <div class="v8-wrap v8-footer__bottom">
+        <span>© 2026 Trovatemi.it</span>
+        <strong>Se chiami, risponde Chris.</strong>
+        <span>V8 · noindex</span>
+      </div>
+    </footer>
+
+    <aside class="v8-mobile-audit" data-mobile-audit hidden aria-label="Richiedi un audit">
+      <button class="v8-mobile-audit__close" type="button" aria-label="Nascondi la barra" data-mobile-audit-close>×</button>
+      <button class="btn btn-primary v8-button" type="button" data-audit-open data-source="sticky-mobile">
+        Fammi vedere cosa trova un cliente <span aria-hidden="true">↗</span>
+      </button>
+    </aside>
+
+    <dialog class="modal v8-modal" aria-labelledby="v8-audit-title" data-audit-dialog>
+      <div class="v8-modal__shell v8-audit-shell">
+        <form method="dialog" class="v8-modal__close"><button class="btn btn-neutral btn-square" aria-label="Chiudi l’audit">×</button></form>
+        <div class="v8-audit-intro">
+          <span class="v8-kicker v8-kicker--on-dark">Prima guardiamo. Poi parliamo.</span>
+          <h2 id="v8-audit-title">Cosa trova oggi un cliente?</h2>
+          <p>Chris apre il tuo profilo come farebbe una persona che non ti conosce. Guarda le prove, il confronto e i punti che meritano attenzione.</p>
+          <blockquote>Non partiamo da una presentazione. Partiamo da quello che vede il cliente.</blockquote>
+          <small>Preview: nessun dato viene inviato o conservato.</small>
+        </div>
+
+        <form class="v8-audit-form" data-audit-form>
+          <div class="v8-audit-form__grid">
+            <label><span>Nome</span><input class="input input-bordered" name="name" type="text" autocomplete="name" placeholder="Il tuo nome" required /></label>
+            <label><span>Attività</span><input class="input input-bordered" name="business" type="text" autocomplete="organization" placeholder="Nome dell’attività" required /></label>
+            <label><span>Città</span><input class="input input-bordered" name="city" type="text" autocomplete="address-level2" placeholder="Dove lavori" required /></label>
+            <label><span>Categoria</span><input class="input input-bordered" name="category" type="text" placeholder="Es. dentista, ristorante" required /></label>
+          </div>
+          <label><span>Telefono o WhatsApp</span><input class="input input-bordered" name="contact" type="tel" autocomplete="tel" placeholder="Il numero su cui ricontattarti" required /></label>
+          <label><span>Link del profilo Google <small>facoltativo</small></span><input class="input input-bordered" name="google" type="url" inputmode="url" placeholder="https://maps.google.com/..." /></label>
+          <button class="btn btn-primary v8-button" type="submit">Analizza la mia attività <span aria-hidden="true">→</span></button>
+          <p class="v8-form-note">Nessuna promessa di primo posto. Guardiamo la situazione reale.</p>
+
+          <div class="v8-audit-result" aria-live="polite" data-audit-result hidden>
+            <span class="v8-kicker">Richiesta preparata</span>
+            <h3>Chris guarderà il profilo e ti ricontatterà per mostrarti cosa vede oggi un cliente.</h3>
+            <p data-audit-summary></p>
+            <button class="btn btn-neutral v8-button" type="button" data-copy-request>Copia la richiesta</button>
+          </div>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button aria-label="Chiudi l’audit">Chiudi</button></form>
+    </dialog>
+
+    <dialog class="modal v8-modal" aria-labelledby="v8-demo-title" data-demo-dialog>
+      <div class="v8-modal__shell v8-demo-shell">
+        <form method="dialog" class="v8-modal__close"><button class="btn btn-neutral btn-square" aria-label="Chiudi la demo">×</button></form>
+        <header class="v8-demo-header">
+          <span class="v8-kicker">Dimostrazione · meno di 60 secondi</span>
+          <h2 id="v8-demo-title">Dal “grazie” alla recensione.</h2>
+          <p>Questa è una simulazione del percorso. Nessun messaggio viene inviato e nessuna recensione viene pubblicata.</p>
+        </header>
+
+        <div class="v8-demo-stage">
+          <figure>
+            <img src="/images/nfc-review-counter-v7.webp" width="1536" height="1024" alt="Cliente che avvicina il telefono a un supporto NFC sul bancone" />
+            <figcaption>Esempio illustrativo</figcaption>
+          </figure>
+
+          <div class="v8-phone" data-demo-phone data-step="1">
+            <div class="v8-phone__bar"><i></i><span>trovatemi.it</span><b></b></div>
+            <section data-demo-panel="1">
+              <small>01 · Il momento giusto</small>
+              <strong>Grazie per essere passato.</strong>
+              <p>Ti va di raccontare com’è andata?</p>
+              <button class="btn btn-primary v8-button" type="button" data-demo-next="2">Apri il percorso</button>
+            </section>
+            <section data-demo-panel="2">
+              <small>02 · Stesso percorso per tutti</small>
+              <strong>Com’è stata la tua esperienza?</strong>
+              <div class="v8-stars" aria-label="Cinque stelle illustrate">★★★★★</div>
+              <p>La tua opinione resta tua. Nessun filtro sul voto.</p>
+              <button class="btn btn-primary v8-button" type="button" data-demo-next="3">Continua</button>
+            </section>
+            <section data-demo-panel="3">
+              <small>03 · Su Google</small>
+              <strong>Racconta la tua esperienza</strong>
+              <textarea class="textarea textarea-bordered" readonly aria-label="Esempio di testo recensione">Servizio preciso e persone disponibili. Tornerei volentieri.</textarea>
+              <button class="btn btn-primary v8-button" type="button" data-demo-next="4">Continua su Google</button>
+            </section>
+            <section data-demo-panel="4">
+              <small>04 · Il titolare vede</small>
+              <strong>Nuova recensione pubblica</strong>
+              <p>Ora puoi leggerla, rispondere e misurare l’output.</p>
+              <i class="v8-demo-check">✓</i>
+            </section>
+          </div>
+        </div>
+
+        <div class="v8-demo-controls" role="group" aria-label="Passaggi della dimostrazione">
+          <button class="is-active" type="button" data-demo-control="1" aria-pressed="true">1 <span>Chiedi</span></button>
+          <button type="button" data-demo-control="2" aria-pressed="false">2 <span>Apre</span></button>
+          <button type="button" data-demo-control="3" aria-pressed="false">3 <span>Scrive</span></button>
+          <button type="button" data-demo-control="4" aria-pressed="false">4 <span>Gestisci</span></button>
+        </div>
+        <button class="btn btn-primary v8-button v8-demo-cta" type="button" data-audit-from-demo>Fallo sulla mia attività <span aria-hidden="true">↗</span></button>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button aria-label="Chiudi la demo">Chiudi</button></form>
+    </dialog>
+
+    <dialog class="modal v8-modal" aria-labelledby="v8-whatsapp-title" data-whatsapp-dialog>
+      <div class="v8-modal__shell v8-whatsapp-shell">
+        <form method="dialog" class="v8-modal__close"><button class="btn btn-neutral btn-square" aria-label="Chiudi">×</button></form>
+        <span class="v8-kicker">Contatto diretto</span>
+        <h2 id="v8-whatsapp-title">Se scrivi, risponde Chris.</h2>
+        <p>Il numero WhatsApp ufficiale non è ancora collegato in questa preview. Il messaggio è pronto e l’integrazione verrà attivata soltanto al gate di produzione.</p>
+        <blockquote data-whatsapp-message>Ciao Chris, vorrei vedere cosa trova oggi un cliente quando cerca la mia attività.</blockquote>
+        <button class="btn btn-primary v8-button" type="button" data-copy-whatsapp>Copia il messaggio</button>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button aria-label="Chiudi">Chiudi</button></form>
+    </dialog>
+
+    <script is:inline>
+      (() => {
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+        const auditDialog = $('[data-audit-dialog]');
+        const demoDialog = $('[data-demo-dialog]');
+        const whatsappDialog = $('[data-whatsapp-dialog]');
+        const mobileAudit = $('[data-mobile-audit]');
+        const mobileMenu = $('[data-mobile-menu]');
+        let auditBarDismissed = false;
+        let heroVisible = true;
+
+        const track = (name, detail = {}) => {
+          document.dispatchEvent(new CustomEvent('trovatemi:conversion', { detail: { name, ...detail } }));
+        };
+
+        const syncDialogState = () => {
+          const open = $$('dialog[open]').length > 0 || Boolean(mobileMenu?.open);
+          document.documentElement.classList.toggle('v8-overlay-open', open);
+          if (open) mobileAudit?.setAttribute('hidden', '');
+          else syncAuditBar();
+        };
+
+        const syncAuditBar = () => {
+          if (!mobileAudit) return;
+          const shouldShow = !heroVisible && !auditBarDismissed && !document.documentElement.classList.contains('v8-overlay-open');
+          mobileAudit.toggleAttribute('hidden', !shouldShow);
+        };
+
+        const openDialog = (dialog, eventName, detail = {}) => {
+          if (!dialog || typeof dialog.showModal !== 'function') return;
+          if (!dialog.open) dialog.showModal();
+          syncDialogState();
+          track(eventName, detail);
+        };
+
+        $$('[data-audit-open]').forEach((button) => button.addEventListener('click', () => {
+          if (mobileMenu?.open) mobileMenu.removeAttribute('open');
+          openDialog(auditDialog, 'audit_open', { source: button.dataset.source || 'page' });
+        }));
+
+        $$('[data-demo-open]').forEach((button) => button.addEventListener('click', () => openDialog(demoDialog, 'demo_open')));
+        $$('[data-whatsapp-open]').forEach((button) => button.addEventListener('click', () => {
+          if (mobileMenu?.open) mobileMenu.removeAttribute('open');
+          openDialog(whatsappDialog, 'whatsapp_open');
+        }));
+
+        $$('dialog').forEach((dialog) => dialog.addEventListener('close', syncDialogState));
+        mobileMenu?.addEventListener('toggle', syncDialogState);
+        $$('[data-mobile-menu] a').forEach((link) => link.addEventListener('click', () => mobileMenu?.removeAttribute('open')));
+
+        $('[data-mobile-audit-close]')?.addEventListener('click', () => {
+          auditBarDismissed = true;
+          mobileAudit?.setAttribute('hidden', '');
+        });
+
+        const hero = $('[data-v8-hero]');
+        if (hero && 'IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(([entry]) => {
+            heroVisible = entry.isIntersecting;
+            syncAuditBar();
+          }, { threshold: 0.08 });
+          observer.observe(hero);
+        }
+
+        const phone = $('[data-demo-phone]');
+        const setDemoStep = (step) => {
+          if (!phone) return;
+          phone.dataset.step = String(step);
+          $$('[data-demo-control]').forEach((button) => {
+            const active = button.dataset.demoControl === String(step);
+            button.classList.toggle('is-active', active);
+            button.setAttribute('aria-pressed', String(active));
+          });
+          track('demo_step', { step });
+        };
+        $$('[data-demo-control]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoControl)));
+        $$('[data-demo-next]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoNext)));
+        $('[data-audit-from-demo]')?.addEventListener('click', () => {
+          demoDialog?.close();
+          openDialog(auditDialog, 'audit_open', { source: 'demo' });
+        });
+
+        const auditForm = $('[data-audit-form]');
+        let auditCopy = '';
+        auditForm?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (!auditForm.reportValidity()) return;
+          const data = new FormData(auditForm);
+          const name = String(data.get('name') || '');
+          const business = String(data.get('business') || '');
+          const city = String(data.get('city') || '');
+          const category = String(data.get('category') || '');
+          const contact = String(data.get('contact') || '');
+          const google = String(data.get('google') || 'non disponibile');
+          auditCopy = `Ciao Chris, sono ${name}. Vorrei l’analisi di ${business}, ${category} a ${city}. Contatto: ${contact}. Profilo Google: ${google}.`;
+          $('[data-audit-summary]').textContent = `${business} · ${category} · ${city}`;
+          $('[data-audit-result]')?.removeAttribute('hidden');
+          $('[data-audit-result]')?.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          track('audit_submit', { mode: 'preview' });
+        });
+
+        const copyText = async (text, button) => {
+          if (!text) return;
+          try {
+            await navigator.clipboard.writeText(text);
+            const original = button.textContent;
+            button.textContent = 'Copiato ✓';
+            setTimeout(() => { button.textContent = original; }, 1800);
+          } catch {
+            button.textContent = 'Seleziona e copia il testo';
+          }
+        };
+        $('[data-copy-request]')?.addEventListener('click', (event) => copyText(auditCopy, event.currentTarget));
+        $('[data-copy-whatsapp]')?.addEventListener('click', (event) => copyText($('[data-whatsapp-message]')?.textContent?.trim() || '', event.currentTarget));
+
+        $$('[data-plan-choice]').forEach((button) => button.addEventListener('click', () => {
+          const choice = button.dataset.planChoice;
+          $$('[data-plan-choice]').forEach((candidate) => candidate.setAttribute('aria-pressed', String(candidate === button)));
+          $$('[data-plan-result]').forEach((result) => result.toggleAttribute('hidden', result.dataset.planResult !== choice));
+          track('plan_orientation', { choice });
+        }));
+      })();
+    </script>
+  </body>
+</html>
