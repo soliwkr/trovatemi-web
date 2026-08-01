@@ -1,0 +1,65 @@
+---
+export const prerender = true;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Trovatemi V8 · Mobile QA</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 430px;
+        margin: 0;
+        padding: 32px;
+        background: #12161b;
+        color: #f7f5ef;
+      }
+
+      header {
+        width: 390px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto 16px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      iframe {
+        width: 390px;
+        height: 844px;
+        display: block;
+        margin: 0 auto;
+        border: 0;
+        background: #f7f5ef;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span>V8 · mobile QA</span>
+      <span>390 × 844</span>
+    </header>
+    <iframe
+      data-v8-mobile-frame
+      src="/brand-demo-v8/"
+      title="Anteprima mobile della homepage Trovatemi V8"
+      width="390"
+      height="844"
+    ></iframe>
+  </body>
+</html>
