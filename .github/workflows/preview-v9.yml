@@ -2,7 +2,7 @@ name: Preview V9 on Cloudflare Workers
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/site-v8-trustars-mister-review]
     paths:
       - ".github/workflows/preview-v9.yml"
       - "src/layouts/V9Layout.astro"
