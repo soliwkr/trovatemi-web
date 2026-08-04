@@ -4250,7 +4250,7 @@ img {
   }
 
   .v10-plan-card--dark > header h3 {
-    font-size: clamp(2rem, 10.8vw, 3.1rem);
+    font-size: clamp(1.6rem, 9vw, 2.7rem);
   }
 
   .v10-price strong {
