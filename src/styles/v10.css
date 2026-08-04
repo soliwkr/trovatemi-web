@@ -2983,6 +2983,7 @@ img {
   width: min(92vw, 76rem);
   max-width: none;
   max-height: min(90svh, 58rem);
+  place-items: start stretch;
   margin: auto;
   padding: 0;
   border: 0;
