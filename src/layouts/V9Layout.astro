@@ -1,0 +1,304 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/anton/latin.css';
+import '../styles/v9.css';
+import Wordmark from '../components/v72/Wordmark.astro';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const previewUrl = 'https://trovatemi-web-v9-preview.soliwkr.workers.dev/brand-demo-v9/';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Trovatemi.it',
+  url: 'https://trovatemi.it/',
+  description,
+  areaServed: 'IT',
+  knowsAbout: ['Recensioni reali', 'Reputazione locale', 'Presenza Google per attività locali'],
+};
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi-v9">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c0f12" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={previewUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+  </head>
+  <body>
+    <a class="v9-skip" href="#contenuto">Vai al contenuto</a>
+
+    <div class="v9-preview-bar" role="status">
+      <div class="v9-shell">
+        <span>V9 · studio visuale isolato</span>
+        <span>La root non cambia</span>
+      </div>
+    </div>
+
+    <header class="v9-header">
+      <div class="v9-shell">
+        <nav class="v9-nav" aria-label="Navigazione principale">
+          <Wordmark href="/brand-demo-v9/" />
+
+          <ul class="v9-nav__links">
+            <li><a href="#problema">Il problema</a></li>
+            <li><a href="#come-funziona">Come funziona</a></li>
+            <li><a href="#trial">14 giorni</a></li>
+            <li><a href="#piani">I piani</a></li>
+          </ul>
+
+          <button class="btn v9-btn v9-btn--yellow v9-nav__cta" type="button" data-audit-open data-source="header">
+            Analizza la mia attività <span aria-hidden="true">↗</span>
+          </button>
+
+          <details class="v9-menu" data-mobile-menu>
+            <summary aria-label="Apri il menu"><span></span><span></span></summary>
+            <div class="v9-menu__panel">
+              <a href="#problema">Il problema</a>
+              <a href="#come-funziona">Come funziona</a>
+              <a href="#trial">14 giorni</a>
+              <a href="#piani">I piani</a>
+              <button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="menu">Analizza la mia attività ↗</button>
+              <button class="v9-plain-link" type="button" data-whatsapp-open>Scrivi a Chris</button>
+            </div>
+          </details>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenuto"><slot /></main>
+
+    <footer class="v9-footer">
+      <div class="v9-shell v9-footer__grid">
+        <div class="v9-footer__brand">
+          <Wordmark href="/brand-demo-v9/" />
+          <p>Recensioni e presenza pubblica per attività locali che lavorano bene.</p>
+        </div>
+        <div>
+          <strong>Il percorso</strong>
+          <a href="#problema">Riconosci il problema</a>
+          <a href="#come-funziona">Guarda il sistema</a>
+          <a href="#trial">Provalo 14 giorni</a>
+        </div>
+        <div>
+          <strong>Le regole</strong>
+          <a href="#faq">Niente posizioni garantite</a>
+          <a href="#faq">Niente recensioni filtrate</a>
+          <button type="button" data-whatsapp-open>Parla con Chris</button>
+        </div>
+      </div>
+      <div class="v9-shell v9-footer__bottom">
+        <span>© 2026 Trovatemi.it</span>
+        <b>Se chiami, risponde Chris.</b>
+        <span>V9 · noindex</span>
+      </div>
+    </footer>
+
+    <aside class="v9-mobile-cta" data-mobile-audit hidden>
+      <button type="button" class="v9-mobile-cta__close" aria-label="Nascondi" data-mobile-audit-close>×</button>
+      <button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="sticky-mobile">Fammi vedere cosa trova un cliente ↗</button>
+    </aside>
+
+    <dialog class="modal v9-modal" aria-labelledby="v9-audit-title" data-audit-dialog>
+      <div class="v9-modal__shell v9-audit">
+        <button class="v9-modal__close" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <div class="v9-audit__intro">
+          <span class="v9-label v9-label--yellow">Prima guardiamo. Poi parliamo.</span>
+          <h2 id="v9-audit-title">Cosa trova oggi un cliente?</h2>
+          <p>Chris apre il tuo profilo come farebbe una persona che non ti conosce. Guarda le prove, il confronto e i punti che meritano attenzione.</p>
+          <blockquote>Non partiamo da una presentazione. Partiamo da quello che vede il cliente.</blockquote>
+          <small>Preview: nessun dato viene inviato o conservato.</small>
+        </div>
+
+        <form class="v9-audit__form" data-audit-form>
+          <div class="v9-form-grid">
+            <label><span>Nome</span><input name="name" type="text" autocomplete="name" placeholder="Il tuo nome" required /></label>
+            <label><span>Attività</span><input name="business" type="text" autocomplete="organization" placeholder="Nome dell’attività" required /></label>
+            <label><span>Città</span><input name="city" type="text" autocomplete="address-level2" placeholder="Dove lavori" required /></label>
+            <label><span>Categoria</span><input name="category" type="text" placeholder="Es. dentista, ristorante" required /></label>
+          </div>
+          <label><span>Telefono o WhatsApp</span><input name="contact" type="tel" autocomplete="tel" placeholder="Il numero su cui ricontattarti" required /></label>
+          <label><span>Link del profilo Google <small>facoltativo</small></span><input name="google" type="url" inputmode="url" placeholder="https://maps.google.com/..." /></label>
+          <button class="btn v9-btn v9-btn--yellow" type="submit">Analizza la mia attività →</button>
+          <p class="v9-form-note">Nessuna promessa di primo posto. Guardiamo la situazione reale.</p>
+
+          <div class="v9-audit__result" aria-live="polite" data-audit-result hidden>
+            <span class="v9-label">Richiesta preparata</span>
+            <h3>Chris guarderà il profilo e ti ricontatterà per mostrarti cosa vede oggi un cliente.</h3>
+            <p data-audit-summary></p>
+            <button class="btn v9-btn v9-btn--dark" type="button" data-copy-request>Copia la richiesta</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="modal v9-modal" aria-labelledby="v9-demo-title" data-demo-dialog>
+      <div class="v9-modal__shell v9-demo">
+        <button class="v9-modal__close v9-modal__close--dark" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <header>
+          <span class="v9-label v9-label--yellow">Demo interattiva · esempio illustrativo</span>
+          <h2 id="v9-demo-title">Dal “grazie” alla recensione.</h2>
+          <p>Nessun messaggio viene inviato e nessuna recensione viene pubblicata.</p>
+        </header>
+
+        <div class="v9-demo__content">
+          <div class="v9-demo-phone" data-demo-phone data-step="1">
+            <div class="v9-demo-phone__top"><i></i><span>trovatemi.it</span><b></b></div>
+            <section data-demo-panel="1"><small>01 · Il momento giusto</small><strong>Grazie per essere passato.</strong><p>Ti va di raccontare com’è andata?</p><button class="btn v9-btn v9-btn--yellow" type="button" data-demo-next="2">Apri il percorso</button></section>
+            <section data-demo-panel="2"><small>02 · Stesso percorso per tutti</small><strong>Com’è stata la tua esperienza?</strong><div class="v9-stars">★★★★★</div><p>La tua opinione resta tua. Nessun filtro sul voto.</p><button class="btn v9-btn v9-btn--yellow" type="button" data-demo-next="3">Continua</button></section>
+            <section data-demo-panel="3"><small>03 · Su Google</small><strong>Racconta la tua esperienza</strong><textarea readonly>Servizio preciso e persone disponibili. Tornerei volentieri.</textarea><button class="btn v9-btn v9-btn--yellow" type="button" data-demo-next="4">Continua su Google</button></section>
+            <section data-demo-panel="4"><small>04 · Il titolare vede</small><strong>Nuova recensione pubblica</strong><p>Ora puoi leggerla, rispondere e misurare l’output.</p><i class="v9-demo-check">✓</i></section>
+          </div>
+
+          <div class="v9-demo__side">
+            <span>Esempio illustrativo</span>
+            <ol>
+              <li><button class="is-active" type="button" data-demo-control="1" aria-pressed="true"><b>1</b><span>Chiedi nel momento giusto</span></button></li>
+              <li><button type="button" data-demo-control="2" aria-pressed="false"><b>2</b><span>Il cliente apre</span></button></li>
+              <li><button type="button" data-demo-control="3" aria-pressed="false"><b>3</b><span>Racconta l’esperienza</span></button></li>
+              <li><button type="button" data-demo-control="4" aria-pressed="false"><b>4</b><span>Tu gestisci</span></button></li>
+            </ol>
+            <button class="btn v9-btn v9-btn--yellow" type="button" data-audit-from-demo>Fallo sulla mia attività ↗</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="modal v9-modal" aria-labelledby="v9-whatsapp-title" data-whatsapp-dialog>
+      <div class="v9-modal__shell v9-whatsapp">
+        <button class="v9-modal__close" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <span class="v9-label">Contatto diretto</span>
+        <h2 id="v9-whatsapp-title">Se scrivi, risponde Chris.</h2>
+        <p>Il numero WhatsApp ufficiale non è collegato in questa preview. Il messaggio è pronto.</p>
+        <blockquote data-whatsapp-message>Ciao Chris, vorrei vedere cosa trova oggi un cliente quando cerca la mia attività.</blockquote>
+        <button class="btn v9-btn v9-btn--dark" type="button" data-copy-whatsapp>Copia il messaggio</button>
+      </div>
+    </dialog>
+
+    <script is:inline>
+      (() => {
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+        const auditDialog = $('[data-audit-dialog]');
+        const demoDialog = $('[data-demo-dialog]');
+        const whatsappDialog = $('[data-whatsapp-dialog]');
+        const mobileAudit = $('[data-mobile-audit]');
+        const mobileMenu = $('[data-mobile-menu]');
+        let heroVisible = true;
+        let auditBarDismissed = false;
+
+        const syncOverlay = () => {
+          const open = $$('dialog[open]').length > 0 || Boolean(mobileMenu?.open);
+          document.documentElement.classList.toggle('v9-overlay-open', open);
+          mobileAudit?.toggleAttribute('hidden', open || heroVisible || auditBarDismissed);
+        };
+
+        const openDialog = (dialog) => {
+          if (!dialog || typeof dialog.showModal !== 'function') return;
+          if (!dialog.open) dialog.showModal();
+          syncOverlay();
+        };
+
+        $$('[data-audit-open]').forEach((button) => button.addEventListener('click', () => {
+          mobileMenu?.removeAttribute('open');
+          openDialog(auditDialog);
+        }));
+        $$('[data-demo-open]').forEach((button) => button.addEventListener('click', () => openDialog(demoDialog)));
+        $$('[data-whatsapp-open]').forEach((button) => button.addEventListener('click', () => {
+          mobileMenu?.removeAttribute('open');
+          openDialog(whatsappDialog);
+        }));
+        $$('[data-dialog-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog')?.close()));
+        $$('dialog').forEach((dialog) => {
+          dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+          dialog.addEventListener('close', syncOverlay);
+        });
+        mobileMenu?.addEventListener('toggle', syncOverlay);
+        $$('[data-mobile-menu] a').forEach((link) => link.addEventListener('click', () => mobileMenu?.removeAttribute('open')));
+
+        $('[data-mobile-audit-close]')?.addEventListener('click', () => {
+          auditBarDismissed = true;
+          mobileAudit?.setAttribute('hidden', '');
+        });
+
+        const hero = $('[data-v9-hero]');
+        const syncHero = () => {
+          if (!hero) return;
+          heroVisible = hero.getBoundingClientRect().bottom > Math.max(110, innerHeight * 0.25);
+          syncOverlay();
+        };
+        syncHero();
+        addEventListener('scroll', syncHero, { passive: true });
+        addEventListener('resize', syncHero);
+
+        const phone = $('[data-demo-phone]');
+        const setDemoStep = (step) => {
+          if (!phone) return;
+          phone.dataset.step = String(step);
+          $$('[data-demo-control]').forEach((button) => {
+            const active = button.dataset.demoControl === String(step);
+            button.classList.toggle('is-active', active);
+            button.setAttribute('aria-pressed', String(active));
+          });
+        };
+        $$('[data-demo-control]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoControl)));
+        $$('[data-demo-next]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoNext)));
+        $('[data-audit-from-demo]')?.addEventListener('click', () => { demoDialog?.close(); openDialog(auditDialog); });
+
+        let auditCopy = '';
+        const auditForm = $('[data-audit-form]');
+        auditForm?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (!auditForm.reportValidity()) return;
+          const data = new FormData(auditForm);
+          const name = String(data.get('name') || '');
+          const business = String(data.get('business') || '');
+          const city = String(data.get('city') || '');
+          const category = String(data.get('category') || '');
+          const contact = String(data.get('contact') || '');
+          const google = String(data.get('google') || 'non disponibile');
+          auditCopy = `Ciao Chris, sono ${name}. Vorrei l’analisi di ${business}, ${category} a ${city}. Contatto: ${contact}. Profilo Google: ${google}.`;
+          $('[data-audit-summary]').textContent = `${business} · ${category} · ${city}`;
+          $('[data-audit-result]')?.removeAttribute('hidden');
+        });
+
+        const copyText = async (value, button) => {
+          if (!value) return;
+          try {
+            await navigator.clipboard.writeText(value);
+            const original = button.textContent;
+            button.textContent = 'Copiato ✓';
+            setTimeout(() => { button.textContent = original; }, 1600);
+          } catch { button.textContent = 'Seleziona e copia il testo'; }
+        };
+        $('[data-copy-request]')?.addEventListener('click', (event) => copyText(auditCopy, event.currentTarget));
+        $('[data-copy-whatsapp]')?.addEventListener('click', (event) => copyText($('[data-whatsapp-message]')?.textContent?.trim() || '', event.currentTarget));
+
+        $$('[data-plan-choice]').forEach((button) => button.addEventListener('click', () => {
+          const choice = button.dataset.planChoice;
+          $$('[data-plan-choice]').forEach((candidate) => candidate.setAttribute('aria-pressed', String(candidate === button)));
+          $$('[data-plan-result]').forEach((result) => result.toggleAttribute('hidden', result.dataset.planResult !== choice));
+        }));
+      })();
+    </script>
+  </body>
+</html>

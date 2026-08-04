@@ -1,0 +1,350 @@
+---
+import V9Layout from '../../layouts/V9Layout.astro';
+
+export const prerender = true;
+
+const foundFeatures = [
+  'Raccolta centralizzata delle recensioni',
+  'QR personalizzato e NFC',
+  'Richieste automatiche nei limiti previsti',
+  'Risposte assistite dall’AI, sotto il tuo controllo',
+  'Gestione centralizzata e monitoraggio',
+  'Assistenza',
+];
+
+const inevitableFeatures = [
+  'Tutto TROVATO',
+  'Recensioni trasformate in contenuti',
+  'Distribuzione sui canali collegati',
+  'Aggiornamenti Google',
+  'Contenuti locali da servizi, territorio, domande e recensioni reali',
+  'Hub editoriale, revisione periodica e supporto prioritario',
+];
+
+const faqs = [
+  ['Mi garantite il primo posto su Google?', 'No. Nessuno controlla completamente le posizioni di Google. Trovatemi installa e gestisce un processo misurabile; non vende classifiche garantite.'],
+  ['Filtrate le recensioni negative?', 'No. Ogni cliente riceve lo stesso percorso. Non compriamo recensioni, non selezioniamo chi può lasciare un’opinione e non utilizziamo review gating.'],
+  ['È un software che devo imparare a usare?', 'No. La tecnologia è solo una parte. Configuriamo il sistema sulla tua attività e ti accompagniamo nell’utilizzo.'],
+  ['Cosa succede nei 14 giorni?', 'Attivazione, prima richiesta, controllo al giorno 7 e revisione al giorno 14.'],
+  ['Devo avere qualcuno che segue i social?', 'No per TROVATO. Per INEVITABILE eventuali professionisti già presenti possono essere coinvolti senza essere sostituiti.'],
+  ['Posso scegliere il mensile?', 'Sì. Il mensile prevede una quota di attivazione; l’annuale la include.'],
+  ['Mi garantite nuovi clienti?', 'No. Possiamo misurare sistema, richieste, recensioni, contenuti e output. La scelta finale dipende anche da servizio, mercato, prezzi e capacità commerciale dell’attività.'],
+  ['In cosa siete diversi da un software economico?', 'Un software ti dà accesso. Trovatemi configura il processo sulla tua attività, prepara gli strumenti, accompagna il personale e controlla che venga utilizzato. La tecnologia resta dietro le quinte.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V9Layout
+  title="Trovatemi.it | Recensioni e presenza Google per attività locali"
+  description="Trasforma clienti soddisfatti in recensioni e presenza pubblica. Prova Trovatemi per 14 giorni sulla tua vera attività, con attivazione assistita."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="v9-hero" data-v9-hero>
+    <div class="v9-grid-glow" aria-hidden="true"></div>
+    <div class="v9-shell v9-hero__grid">
+      <div class="v9-hero__copy">
+        <p class="v9-eyebrow"><span>★</span> Per attività locali che lavorano bene, ma online non lo dimostrano abbastanza.</p>
+        <h1>Il cliente ti sta già cercando. <em>Il problema è che trova un altro.</em></h1>
+        <p class="v9-hero__lede">Trovatemi installa nella tua attività un sistema semplice per trasformare clienti soddisfatti in recensioni, risposte e prove pubbliche che aiutano chi ti cerca a scegliere te.</p>
+        <div class="v9-actions">
+          <button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="hero">Fammi vedere cosa trova un cliente <span aria-hidden="true">↗</span></button>
+          <button class="v9-video-link" type="button" data-demo-open><i aria-hidden="true">▶</i><span>Guarda come funziona<br /><b>in 60 secondi</b></span></button>
+        </div>
+        <div class="v9-hero__trial"><strong>14</strong><span>giorni di prova assistita.<br />Sulla tua vera attività. Con clienti reali.</span></div>
+      </div>
+
+      <div class="v9-hero-art" aria-label="Esempio illustrativo del percorso dalla richiesta alla recensione">
+        <span class="v9-art-note">Esempio illustrativo</span>
+        <div class="v9-browser-card">
+          <div class="v9-browser-card__top"><i></i><i></i><i></i><span>Ricerca Google</span></div>
+          <div class="v9-search-pill"><span></span><b>servizio vicino a me</b><i>⌕</i></div>
+          <article class="v9-local-result">
+            <div class="v9-local-result__cover"><span>APERTO</span><i>★</i></div>
+            <div class="v9-local-result__body">
+              <small>Attività dimostrativa</small>
+              <h2>Officina Bianchi</h2>
+              <div class="v9-rating"><strong>4,8</strong><span>★★★★★</span><small>84 recensioni</small></div>
+              <p>Recensioni recenti · risposte presenti</p>
+              <button type="button">Chiama</button>
+            </div>
+          </article>
+        </div>
+
+        <article class="v9-review-pop">
+          <header><i>G</i><div><b>Nuova recensione</b><small>pochi istanti fa</small></div><span>★★★★★</span></header>
+          <p>“Servizio preciso e persone disponibili.”</p>
+          <div><b>Risposta preparata</b><i>✓</i></div>
+        </article>
+
+        <div class="v9-phone-mini">
+          <span class="v9-phone-mini__notch"></span>
+          <small>Lascia la tua esperienza</small>
+          <strong>Com’è andata?</strong>
+          <div>★★★★★</div>
+          <button type="button" data-demo-open>Continua</button>
+        </div>
+
+        <button class="v9-nfc-puck" type="button" data-demo-open aria-label="Apri la demo NFC">
+          <span>)))</span><b>TOCCA<br />QUI</b><small>NFC + QR</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="v9-trust-rail">
+      <div class="v9-shell">
+        <span><i>✓</i> Recensioni reali</span>
+        <span><i>✓</i> Stesso percorso per tutti</span>
+        <span><i>✓</i> Nessun filtro sul voto</span>
+        <span><i>★</i> Seguito da Chris</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="problema" class="v9-section v9-scene">
+    <div class="v9-shell">
+      <header class="v9-heading v9-heading--wide">
+        <span class="v9-label">01 · Una scena che conosci</span>
+        <h2>Ogni mese servi clienti soddisfatti. <em>Quanti diventano una recensione?</em></h2>
+      </header>
+
+      <div class="v9-scene__grid">
+        <div class="v9-scene__copy">
+          <ol>
+            <li><span>01</span><p>Il cliente paga.</p></li>
+            <li><span>02</span><p>Ti ringrazia.</p></li>
+            <li><span>03</span><p>Dice che si è trovato benissimo.</p></li>
+            <li><span>04</span><p>Gli chiedi una recensione.</p></li>
+          </ol>
+          <blockquote>“Certo, la faccio dopo.”</blockquote>
+          <p>Poi esce. Torna alla sua giornata. E se ne dimentica.</p>
+        </div>
+
+        <div class="v9-memory-art" aria-label="Esempio illustrativo di una richiesta rimandata e dimenticata">
+          <span class="v9-art-note v9-art-note--dark">Esempio illustrativo</span>
+          <div class="v9-chat-head"><i>AB</i><div><b>Andrea · cliente</b><small>online poco fa</small></div></div>
+          <div class="v9-chat-day">OGGI</div>
+          <p class="v9-chat-bubble">Grazie ancora, mi sono trovato benissimo! 🙌</p>
+          <p class="v9-chat-bubble v9-chat-bubble--owner">Grazie Andrea. Se ti va, ci lasci una recensione?</p>
+          <p class="v9-chat-bubble">Certo, la faccio dopo 👍</p>
+          <div class="v9-chat-later"><span>6 giorni dopo</span><strong>Nessuna recensione.</strong></div>
+          <div class="v9-memory-art__footer"><i>⌕</i><p>Intanto un altro cliente confronta le alternative.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="v9-section v9-comparison" aria-labelledby="v9-comparison-title">
+    <div class="v9-shell">
+      <header class="v9-heading">
+        <span class="v9-label">02 · La scelta avviene qui</span>
+        <h2 id="v9-comparison-title">Non significa che il concorrente lavori meglio. <em>Online sembra più facile fidarsi di lui.</em></h2>
+        <p>Mettiamoci nei panni di una persona che non conosce nessuno dei due.</p>
+      </header>
+
+      <div class="v9-profile-board">
+        <span class="v9-art-note">Esempio illustrativo · numeri inventati</span>
+        <article class="v9-google-profile v9-google-profile--quiet">
+          <header><i>A</i><div><small>Servizio locale</small><h3>Attività A</h3></div><b>⋮</b></header>
+          <div class="v9-google-profile__rating"><strong>4,7</strong><span>★★★★★</span><small>23 recensioni</small></div>
+          <dl><div><dt>Ultima recensione</dt><dd>5 mesi fa</dd></div><div><dt>Risposte</dt><dd>Non presenti</dd></div><div><dt>Aggiornamento</dt><dd>7 mesi fa</dd></div></dl>
+          <button type="button">Chiama</button>
+        </article>
+        <div class="v9-vs">VS</div>
+        <article class="v9-google-profile v9-google-profile--active">
+          <header><i>B</i><div><small>Servizio locale</small><h3>Attività B</h3></div><b>⋮</b></header>
+          <div class="v9-google-profile__rating"><strong>4,8</strong><span>★★★★★</span><small>84 recensioni</small></div>
+          <dl><div><dt>Ultima recensione</dt><dd>3 giorni fa</dd></div><div><dt>Risposte</dt><dd>Presenti</dd></div><div><dt>Aggiornamento</dt><dd>1 settimana fa</dd></div></dl>
+          <button type="button">Chiama</button>
+        </article>
+      </div>
+
+      <div class="v9-question-band">
+        <div><span>La domanda è semplice</span><h3>Se non conoscessi nessuna delle due attività, quale chiameresti per prima?</h3></div>
+        <button class="btn v9-btn v9-btn--dark" type="button" data-audit-open data-source="comparison">Guarda il mio confronto ↗</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="v9-intent">
+    <div class="v9-grid-glow" aria-hidden="true"></div>
+    <div class="v9-shell v9-intent__grid">
+      <div>
+        <span class="v9-label v9-label--yellow">03 · Il momento che conta</span>
+        <h2>Chi cerca vale molto più di chi scrolla.</h2>
+        <p>Chi scrolla sta passando il tempo.<br />Chi cerca ha un problema, sta confrontando e deve scegliere.</p>
+        <strong>Non devi farti vedere da tutti. Devi essere credibile davanti alle persone giuste, nel momento giusto.</strong>
+      </div>
+      <div class="v9-intent-art">
+        <article class="v9-scroll-card"><span>Sta scorrendo</span><div><i></i><i></i><i></i></div><strong>Vede.<br />Passa.<br />Dimentica.</strong></article>
+        <article class="v9-search-card"><span>Sta cercando</span><div><i></i><b>servizio vicino a me</b><em>⌕</em></div><ul><li>Confronta le prove</li><li>Legge le recensioni</li><li>Sceglie chi chiamare</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="come-funziona" class="v9-section v9-system">
+    <div class="v9-shell">
+      <header class="v9-heading v9-heading--wide">
+        <span class="v9-label">04 · Come funziona</span>
+        <h2>Dal complimento alla recensione, <em>senza lasciare tutto alla memoria.</em></h2>
+        <p>Quattro passaggi. Ogni immagine qui sotto è un mockup originale e dichiaratamente illustrativo.</p>
+      </header>
+
+      <div class="v9-feature-list">
+        <article class="v9-feature v9-feature--yellow">
+          <div class="v9-feature__copy"><span>01 · Il momento</span><h3>Il cliente è soddisfatto.</h3><p>La richiesta avviene quando l’esperienza è ancora fresca. Al bancone, alla reception o appena finito il servizio.</p><blockquote>“È andato tutto bene?”</blockquote></div>
+          <div class="v9-feature__art v9-tap-art" aria-label="Esempio illustrativo di un telefono che usa NFC">
+            <span class="v9-art-note">Esempio illustrativo</span>
+            <div class="v9-counter"><span></span><i></i></div>
+            <div class="v9-tap-phone"><i></i><small>Pronto a lasciare<br />la tua esperienza?</small><b>★★★★★</b><button type="button">Continua</button></div>
+            <button class="v9-tap-disc" type="button" data-demo-open><i>)))</i><strong>TOCCA<br />QUI</strong><small>NFC</small></button>
+            <span class="v9-tap-wave v9-tap-wave--one"></span><span class="v9-tap-wave v9-tap-wave--two"></span>
+          </div>
+        </article>
+
+        <article class="v9-feature v9-feature--ink v9-feature--reverse">
+          <div class="v9-feature__copy"><span>02 · Il gesto</span><h3>Avvicina il telefono o apre il QR.</h3><p>Niente ricerche complicate. Se il momento è passato, la richiesta arriva con un messaggio semplice.</p><button class="v9-inline-action" type="button" data-demo-open>Apri la demo in 60 secondi ↗</button></div>
+          <div class="v9-feature__art v9-message-art" aria-label="Esempio illustrativo di una richiesta WhatsApp">
+            <span class="v9-art-note v9-art-note--dark">Esempio illustrativo</span>
+            <div class="v9-message-app">
+              <header><i>TB</i><div><b>Trovatemi · attività</b><small>messaggio automatico controllato</small></div><span>•••</span></header>
+              <div><small>OGGI</small><p>Ciao Andrea, grazie per essere passato. Ti va di raccontare com’è andata?</p><a href="#come-funziona">Lascia la tua esperienza →</a><i>Letto 16:42</i></div>
+            </div>
+            <div class="v9-message-status"><i>✓</i><p><strong>Richiesta inviata</strong><small>nel momento concordato</small></p></div>
+          </div>
+        </article>
+
+        <article class="v9-feature v9-feature--paper">
+          <div class="v9-feature__copy"><span>03 · L’esperienza</span><h3>Lascia la sua opinione.</h3><p>Il percorso è semplice e trasparente. Ogni cliente riceve lo stesso link. Nessun filtro sul voto.</p><strong class="v9-feature-rule">Opinione reale. Percorso uguale. Controllo umano.</strong></div>
+          <div class="v9-feature__art v9-review-art" aria-label="Esempio illustrativo di una recensione e della risposta del titolare">
+            <span class="v9-art-note">Esempio illustrativo</span>
+            <article class="v9-review-card"><header><i>M</i><div><b>Marco R.</b><span>★★★★★</span></div><small>oggi</small></header><p>Servizio preciso e persone disponibili. Mi hanno spiegato tutto con chiarezza.</p><button type="button">Rispondi</button></article>
+            <article class="v9-answer-card"><header><i>★</i><div><b>Bozza di risposta</b><small>da controllare prima di pubblicare</small></div></header><p>Grazie Marco. Siamo felici che chiarezza e disponibilità ti siano arrivate.</p><footer><button type="button">Modifica</button><button type="button">Approva risposta</button></footer></article>
+          </div>
+        </article>
+
+        <article class="v9-feature v9-feature--red v9-feature--reverse">
+          <div class="v9-feature__copy"><span>04 · Il controllo</span><h3>Tu gestisci. La prova continua a lavorare.</h3><p>Recensioni, risposte e output diventano visibili. Con INEVITABILE, le informazioni reali alimentano anche Google, social e contenuti locali.</p><small>L’AI aiuta. La tecnologia resta dietro le quinte.</small></div>
+          <div class="v9-feature__art v9-distribution-art" aria-label="Esempio illustrativo della trasformazione di una recensione in più contenuti">
+            <span class="v9-art-note v9-art-note--dark">Esempio illustrativo</span>
+            <article class="v9-source-review"><span>★★★★★</span><p>“Finalmente qualcuno che spiega bene prima di iniziare.”</p><small>Recensione reale</small></article>
+            <i class="v9-flow-line v9-flow-line--one"></i><i class="v9-flow-line v9-flow-line--two"></i><i class="v9-flow-line v9-flow-line--three"></i>
+            <article class="v9-output v9-output--google"><b>G</b><span>Aggiornamento Google</span><i>✓</i></article>
+            <article class="v9-output v9-output--social"><b>◎</b><span>Contenuto social</span><i>✓</i></article>
+            <article class="v9-output v9-output--local"><b>⌕</b><span>Contenuto locale</span><i>✓</i></article>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="v9-chris">
+    <div class="v9-shell v9-chris__grid">
+      <div class="v9-chris-card">
+        <span class="v9-chris-card__star">★</span>
+        <i>CF</i>
+        <p><strong>Christian Fioravanti</strong><small>Installazione · controllo · assistenza</small></p>
+        <b>Se chiami,<br />rispondo io.</b>
+      </div>
+      <div>
+        <span class="v9-label v9-label--yellow">La parte che un software non contiene</span>
+        <h2>Non ti lasciamo una piattaforma. <em>La installiamo nella tua attività.</em></h2>
+        <p>Chris collega il profilo, prepara NFC e QR, mostra al personale quando chiedere e controlla che il sistema venga davvero utilizzato.</p>
+        <ul><li>Apriamo Google insieme.</li><li>Mettiamo il processo nel lavoro vero.</li><li>Se qualcosa si blocca, sai chi chiamare.</li></ul>
+        <button class="btn v9-btn v9-btn--yellow" type="button" data-whatsapp-open>Scrivi a Chris su WhatsApp ↗</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="trial" class="v9-trial">
+    <div class="v9-grid-glow" aria-hidden="true"></div>
+    <div class="v9-shell">
+      <header class="v9-trial__head">
+        <div><span class="v9-label v9-label--yellow">05 · La prova</span><h2>Non devi crederci sulla parola. <em>Provalo per 14 giorni sulla tua attività.</em></h2></div>
+        <p><strong>Non ti consegniamo una dashboard da esplorare.</strong> Configuriamo il sistema, colleghiamo il profilo, prepariamo QR e NFC e facciamo partire la prima richiesta con clienti reali.</p>
+      </header>
+
+      <div class="v9-trial__number" aria-hidden="true">14</div>
+      <ol class="v9-trial__timeline">
+        <li><span>Giorno <b>1</b></span><h3>Attivazione e prima richiesta.</h3><p>Colleghiamo il profilo, prepariamo il percorso e lo usiamo davvero.</p></li>
+        <li><span>Giorno <b>7</b></span><h3>Controlliamo dove si blocca.</h3><p>Guardiamo cosa viene utilizzato, cosa viene dimenticato e cosa va corretto.</p></li>
+        <li><span>Giorno <b>14</b></span><h3>Guardiamo cosa è successo.</h3><p>Output, utilizzo e limiti davanti agli occhi. Poi decidi se continuare.</p></li>
+      </ol>
+
+      <div class="v9-trial__action"><button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="trial">Richiedi la prova assistita ↗</button><small>Riservata alle attività che hanno clienti reali durante i 14 giorni e una persona responsabile del processo.</small></div>
+    </div>
+  </section>
+
+  <section id="piani" class="v9-section v9-plans">
+    <div class="v9-shell">
+      <div class="v9-plan-choice">
+        <div><span class="v9-label">06 · Due problemi diversi</span><h2>Se raccogliessimo più recensioni, sarebbe sufficiente?</h2><p>La risposta orienta la scelta. Chris verifica il piano corretto.</p></div>
+        <div class="v9-plan-choice__buttons">
+          <button type="button" data-plan-choice="found" aria-pressed="false"><span>01</span><b>Sì. Mi serve raccogliere e gestire meglio.</b><i>→</i></button>
+          <button type="button" data-plan-choice="inevitable" aria-pressed="false"><span>02</span><b>No. Resta il problema della presenza continuativa.</b><i>→</i></button>
+          <article data-plan-result="found" hidden><small>Partiremmo da</small><strong>TROVATO</strong><span>Raccoglie e gestisce la prova.</span></article>
+          <article data-plan-result="inevitable" hidden><small>Va valutato</small><strong>INEVITABILE</strong><span>Raccoglie, trasforma e distribuisce la prova.</span></article>
+        </div>
+      </div>
+
+      <header class="v9-heading v9-heading--wide v9-plans__head"><span class="v9-label">07 · Due piani, non tre</span><h2>Prima raccogli la prova. <em>Poi decidi fin dove farla arrivare.</em></h2></header>
+      <p class="v9-pricing-gate"><strong>Nota preview:</strong> questo listino è mostrato per valutare il design. La pubblicazione in root resta subordinata al gate commerciale.</p>
+
+      <div class="v9-plan-grid">
+        <article class="v9-plan-card" id="trovato">
+          <header><span>Raccoglie e gestisce</span><h3>★ TROVATO</h3><p>Raccoglie e gestisce la prova.</p></header>
+          <div class="v9-plan-card__body"><p>Per attività che vogliono rendere semplice e continuativa la raccolta delle recensioni.</p><div class="v9-price"><strong>€199</strong><span>/ mese</span></div><dl><div><dt>Attivazione</dt><dd>€290 una tantum</dd></div><div><dt>Annuale</dt><dd>€1.990 · attivazione inclusa</dd></div></dl><ul>{foundFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul><details><summary>Quello che non comprende <i>+</i></summary><p>Contenuti social, articoli locali continuativi, blog, gestione editoriale, campagne pubblicitarie, sviluppo personalizzato o più sedi.</p></details><button class="btn v9-btn v9-btn--dark" type="button" data-audit-open data-source="plan-found">Prova TROVATO per 14 giorni ↗</button></div>
+        </article>
+
+        <article class="v9-plan-card v9-plan-card--dark" id="inevitabile">
+          <header><span>Raccoglie · trasforma · distribuisce</span><h3>★★ INEVITABILE</h3><p>Raccoglie, trasforma e distribuisce la prova.</p></header>
+          <div class="v9-plan-card__body"><p>Per attività che non vogliono soltanto più recensioni, ma una presenza continuativa su Google, social e ricerca AI.</p><div class="v9-price"><strong>€399</strong><span>/ mese</span></div><dl><div><dt>Attivazione</dt><dd>€490 una tantum</dd></div><div><dt>Annuale</dt><dd>€3.990 · attivazione inclusa</dd></div></dl><ul>{inevitableFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul><details><summary>Quello che non comprende <i>+</i></summary><p>Gestione social completa, foto o video, community management, campagne pubblicitarie, rifacimento completo del sito, SEO manuale illimitata o posizioni garantite.</p></details><button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="plan-inevitable">Scopri se ti serve INEVITABILE ↗</button></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="v9-vision">
+    <div class="v9-shell"><span aria-hidden="true">★</span><p>Non devi diventare virale.</p><h2>Devi diventare inevitabile.</h2><small>Essere presente, credibile e riconoscibile quando qualcuno cerca proprio quello che fai.</small></div>
+  </section>
+
+  <section class="v9-section v9-proof">
+    <div class="v9-shell">
+      <header class="v9-heading"><span class="v9-label">08 · Quello che possiamo provare oggi</span><h2>Niente testimonianze inventate. <em>Ti facciamo vedere il processo.</em></h2><p>I casi studio arriveranno dopo risultati verificati e autorizzati. Nel frattempo, la prova è trasparente.</p></header>
+      <div class="v9-proof-grid">
+        <article><span>01</span><i>▶</i><h3>Una demo che puoi toccare.</h3><p>Apri il percorso e vedi cosa succede.</p><button type="button" data-demo-open>Apri la demo ↗</button></article>
+        <article><span>02</span><i>↔</i><h3>Una baseline prima di partire.</h3><p>Segniamo il punto di partenza. Niente “prima” ricostruiti dopo.</p><b>Prima → dopo</b></article>
+        <article><span>03</span><i>✓</i><h3>Output, non miracoli.</h3><p>Richieste, recensioni, risposte, contenuti e aggiornamenti.</p><b>Dati controllabili</b></article>
+        <article><span>04</span><i>CF</i><h3>Una persona che risponde.</h3><p>Chris configura, controlla e ti mostra cosa sta succedendo.</p><button type="button" data-whatsapp-open>Parla con Chris ↗</button></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="v9-section v9-faq">
+    <div class="v9-shell v9-faq__grid">
+      <header><span class="v9-label">09 · Domande vere</span><h2>Prima di dirci di sì, <em>ecco dove ti diciamo di no.</em></h2></header>
+      <div class="v9-faq__list">
+        {faqs.map(([question, answer], index) => (
+          <details open={index === 0}><summary><span>{String(index + 1).padStart(2, '0')}</span><strong>{question}</strong><i>+</i></summary><div><p>{answer}</p></div></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="v9-final">
+    <div class="v9-grid-glow" aria-hidden="true"></div>
+    <div class="v9-shell v9-final__grid">
+      <div><span class="v9-label v9-label--yellow">10 · Partiamo da Google</span><h2>Vuoi vedere cosa trova oggi un cliente quando cerca il tuo servizio?</h2><p>Partiamo dal tuo profilo, non da una presentazione. Guardiamo il confronto e capiamo se esiste davvero qualcosa da correggere.</p><div class="v9-actions"><button class="btn v9-btn v9-btn--yellow" type="button" data-audit-open data-source="final">Analizza la mia attività ↗</button><button class="btn v9-btn v9-btn--outline" type="button" data-whatsapp-open>Scrivi a Chris</button></div><small>Nessuna promessa di primo posto. Nessuna recensione falsa. Nessuna presentazione da agenzia.</small></div>
+      <aside><span>L’audit parte da qui</span><ol><li><b>1</b><p>Apriamo il tuo profilo.</p></li><li><b>2</b><p>Guardiamo cosa vede un estraneo.</p></li><li><b>3</b><p>Confrontiamo le prove.</p></li><li><b>4</b><p>Decidiamo se serve intervenire.</p></li></ol><div><i>CF</i><p><strong>Christian Fioravanti</strong><small>Se chiami, rispondo io.</small></p></div></aside>
+    </div>
+  </section>
+</V9Layout>
