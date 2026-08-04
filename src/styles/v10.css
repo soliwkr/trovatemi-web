@@ -4233,7 +4233,7 @@ img {
   }
 
   .v10-plan-finder h2 {
-    font-size: 3.15rem;
+    font-size: clamp(2.1rem, 11.4vw, 2.7rem);
   }
 
   .v10-plan-card {
