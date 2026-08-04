@@ -4005,7 +4005,7 @@ img {
 
   .v10-stage-phone {
     top: 3rem;
-    right: -0.45rem;
+    right: 0;
     width: 9.2rem;
     min-height: 19rem;
     padding: 2.4rem 0.85rem 1rem;
@@ -4217,9 +4217,18 @@ img {
   }
 
   .v10-plan-finder {
+    grid-template-columns: minmax(0, 1fr);
     margin-bottom: 6.5rem;
     padding: 1.5rem;
     border-radius: 1.5rem;
+  }
+
+  .v10-plan-finder > div,
+  .v10-plan-finder__actions,
+  .v10-plan-finder__actions > button,
+  .v10-plan-finder__actions > button span {
+    min-width: 0;
+    width: 100%;
   }
 
   .v10-plan-finder h2 {
