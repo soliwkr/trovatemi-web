@@ -2067,6 +2067,7 @@ svg {
 }
 
 .v11-modal::backdrop {
+  display: block;
   background: rgb(0 0 0 / 78%);
   backdrop-filter: blur(8px);
 }
