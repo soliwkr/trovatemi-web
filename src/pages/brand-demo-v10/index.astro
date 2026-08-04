@@ -1,0 +1,326 @@
+---
+import V10Layout from '../../layouts/V10Layout.astro';
+
+export const prerender = true;
+
+const foundFeatures = [
+  'Raccolta centralizzata delle recensioni',
+  'QR personalizzato e NFC',
+  'Richieste automatiche nei limiti previsti',
+  'Risposte assistite, sempre sotto il tuo controllo',
+  'Monitoraggio degli output',
+  'Configurazione e assistenza',
+];
+
+const inevitableFeatures = [
+  'Tutto TROVATO',
+  'Recensioni trasformate in contenuti',
+  'Distribuzione sui canali collegati',
+  'Aggiornamenti Google',
+  'Contenuti locali da servizi, territorio e domande reali',
+  'Hub editoriale, revisioni e supporto prioritario',
+];
+
+const faqs = [
+  ['Mi garantite il primo posto su Google?', 'No. Nessuno controlla completamente le posizioni di Google. Trovatemi installa e gestisce un processo misurabile; non vende classifiche garantite.'],
+  ['Filtrate le recensioni negative?', 'No. Ogni cliente riceve lo stesso percorso. Non compriamo recensioni, non selezioniamo chi può lasciare un’opinione e non utilizziamo review gating.'],
+  ['È un software che devo imparare a usare?', 'No. La tecnologia è solo una parte. Configuriamo il sistema sulla tua attività e ti accompagniamo nell’utilizzo.'],
+  ['Cosa succede nei 14 giorni?', 'Attivazione, prima richiesta, controllo al giorno 7 e revisione al giorno 14. Il trial è assistito e avviene sulla tua vera attività.'],
+  ['Devo avere qualcuno che segue i social?', 'No per TROVATO. Per INEVITABILE eventuali professionisti già presenti possono essere coinvolti senza essere sostituiti.'],
+  ['Posso scegliere il mensile?', 'Sì. Il mensile prevede una quota di attivazione; l’annuale la include.'],
+  ['Mi garantite nuovi clienti?', 'No. Possiamo misurare sistema, richieste, recensioni, risposte, contenuti e output. La scelta finale dipende anche da servizio, mercato, prezzi e capacità commerciale dell’attività.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V10Layout
+  title="Trovatemi.it V10 | Recensioni e presenza Google per attività locali"
+  description="Trasforma clienti soddisfatti in prove pubbliche. Trovatemi installa e segue il sistema sulla tua attività, con 14 giorni di prova assistita."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="v10-hero" data-v10-hero>
+    <div class="v10-grid" aria-hidden="true"></div>
+    <div class="v10-hero__flare" aria-hidden="true"></div>
+    <div class="v10-shell v10-hero__shell">
+      <div class="v10-hero__copy" data-reveal>
+        <p class="v10-eyebrow"><span>★</span> Per attività locali che lavorano bene. E vogliono che si veda.</p>
+        <h1>Il cliente ti sta già cercando. <em>Il problema è che trova un altro.</em></h1>
+        <p class="v10-hero__lede">Trovatemi installa nella tua attività un sistema semplice per trasformare clienti soddisfatti in recensioni, risposte e prove pubbliche che aiutano chi ti cerca a scegliere te.</p>
+        <div class="v10-actions">
+          <button class="btn v10-btn v10-btn--yellow" type="button" data-audit-open data-source="hero">Fammi vedere cosa trova un cliente <span aria-hidden="true">↗</span></button>
+          <button class="v10-play" type="button" data-demo-open><i aria-hidden="true">▶</i><span>Guarda il gesto<br /><b>in 60 secondi</b></span></button>
+        </div>
+        <p class="v10-hero__micro"><b>14 giorni di prova assistita.</b> Sulla tua vera attività. Con clienti reali.</p>
+      </div>
+
+      <div class="v10-stage" aria-label="Esempio illustrativo del percorso dal gesto NFC alla recensione pubblica" data-reveal>
+        <span class="v10-example-label">Esempio illustrativo</span>
+        <figure class="v10-stage__photo">
+          <img src="/images/nfc-review-counter-v7.webp" alt="Un cliente avvicina il telefono a un supporto NFC sul bancone di un’attività" width="1536" height="1024" loading="eager" fetchpriority="high" />
+        </figure>
+        <button class="v10-tap-point" type="button" data-demo-open aria-label="Apri la dimostrazione del gesto NFC"><i>)))</i><b>TOCCA<br />QUI</b><small>NFC + QR</small></button>
+        <div class="v10-stage__beam" aria-hidden="true"><i></i><i></i><i></i></div>
+        <article class="v10-stage-phone">
+          <header><span>9:41</span><i></i><b>● ● ●</b></header>
+          <small>LA TUA ESPERIENZA</small>
+          <h2>Com’è andata?</h2>
+          <div>★★★★★</div>
+          <p>La tua opinione resta tua.</p>
+          <button type="button">Continua su Google</button>
+        </article>
+        <article class="v10-stage-review">
+          <header><i>G</i><div><b>Nuova recensione</b><small>pubblica · ora</small></div><span>★★★★★</span></header>
+          <p>“Servizio preciso e persone disponibili. Mi hanno spiegato tutto con chiarezza.”</p>
+          <footer><span>Risposta pronta da controllare</span><i>✓</i></footer>
+        </article>
+        <span class="v10-stage__caption">DAL BANCONE <i>→</i> AL TELEFONO <i>→</i> A GOOGLE</span>
+      </div>
+    </div>
+
+    <div class="v10-hero-rail">
+      <div class="v10-shell">
+        <span><b>01</b> Cliente soddisfatto</span><i>→</i><span><b>02</b> NFC o QR</span><i>→</i><span><b>03</b> Recensione reale</span><i>→</i><span><b>04</b> Prova pubblica</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="problema" class="v10-decision">
+    <div class="v10-shell">
+      <header class="v10-section-head" data-reveal>
+        <span class="v10-kicker">01 · Il punto non è lavorare meglio</span>
+        <h2>Il lavoro è già buono. <em>La prova non arriva online da sola.</em></h2>
+      </header>
+
+      <div class="v10-decision__story" data-reveal>
+        <div class="v10-story-copy">
+          <p>Il cliente paga.</p>
+          <p>Ti ringrazia.</p>
+          <p>Dice che si è trovato benissimo.</p>
+          <blockquote>“Certo, la recensione la faccio dopo.”</blockquote>
+          <p class="v10-story-copy__quiet">Poi esce, torna alla sua giornata e se ne dimentica.</p>
+        </div>
+        <div class="v10-message-scene">
+          <span class="v10-example-label v10-example-label--dark">Esempio illustrativo</span>
+          <div class="v10-message-scene__top"><i>AM</i><p><b>Andrea · cliente</b><small>online poco fa</small></p></div>
+          <div class="v10-message-scene__body">
+            <p class="incoming">Grazie ancora, mi sono trovato benissimo! 🙌</p>
+            <p class="outgoing">Grazie Andrea. Se ti va, ci lasci una recensione?</p>
+            <p class="incoming">Certo, la faccio dopo 👍</p>
+            <span>6 giorni dopo</span>
+            <strong>Nessuna recensione.</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="v10-compare" data-reveal>
+        <div class="v10-compare__intro">
+          <span class="v10-kicker">La scelta avviene prima della chiamata</span>
+          <h3>Non significa che il concorrente lavori meglio.</h3>
+          <p>Significa che online sembra più facile fidarsi di lui.</p>
+          <strong>Se non conoscessi nessuna delle due attività, quale chiameresti per prima?</strong>
+        </div>
+        <div class="v10-compare__profiles">
+          <span class="v10-example-label">Esempio illustrativo · dati inventati</span>
+          <article class="v10-profile v10-profile--quiet">
+            <header><i>A</i><div><small>ATTIVITÀ A</small><b>Servizio locale</b></div><span>•••</span></header>
+            <div class="v10-profile__rating"><strong>4,7</strong><span>★★★★★</span><small>23 recensioni</small></div>
+            <dl><div><dt>Ultima recensione</dt><dd>4 mesi fa</dd></div><div><dt>Risposte</dt><dd>rare</dd></div><div><dt>Contenuti recenti</dt><dd>nessuno</dd></div></dl>
+          </article>
+          <div class="v10-versus"><span>VS</span><i>?</i></div>
+          <article class="v10-profile v10-profile--active">
+            <header><i>B</i><div><small>ATTIVITÀ B</small><b>Servizio locale</b></div><span>•••</span></header>
+            <div class="v10-profile__rating"><strong>4,8</strong><span>★★★★★</span><small>84 recensioni</small></div>
+            <dl><div><dt>Ultima recensione</dt><dd>ieri</dd></div><div><dt>Risposte</dt><dd>presenti</dd></div><div><dt>Contenuti recenti</dt><dd>aggiornati</dd></div></dl>
+            <button type="button" data-audit-open data-source="comparison">Chiama</button>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="v10-intent">
+    <div class="v10-grid" aria-hidden="true"></div>
+    <div class="v10-shell v10-intent__grid">
+      <div data-reveal>
+        <span class="v10-kicker v10-kicker--yellow">02 · Il momento che vale</span>
+        <h2>Chi cerca vale molto più di chi scrolla.</h2>
+        <p>Chi scrolla sta passando il tempo. Chi cerca ha un problema, sta confrontando e deve scegliere.</p>
+        <strong>Non devi farti vedere da tutti. Devi essere credibile davanti alle persone giuste, nel momento giusto.</strong>
+      </div>
+      <div class="v10-intent__visual" data-reveal>
+        <article class="v10-scroll-panel"><span>STA SCORRENDO</span><div><i></i><i></i><i></i></div><strong>Vede.<br />Passa.<br />Dimentica.</strong></article>
+        <article class="v10-search-panel"><span>STA CERCANDO</span><div><i></i><b>servizio vicino a me</b><em>⌕</em></div><ul><li>Confronta</li><li>Legge</li><li>Decide chi chiamare</li></ul><button type="button" data-audit-open data-source="intent">Guarda cosa trova ↗</button></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sistema" class="v10-system">
+    <div class="v10-shell">
+      <header class="v10-section-head v10-section-head--split" data-reveal>
+        <div><span class="v10-kicker">03 · Il sistema</span><h2>La tecnologia lavora. <em>Tu non devi diventare un tecnico.</em></h2></div>
+        <p>Trovatemi non ti consegna una dashboard da capire. Installa un comportamento semplice: chiedere bene, gestire con continuità, usare la prova reale.</p>
+      </header>
+
+      <div class="v10-story-tabs" role="tablist" aria-label="Le tre parti del sistema" data-reveal>
+        <button class="is-active" type="button" role="tab" data-story-tab="raccoglie" aria-pressed="true"><b>01</b><span>Raccoglie</span><small>Il complimento non resta al bancone.</small></button>
+        <button type="button" role="tab" data-story-tab="gestisce" aria-pressed="false"><b>02</b><span>Gestisce</span><small>La prova riceve attenzione.</small></button>
+        <button type="button" role="tab" data-story-tab="moltiplica" aria-pressed="false"><b>03</b><span>Moltiplica</span><small>La prova arriva dove cercano.</small></button>
+      </div>
+
+      <div class="v10-story-stage" data-reveal>
+        <article class="v10-story-panel v10-story-panel--collect" data-story-panel="raccoglie">
+          <div class="v10-story-panel__copy"><span>RACCOGLI</span><h3>Dal “grazie” alla recensione, mentre l’esperienza è ancora fresca.</h3><p>Il personale sa quando chiedere. Il cliente avvicina il telefono o apre il QR. Se è già uscito, riceve una richiesta semplice nel momento concordato.</p><ul><li>Niente ricerche complicate</li><li>Stesso percorso per ogni cliente</li><li>Il gesto entra nella giornata reale</li></ul><button class="v10-text-action" type="button" data-demo-open>Prova il gesto →</button></div>
+          <div class="v10-collect-art">
+            <span class="v10-example-label">Esempio illustrativo</span>
+            <img src="/images/nfc-review-counter-v7.webp" alt="Telefono avvicinato a un supporto NFC sul bancone" width="1536" height="1024" loading="lazy" />
+            <div class="v10-collect-art__card"><i>)))</i><b>Un gesto.</b><span>NFC + QR</span></div>
+            <div class="v10-collect-art__phone"><small>LA TUA ESPERIENZA</small><strong>Com’è andata?</strong><span>★★★★★</span><button type="button">Continua</button></div>
+          </div>
+        </article>
+
+        <article class="v10-story-panel v10-story-panel--manage" data-story-panel="gestisce" hidden>
+          <div class="v10-story-panel__copy"><span>GESTISCI</span><h3>Ogni recensione arriva in un punto. Ogni risposta resta sotto controllo.</h3><p>Vedi cosa è successo, prepari la risposta e controlli prima di pubblicare. L’assistenza riduce il lavoro; la voce dell’attività resta tua.</p><ul><li>Recensioni centralizzate</li><li>Risposte assistite e modificabili</li><li>Output visibili e misurabili</li></ul></div>
+          <div class="v10-manage-art">
+            <span class="v10-example-label v10-example-label--dark">Esempio illustrativo</span>
+            <header><span>TROVATEMI / RECENSIONI</span><i>OGGI · 1 NUOVA</i></header>
+            <article class="v10-manage-review"><div><i>MR</i><p><b>Marco R.</b><span>★★★★★</span></p><small>2 min fa</small></div><blockquote>Servizio preciso e persone disponibili. Mi hanno spiegato tutto con chiarezza.</blockquote><footer><span>Google</span><button type="button">Prepara risposta</button></footer></article>
+            <article class="v10-manage-answer"><header><i>★</i><p><b>Risposta pronta</b><small>Da controllare</small></p></header><blockquote>Grazie Marco. Siamo felici che chiarezza e disponibilità ti siano arrivate.</blockquote><footer><button type="button">Modifica</button><button type="button">Approva</button></footer></article>
+          </div>
+        </article>
+
+        <article class="v10-story-panel v10-story-panel--multiply" data-story-panel="moltiplica" hidden>
+          <div class="v10-story-panel__copy"><span>MOLTIPLICA</span><h3>Una buona recensione non deve vivere una volta sola.</h3><p>Con INEVITABILE, recensioni, servizi e informazioni reali diventano materia prima per mantenere viva la presenza dell’attività.</p><ul><li>Aggiornamenti Google</li><li>Contenuti sui canali collegati</li><li>Pagine locali basate su domande e servizi reali</li></ul><small>L’AI aiuta a trasformare e distribuire. Non inventa la prova.</small></div>
+          <div class="v10-multiply-art">
+            <span class="v10-example-label">Esempio illustrativo</span>
+            <article class="v10-proof-source"><span>★★★★★</span><blockquote>“Finalmente qualcuno che spiega bene prima di iniziare.”</blockquote><small>RECENSIONE REALE</small></article>
+            <div class="v10-proof-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+            <article class="v10-output-card v10-output-card--google"><i>G</i><p><b>Aggiornamento Google</b><small>Pronto da controllare</small></p><span>✓</span></article>
+            <article class="v10-output-card v10-output-card--social"><i>◎</i><p><b>Contenuto social</b><small>Dal linguaggio del cliente</small></p><span>✓</span></article>
+            <article class="v10-output-card v10-output-card--local"><i>⌕</i><p><b>Contenuto locale</b><small>Servizio + domanda reale</small></p><span>✓</span></article>
+          </div>
+        </article>
+      </div>
+
+      <p class="v10-system__line">Trovatemi fa succedere, ogni giorno, ciò che oggi capita solo quando qualcuno se ne ricorda.</p>
+    </div>
+  </section>
+
+  <section id="trial" class="v10-trial">
+    <div class="v10-grid" aria-hidden="true"></div>
+    <div class="v10-shell">
+      <div class="v10-trial__head" data-reveal>
+        <div><span class="v10-kicker v10-kicker--yellow">04 · La prova vera</span><h2>Non devi crederci sulla parola. <em>Provalo per 14 giorni sulla tua attività.</em></h2></div>
+        <p>Non esplori un software. Configuriamo il sistema, prepariamo QR e NFC e facciamo partire la prima richiesta con clienti reali.</p>
+      </div>
+
+      <div class="v10-trial__board" data-reveal>
+        <div class="v10-trial__number"><strong>14</strong><span>GIORNI<br />ASSISTITI</span></div>
+        <ol>
+          <li><span><b>01</b> GIORNO</span><h3>Si parte.</h3><p>Baseline, collegamento, QR, NFC e prima richiesta.</p></li>
+          <li><span><b>07</b> GIORNO</span><h3>Si corregge.</h3><p>Guardiamo cosa viene usato e cosa blocca il processo.</p></li>
+          <li><span><b>14</b> GIORNO</span><h3>Si decide.</h3><p>Vediamo cosa è successo e scegli se continuare.</p></li>
+        </ol>
+      </div>
+
+      <div class="v10-trial__bottom" data-reveal>
+        <div class="v10-chris">
+          <figure><img src="/images/hero-local-business.webp" alt="Il titolare di un’attività locale controlla il telefono dietro il bancone" width="1536" height="1024" loading="lazy" /><span>CF</span></figure>
+          <div><span>LA PARTE CHE UN SOFTWARE NON CONTIENE</span><h3>Se chiami, risponde Chris.</h3><p>Configura, fa vedere, forma chi deve usare il sistema e controlla che il gesto entri davvero nell’attività.</p></div>
+        </div>
+        <div class="v10-trial__action"><button class="btn v10-btn v10-btn--yellow" type="button" data-audit-open data-source="trial">Richiedi la prova assistita ↗</button><small>Riservata alle attività con clienti reali durante i 14 giorni e una persona responsabile del processo.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="piani" class="v10-plans">
+    <div class="v10-shell">
+      <div class="v10-plan-finder" data-reveal>
+        <div><span class="v10-kicker">05 · Prima la domanda</span><h2>Se raccogliessimo più recensioni, sarebbe sufficiente?</h2><p>Non spingiamo tutti sul piano più costoso. La risposta chiarisce quale problema resta da risolvere.</p></div>
+        <div class="v10-plan-finder__actions">
+          <button type="button" data-plan-answer="trovato" aria-pressed="false"><span>Sì, per ora basta.</span><b>TROVATO</b><i>→</i></button>
+          <button type="button" data-plan-answer="inevitabile" aria-pressed="false"><span>No, la presenza resterebbe ferma.</span><b>INEVITABILE</b><i>→</i></button>
+          <p data-plan-result="trovato" hidden><small>La priorità è il processo di raccolta.</small><strong>Parti da TROVATO.</strong></p>
+          <p data-plan-result="inevitabile" hidden><small>La reputazione deve alimentare anche la presenza.</small><strong>Valuta INEVITABILE.</strong></p>
+        </div>
+      </div>
+
+      <header class="v10-section-head" data-reveal><span class="v10-kicker">06 · Due piani. Due problemi.</span><h2>Prima raccogli la prova. <em>Poi decidi fin dove farla arrivare.</em></h2></header>
+      <p class="v10-pricing-note"><strong>Nota preview:</strong> il listino è mostrato per valutare la V10. La pubblicazione resta subordinata al gate commerciale.</p>
+
+      <div class="v10-plan-grid">
+        <article class="v10-plan-card" data-reveal>
+          <header><span>01 / REPUTAZIONE</span><h3>TROVATO</h3><p>Raccoglie e gestisce la prova.</p></header>
+          <div class="v10-plan-card__body">
+            <p>Per attività che vogliono rendere semplice e continuativa la raccolta delle recensioni.</p>
+            <div class="v10-price"><strong>€199</strong><span>/ mese</span></div>
+            <dl><div><dt>Attivazione</dt><dd>€290 una tantum</dd></div><div><dt>Annuale</dt><dd>€1.990 · attivazione inclusa</dd></div></dl>
+            <ul>{foundFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul>
+            <details><summary>Quello che non comprende <i>+</i></summary><p>Contenuti social, articoli locali continuativi, blog, gestione editoriale, campagne pubblicitarie, sviluppo personalizzato o più sedi.</p></details>
+            <button class="btn v10-btn v10-btn--dark" type="button" data-audit-open data-source="plan-found">Prova TROVATO per 14 giorni ↗</button>
+          </div>
+        </article>
+
+        <article class="v10-plan-card v10-plan-card--dark" data-reveal>
+          <header><span>02 / PRESENZA</span><h3>INEVITABILE</h3><p>Raccoglie, trasforma e distribuisce la prova.</p></header>
+          <div class="v10-plan-card__body">
+            <p>Per attività che non vogliono soltanto più recensioni, ma una presenza continuativa su Google, social e ricerca AI.</p>
+            <div class="v10-price"><strong>€399</strong><span>/ mese</span></div>
+            <dl><div><dt>Attivazione</dt><dd>€490 una tantum</dd></div><div><dt>Annuale</dt><dd>€3.990 · attivazione inclusa</dd></div></dl>
+            <ul>{inevitableFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul>
+            <details><summary>Quello che non comprende <i>+</i></summary><p>Gestione social completa, foto o video, community management, campagne pubblicitarie, rifacimento completo del sito, SEO manuale illimitata o posizioni garantite.</p></details>
+            <button class="btn v10-btn v10-btn--yellow" type="button" data-audit-open data-source="plan-inevitable">Scopri se ti serve INEVITABILE ↗</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="v10-vision">
+    <div class="v10-grid" aria-hidden="true"></div>
+    <div class="v10-shell" data-reveal>
+      <span>★</span>
+      <p>Non devi diventare virale.</p>
+      <h2>Devi diventare <em>inevitabile.</em></h2>
+      <small>Presente, credibile e riconoscibile quando qualcuno cerca proprio quello che fai.</small>
+    </div>
+  </section>
+
+  <section class="v10-proof">
+    <div class="v10-shell v10-proof__grid">
+      <header data-reveal><span class="v10-kicker">07 · Prova, non teatro</span><h2>Niente testimonianze inventate. <em>Ti facciamo vedere cosa succede.</em></h2><p>I casi studio arriveranno dopo risultati verificati e autorizzati. Nel frattempo, la prova è il processo sulla tua attività.</p></header>
+      <div class="v10-proof__cards" data-reveal>
+        <article><b>01</b><span>Baseline</span><p>Fotografiamo il punto di partenza.</p></article>
+        <article><b>02</b><span>Utilizzo</span><p>Vediamo se il gesto viene usato davvero.</p></article>
+        <article><b>03</b><span>Output</span><p>Contiamo richieste, recensioni, risposte e contenuti.</p></article>
+        <article><b>04</b><span>Decisione</span><p>Guardiamo insieme cosa è cambiato e cosa no.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="v10-faq">
+    <div class="v10-shell v10-faq__grid">
+      <header data-reveal><span class="v10-kicker">08 · Domande vere</span><h2>Prima di dirci di sì, <em>ecco dove ti diciamo di no.</em></h2><p>Niente asterischi nascosti. Se il sistema non è adatto alla tua attività, te lo diciamo.</p></header>
+      <div class="v10-faq__list" data-reveal>
+        {faqs.map(([question, answer], index) => <details open={index === 0}><summary>{question}<i>+</i></summary><p>{answer}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="v10-final">
+    <div class="v10-grid" aria-hidden="true"></div>
+    <div class="v10-shell v10-final__grid" data-reveal>
+      <div><span class="v10-kicker v10-kicker--yellow">09 · Partiamo da quello che vede il cliente</span><h2>Vuoi vedere cosa trova oggi quando cerca il tuo servizio?</h2><p>Apriamo il tuo profilo. Guardiamo il confronto. Capiamo se esiste davvero qualcosa da correggere.</p><div class="v10-actions"><button class="btn v10-btn v10-btn--yellow" type="button" data-audit-open data-source="final">Analizza la mia attività ↗</button><button class="btn v10-btn v10-btn--outline" type="button" data-whatsapp-open>Scrivi a Chris</button></div><small>Nessuna promessa di primo posto. Nessuna recensione falsa. Nessuna presentazione da agenzia.</small></div>
+      <aside><span>IL PRIMO PASSO</span><ol><li><b>01</b><p>Apriamo il profilo.</p></li><li><b>02</b><p>Guardiamo cosa vede un estraneo.</p></li><li><b>03</b><p>Confrontiamo le prove.</p></li><li><b>04</b><p>Decidiamo se intervenire.</p></li></ol><footer><i>CF</i><p><strong>Christian Fioravanti</strong><small>Se chiami, rispondo io.</small></p></footer></aside>
+    </div>
+  </section>
+</V10Layout>
