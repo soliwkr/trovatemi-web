@@ -1,0 +1,288 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/anton/latin.css';
+import '../styles/v11.css';
+import Wordmark from '../components/v72/Wordmark.astro';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const previewUrl = 'https://trovatemi-web-v11-preview.soliwkr.workers.dev/brand-demo-v11/';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Trovatemi.it',
+  url: 'https://trovatemi.it/',
+  description,
+  areaServed: 'IT',
+  knowsAbout: ['Recensioni online', 'Reputazione locale', 'Risposte alle recensioni', 'Contenuti da recensioni'],
+};
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi-v11">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={previewUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+  </head>
+  <body>
+    <a class="v11-skip" href="#contenuto">Vai al contenuto</a>
+
+    <div class="v11-concept-bar" role="status">
+      <div class="v11-wrap">
+        <span>V11 · product concept</span>
+        <span>Funzioni e listino simulati · produzione intatta</span>
+      </div>
+    </div>
+
+    <header class="v11-header" data-v11-header>
+      <div class="v11-wrap">
+        <nav class="v11-nav" aria-label="Navigazione principale">
+          <Wordmark href="/brand-demo-v11/" />
+
+          <ul class="v11-nav__links">
+            <li><a href="#come-funziona">Come funziona</a></li>
+            <li><a href="#agenti">Agenti AI</a></li>
+            <li><a href="#prezzi">Prezzi</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+
+          <div class="v11-nav__actions">
+            <button class="v11-button v11-button--ghost" type="button" data-access-open>Accedi</button>
+            <button class="v11-button v11-button--yellow" type="button" data-trial-open data-source="header">Prova gratis</button>
+          </div>
+
+          <details class="v11-menu" data-mobile-menu>
+            <summary aria-label="Apri il menu"><span></span><span></span></summary>
+            <div class="v11-menu__panel">
+              <a href="#come-funziona">Come funziona</a>
+              <a href="#agenti">Agenti AI</a>
+              <a href="#prezzi">Prezzi</a>
+              <a href="#faq">FAQ</a>
+              <button class="v11-button v11-button--yellow" type="button" data-trial-open data-source="menu">Prova gratis per 14 giorni</button>
+              <button class="v11-button v11-button--ghost" type="button" data-access-open>Accedi</button>
+            </div>
+          </details>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenuto"><slot /></main>
+
+    <footer class="v11-footer">
+      <div class="v11-wrap v11-footer__top">
+        <div class="v11-footer__brand">
+          <Wordmark href="/brand-demo-v11/" />
+          <p>Recensioni, risposte e visibilità per le attività locali.</p>
+        </div>
+        <div class="v11-footer__links">
+          <div><strong>Prodotto</strong><a href="#come-funziona">Come funziona</a><a href="#agenti">Agenti AI</a><a href="#prezzi">Prezzi</a><a href="#faq">FAQ</a></div>
+          <div><strong>Accesso</strong><button type="button" data-access-open>Area clienti</button><button type="button" data-trial-open data-source="footer">Prova gratuita</button></div>
+          <div><strong>V11</strong><span>Concept noindex</span><span>Nessun dato inviato</span><span>Nessun acquisto reale</span></div>
+        </div>
+      </div>
+      <div class="v11-wrap v11-footer__bottom">
+        <span>© 2026 Trovatemi.it</span>
+        <b>Ti facciamo trovare dove conta.</b>
+        <span>V11 · concept isolato</span>
+      </div>
+    </footer>
+
+    <aside class="v11-mobile-cta" data-mobile-cta hidden>
+      <button class="v11-mobile-cta__close" type="button" aria-label="Nascondi" data-mobile-cta-close>×</button>
+      <button class="v11-button v11-button--yellow" type="button" data-trial-open data-source="sticky-mobile">Prova gratis per 14 giorni</button>
+    </aside>
+
+    <dialog class="modal v11-modal" aria-labelledby="v11-trial-title" data-trial-dialog>
+      <div class="v11-modal__surface v11-trial-modal">
+        <button class="v11-modal__close" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <div class="v11-trial-modal__intro">
+          <span class="v11-kicker">14 giorni · concept V11</span>
+          <h2 id="v11-trial-title">Provalo sulla tua attività.</h2>
+          <p>In questa preview il modulo simula la richiesta. Non invia dati, non apre account e non attiva pagamenti.</p>
+          <ol><li><b>01</b><span>Collega l’attività</span></li><li><b>02</b><span>Prepara QR e richieste</span></li><li><b>03</b><span>Attiva gli agenti</span></li></ol>
+        </div>
+        <form class="v11-trial-modal__form" data-trial-form>
+          <label><span>Nome</span><input name="name" autocomplete="name" placeholder="Il tuo nome" required /></label>
+          <label><span>Attività</span><input name="business" autocomplete="organization" placeholder="Nome dell’attività" required /></label>
+          <div class="v11-form-row">
+            <label><span>Categoria</span><input name="category" placeholder="Es. ristorante" required /></label>
+            <label><span>Città</span><input name="city" autocomplete="address-level2" placeholder="Dove lavori" required /></label>
+          </div>
+          <label><span>Telefono o WhatsApp</span><input name="contact" type="tel" autocomplete="tel" placeholder="Il numero su cui ricontattarti" required /></label>
+          <label><span>Profilo Google <small>facoltativo</small></span><input name="google" type="url" inputmode="url" placeholder="https://maps.google.com/..." /></label>
+          <button class="v11-button v11-button--yellow" type="submit">Prepara la mia prova →</button>
+          <small>Nessuna carta. Nessuna trasmissione dati in questa preview.</small>
+          <div class="v11-trial-result" data-trial-result aria-live="polite" hidden>
+            <i>✓</i><div><strong>Richiesta demo preparata.</strong><p data-trial-summary></p></div>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="modal v11-modal" aria-labelledby="v11-demo-title" data-demo-dialog>
+      <div class="v11-modal__surface v11-demo-modal">
+        <button class="v11-modal__close v11-modal__close--dark" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <header>
+          <span class="v11-kicker">Demo interattiva · nessuna azione reale</span>
+          <h2 id="v11-demo-title">Da cliente soddisfatto a presenza pubblica.</h2>
+        </header>
+        <div class="v11-demo-modal__grid">
+          <ol class="v11-demo-steps">
+            <li><button class="is-active" type="button" data-demo-control="1" aria-pressed="true"><b>01</b><span>Richiesta</span></button></li>
+            <li><button type="button" data-demo-control="2" aria-pressed="false"><b>02</b><span>Recensione</span></button></li>
+            <li><button type="button" data-demo-control="3" aria-pressed="false"><b>03</b><span>Risposta</span></button></li>
+            <li><button type="button" data-demo-control="4" aria-pressed="false"><b>04</b><span>Contenuto</span></button></li>
+          </ol>
+          <div class="v11-demo-screen" data-demo-screen data-step="1">
+            <section data-demo-panel="1"><small>RICHIESTA AUTOMATICA</small><strong>Ciao Elena, com’è andata?</strong><p>Un messaggio semplice porta il cliente al percorso corretto.</p><button type="button" data-demo-next="2">Lascia una recensione →</button></section>
+            <section data-demo-panel="2"><small>ESPERIENZA DEL CLIENTE</small><strong>★★★★★</strong><blockquote>“Servizio preciso e persone davvero disponibili.”</blockquote><button type="button" data-demo-next="3">Pubblica su Google →</button></section>
+            <section data-demo-panel="3"><small>AGENTE RISPOSTE</small><strong>Risposta pronta.</strong><blockquote>Grazie Elena. Siamo felici che precisione e disponibilità abbiano fatto la differenza.</blockquote><button type="button" data-demo-next="4">Approva →</button></section>
+            <section data-demo-panel="4"><small>AGENTE SOCIAL</small><strong>La prova diventa contenuto.</strong><article><span>★★★★★</span><p>“Persone davvero disponibili.”</p><b>@attivita.locale</b></article></section>
+          </div>
+          <aside><span>UN SOLO FLUSSO</span><p>Trovatemi usa la stessa esperienza reale per raccogliere la recensione, preparare la risposta e creare un contenuto verificabile.</p><button class="v11-button v11-button--yellow" type="button" data-trial-from-demo>Provalo sulla mia attività</button></aside>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="modal v11-modal v11-note-dialog" aria-labelledby="v11-note-title" data-access-dialog>
+      <div class="v11-modal__surface v11-note">
+        <button class="v11-modal__close" type="button" aria-label="Chiudi" data-dialog-close>×</button>
+        <span class="v11-kicker">Area clienti</span>
+        <h2 id="v11-note-title">Questa è una preview.</h2>
+        <p>L’accesso al prodotto non è collegato nella V11. Qui stiamo valutando il sito, il posizionamento e la presentazione del prodotto.</p>
+        <button class="v11-button v11-button--black" type="button" data-dialog-close>Ho capito</button>
+      </div>
+    </dialog>
+
+    <script is:inline>
+      (() => {
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+        const trialDialog = $('[data-trial-dialog]');
+        const demoDialog = $('[data-demo-dialog]');
+        const accessDialog = $('[data-access-dialog]');
+        const mobileMenu = $('[data-mobile-menu]');
+        const mobileCta = $('[data-mobile-cta]');
+        let heroVisible = true;
+        let mobileCtaDismissed = false;
+
+        const syncOverlay = () => {
+          const open = $$('dialog[open]').length > 0 || Boolean(mobileMenu?.open);
+          document.documentElement.classList.toggle('v11-overlay-open', open);
+          mobileCta?.toggleAttribute('hidden', open || heroVisible || mobileCtaDismissed);
+        };
+
+        const openDialog = (dialog) => {
+          if (!dialog || typeof dialog.showModal !== 'function') return;
+          mobileMenu?.removeAttribute('open');
+          if (!dialog.open) dialog.showModal();
+          syncOverlay();
+        };
+
+        $$('[data-trial-open]').forEach((button) => button.addEventListener('click', () => openDialog(trialDialog)));
+        $$('[data-demo-open]').forEach((button) => button.addEventListener('click', () => openDialog(demoDialog)));
+        $$('[data-access-open]').forEach((button) => button.addEventListener('click', () => openDialog(accessDialog)));
+        $$('[data-dialog-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog')?.close()));
+        $$('dialog').forEach((dialog) => {
+          dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+          dialog.addEventListener('close', syncOverlay);
+        });
+        mobileMenu?.addEventListener('toggle', syncOverlay);
+        $$('[data-mobile-menu] a').forEach((link) => link.addEventListener('click', () => mobileMenu?.removeAttribute('open')));
+
+        $('[data-mobile-cta-close]')?.addEventListener('click', () => {
+          mobileCtaDismissed = true;
+          mobileCta?.setAttribute('hidden', '');
+        });
+
+        const hero = $('[data-v11-hero]');
+        const syncHero = () => {
+          if (!hero) return;
+          heroVisible = hero.getBoundingClientRect().bottom > Math.max(100, innerHeight * 0.18);
+          syncOverlay();
+        };
+        syncHero();
+        addEventListener('scroll', syncHero, { passive: true });
+        addEventListener('resize', syncHero);
+
+        const header = $('[data-v11-header]');
+        const syncHeader = () => header?.classList.toggle('is-scrolled', scrollY > 12);
+        syncHeader();
+        addEventListener('scroll', syncHeader, { passive: true });
+
+        const demoScreen = $('[data-demo-screen]');
+        const setDemoStep = (step) => {
+          if (!demoScreen) return;
+          demoScreen.dataset.step = String(step);
+          $$('[data-demo-control]').forEach((button) => {
+            const active = button.dataset.demoControl === String(step);
+            button.classList.toggle('is-active', active);
+            button.setAttribute('aria-pressed', String(active));
+          });
+        };
+        $$('[data-demo-control]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoControl)));
+        $$('[data-demo-next]').forEach((button) => button.addEventListener('click', () => setDemoStep(button.dataset.demoNext)));
+        $('[data-trial-from-demo]')?.addEventListener('click', () => { demoDialog?.close(); openDialog(trialDialog); });
+
+        $$('[data-billing]').forEach((button) => button.addEventListener('click', () => {
+          const period = button.dataset.billing;
+          $$('[data-billing]').forEach((item) => {
+            const active = item.dataset.billing === period;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', String(active));
+          });
+          $$('[data-price-card]').forEach((card) => {
+            const value = card.dataset[period === 'annual' ? 'annualPrice' : 'monthlyPrice'];
+            const price = $('[data-price-value]', card);
+            if (price) price.textContent = value;
+            $('[data-price-caption]', card).textContent = period === 'annual' ? 'con fatturazione annuale' : 'con fatturazione mensile';
+            $('[data-price-saving]', card)?.toggleAttribute('hidden', period !== 'annual');
+          });
+        }));
+
+        const trialForm = $('[data-trial-form]');
+        trialForm?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const formData = new FormData(trialForm);
+          const summary = [formData.get('business'), formData.get('category'), formData.get('city')].filter(Boolean).join(' · ');
+          $('[data-trial-summary]').textContent = summary;
+          $('[data-trial-result]').removeAttribute('hidden');
+          trialForm.querySelectorAll('input, button[type="submit"]').forEach((field) => field.setAttribute('disabled', ''));
+        });
+
+        const reveals = $$('[data-reveal]');
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+          reveals.forEach((item) => observer.observe(item));
+        } else reveals.forEach((item) => item.classList.add('is-visible'));
+      })();
+    </script>
+  </body>
+</html>
