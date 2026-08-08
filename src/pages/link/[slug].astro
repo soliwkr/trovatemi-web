@@ -1,5 +1,5 @@
 ---
-import { DemoDetailExperience } from '../../components/v13-rebuild/DemoExperiences';
+import BioLinkExperience from '../../components/v13-rebuild/BioLinkExperience';
 import { demoTenants, type DemoTenant } from '../../data/demo-tenants';
 import { getVerticalMessaging, type VerticalMessaging } from '../../data/vertical-messaging';
 import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
@@ -18,9 +18,9 @@ const { demo, message } = Astro.props;
 ---
 
 <V13AceternityLayout
-  title={`Demo ${demo.name} | Trovatemi`}
-  description={`${message.demoLens} Dimostrazione reale con dati costruiti per la prova.`}
-  bodyClass="v13a-demo-detail-page"
+  title={`${message.bioHeadline} | Trovatemi`}
+  description={message.bioBody}
+  bodyClass="v13a-bio-page-body"
 >
-  <DemoDetailExperience demo={demo} message={message} client:load />
+  <BioLinkExperience demo={demo} message={message} client:load />
 </V13AceternityLayout>

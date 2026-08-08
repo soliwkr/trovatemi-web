@@ -1,0 +1,14 @@
+---
+import HomeExperience from '../../components/v13-rebuild/HomeExperience';
+import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
+
+export const prerender = true;
+---
+
+<V13AceternityLayout
+  title="Trovatemi.it | Trasforma clienti soddisfatti in prove pubbliche"
+  description="Trovatemi installa nella tua attività un sistema semplice per raccogliere recensioni, curare risposte e rendere visibile la qualità del tuo lavoro."
+  bodyClass="v13a-home-page"
+>
+  <HomeExperience client:load />
+</V13AceternityLayout>

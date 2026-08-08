@@ -315,19 +315,54 @@ export function AnimatedModal({
   children,
   labelledBy,
 }: PropsWithChildren<{ open: boolean; onClose: () => void; labelledBy: string }>) {
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
   useEffect(() => {
     if (!open) return;
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = [...(surfaceRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? [])]
+        .filter((element) => !element.hasAttribute('hidden') && element.getAttribute('aria-hidden') !== 'true');
+      if (!focusable.length) {
+        event.preventDefault();
+        surfaceRef.current?.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
     };
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKey);
+    document.addEventListener('keydown', handleKey, true);
+    const focusFrame = requestAnimationFrame(() => {
+      if (!surfaceRef.current?.contains(document.activeElement)) surfaceRef.current?.focus();
+    });
     return () => {
+      cancelAnimationFrame(focusFrame);
       document.documentElement.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKey);
+      document.removeEventListener('keydown', handleKey, true);
+      previousFocusRef.current?.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <AnimatePresence>
@@ -343,7 +378,9 @@ export function AnimatedModal({
           onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}
         >
           <motion.div
+            ref={surfaceRef}
             className="v12-modal__surface"
+            tabIndex={-1}
             initial={{ opacity: 0, y: 36, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}

@@ -1,0 +1,48 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/anton/latin.css';
+import '../styles/v12.css';
+import '../styles/v13-aceternity.css';
+
+type Props = {
+  title: string;
+  description: string;
+  bodyClass?: string;
+};
+
+const { title, description, bodyClass = '' } = Astro.props;
+const socialImage = 'https://trovatemi.it/images/nfc-review-counter-v7.webp';
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi-v12">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src https://app.trovatemi.it; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self';" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <title>{title}</title>
+    <script is:inline>
+      if (new URLSearchParams(location.search).get('mode') === 'live') {
+        document.documentElement.dataset.v13Mode = 'live';
+      }
+    </script>
+  </head>
+  <body class:list={['v13a-body', bodyClass]}>
+    <slot />
+  </body>
+</html>

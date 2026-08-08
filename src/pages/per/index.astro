@@ -1,0 +1,14 @@
+---
+import { LandingHubExperience } from '../../components/v13-rebuild/LandingExperiences';
+import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
+
+export const prerender = true;
+---
+
+<V13AceternityLayout
+  title="Trovatemi per attività locali | Scegli il tuo settore"
+  description="Scopri dove la buona intenzione del cliente si perde e come Trovatemi può trasformarla in una prova pubblica."
+  bodyClass="v13a-sector-hub-page"
+>
+  <LandingHubExperience client:load />
+</V13AceternityLayout>

@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "wrangler types && astro check && wrangler types --check",
+    "verify:v13": "node scripts/verify-v13.mjs",
+    "qa:v13": "npm run check && npm run build && npm run verify:v13",
     "cf-typegen": "wrangler types",
     "deploy": "npm run build && wrangler deploy",
     "deploy:dry": "npm run build && wrangler deploy --dry-run"
