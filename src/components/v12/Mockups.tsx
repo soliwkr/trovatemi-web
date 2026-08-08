@@ -82,12 +82,12 @@ export function MessageMockup() {
 
 export function DiscoveryMockup() {
   return (
-    <div className="v12-agent-visual v12-search-visual" aria-label="Esempio illustrativo di contenuto locale mostrato nella ricerca">
-      <span className="v12-demo-badge">ESEMPIO ILLUSTRATIVO</span>
-      <WindowBar label="google · servizio in città" />
-      <article className="v12-ai-overview"><span>✦ Risposta AI</span><p>Tra le attività locali apprezzate per chiarezza e assistenza, Officina Centro viene citata spesso per tempi rispettati e spiegazioni semplici.</p><small><b>T</b> trovatemi.it · Google ★ 4,9</small></article>
-      <div className="v12-search-result"><i>O</i><p><small>trovatemi.it › servizio-citta</small><strong>Perché i clienti scelgono Officina Centro</strong><span>Tempi chiari, assistenza presente e un servizio che i clienti descrivono come semplice...</span></p></div>
-      <motion.div className="v12-index-chip" animate={{ x: [0, 7, 0] }} transition={{ duration: 3.8, repeat: Infinity }}><i>◎</i><span><b>Pagina aggiornata</b><small>fonte: 12 recensioni reali</small></span><em>✓</em></motion.div>
+    <div className="v12-agent-visual v12-search-visual" aria-label="Esempio illustrativo di contenuto locale preparato da servizi, territorio e recensioni">
+      <span className="v12-demo-badge">BOZZA DIMOSTRATIVA</span>
+      <WindowBar label="contenuti locali · da controllare" />
+      <article className="v12-ai-overview"><span>✦ Contenuto locale</span><p>Una pagina costruita con servizi reali, territorio, domande frequenti e parole usate dai clienti.</p><small><b>T</b> fonte: informazioni dell’attività + recensioni</small></article>
+      <div className="v12-search-result"><i>O</i><p><small>trovatemi.it › servizio-citta</small><strong>Interventi chiari e assistenza a Latina</strong><span>Servizi, tempi, area coperta e risposte alle domande che i clienti fanno più spesso...</span></p></div>
+      <motion.div className="v12-index-chip" animate={{ x: [0, 7, 0] }} transition={{ duration: 3.8, repeat: Infinity }}><i>◎</i><span><b>Bozza aggiornata</b><small>12 recensioni usate come fonte</small></span><em>✓</em></motion.div>
     </div>
   );
 }
@@ -120,11 +120,11 @@ export function EchoMockup() {
 export function SystemHub() {
   const reduceMotion = useReducedMotion();
   const nodes = [
-    ['01', 'Esperienza', 'il cliente parla'],
-    ['02', 'Risposta', 'la fiducia cresce'],
-    ['03', 'Contenuto', 'la prova circola'],
-    ['04', 'Ricerca', 'l’attività si capisce'],
-    ['05', 'Scelta', 'arriva il prossimo cliente'],
+    ['01', 'Richiesta', 'QR, NFC o messaggio'],
+    ['02', 'Recensione', 'la prova va online'],
+    ['03', 'Risposta', 'una bozza da controllare'],
+    ['04', 'Contenuto', 'la prova viene riusata'],
+    ['05', 'Misura', 'gli output restano visibili'],
   ];
 
   return (

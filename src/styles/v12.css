@@ -372,6 +372,9 @@ html[data-theme="trovatemi-v12"] a { color: inherit; }
 .v12-price b { min-width: 84px; font-family: "Space Grotesk Variable", sans-serif; font-size: 54px; line-height: 1; letter-spacing: -.05em; }
 .v12-price em { margin-bottom: 6px; color: #666; font-size: 12px; font-style: normal; }
 .v12-price small { grid-column: 2 / -1; margin-top: 4px; color: #888; font-size: 9px; }
+.v12-price--custom { grid-template-columns: 1fr; }
+.v12-price--custom b { min-width: 0; font-size: 42px; letter-spacing: -.035em; }
+.v12-price--custom small { grid-column: 1; }
 .v12-saving { margin: 14px 0 20px; padding: 8px 10px; border-radius: 9px; background: #fff2b8; color: #715500; font-size: 10px; font-weight: 700; }
 .v12-price-card ul { display: grid; gap: 9px; margin: 0 0 26px; padding: 0; list-style: none; }
 .v12-price-card li { display: flex; gap: 9px; color: #333; font-size: 13px; }

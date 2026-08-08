@@ -5,10 +5,11 @@ import V12Experience from '../../components/v12/V12Experience';
 export const prerender = true;
 
 const faqs = [
-  ['Che cos’è Trovatemi in questa V12?', 'È una proposta di prodotto per attività locali che raccoglie recensioni, prepara risposte e riusa esperienze reali dei clienti.'],
-  ['In che modo arrivano le recensioni?', 'Con QR o NFC nel punto vendita oppure con richieste configurate via WhatsApp, SMS o email.'],
-  ['L’intelligenza artificiale pubblica senza controllo?', 'Puoi prevedere una bozza da approvare oppure una modalità automatica configurata. Nella preview non viene pubblicato nulla.'],
-  ['Può farmi comparire nelle risposte di ChatGPT o Gemini?', 'Può rendere le informazioni più comprensibili, ma non può garantire citazioni, posizioni o risposte specifiche.'],
+  ['È un software che devo imparare a usare?', 'No. Trovatemi configura il sistema sulla tua attività, prepara gli strumenti e ti accompagna nell’utilizzo.'],
+  ['Cosa succede nei 14 giorni?', 'Partiamo dalla situazione reale, attiviamo la prima richiesta, controlliamo l’utilizzo al giorno 7 e leggiamo gli output al giorno 14.'],
+  ['Filtrate le recensioni negative?', 'No. Ogni cliente riceve lo stesso percorso e non utilizziamo review gating.'],
+  ['Che differenza c’è tra TROVATO e INEVITABILE?', 'TROVATO raccoglie e gestisce richieste, recensioni e risposte. INEVITABILE trasforma e distribuisce la stessa prova anche su Google, social e contenuti locali.'],
+  ['Mi garantite il primo posto su Google o una citazione nelle risposte AI?', 'No. Trovatemi rende le informazioni più chiare e continuative, ma non può garantire posizioni, citazioni o risposte specifiche.'],
 ];
 
 const faqSchema = {
@@ -23,8 +24,8 @@ const faqSchema = {
 ---
 
 <V12Layout
-  title="Trovatemi V12 | Recensioni, risposte e visibilità per attività locali"
-  description="Trovatemi trasforma le esperienze reali dei clienti in recensioni, risposte e contenuti per Google, social e assistenti AI."
+  title="Trovatemi V12 | Recensioni e presenza locale per attività che lavorano bene"
+  description="Trovatemi installa e segue il sistema che trasforma clienti soddisfatti in recensioni, risposte e prove pubbliche per Google, social e contenuti locali."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
   <V12Experience client:load />
