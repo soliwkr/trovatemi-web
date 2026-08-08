@@ -84,11 +84,11 @@ jobs:
           test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
           BASE="${PREVIEW_BASE_URL%/}"
 
-          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/brand-demo-v13/" > "$RUNNER_TEMP/v13-home.html"
-          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/demo/sunny-cafe/" > "$RUNNER_TEMP/v13-demo.html"
-          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/link/sunny-cafe/" > "$RUNNER_TEMP/v13-link.html"
-          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/per/sunny-cafe/" > "$RUNNER_TEMP/v13-landing.html"
-          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/archivio/home-v7-2/" > "$RUNNER_TEMP/v72-archive.html"
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/brand-demo-v13/" > "$RUNNER_TEMP/v13-home.html"
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/demo/sunny-cafe/" > "$RUNNER_TEMP/v13-demo.html"
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/link/sunny-cafe/" > "$RUNNER_TEMP/v13-link.html"
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/per/sunny-cafe/" > "$RUNNER_TEMP/v13-landing.html"
+          curl --fail --silent --show-error --retry 30 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/archivio/home-v7-2/" > "$RUNNER_TEMP/v72-archive.html"
 
           grep -Fq "Ogni cliente soddisfatto" "$RUNNER_TEMP/v13-home.html"
           grep -Fq "Codice embed" "$RUNNER_TEMP/v13-demo.html"
@@ -100,4 +100,3 @@ jobs:
           echo "Demo hub — $BASE/demo/" >> "$GITHUB_STEP_SUMMARY"
           echo "Universal biolink — $BASE/link/" >> "$GITHUB_STEP_SUMMARY"
           echo "Vertical landing hub — $BASE/per/" >> "$GITHUB_STEP_SUMMARY"
-
