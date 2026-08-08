@@ -40,8 +40,6 @@ html[data-theme="trovatemi-v12"] input { font: inherit; }
 html[data-theme="trovatemi-v12"] button,
 html[data-theme="trovatemi-v12"] a { -webkit-tap-highlight-color: transparent; }
 
-html[data-theme="trovatemi-v12"] button { color: inherit; }
-
 html[data-theme="trovatemi-v12"] a { color: inherit; }
 
 .v12-page { position: relative; isolation: isolate; overflow: clip; }
