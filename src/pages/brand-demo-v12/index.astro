@@ -1,0 +1,31 @@
+---
+import V12Layout from '../../layouts/V12Layout.astro';
+import V12Experience from '../../components/v12/V12Experience';
+
+export const prerender = true;
+
+const faqs = [
+  ['Che cos’è Trovatemi in questa V12?', 'È una proposta di prodotto per attività locali che raccoglie recensioni, prepara risposte e riusa esperienze reali dei clienti.'],
+  ['In che modo arrivano le recensioni?', 'Con QR o NFC nel punto vendita oppure con richieste configurate via WhatsApp, SMS o email.'],
+  ['L’intelligenza artificiale pubblica senza controllo?', 'Puoi prevedere una bozza da approvare oppure una modalità automatica configurata. Nella preview non viene pubblicato nulla.'],
+  ['Può farmi comparire nelle risposte di ChatGPT o Gemini?', 'Può rendere le informazioni più comprensibili, ma non può garantire citazioni, posizioni o risposte specifiche.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V12Layout
+  title="Trovatemi V12 | Recensioni, risposte e visibilità per attività locali"
+  description="Trovatemi trasforma le esperienze reali dei clienti in recensioni, risposte e contenuti per Google, social e assistenti AI."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  <V12Experience client:load />
+</V12Layout>
