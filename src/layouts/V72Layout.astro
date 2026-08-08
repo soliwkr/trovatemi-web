@@ -11,7 +11,8 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
-const isPreview = Astro.url.pathname.startsWith('/brand-demo-v7-2');
+const isArchive = Astro.url.pathname.startsWith('/archivio/home-v7-2');
+const isPreview = Astro.url.pathname.startsWith('/brand-demo-v7-2') || isArchive;
 const canonicalUrl = 'https://trovatemi.it/';
 const socialImageUrl = 'https://trovatemi.it/images/nfc-review-counter-v7.webp';
 const socialImageAlt = 'Un cliente avvicina il telefono a un supporto NFC di Trovatemi.it sul bancone di un’attività locale';
@@ -74,8 +75,8 @@ const organizationSchema = {
       <div class="brand-wrap type-micro flex min-h-8 items-center justify-between gap-3 text-[0.62rem] sm:text-[0.68rem]">
         {isPreview ? (
           <>
-            <span>V7.2 · BRANDSHEET EDITION</span>
-            <span>Preview privata · nessun dato inviato</span>
+            <span>{isArchive ? 'ARCHIVIO · HOME V7.2' : 'V7.2 · BRANDSHEET EDITION'}</span>
+            <span>{isArchive ? 'Snapshot della precedente homepage · noindex' : 'Preview privata · nessun dato inviato'}</span>
           </>
         ) : (
           <>
@@ -148,7 +149,7 @@ const organizationSchema = {
       <div class="brand-wrap type-micro mt-14 flex flex-col gap-3 border-t border-paper/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <span>© 2026 Trovatemi.it</span>
         <strong class="text-primary">Se chiami, risponde Chris.</strong>
-        <span>{isPreview ? 'V7.2 · Noindex' : 'trovatemi.it'}</span>
+        <span>{isArchive ? 'Archivio V7.2 · Noindex' : isPreview ? 'V7.2 · Noindex' : 'trovatemi.it'}</span>
       </div>
     </footer>
 
