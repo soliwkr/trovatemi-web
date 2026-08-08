@@ -1,0 +1,86 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import DemoEmbed from '../../components/v13/DemoEmbed.astro';
+import DemoCard from '../../components/v13/DemoCard.astro';
+import { climboDemos, type ClimboDemo } from '../../data/climbo-demos';
+import '../../styles/v13-demo.css';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return climboDemos.map((demo) => ({ params: { slug: demo.id }, props: { demo } }));
+}
+
+type Props = { demo: ClimboDemo };
+const { demo } = Astro.props;
+const related = climboDemos.filter((item) => item.id !== demo.id).slice(0, 2);
+---
+
+<V13Layout
+  title={`Demo ${demo.name} | Trovatemi`}
+  description={`${demo.summary} Esplora il pannello Trovatemi con dati dimostrativi.`}
+  surface="demo"
+  bodyClass="v13-demo-detail-page"
+>
+  <section class="v13-demo-detail-hero" style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}>
+    <div class="v13-shell">
+      <div>
+        <a class="v13-back-link" href="/demo/">← Tutte le demo</a>
+        <p class="v13-kicker">{demo.sector} · backend reale</p>
+        <h1 class="v13-h1">{demo.hero}</h1>
+        <p class="v13-lede">{demo.summary}</p>
+        <div class="v13-demo-detail-hero__actions">
+          <a class="v13-btn v13-btn--signal" href="#pannello">Entra nel pannello <span>↓</span></a>
+          <a class="v13-btn v13-btn--ghost" href={`?mode=live#pannello`}>Modalità presentazione <span>↗</span></a>
+        </div>
+      </div>
+      <aside>
+        <span aria-hidden="true">{demo.icon}</span>
+        <small>IL MOMENTO GIUSTO</small>
+        <p>{demo.moment}</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="pannello" class="v13-demo-stage-section">
+    <div class="v13-shell">
+      <div class="v13-demo-stage-section__heading">
+        <div><p class="v13-kicker">Pannello {demo.shortName}</p><h2 class="v13-h2">Clicca. Apri. Guarda cosa c’è davvero.</h2></div>
+        <p>Non è un video e non è un mockup. Il playground contiene dati inventati apposta per permetterti di esplorare il prodotto senza collegare un’attività.</p>
+      </div>
+      <DemoEmbed demo={demo} autoload surface="demo" />
+    </div>
+  </section>
+
+  <section class="v13-section v13-walkthrough">
+    <div class="v13-shell">
+      <header><p class="v13-kicker">Percorso consigliato · 3 minuti</p><h2 class="v13-h2">Se non sai dove cliccare, parti da qui.</h2></header>
+      <ol>
+        {demo.walkthrough.map((step, index) => (
+          <li><b>0{index + 1}</b><small>{step.label}</small><h3>{step.title}</h3><p>{step.body}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="v13-section--compact v13-demo-context">
+    <div class="v13-shell">
+      <div><p class="v13-kicker">Perché questo settore</p><h2 class="v13-h2">{demo.friction}</h2></div>
+      <aside><strong>USA QUESTA DEMO</strong><a href={`/per/${demo.id}/`}>Nella landing del settore <span>→</span></a><a href={`/link/${demo.id}/`}>Nella biolink IG/FB <span>→</span></a><p>La configurazione su un’attività vera viene proposta da Chris nel contesto giusto: visita, live, call o conversazione.</p></aside>
+    </div>
+  </section>
+
+  <section class="v13-section v13-related-demos">
+    <div class="v13-shell">
+      <header><p class="v13-kicker">Confronta un altro contesto</p><h2 class="v13-h2">Stesso sistema. Altra giornata reale.</h2></header>
+      <div>{related.map((item) => <DemoCard demo={item} compact />)}</div>
+    </div>
+  </section>
+
+  <script is:inline>
+    if (new URLSearchParams(location.search).get('mode') === 'live') {
+      document.documentElement.dataset.v13Mode = 'live';
+    }
+  </script>
+</V13Layout>
+

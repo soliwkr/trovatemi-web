@@ -1,0 +1,149 @@
+---
+import type { ClimboDemo } from '../../data/climbo-demos';
+import { getClimboDemoUrl, getDemoEmbedCode } from '../../data/climbo-demos';
+
+type Props = {
+  demo: ClimboDemo;
+  autoload?: boolean;
+  compact?: boolean;
+  surface?: 'home' | 'landing' | 'demo';
+  showCode?: boolean;
+};
+
+const {
+  demo,
+  autoload = false,
+  compact = false,
+  surface = 'landing',
+  showCode = true,
+} = Astro.props;
+
+const demoUrl = getClimboDemoUrl(demo);
+const embedCode = getDemoEmbedCode(demo);
+const titleId = `demo-embed-title-${demo.id}-${surface}`;
+const dialogId = `demo-code-${demo.id}-${surface}`;
+---
+
+<section
+  class:list={['v13-embed', compact && 'v13-embed--compact']}
+  style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}
+  data-demo-embed
+  data-demo-id={demo.id}
+  data-demo-surface={surface}
+  aria-labelledby={titleId}
+>
+  <header class="v13-embed__toolbar">
+    <div class="v13-browser-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="v13-browser-address"><span>★</span><strong>app.trovatemi.it</strong><small>/try/…{demo.category}</small></div>
+    <div class="v13-embed__toolbar-actions">
+      {showCode && <button type="button" data-demo-code-open aria-controls={dialogId}>Codice embed</button>}
+      <a href={demoUrl} target="_blank" rel="noopener noreferrer" data-demo-fullscreen>Apri intero <span>↗</span></a>
+    </div>
+  </header>
+
+  <div class="v13-embed__viewport">
+    <div class="v13-embed__cover" data-demo-cover hidden={autoload}>
+      <div>
+        <span class="v13-embed__icon" aria-hidden="true">{demo.icon}</span>
+        <small>BACKEND REALE · DATI DIMOSTRATIVI</small>
+        <h2 id={titleId}>{demo.shortName}</h2>
+        <p>{demo.summary}</p>
+        <ul>{demo.features.map((feature) => <li><i>✓</i>{feature}</li>)}</ul>
+        <button class="v13-btn v13-btn--signal" type="button" data-demo-load>Carica il pannello demo <span>→</span></button>
+        <em>Il click carica l’applicazione e le sue risorse esterne.</em>
+      </div>
+      <aside aria-hidden="true"><span>01</span><span>RECENSIONI</span><i></i><span>02</span><span>RISPOSTE</span><i></i><span>03</span><span>CONTENUTI</span></aside>
+    </div>
+
+    <div class="v13-embed__loading" data-demo-loading hidden={!autoload} aria-live="polite">
+      <span></span><strong>Sto aprendo il pannello {demo.shortName}…</strong><small>È un’app completa: il primo caricamento può richiedere qualche secondo.</small>
+    </div>
+
+    <iframe
+      src={autoload ? demoUrl : undefined}
+      data-src={demoUrl}
+      title={`Demo Trovatemi — ${demo.name}`}
+      loading={autoload ? 'eager' : 'lazy'}
+      referrerpolicy="strict-origin-when-cross-origin"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals"
+      allow="clipboard-read; clipboard-write; fullscreen"
+      allowfullscreen
+      data-demo-frame
+    ></iframe>
+  </div>
+
+  <footer class="v13-embed__meta">
+    <p><i></i><span><strong>Ambiente dimostrativo reale.</strong> Attività, recensioni, classifiche e numeri mostrati non appartengono a clienti Trovatemi.</span></p>
+    <a href={`/demo/${demo.id}/`}>Guida alla demo →</a>
+  </footer>
+
+  {showCode && (
+    <dialog class="v13-code-dialog" id={dialogId} data-demo-code-dialog aria-labelledby={`${dialogId}-title`}>
+      <div>
+        <form method="dialog"><button type="submit" aria-label="Chiudi">×</button></form>
+        <span>EMBED DIRETTO · {demo.category}</span>
+        <h2 id={`${dialogId}-title`}>Porta questo pannello dentro una pagina.</h2>
+        <p>Il codice incorpora direttamente il tenant demo di Trovatemi. Mantieni titolo, disclosure e link alternativo vicino all’iframe.</p>
+        <pre><code data-demo-code>{embedCode}</code></pre>
+        <div><button class="v13-btn v13-btn--signal" type="button" data-demo-code-copy>Copia il codice</button><a class="v13-btn v13-btn--ghost" href={demoUrl} target="_blank" rel="noopener noreferrer">Verifica l’URL ↗</a></div>
+        <small data-demo-copy-status aria-live="polite"></small>
+      </div>
+    </dialog>
+  )}
+</section>
+
+<script is:inline>
+  (() => {
+    const sendEvent = (name, detail) => {
+      window.dispatchEvent(new CustomEvent(`trovatemi:${name}`, { detail }));
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: name, ...detail });
+    };
+
+    document.querySelectorAll('[data-demo-embed]').forEach((embed) => {
+      if (embed.dataset.initialized === 'true') return;
+      embed.dataset.initialized = 'true';
+
+      const frame = embed.querySelector('[data-demo-frame]');
+      const cover = embed.querySelector('[data-demo-cover]');
+      const loading = embed.querySelector('[data-demo-loading]');
+      const loadButton = embed.querySelector('[data-demo-load]');
+      const dialog = embed.querySelector('[data-demo-code-dialog]');
+      const detail = { tenant: embed.dataset.demoId, surface: embed.dataset.demoSurface };
+
+      const load = () => {
+        if (!(frame instanceof HTMLIFrameElement) || frame.src) return;
+        cover?.setAttribute('hidden', '');
+        loading?.removeAttribute('hidden');
+        frame.src = frame.dataset.src || '';
+        sendEvent('demo_loaded', detail);
+      };
+
+      loadButton?.addEventListener('click', load);
+      frame?.addEventListener('load', () => {
+        loading?.setAttribute('hidden', '');
+        embed.setAttribute('data-loaded', 'true');
+      });
+
+      embed.querySelector('[data-demo-code-open]')?.addEventListener('click', () => {
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+      });
+
+      embed.querySelector('[data-demo-fullscreen]')?.addEventListener('click', () => sendEvent('demo_fullscreen_opened', detail));
+
+      embed.querySelector('[data-demo-code-copy]')?.addEventListener('click', async (event) => {
+        const code = embed.querySelector('[data-demo-code]')?.textContent || '';
+        const status = embed.querySelector('[data-demo-copy-status]');
+        const button = event.currentTarget;
+        try {
+          await navigator.clipboard.writeText(code);
+          if (status) status.textContent = 'Codice copiato negli appunti.';
+          if (button instanceof HTMLButtonElement) button.textContent = 'Copiato ✓';
+          sendEvent('embed_code_copied', detail);
+        } catch {
+          if (status) status.textContent = 'Copia non disponibile: seleziona il codice qui sopra.';
+        }
+      });
+    });
+  })();
+</script>
+
