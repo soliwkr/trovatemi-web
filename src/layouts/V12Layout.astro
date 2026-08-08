@@ -1,0 +1,49 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/anton/latin.css';
+import '../styles/v12.css';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const previewUrl = 'https://trovatemi-web-v12-preview.soliwkr.workers.dev/brand-demo-v12/';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Trovatemi.it',
+  url: 'https://trovatemi.it/',
+  description,
+  areaServed: 'IT',
+  knowsAbout: ['Recensioni online', 'Reputazione locale', 'Risposte alle recensioni', 'Contenuti da recensioni'],
+};
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi-v12">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={previewUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
