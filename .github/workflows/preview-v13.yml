@@ -1,0 +1,103 @@
+name: Preview V13 demo system on Cloudflare Workers
+
+on:
+  pull_request:
+    branches: [agent/v13-biolinks-landings]
+    paths:
+      - ".github/workflows/preview-v13.yml"
+      - "docs/DEMO-CONTRACT.md"
+      - "docs/SITE-SYSTEM-V13.md"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/verify-v13-build.mjs"
+      - "scripts/verify-climbo-embed.mjs"
+      - "src/components/v13/**"
+      - "src/data/climbo-demos.ts"
+      - "src/layouts/V13Layout.astro"
+      - "src/pages/archivio/**"
+      - "src/pages/brand-demo-v13/**"
+      - "src/pages/demo/**"
+      - "src/pages/link/**"
+      - "src/pages/per/**"
+      - "src/styles/v13-*.css"
+      - "wrangler.v13-preview.jsonc"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-v13-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Validate and publish isolated V13 preview
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate project
+        run: npm run check
+
+      - name: Build Astro Worker
+        run: npm run build
+
+      - name: Verify V13 route and content contract
+        run: npm run verify:v13
+
+      - name: Verify Climbo still allows the embed
+        run: npm run verify:v13:remote
+
+      - name: Verify Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+
+      - name: Publish isolated preview Worker
+        id: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          command: deploy --config wrangler.v13-preview.jsonc
+
+      - name: Verify public preview routes
+        env:
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
+          BASE="${PREVIEW_BASE_URL%/}"
+
+          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/brand-demo-v13/" > "$RUNNER_TEMP/v13-home.html"
+          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/demo/sunny-cafe/" > "$RUNNER_TEMP/v13-demo.html"
+          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/link/sunny-cafe/" > "$RUNNER_TEMP/v13-link.html"
+          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/per/sunny-cafe/" > "$RUNNER_TEMP/v13-landing.html"
+          curl --fail --silent --show-error --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 "$BASE/archivio/home-v7-2/" > "$RUNNER_TEMP/v72-archive.html"
+
+          grep -Fq "Ogni cliente soddisfatto" "$RUNNER_TEMP/v13-home.html"
+          grep -Fq "Codice embed" "$RUNNER_TEMP/v13-demo.html"
+          grep -Fq "Prova il pannello demo" "$RUNNER_TEMP/v13-link.html"
+          grep -Fq "Prima lo vedi" "$RUNNER_TEMP/v13-landing.html"
+          grep -Fq "ARCHIVIO · HOME V7.2" "$RUNNER_TEMP/v72-archive.html"
+
+          echo "V13 homepage — $BASE/brand-demo-v13/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Demo hub — $BASE/demo/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Universal biolink — $BASE/link/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Vertical landing hub — $BASE/per/" >> "$GITHUB_STEP_SUMMARY"
+
