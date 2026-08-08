@@ -1,0 +1,88 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import DemoEmbed from '../../components/v13/DemoEmbed.astro';
+import DemoCard from '../../components/v13/DemoCard.astro';
+import { climboDemos, type ClimboDemo } from '../../data/climbo-demos';
+import '../../styles/v13-demo.css';
+import '../../styles/v13-landing.css';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return climboDemos.map((demo) => ({ params: { slug: demo.id }, props: { demo } }));
+}
+
+type Props = { demo: ClimboDemo };
+const { demo } = Astro.props;
+const related = climboDemos.filter((item) => item.id !== demo.id).slice(0, 3);
+---
+
+<V13Layout
+  title={`Trovatemi per ${demo.name} | Recensioni e presenza locale`}
+  description={`${demo.hero} Guarda il percorso e prova il backend Trovatemi con dati dimostrativi.`}
+  surface="landing"
+  bodyClass="v13-vertical-page"
+>
+  <section class="v13-vertical-hero" style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}>
+    <div class="v13-shell">
+      <div class="v13-vertical-hero__copy">
+        <a class="v13-back-link" href="/per/">← Tutti i settori</a>
+        <p class="v13-kicker">Trovatemi per {demo.name}</p>
+        <h1 class="v13-h1">{demo.hero}</h1>
+        <p class="v13-lede">{demo.friction}</p>
+        <div><a class="v13-btn v13-btn--signal" href="#demo-reale">Prova il backend reale <span>↓</span></a><a class="v13-btn v13-btn--ghost" href={`/demo/${demo.id}/`}>Apri la guida <span>↗</span></a></div>
+        <small>Nessun account · dati dimostrativi · nessuna attività collegata</small>
+      </div>
+      <aside>
+        <span aria-hidden="true">{demo.icon}</span>
+        <small>IL MOMENTO</small>
+        <h2>{demo.moment}</h2>
+        <div>{demo.features.map((feature) => <i>{feature}</i>)}</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="v13-section v13-vertical-scene">
+    <div class="v13-shell">
+      <header><p class="v13-kicker">La scena da non perdere</p><h2 class="v13-h2">Il valore esiste già. Il sistema gli dà un seguito.</h2></header>
+      <div>
+        <article><b>PRIMA</b><h3>L’esperienza resta nella conversazione.</h3><p>{demo.friction}</p></article>
+        <span aria-hidden="true">→</span>
+        <article><b>DOPO</b><h3>La voce entra in un processo controllabile.</h3><p>{demo.moment} Da lì recensione, risposta e output restano nello stesso pannello.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo-reale" class="v13-vertical-demo" style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}>
+    <div class="v13-shell">
+      <header><div><p class="v13-kicker v13-kicker--light">Non un mockup</p><h2 class="v13-h2">Adesso entra nel pannello {demo.shortName}.</h2></div><p>{demo.summary} Il caricamento parte soltanto quando lo decidi tu.</p></header>
+      <DemoEmbed demo={demo} surface="landing" showCode={false} />
+    </div>
+  </section>
+
+  <section class="v13-section v13-vertical-flow">
+    <div class="v13-shell">
+      <header><p class="v13-kicker">Dentro il sistema</p><h2 class="v13-h2">Quattro cose da guardare, in quest’ordine.</h2></header>
+      <ol>
+        {demo.walkthrough.map((step, index) => (
+          <li><b>0{index + 1}</b><div><small>{step.label}</small><h3>{step.title}</h3><p>{step.body}</p></div></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="v13-section--compact v13-vertical-boundary">
+    <div class="v13-shell">
+      <div><p class="v13-kicker">La regola commerciale</p><h2 class="v13-h2">Prima lo vedi. Poi decidiamo come provarlo davvero.</h2></div>
+      <div><p>Il sito non ti impone un trial standard. Nel walk-in, in live, in call o dopo una conversazione, Chris può proporti una configurazione assistita quando è il passaggio giusto.</p><ul><li>Nessuna carta per esplorare la demo</li><li>Nessuna promessa di posizione o risultato</li><li>Nessuna recensione filtrata o incentivata</li></ul><a class="v13-btn v13-btn--ink" href={`/demo/${demo.id}/`}>Apri la demo guidata <span>→</span></a></div>
+    </div>
+  </section>
+
+  <section class="v13-section v13-vertical-related">
+    <div class="v13-shell">
+      <header><p class="v13-kicker">Altri contesti</p><h2 class="v13-h2">Guarda come cambia il momento.</h2></header>
+      <div>{related.map((item) => <DemoCard demo={item} compact linkPrefix="/per" />)}</div>
+    </div>
+  </section>
+</V13Layout>
+

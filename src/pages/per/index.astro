@@ -1,0 +1,29 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import DemoCard from '../../components/v13/DemoCard.astro';
+import { climboDemos } from '../../data/climbo-demos';
+import '../../styles/v13-demo.css';
+import '../../styles/v13-landing.css';
+
+export const prerender = true;
+---
+
+<V13Layout
+  title="Trovatemi per attività locali | Scegli il settore"
+  description="Scopri come recensioni, risposte e contenuti entrano nella giornata reale di attività locali diverse."
+  surface="landing"
+>
+  <section class="v13-vertical-hub-hero">
+    <div class="v13-shell">
+      <p class="v13-kicker">Trovatemi nella giornata reale</p>
+      <h1 class="v13-h1">Il sistema è uno. Il momento giusto cambia.</h1>
+      <p class="v13-lede">Una richiesta recensione non entra nello stesso modo in un bar, una spa o un hotel. Scegli il settore e guarda scenario, percorso e backend demo.</p>
+    </div>
+  </section>
+  <section class="v13-section v13-vertical-hub-list">
+    <div class="v13-shell">
+      <div class="v13-demo-grid">{climboDemos.map((demo) => <DemoCard demo={demo} linkPrefix="/per" />)}</div>
+    </div>
+  </section>
+</V13Layout>
+
