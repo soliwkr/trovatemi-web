@@ -1,0 +1,52 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import DemoCard from '../../components/v13/DemoCard.astro';
+import { climboDemos } from '../../data/climbo-demos';
+import '../../styles/v13-demo.css';
+
+export const prerender = true;
+---
+
+<V13Layout
+  title="Demo reali Trovatemi | Entra nel pannello"
+  description="Scegli un settore ed esplora il backend reale di Trovatemi con dati dimostrativi. Nessun account richiesto."
+  surface="demo"
+>
+  <section class="v13-demo-hub-hero">
+    <div class="v13-shell">
+      <div class="v13-demo-hub-hero__copy">
+        <p class="v13-kicker">Demo reali · nessun account</p>
+        <h1 class="v13-h1">Non guardare una presentazione. Entra nel sistema.</h1>
+        <p class="v13-lede">Scegli un’attività. Apri il pannello. Naviga recensioni, campagne, risposte, agenti AI e contenuti come faresti durante una dimostrazione dal vivo.</p>
+      </div>
+      <aside>
+        <span>5</span>
+        <p><b>ambienti demo</b><small>stesso motore, attività diverse</small></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="v13-section v13-demo-hub-list">
+    <div class="v13-shell">
+      <header>
+        <p class="v13-kicker">Scegli il contesto</p>
+        <h2 class="v13-h2">La funzione è la stessa. Il momento in cui serve cambia.</h2>
+      </header>
+      <div class="v13-demo-grid">
+        {climboDemos.map((demo) => <DemoCard demo={demo} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="v13-section v13-demo-rules">
+    <div class="v13-shell">
+      <header><p class="v13-kicker v13-kicker--light">Prima di entrare</p><h2 class="v13-h2">È il prodotto vero. Non sono risultati veri.</h2></header>
+      <div>
+        <article><b>01</b><h3>Puoi navigare.</h3><p>Menu, moduli, dashboard e dati dimostrativi fanno parte del playground reale.</p></article>
+        <article><b>02</b><h3>Non puoi rompere nulla.</h3><p>L’ambiente è separato dagli account dei clienti e non pubblica azioni reali.</p></article>
+        <article><b>03</b><h3>Puoi condividerlo.</h3><p>Ogni settore ha un URL autonomo, una biolink e una landing collegate.</p></article>
+      </div>
+    </div>
+  </section>
+</V13Layout>
+
