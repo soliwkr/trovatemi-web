@@ -1,0 +1,80 @@
+---
+import DemoEmbed from './DemoEmbed.astro';
+import { climboDemos } from '../../data/climbo-demos';
+
+type Props = {
+  initial?: string;
+};
+
+const { initial = 'sunny-cafe' } = Astro.props;
+const initialDemo = climboDemos.find((demo) => demo.id === initial) ?? climboDemos[0];
+---
+
+<div class="v13-demo-switcher" data-demo-switcher data-active-demo={initialDemo.id}>
+  <div class="v13-demo-switcher__tabs" role="tablist" aria-label="Scegli l’attività demo">
+    {climboDemos.map((demo) => (
+      <button
+        type="button"
+        role="tab"
+        id={`demo-tab-${demo.id}`}
+        aria-controls={`demo-panel-${demo.id}`}
+        aria-selected={demo.id === initialDemo.id ? 'true' : 'false'}
+        tabindex={demo.id === initialDemo.id ? 0 : -1}
+        data-demo-switch={demo.id}
+        style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}
+      >
+        <i aria-hidden="true">{demo.icon}</i><span><b>{demo.shortName}</b><small>{demo.sector}</small></span>
+      </button>
+    ))}
+  </div>
+
+  <div class="v13-demo-switcher__panels">
+    {climboDemos.map((demo) => (
+      <div
+        role="tabpanel"
+        id={`demo-panel-${demo.id}`}
+        aria-labelledby={`demo-tab-${demo.id}`}
+        data-demo-panel={demo.id}
+        hidden={demo.id !== initialDemo.id}
+      >
+        <DemoEmbed demo={demo} compact surface="home" showCode={false} />
+      </div>
+    ))}
+  </div>
+
+  <p class="v13-demo-switcher__hint"><i></i><span>Ogni pannello usa il playground reale di Trovatemi. L’app viene caricata soltanto quando premi il pulsante dentro la demo.</span></p>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('[data-demo-switcher]').forEach((switcher) => {
+    const tabs = Array.from(switcher.querySelectorAll('[data-demo-switch]'));
+    const panels = Array.from(switcher.querySelectorAll('[data-demo-panel]'));
+
+    const select = (id, focus = false) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.demoSwitch === id;
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+        if (active && focus) tab.focus();
+      });
+      panels.forEach((panel) => panel.toggleAttribute('hidden', panel.dataset.demoPanel !== id));
+      switcher.dataset.activeDemo = id;
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'demo_selected', tenant: id, surface: 'home' });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(tab.dataset.demoSwitch));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        let target = index;
+        if (event.key === 'ArrowRight') target = (index + 1) % tabs.length;
+        if (event.key === 'ArrowLeft') target = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') target = 0;
+        if (event.key === 'End') target = tabs.length - 1;
+        select(tabs[target].dataset.demoSwitch, true);
+      });
+    });
+  });
+</script>
+
