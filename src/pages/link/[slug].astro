@@ -1,0 +1,59 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import Wordmark from '../../components/v13/Wordmark.astro';
+import { climboDemos, type ClimboDemo, getClimboDemoUrl } from '../../data/climbo-demos';
+import '../../styles/v13-biolink.css';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return climboDemos.map((demo) => ({ params: { slug: demo.id }, props: { demo } }));
+}
+
+type Props = { demo: ClimboDemo };
+const { demo } = Astro.props;
+const backendUrl = getClimboDemoUrl(demo);
+---
+
+<V13Layout
+  title={`${demo.name} | Demo Trovatemi`}
+  description={demo.bio}
+  header="none"
+  surface="biolink"
+  bodyClass="v13-bio-body"
+>
+  <section class="v13-bio" style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`}>
+    <div class="v13-bio__orb" aria-hidden="true"></div>
+    <header>
+      <Wordmark href="/brand-demo-v13/" />
+      <span class="v13-bio__badge"><i></i> {demo.sector}</span>
+      <div class="v13-bio__icon" aria-hidden="true">{demo.icon}</div>
+      <h1>{demo.shortName}</h1>
+      <p>{demo.bio}</p>
+    </header>
+
+    <nav class="v13-bio__actions" aria-label={`Azioni per ${demo.name}`}>
+      <a class="is-primary" href={`/demo/${demo.id}/`} data-biolink-action="guided-demo"><span><small>CON GUIDA</small><b>Prova il pannello demo</b></span><i>→</i></a>
+      <a href={backendUrl} target="_blank" rel="noopener noreferrer" data-biolink-action="direct-demo"><span><small>APERTURA DIRETTA</small><b>Entra subito nel backend</b></span><i>↗</i></a>
+      <a href={`/per/${demo.id}/`} data-biolink-action="landing"><span><small>PER CAPIRE PRIMA</small><b>Guarda come funziona nel settore</b></span><i>→</i></a>
+      <a href={`/demo/${demo.id}/?mode=live#pannello`} data-biolink-action="live"><span><small>PRESENTAZIONE</small><b>Apri la modalità live</b></span><i>↗</i></a>
+    </nav>
+
+    <aside>
+      <strong>IL MOMENTO DA INTERCETTARE</strong>
+      <p>{demo.moment}</p>
+    </aside>
+
+    <footer>
+      <a href="/link/">← Cambia settore</a>
+      <p>Il pannello è reale. Attività, recensioni e numeri sono dati dimostrativi.</p>
+      <small>Se sei arrivato da Instagram o Facebook, scrivi a Chris nello stesso profilo.</small>
+    </footer>
+  </section>
+
+  <script is:inline define:vars={{ tenant: demo.id }}>
+    document.querySelectorAll('[data-biolink-action]').forEach((link) => link.addEventListener('click', () => {
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'biolink_action_clicked', tenant, surface: 'biolink', action: link.dataset.biolinkAction });
+    }));
+  </script>
+</V13Layout>

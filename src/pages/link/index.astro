@@ -1,0 +1,41 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import Wordmark from '../../components/v13/Wordmark.astro';
+import { climboDemos } from '../../data/climbo-demos';
+import '../../styles/v13-biolink.css';
+
+export const prerender = true;
+---
+
+<V13Layout
+  title="Trovatemi | Scegli una demo"
+  description="Scegli il tipo di attività ed entra nel pannello demo Trovatemi più vicino al tuo caso."
+  header="none"
+  surface="biolink"
+  bodyClass="v13-bio-body"
+>
+  <section class="v13-bio v13-bio--hub">
+    <div class="v13-bio__orb" aria-hidden="true"></div>
+    <header>
+      <Wordmark href="/brand-demo-v13/" />
+      <span class="v13-bio__badge"><i></i> Backend reale · dati demo</span>
+      <h1>Che attività vuoi vedere dentro Trovatemi?</h1>
+      <p>Questa è la pagina da tenere in bio o aprire durante una visita: scegli un contesto ed entra direttamente nel pannello.</p>
+    </header>
+    <nav class="v13-bio__sector-list" aria-label="Scegli il settore">
+      {climboDemos.map((demo) => (
+        <a href={`/link/${demo.id}/`} style={`--demo-accent:${demo.accent};--demo-accent-soft:${demo.accentSoft}`} data-biolink-action="sector">
+          <span aria-hidden="true">{demo.icon}</span><p><b>{demo.name}</b><small>{demo.sector}</small></p><i>→</i>
+        </a>
+      ))}
+    </nav>
+    <footer><a href="/demo/">Apri l’hub completo delle demo ↗</a><p>Le attività e i numeri nel pannello sono dimostrativi.</p></footer>
+  </section>
+
+  <script is:inline>
+    document.querySelectorAll('[data-biolink-action]').forEach((link) => link.addEventListener('click', () => {
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'biolink_action_clicked', surface: 'bio-hub', action: link.dataset.biolinkAction });
+    }));
+  </script>
+</V13Layout>
+
