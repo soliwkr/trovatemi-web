@@ -1,0 +1,116 @@
+---
+import '@fontsource/anton/latin.css';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import '../styles/v13-foundation.css';
+import Wordmark from '../components/v13/Wordmark.astro';
+
+type Props = {
+  title: string;
+  description: string;
+  header?: 'full' | 'minimal' | 'none';
+  surface?: 'preview' | 'demo' | 'landing' | 'biolink';
+  robots?: 'noindex, nofollow' | 'index, follow';
+  canonical?: string;
+  bodyClass?: string;
+};
+
+const {
+  title,
+  description,
+  header = 'full',
+  surface = 'preview',
+  robots = 'noindex, nofollow',
+  canonical,
+  bodyClass = '',
+} = Astro.props;
+
+const socialImage = 'https://trovatemi.it/images/nfc-review-counter-v7.webp';
+const isIndexable = robots === 'index, follow';
+---
+
+<!doctype html>
+<html lang="it" data-v13-surface={surface}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    {canonical && isIndexable && <link rel="canonical" href={canonical} />}
+    <title>{title}</title>
+  </head>
+  <body class:list={['v13-body', bodyClass]}>
+    <a class="v13-skip" href="#contenuto">Vai al contenuto</a>
+
+    {header !== 'none' && (
+      <>
+        <div class="v13-preview-bar">
+          <div class="v13-shell">
+            <span>V13 · SISTEMA DEMO REALE</span>
+            <span>PREVIEW ISOLATA · DATI DIMOSTRATIVI · NOINDEX</span>
+          </div>
+        </div>
+        <header class:list={['v13-header', header === 'minimal' && 'v13-header--minimal']}>
+          <nav class="v13-shell v13-nav" aria-label="Navigazione principale">
+            <Wordmark compact={header === 'minimal'} />
+            {header === 'full' && (
+              <div class="v13-nav__links" data-v13-menu>
+                <a href="/brand-demo-v13/#sistema">Come funziona</a>
+                <a href="/demo/">Demo reali</a>
+                <a href="/brand-demo-v13/#piani">Soluzioni</a>
+                <a href="/brand-demo-v13/#settori">Settori</a>
+              </div>
+            )}
+            <div class="v13-nav__actions">
+              <a class="v13-btn v13-btn--ghost" href="/demo/">Scegli una demo</a>
+              {header === 'full' && <a class="v13-btn v13-btn--signal" href="/demo/sunny-cafe/">Prova il pannello <span>↗</span></a>}
+            </div>
+            {header === 'full' && <button class="v13-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" data-v13-menu-toggle><i></i><i></i></button>}
+          </nav>
+        </header>
+      </>
+    )}
+
+    <main id="contenuto"><slot /></main>
+
+    <slot name="after-main" />
+
+    {header !== 'none' && (
+      <footer class="v13-footer">
+        <div class="v13-shell v13-footer__grid">
+          <div><Wordmark class="v13-wordmark--light" /><p>Recensioni e presenza locale trasformate in un sistema che si può vedere e provare.</p></div>
+          <nav aria-label="Demo"><strong>Prova</strong><a href="/demo/">Tutte le demo</a><a href="/demo/sunny-cafe/">Bar e caffetteria</a><a href="/demo/grand-hotel-riviera/">Hotel</a></nav>
+          <nav aria-label="Sistema"><strong>Capisci</strong><a href="/brand-demo-v13/#sistema">Il ciclo</a><a href="/brand-demo-v13/#piani">Le soluzioni</a><a href="/brand-demo-v13/#settori">I settori</a></nav>
+          <div><span>V13 · NOINDEX</span><b>La demo è reale.<br />I dati non lo sono.</b></div>
+        </div>
+        <div class="v13-shell v13-footer__bottom"><span>© 2026 Trovatemi.it</span><strong>Se parli con Trovatemi, parli con Chris.</strong><span>Produzione invariata</span></div>
+      </footer>
+    )}
+
+    <script is:inline>
+      const toggle = document.querySelector('[data-v13-menu-toggle]');
+      const menu = document.querySelector('[data-v13-menu]');
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        menu?.toggleAttribute('data-open', open);
+      });
+      menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        menu?.removeAttribute('data-open');
+      }));
+    </script>
+  </body>
+</html>
+
