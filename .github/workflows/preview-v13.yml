@@ -74,20 +74,32 @@ jobs:
         run: |
           test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
 
-          curl --fail --silent --show-error \
-            --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
-            "${PREVIEW_BASE_URL%/}/brand-demo-v13/" > "$RUNNER_TEMP/home.html"
-          grep -Fq "Il cliente ti sta già cercando" "$RUNNER_TEMP/home.html"
+          verify_route() {
+            route="$1"
+            marker="$2"
+            output="$RUNNER_TEMP/${route//\//-}.html"
 
-          for route in \
-            demo/ \
-            demo/luxury-watches/ \
-            link/grand-hotel-riviera/ \
-            per/wellness-spa/
-          do
-            curl --fail --silent --show-error \
-              --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
-              "${PREVIEW_BASE_URL%/}/$route" > "$RUNNER_TEMP/preview.html"
-          done
+            for attempt in {1..12}; do
+              if curl --fail --silent --show-error --max-time 20 \
+                "${PREVIEW_BASE_URL%/}/$route" > "$output" \
+                && grep -Fq "$marker" "$output"
+              then
+                return 0
+              fi
+
+              if [ "$attempt" -lt 12 ]; then
+                sleep 5
+              fi
+            done
+
+            echo "Preview route not ready: $route" >&2
+            return 1
+          }
+
+          verify_route "brand-demo-v13/" "HomeExperience"
+          verify_route "demo/" "DemoExperiences"
+          verify_route "demo/luxury-watches/" "luxury-watches"
+          verify_route "link/grand-hotel-riviera/" "BioLinkExperience"
+          verify_route "per/wellness-spa/" "LandingExperiences"
 
           echo "Preview V13 — ${PREVIEW_BASE_URL%/}/brand-demo-v13/" >> "$GITHUB_STEP_SUMMARY"
