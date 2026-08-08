@@ -1,0 +1,144 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import DemoSwitcher from '../../components/v13/DemoSwitcher.astro';
+import DemoCard from '../../components/v13/DemoCard.astro';
+import { climboDemos } from '../../data/climbo-demos';
+import '../../styles/v13-demo.css';
+import '../../styles/v13-home.css';
+
+export const prerender = true;
+
+const systemSteps = [
+  ['01', 'Chiedi', 'QR, NFC o messaggio entrano nel momento concordato.'],
+  ['02', 'Raccogli', 'Ogni cliente segue lo stesso percorso, senza filtro sul voto.'],
+  ['03', 'Rispondi', 'Il sistema prepara una risposta legata a ciò che è stato scritto.'],
+  ['04', 'Distribuisci', 'La prova può diventare aggiornamento, post o contenuto locale.'],
+  ['05', 'Controlla', 'Richieste, recensioni e output restano nello stesso pannello.'],
+];
+---
+
+<V13Layout
+  title="Trovatemi V13 | Il sistema che puoi provare"
+  description="Trovatemi trasforma clienti soddisfatti in recensioni, risposte e presenza locale. Entra nel backend reale con dati dimostrativi."
+  surface="preview"
+  bodyClass="v13-home-page"
+>
+  <section class="v13-home-hero">
+    <div class="v13-home-hero__spotlight" aria-hidden="true"></div>
+    <div class="v13-home-beams" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="v13-shell v13-home-hero__grid">
+      <div class="v13-home-hero__copy" data-v13-reveal>
+        <p class="v13-kicker">Recensioni → risposte → presenza locale</p>
+        <h1>Ogni cliente soddisfatto può portarti il prossimo.</h1>
+        <p>Trovatemi mette in moto la voce dei clienti: facilita la richiesta, organizza le recensioni, prepara le risposte e trasforma le prove migliori in presenza che continua a lavorare.</p>
+        <div class="v13-home-hero__actions">
+          <a class="v13-moving-button" href="#demo-reale"><span>Entra in una demo reale</span><b>↓</b></a>
+          <a class="v13-btn v13-btn--ghost" href="/demo/">Scegli il settore <span>↗</span></a>
+        </div>
+        <small><i></i> Nessun account · nessuna attività collegata · dati dimostrativi</small>
+      </div>
+
+      <div class="v13-system-board" data-v13-reveal>
+        <header><span><i></i> SISTEMA ATTIVO</span><small>AMBIENTE DIMOSTRATIVO</small></header>
+        <div class="v13-system-board__review">
+          <span>NUOVA RECENSIONE</span><div><b>★★★★★</b><small>oggi · Google</small></div><blockquote>“Precisi, disponibili e tutto spiegato bene.”</blockquote>
+        </div>
+        <div class="v13-system-board__outputs">
+          <article><span>01</span><i>◎</i><p><b>Risposta</b><small>pronta da controllare</small></p><em>✓</em></article>
+          <article><span>02</span><i>↗</i><p><b>Contenuto</b><small>adattato dalla prova</small></p><em>✓</em></article>
+          <article><span>03</span><i>◇</i><p><b>Presenza</b><small>servizi e territorio</small></p><em>✓</em></article>
+        </div>
+        <footer><span>LA TECNOLOGIA PREPARA</span><strong>TU MANTIENI IL CONTROLLO</strong></footer>
+      </div>
+    </div>
+    <div class="v13-home-hero__rail"><div class="v13-shell"><span>CLIENTE</span><i>→</i><span>RICHIESTA</span><i>→</i><span>RECENSIONE</span><i>→</i><span>OUTPUT</span><i>→</i><strong>NUOVA SCELTA</strong></div></div>
+  </section>
+
+  <section id="demo-reale" class="v13-home-demo">
+    <div class="v13-shell">
+      <header class="v13-home-section-head" data-v13-reveal>
+        <div><p class="v13-kicker v13-kicker--light">01 · Il prodotto, non la promessa</p><h2>Guarda cosa c’è dentro. Prima di parlarne.</h2></div>
+        <p>Scegli un’attività e apri il backend. Puoi navigare il pannello, cambiare sezione e capire se il sistema è concreto senza lasciare dati.</p>
+      </header>
+      <DemoSwitcher initial="sunny-cafe" />
+    </div>
+  </section>
+
+  <section id="sistema" class="v13-home-flow">
+    <div class="v13-shell">
+      <header class="v13-home-section-head" data-v13-reveal>
+        <div><p class="v13-kicker">02 · Un solo ciclo</p><h2>La recensione non si ferma alle stelle.</h2></div>
+        <p>Trovatemi tiene insieme la richiesta, la voce del cliente e ciò che quella voce può produrre. Ogni passaggio resta leggibile.</p>
+      </header>
+      <ol class="v13-home-flow__steps">
+        {systemSteps.map(([number, title, body], index) => (
+          <li data-v13-reveal style={`--step:${index}`}><b>{number}</b><i aria-hidden="true"></i><div><h3>{title}</h3><p>{body}</p></div></li>
+        ))}
+      </ol>
+      <div class="v13-home-flow__boundary" data-v13-reveal><span>IL CONFINE</span><p>Trovatemi rende il processo più continuo e controllabile. Non compra recensioni, non filtra quelle negative e non garantisce posizioni o citazioni.</p></div>
+    </div>
+  </section>
+
+  <section id="piani" class="v13-home-plans">
+    <div class="v13-shell">
+      <header class="v13-home-section-head" data-v13-reveal>
+        <div><p class="v13-kicker">03 · Quanto deve continuare a lavorare?</p><h2>Parti dal problema che devi risolvere.</h2></div>
+        <p>Niente tre colonne identiche. TROVATO gestisce la prova. INEVITABILE la usa anche per alimentare la presenza. RETE coordina più sedi.</p>
+      </header>
+
+      <div class="v13-home-plans__primary">
+        <article data-v13-reveal>
+          <header><span>01 / REPUTAZIONE</span><h3>TROVATO</h3><p>Raccoglie e gestisce la prova.</p></header>
+          <ul><li>QR, NFC e richieste configurate</li><li>Recensioni in un unico pannello</li><li>Risposte assistite e controllabili</li><li>Monitoraggio degli output</li></ul>
+          <a href="/demo/sunny-cafe/">Prova il nucleo del sistema <span>→</span></a>
+        </article>
+        <article data-v13-reveal>
+          <header><span>02 / PRESENZA</span><h3>INEVITABILE</h3><p>Trasforma e distribuisce la prova.</p></header>
+          <ul><li>Tutto ciò che fa TROVATO</li><li>Recensioni trasformate in contenuti</li><li>Aggiornamenti sui canali collegati</li><li>Servizi, territorio e domande organizzati</li></ul>
+          <a href="/demo/grand-hotel-riviera/">Guarda il ciclo completo <span>→</span></a>
+        </article>
+      </div>
+
+      <article class="v13-home-network" data-v13-reveal>
+        <span>03 / MULTI-SEDE</span><div><h3>RETE</h3><p>Una regia comune senza perdere la lettura di ogni sede.</p></div><ul><li>viste per sede</li><li>ruoli e accessi</li><li>flussi configurati</li></ul><a href="/demo/grand-hotel-riviera/">Esplora un caso hospitality →</a>
+      </article>
+      <p class="v13-home-plans__note">Prezzo, attivazione e uso del trial restano fuori dalla preview finché il percorso commerciale non viene fissato. La demo viene prima.</p>
+    </div>
+  </section>
+
+  <section id="settori" class="v13-home-sectors">
+    <div class="v13-shell">
+      <header class="v13-home-section-head" data-v13-reveal>
+        <div><p class="v13-kicker">04 · Il momento cambia</p><h2>Trova la giornata più simile alla tua.</h2></div>
+        <p>Ogni landing parte dal punto in cui il cliente può valutare davvero l’esperienza, non da un elenco generico di funzioni.</p>
+      </header>
+      <div class="v13-home-sectors__grid">
+        {climboDemos.map((demo) => <DemoCard demo={demo} compact linkPrefix="/per" />)}
+      </div>
+      <a class="v13-home-sectors__all" href="/per/">Confronta tutti i settori <span>→</span></a>
+    </div>
+  </section>
+
+  <section class="v13-home-final">
+    <div class="v13-home-final__spotlight" aria-hidden="true"></div>
+    <div class="v13-shell" data-v13-reveal>
+      <p class="v13-kicker v13-kicker--light">05 · Demo first</p>
+      <h2>Prima entra.<br />Poi ne parliamo.</h2>
+      <p>Non devi decidere adesso se vuoi un trial. Apri un tenant, guarda il sistema e usa la conversazione con Chris per capire quale passo ha senso.</p>
+      <div><a class="v13-moving-button" href="/demo/"><span>Scegli la demo reale</span><b>→</b></a><a class="v13-btn v13-btn--ghost" href="/link/">Apri la biolink universale <span>↗</span></a></div>
+      <small>Nessuna promessa facile · nessuna carta · nessun dato inviato dal sito</small>
+    </div>
+  </section>
+
+  <script is:inline>
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.setAttribute('data-visible', '');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    document.querySelectorAll('[data-v13-reveal]').forEach((element) => revealObserver.observe(element));
+  </script>
+</V13Layout>
+

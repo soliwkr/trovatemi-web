@@ -37,6 +37,8 @@ const isIndexable = robots === 'index, follow';
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src https://app.trovatemi.it; img-src 'self' data: https:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self';" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="it_IT" />
     <meta property="og:site_name" content="Trovatemi.it" />
@@ -113,4 +115,3 @@ const isIndexable = robots === 'index, follow';
     </script>
   </body>
 </html>
-
