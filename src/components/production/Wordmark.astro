@@ -1,0 +1,7 @@
+---
+type Props = { tone?: 'light' | 'dark' };
+const { tone = 'dark' } = Astro.props;
+---
+<a class:list={['production-wordmark', `production-wordmark--${tone}`]} href="/" aria-label="Trovatemi.it, torna alla homepage">
+  <span>trovatemi</span><i>.it</i><b aria-hidden="true">✦</b>
+</a>
