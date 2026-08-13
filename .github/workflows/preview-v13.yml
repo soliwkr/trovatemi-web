@@ -2,7 +2,7 @@ name: Preview V13 on Cloudflare Workers
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, agent/v13-aceternity-rebuild]
     paths:
       - ".github/workflows/preview-v13.yml"
       - "astro.config.mjs"
@@ -48,8 +48,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate V13
-        run: npm run qa:v13
+      - name: Validate reset
+        run: npm run qa:reset
 
       - name: Verify Cloudflare credentials
         env:
