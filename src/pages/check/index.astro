@@ -1,0 +1,44 @@
+---
+import ProductionLayout from '../../layouts/ProductionLayout.astro';
+import BusinessSearch from '../../components/production/BusinessSearch.astro';
+import { beautyDemoBusinesses } from '../../data/beauty-demo';
+export const prerender = true;
+---
+<ProductionLayout title="Beauty Check — Trova la tua attività" description="Seleziona un’attività demo e scopri il suo report Beauty Check." noindex>
+  <section class="check-page">
+    <div class="shell check-shell">
+      <a class="back-link" href="/">← Torna alla home</a>
+      <p class="eyebrow"><span>01</span> Trova il profilo</p>
+      <h1>Qual è la tua attività?</h1>
+      <p class="check-intro">In produzione qui compariranno i risultati Google Places. In questa PR puoi provare il percorso con attività dimostrative.</p>
+      <BusinessSearch compact />
+      <div class="result-meta"><strong data-result-count>{beautyDemoBusinesses.length} attività demo</strong><span>Risultati simulati · nessuna chiamata Maps</span></div>
+      <div class="place-results" data-place-results>
+        {beautyDemoBusinesses.map((business, index) => (
+          <article class="place-card" data-place-card data-search={`${business.name} ${business.city} ${business.category}`.toLowerCase()} style={`--accent:${business.accent}`}>
+            <div class="place-index">{String(index + 1).padStart(2, '0')}</div>
+            <div class="place-main"><span class="place-category">{business.category}</span><h2>{business.name}</h2><p>{business.address}, {business.city}</p><div class="place-rating"><b>{business.rating.toFixed(1)}</b><span>★★★★★</span><small>{business.reviews} recensioni</small></div></div>
+            <a href={`/report/${business.slug}/`}>Seleziona <span aria-hidden="true">→</span><span class="sr-only"> {business.name}</span></a>
+          </article>
+        ))}
+        <div class="no-results" data-no-results hidden><strong>Nessuna attività demo trovata.</strong><p>Prova “Roma”, “massaggi”, “nails” oppure cancella la ricerca.</p></div>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    const params = new URLSearchParams(window.location.search);
+    const query = (params.get('q') || '').trim().toLowerCase();
+    const input = document.querySelector('[data-business-search] input');
+    if (input && query) input.value = params.get('q') || '';
+    const cards = [...document.querySelectorAll('[data-place-card]')];
+    const visible = cards.filter((card) => {
+      const matches = !query || card.dataset.search.includes(query);
+      card.hidden = !matches;
+      return matches;
+    });
+    const count = document.querySelector('[data-result-count]');
+    if (count) count.textContent = `${visible.length} ${visible.length === 1 ? 'attività demo' : 'attività demo'}`;
+    const empty = document.querySelector('[data-no-results]');
+    if (empty) empty.hidden = visible.length !== 0;
+  </script>
+</ProductionLayout>
