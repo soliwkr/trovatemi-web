@@ -10,6 +10,7 @@ const fail = (message) => {
 
 const resetSourcePaths = [
   'src/components/v13-rebuild/HomeExperience.tsx',
+  'src/components/v13-rebuild/BeautyChrome.tsx',
   'src/components/v13-rebuild/Shared.tsx',
   'src/data/site-copy.ts',
   'src/pages/brand-demo-v13/index.astro',
@@ -36,6 +37,7 @@ for (const required of [
   'Per saloni, barber e centri estetici',
   'I tuoi clienti escono contenti dal salone',
   'Fammi vedere sul mio salone',
+  'VEDIAMO IL TUO SALONE',
   'TikTok',
   "price: '149'",
 ]) {
