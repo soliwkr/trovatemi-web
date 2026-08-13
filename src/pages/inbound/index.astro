@@ -1,0 +1,28 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import BeautyScoreFunnel from '../../components/inbound/BeautyScoreFunnel';
+import '../../styles/inbound.css';
+---
+
+<V13Layout
+  title="Beauty Reputation Score | Trovatemi.it"
+  description="Sette domande per capire quanto il passaparola del tuo salone sta lavorando anche online."
+  header="none"
+  surface="landing"
+  robots="noindex, nofollow"
+  bodyClass="inbound-page"
+>
+  <div class="inbound-shell">
+    <header class="inbound-top">
+      <a class="inbound-logo" href="/inbound/"><span>★</span>TROVATEMI</a>
+      <small>Checkup reputazione per beauty</small>
+    </header>
+
+    <BeautyScoreFunnel client:load />
+
+    <footer class="inbound-bottom">
+      <span>© 2026 Trovatemi.it</span>
+      <span>Preview isolata · nessun dato viene trasmesso</span>
+    </footer>
+  </div>
+</V13Layout>
