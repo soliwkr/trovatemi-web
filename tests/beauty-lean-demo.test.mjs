@@ -34,6 +34,8 @@ test('the report is deterministic and always returns three ordered actions', () 
   assert.equal(first.actions.length, 3);
   assert.equal(first.weakestPillar, 'Risposte');
   assert.equal(first.reviewGap, -45);
+  assert.equal(first.weeklyClientReading.range, '21–50 clienti a settimana');
+  assert.match(first.weeklyClientReading.insight, /flusso regolare/);
   assert.ok([first.reputation, first.collection, first.replies, first.socialProof].every((score) => score >= 0 && score <= 100));
 });
 
@@ -49,4 +51,13 @@ test('a fully mature operation still receives a complete prioritized report', ()
   assert.equal(report.actions.length, 3);
   assert.ok(report.strongestPillar);
   assert.ok(report.weakestPillar);
+});
+
+test('every weekly client answer produces a distinct deterministic reading', () => {
+  const readings = ['low', 'medium', 'high', 'veryHigh'].map((weeklyClients) =>
+    buildAuditReport(demoBusinesses[0], { weeklyClients }).weeklyClientReading,
+  );
+
+  assert.equal(new Set(readings.map((reading) => reading.range)).size, 4);
+  assert.equal(new Set(readings.map((reading) => reading.insight)).size, 4);
 });

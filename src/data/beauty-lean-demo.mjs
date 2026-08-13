@@ -133,6 +133,25 @@ const actionForPillar = {
   'Social proof': 'Trasforma le recensioni migliori in contenuti sui canali che usi già.',
 };
 
+const weeklyClientReadings = {
+  low: {
+    range: 'Fino a 20 clienti a settimana',
+    insight: 'Il ritmo conta più del volume: ogni richiesta recensione saltata pesa.',
+  },
+  medium: {
+    range: '21–50 clienti a settimana',
+    insight: 'Una routine semplice può già creare un flusso regolare di nuove prove pubbliche.',
+  },
+  high: {
+    range: '51–100 clienti a settimana',
+    insight: 'La materia prima non manca: il rischio è quanta ne lasci evaporare ogni settimana.',
+  },
+  veryHigh: {
+    range: 'Più di 100 clienti a settimana',
+    insight: 'Gestire richieste, risposte e riuso a mano diventa subito un collo di bottiglia.',
+  },
+};
+
 export function buildAuditReport(business, answers) {
   const ratingScore = Math.max(0, Math.min(100, Math.round(((business.rating - 3.8) / 1.2) * 100)));
   const volumeScore = Math.max(0, Math.min(100, Math.round((business.reviews / Math.max(1, business.cohortMedianReviews)) * 70)));
@@ -141,6 +160,10 @@ export function buildAuditReport(business, answers) {
   const replies = answerScore.replies[answers.replies] ?? 0;
   const socialProof = Math.round(((answerScore.reuse[answers.reuse] ?? 0) + (answerScore.channels[answers.channels] ?? 0)) / 2);
   const reviewGap = business.reviews - business.cohortMedianReviews;
+  const weeklyClientReading = weeklyClientReadings[answers.weeklyClients] ?? {
+    range: 'Volume settimanale non indicato',
+    insight: 'Serve il volume clienti per stimare quanto passaparola può diventare prova pubblica.',
+  };
 
   const pillars = [
     ['Reputazione Google', reputation],
@@ -159,6 +182,7 @@ export function buildAuditReport(business, answers) {
     weakestPillar: pillars[0][0],
     strongestPillar: pillars[pillars.length - 1][0],
     reviewGap,
+    weeklyClientReading,
     actions,
   };
 }

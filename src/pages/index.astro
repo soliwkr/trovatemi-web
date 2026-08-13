@@ -15,7 +15,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
 
       <div class="stage-meta" aria-hidden="true">
         <span data-stage-label>Ingresso</span>
-        <b data-stage-count>00 / 07</b>
+        <b data-stage-count>01 / 07</b>
       </div>
 
       <button class="quiet-button" type="button" data-back hidden>Indietro</button>
@@ -67,13 +67,13 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
     };
 
     const meta: Record<Stage, { label: string; count: string }> = {
-      intro: { label: 'Ingresso', count: '00 / 07' },
-      search: { label: 'Cerca attività', count: '01 / 07' },
-      confirm: { label: 'Conferma', count: '02 / 07' },
-      quiz: { label: 'Check privato', count: '03 / 07' },
-      flash: { label: 'Risultato flash', count: '04 / 07' },
-      capture: { label: 'Consegna', count: '05 / 07' },
-      report: { label: 'Report', count: '06 / 07' },
+      intro: { label: 'Ingresso', count: '01 / 07' },
+      search: { label: 'Cerca attività', count: '02 / 07' },
+      confirm: { label: 'Conferma', count: '03 / 07' },
+      quiz: { label: 'Check privato', count: '04 / 07' },
+      flash: { label: 'Risultato flash', count: '05 / 07' },
+      capture: { label: 'Consegna', count: '06 / 07' },
+      report: { label: 'Report', count: '07 / 07' },
     };
 
     const progress = () => {
@@ -140,7 +140,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
           <label class="search-field">
             <span class="sr-only">Nome attività o città</span>
             <i aria-hidden="true">⌕</i>
-            <input data-search-input type="search" value="${state.query}" autocomplete="off" placeholder="Es. nails Gaeta" />
+            <input data-search-input type="search" autocomplete="off" placeholder="Es. nails Gaeta" />
             <small>demo</small>
           </label>
         </div>
@@ -261,6 +261,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
             <div class="report-summary">
               <p><b>${business.reviews}</b> recensioni contro una mediana demo di <b>${business.cohortMedianReviews}</b>.</p>
               <p>Il pezzo più debole oggi è <b>${report.weakestPillar}</b>. Quello più solido è <b>${report.strongestPillar}</b>.</p>
+              <p><b>${report.weeklyClientReading.range}.</b> ${report.weeklyClientReading.insight}</p>
             </div>
           </header>
 
@@ -326,6 +327,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
       });
 
       const searchInput = stageElement.querySelector<HTMLInputElement>('[data-search-input]');
+      if (searchInput) searchInput.value = state.query;
       searchInput?.addEventListener('input', () => {
         state.query = searchInput.value;
         const list = stageElement.querySelector<HTMLElement>('[data-business-list]');
