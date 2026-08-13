@@ -6,31 +6,13 @@ import {
   Reveal,
   Spotlight,
   TextGenerate,
-  TracingBeam,
   WobbleCard,
 } from '../v12/Aceternity';
 import { EchoMockup, QrNfcMockup, ReplyMockup, ReviewHeroMockup } from '../v12/Mockups';
 import { getDemoTenant } from '../../data/demo-tenants';
 import { faqs, siteCopy } from '../../data/site-copy';
 import { DemoFrame } from './DemoFrame';
-import {
-  AuditModal,
-  BoundaryLine,
-  Disclosure,
-  PageShell,
-  SectionHead,
-  SiteChrome,
-  SiteFooter,
-  WhatsAppModal,
-} from './Shared';
-
-const processSteps = [
-  ['01', 'Il cliente è soddisfatto', 'Il servizio è appena finito e il momento è ancora vivo.'],
-  ['02', 'Lascia una recensione Google', 'NFC o QR aprono il percorso senza far cercare il profilo.'],
-  ['03', 'La recensione riceve una risposta', 'Il tono resta coerente con l’attività e l’output resta controllabile.'],
-  ['04', 'La prova diventa contenuto', 'Le recensioni migliori possono essere trasformate in post e formati riutilizzabili.'],
-  ['05', 'La prova viene distribuita', 'Google Business Profile, Instagram, Facebook e TikTok lavorano sulla stessa esperienza reale.'],
-] as const;
+import { AuditModal, BoundaryLine, Disclosure, PageShell, SectionHead, SiteChrome, SiteFooter, WhatsAppModal } from './Shared';
 
 const channels = ['Google Business Profile', 'Instagram', 'Facebook', 'TikTok'] as const;
 
@@ -42,15 +24,12 @@ export default function HomeExperience() {
   return (
     <PageShell>
       <SiteChrome onAudit={() => setAuditOpen(true)} />
-
       <main id="v13a-main">
         <section className="v12-hero v13a-home-hero">
-          <Spotlight />
-          <BackgroundBeams className="v12-hero-beams" />
-          <div className="v12-grid-bg" aria-hidden="true" />
+          <Spotlight /><BackgroundBeams className="v12-hero-beams" /><div className="v12-grid-bg" aria-hidden="true" />
           <div className="v12-wrap v12-hero__grid">
             <div className="v12-hero__copy">
-              <p className="v12-eyebrow"><i /><i /><i /> Un solo sistema. Installato e seguito per te.</p>
+              <p className="v12-eyebrow"><i /><i /><i /> Per saloni, barber e centri estetici.</p>
               <h1><TextGenerate text={siteCopy.promise} /></h1>
               <p>{siteCopy.mechanism}</p>
               <div className="v12-hero__actions">
@@ -61,106 +40,60 @@ export default function HomeExperience() {
             </div>
             <Reveal className="v12-hero__visual" delay={0.18}><ReviewHeroMockup /></Reveal>
           </div>
-          <div className="v12-hero-flow" aria-label="Il flywheel Trovatemi"><div className="v12-wrap"><span>CLIENTE SODDISFATTO</span><i>→</i><b>RECENSIONE</b><i>→</i><b>RISPOSTA</b><i>→</i><b>CONTENUTO</b><i>→</i><strong>NUOVA PROVA</strong></div></div>
+          <div className="v12-hero-flow"><div className="v12-wrap"><span>CLIENTE CONTENTO</span><i>→</i><b>RECENSIONE</b><i>→</i><b>RISPOSTA</b><i>→</i><b>CONTENUTO</b><i>→</i><strong>ALTRA PROVA VISIBILE</strong></div></div>
         </section>
 
         <section className="v13a-scene">
           <div className="v12-wrap">
-            <Reveal><SectionHead index="01" label="Il problema" title="Il cliente ti fa il complimento. Poi quella prova sparisce." body="Ogni giorno hai clienti che escono soddisfatti. Senza un gesto semplice nel momento giusto, gran parte di quella soddisfazione non arriva mai online." /></Reveal>
-            <WobbleCard className="v13a-scene-card">
-              <span>LA FRASE CHE CONOSCI</span>
-              <blockquote>«Sì sì, la recensione la faccio dopo.»</blockquote>
-              <p>Trovatemi serve a togliere attrito tra quel momento e una prova pubblica reale.</p>
-            </WobbleCard>
+            <Reveal><SectionHead index="01" label="Succede ogni giorno" title="«Bellissimo. Torno sicuramente.» Poi esce e la recensione spesso non arriva." body="Quando il cliente è ancora davanti allo specchio sai quanto è contento. Dopo, la giornata riparte e quella buona intenzione si perde." /></Reveal>
+            <WobbleCard className="v13a-scene-card"><span>LA FRASE CHE CONOSCI</span><blockquote>«Sì, la recensione te la faccio dopo.»</blockquote><p>Trovatemi trasforma quel “dopo” in un gesto semplice mentre il cliente è ancora lì.</p></WobbleCard>
           </div>
         </section>
 
-        <section id="come-funziona" className="v12-collection v13a-mechanism">
+        <section id="come-funziona" className="v13a-comparison">
           <div className="v12-wrap">
-            <Reveal><SectionHead dark index="02" label="Il sistema" title="Una recensione non deve finire su Google e basta." body="La stessa esperienza può essere raccolta, gestita e riutilizzata senza chiederti di inventare contenuti ogni volta." /></Reveal>
-            <TracingBeam className="v12-system-steps v13a-process-steps">
-              {processSteps.map(([number, title, body]) => <article key={number}><b>{number}</b><div><h3>{title}</h3><p>{body}</p></div><span>↓</span></article>)}
-            </TracingBeam>
-          </div>
-        </section>
-
-        <section id="cosa-include" className="v13a-comparison">
-          <div className="v12-wrap">
-            <Reveal><SectionHead index="03" label="Cosa installiamo" title="Raccogli. Rispondi. Riutilizza." body="Tre movimenti dello stesso servizio. Non tre prodotti da scegliere." /></Reveal>
-
+            <Reveal><SectionHead index="02" label="Nel tuo salone" title="Tu fai il lavoro. La prova non deve andare persa." body="Raccogli, rispondi e riutilizza: tre passaggi dello stesso sistema." /></Reveal>
             <WobbleCard className="v12-product-row">
               <QrNfcMockup />
-              <div className="v12-product-copy"><span>01 / RACCOGLI</span><h3>Il momento giusto entra nella giornata reale.</h3><p>Prepariamo NFC e QR per il punto in cui il cliente è davvero soddisfatto: bancone, cassa, reception o fine servizio.</p><ul><li>Percorso semplice verso la recensione</li><li>Zero review gating</li><li>Una sola attività, configurata bene</li></ul></div>
+              <div className="v12-product-copy"><span>01 / RACCOGLI</span><h3>Chiedi la recensione quando il cliente è ancora contento.</h3><p>NFC o QR nel punto giusto: cassa, reception o fine servizio.</p><ul><li>Pochi secondi</li><li>Nessuna ricerca del profilo</li><li>Stesso accesso alla recensione per tutti</li></ul></div>
             </WobbleCard>
-
             <WobbleCard className="v12-product-row v12-product-row--reverse">
               <ReplyMockup />
-              <div className="v12-product-copy"><span>02 / RISPONDI</span><h3>Ogni nuova recensione può ricevere attenzione.</h3><p>Il sistema prepara una risposta coerente con tono e contesto. L’automazione resta un mezzo: la voce dell’attività viene prima.</p><ul><li>Risposte specifiche, non copia-incolla</li><li>Controllo degli output</li><li>Google Business Profile collegato</li></ul></div>
+              <div className="v12-product-copy"><span>02 / RISPONDI</span><h3>Chi ti scrive non trova il silenzio.</h3><p>La recensione può ricevere una risposta coerente con il tono del tuo salone.</p><ul><li>Risposte specifiche</li><li>Il tuo tono</li><li>Google collegato</li></ul></div>
             </WobbleCard>
-
             <WobbleCard className="v12-product-row">
               <EchoMockup />
-              <div className="v12-product-copy"><span>03 / RIUTILIZZA</span><h3>Le recensioni migliori continuano a lavorare.</h3><p>La voce del cliente può diventare contenuto e venire distribuita sui canali collegati senza trasformare Trovatemi in un’agenzia social.</p><ul>{channels.map((channel) => <li key={channel}>{channel}</li>)}</ul></div>
+              <div className="v12-product-copy"><span>03 / RIUTILIZZA</span><h3>Una bella recensione può lavorare più di una volta.</h3><p>Le parole dei tuoi clienti possono diventare contenuti senza trasformarti in un content creator.</p><ul>{channels.map((channel) => <li key={channel}>{channel}</li>)}</ul></div>
             </WobbleCard>
           </div>
         </section>
 
         <section className="v13a-chris">
           <div className="v12-wrap">
-            <Reveal><SectionHead index="04" label="Done for you" title={siteCopy.humanPromise} body="Colleghiamo il profilo, prepariamo i supporti, configuriamo il flusso e controlliamo che venga davvero usato. Il cliente non compra un’altra dashboard da studiare." /></Reveal>
-            <WobbleCard className="v13a-chris-card">
-              <div className="v13a-chris-sign"><span>★</span><strong>CHRIS</strong><small>Trovatemi.it</small></div>
-              <div><h3>Una visita per partire. Poi il sistema deve alleggerirti, non creare lavoro.</h3><p>Il setup è locale e concreto. Dopo l’installazione, assistenza e controllo possono essere gestiti quasi interamente da remoto.</p><button className="v12-black-button" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta} →</button></div>
-            </WobbleCard>
+            <Reveal><SectionHead index="03" label="Lo facciamo noi" title={siteCopy.humanPromise} body="Colleghiamo il tuo Google, prepariamo NFC e QR e configuriamo il flusso. Non ti consegniamo un’altra dashboard da studiare." /></Reveal>
+            <WobbleCard className="v13a-chris-card"><div className="v13a-chris-sign"><span>★</span><strong>CHRIS</strong><small>Trovatemi.it</small></div><div><h3>Partiamo dal tuo salone, non da una presentazione.</h3><p>Vedo dove saluti il cliente e dove ha senso inserire il gesto. Dopo il setup deve toglierti lavoro, non aggiungerlo.</p><button className="v12-black-button" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta} →</button></div></WobbleCard>
           </div>
         </section>
 
-        {demo && (
-          <section id="demo-reale" className="v12-use-cases v13a-home-demo">
-            <div className="v12-wrap">
-              <Reveal><SectionHead dark index="05" label="Demo" title="Guarda il sistema in un contesto vicino al beauty." body="La demo wellness usa dati costruiti apposta. Il sistema che organizza recensioni, risposte e contenuti è reale." /></Reveal>
-              <DemoFrame demo={demo} intro="Segui il percorso: richiesta, recensione, risposta e riutilizzo della prova." surface="home" />
-              <Disclosure />
-            </div>
-          </section>
-        )}
+        {demo && <section id="demo-reale" className="v12-use-cases v13a-home-demo"><div className="v12-wrap">
+          <Reveal><SectionHead dark index="04" label="Guarda dentro" title="La demo è wellness. Immaginala con il nome del tuo salone." body="I dati sono dimostrativi. Il sistema che organizza recensioni, risposte e contenuti è reale." /></Reveal>
+          <DemoFrame demo={demo} intro="Segui il percorso: richiesta, recensione, risposta e riutilizzo della prova." surface="home" /><Disclosure />
+        </div></section>}
 
-        <section id="prezzo" className="v12-pricing v13a-plans">
-          <div className="v12-wrap">
-            <Reveal><SectionHead index="06" label="Un piano" title="Un solo servizio, senza livelli da scegliere." body="Il Super MVP parte con una attività, una configurazione e un risultato operativo leggibile." /></Reveal>
-            <div className="v13a-plan-grid">
-              <CardSpotlight className="v13a-plan-card v13a-plan-card--dark">
-                <span>TROVATEMI · CLIMBO WHITE LABEL</span>
-                <h3>€{siteCopy.price}<small>/mese</small></h3>
-                <strong>Recensioni → risposte → contenuti → distribuzione.</strong>
-                <p>Una location. Setup fatto per te. Mensile. Nessun catalogo da decifrare.</p>
-                <ul><li>Google Business Profile</li><li>NFC + QR</li><li>Raccolta recensioni senza gating</li><li>Risposte alle recensioni</li><li>Contenuti dalle migliori recensioni</li><li>Google, Instagram, Facebook e TikTok quando collegati</li><li>Installazione e assistenza</li></ul>
-                <button className="v12-yellow-button" type="button" onClick={() => setAuditOpen(true)}>Voglio vedere il mio caso →</button>
-              </CardSpotlight>
-            </div>
-            <p className="v13a-boundary-line">Prezzo candidato della branch di reset. Nessun checkout è attivo e la produzione resta invariata.</p>
-          </div>
-        </section>
+        <section id="prezzo" className="v12-pricing v13a-plans"><div className="v12-wrap">
+          <Reveal><SectionHead index="05" label="Un solo piano" title="Un salone. Tutto il flusso. €149 al mese." body="Per la validazione non ci sono livelli da scegliere." /></Reveal>
+          <div className="v13a-plan-grid"><CardSpotlight className="v13a-plan-card v13a-plan-card--dark">
+            <span>TROVATEMI · PER IL TUO SALONE</span><h3>€{siteCopy.price}<small>/mese</small></h3><strong>Recensioni → risposte → contenuti → distribuzione.</strong>
+            <p>Setup fatto per te. Mensile. Una attività.</p>
+            <ul><li>Il tuo Google Business Profile</li><li>NFC + QR</li><li>Recensioni senza filtri sul voto</li><li>Risposte</li><li>Contenuti dalle recensioni migliori</li><li>Google, Instagram, Facebook e TikTok quando collegati</li><li>Installazione e assistenza</li></ul>
+            <button className="v12-yellow-button" type="button" onClick={() => setAuditOpen(true)}>Fammi vedere sul mio salone →</button>
+          </CardSpotlight></div>
+        </div></section>
 
-        <section className="v13a-vision">
-          <Spotlight />
-          <BackgroundBeams />
-          <Reveal className="v12-wrap"><small>IL PRINCIPIO</small><h2>UNA BUONA ESPERIENZA DEVE CONTINUARE A LAVORARE.</h2><p>{siteCopy.vision}</p></Reveal>
-        </section>
+        <section id="faq" className="v12-faq"><div className="v12-wrap"><Reveal><SectionHead dark index="06" label="Prima di partire" title="Le domande che mi faresti davanti alla cassa." /></Reveal><div className="v12-faq__list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<i>+</i></summary><p>{answer}</p></details>)}</div></div></section>
 
-        <section id="faq" className="v12-faq">
-          <div className="v12-wrap">
-            <Reveal><SectionHead dark index="07" label="FAQ" title="Le cose che il servizio fa. E quelle che non promette." /></Reveal>
-            <div className="v12-faq__list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<i>+</i></summary><p>{answer}</p></details>)}</div>
-          </div>
-        </section>
-
-        <section className="v12-final-cta">
-          <Spotlight className="v12-final-spotlight" /><BackgroundBeams />
-          <Reveal className="v12-wrap v12-final-cta__inner"><span>IL TUO CASO REALE</span><h2>QUANTE BUONE ESPERIENZE STAI LASCIANDO SUL BANCONE?</h2><p>Partiamo da come lavori oggi. Se il sistema ha senso per la tua attività, te lo faccio vedere sul tuo caso.</p><MovingBorderButton onClick={() => setAuditOpen(true)}>{siteCopy.primaryCta} <b>→</b></MovingBorderButton><button className="v13a-contact-link" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta}</button><BoundaryLine /></Reveal>
-        </section>
+        <section className="v12-final-cta"><Spotlight className="v12-final-spotlight" /><BackgroundBeams /><Reveal className="v12-wrap v12-final-cta__inner"><span>IL TUO SALONE</span><h2>QUANTI COMPLIMENTI STANNO USCENDO DALLA PORTA SENZA DIVENTARE UNA RECENSIONE?</h2><p>Fammi vedere il tuo profilo Google e come lavori oggi. Ti faccio vedere dove entrerebbe Trovatemi.</p><MovingBorderButton onClick={() => setAuditOpen(true)}>{siteCopy.primaryCta} <b>→</b></MovingBorderButton><button className="v13a-contact-link" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta}</button><BoundaryLine /></Reveal></section>
       </main>
-
       <SiteFooter />
       <AuditModal open={auditOpen} onClose={() => setAuditOpen(false)} />
       <WhatsAppModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
