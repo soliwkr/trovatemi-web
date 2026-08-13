@@ -1,0 +1,14 @@
+---
+import { DemoHubExperience } from '../../components/v13-rebuild/DemoExperiences';
+import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
+
+export const prerender = true;
+---
+
+<V13AceternityLayout
+  title="Demo reali Trovatemi | Guarda il prodotto mentre lavora"
+  description="Scegli un'attività e naviga una dimostrazione reale di Trovatemi con dati costruiti per la prova. Nessun account richiesto."
+  bodyClass="v13a-demo-hub-page"
+>
+  <DemoHubExperience client:load />
+</V13AceternityLayout>

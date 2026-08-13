@@ -1,0 +1,26 @@
+---
+import { DemoDetailExperience } from '../../components/v13-rebuild/DemoExperiences';
+import { demoTenants, type DemoTenant } from '../../data/demo-tenants';
+import { getVerticalMessaging, type VerticalMessaging } from '../../data/vertical-messaging';
+import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return demoTenants.flatMap((demo) => {
+    const message = getVerticalMessaging(demo.id);
+    return message ? [{ params: { slug: demo.id }, props: { demo, message } }] : [];
+  });
+}
+
+type Props = { demo: DemoTenant; message: VerticalMessaging };
+const { demo, message } = Astro.props;
+---
+
+<V13AceternityLayout
+  title={`Demo ${demo.name} | Trovatemi`}
+  description={`${message.demoLens} Dimostrazione reale con dati costruiti per la prova.`}
+  bodyClass="v13a-demo-detail-page"
+>
+  <DemoDetailExperience demo={demo} message={message} client:load />
+</V13AceternityLayout>

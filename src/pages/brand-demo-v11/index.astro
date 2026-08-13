@@ -1,0 +1,266 @@
+---
+import V11Layout from '../../layouts/V11Layout.astro';
+
+export const prerender = true;
+
+const plans = [
+  {
+    name: 'TROVATO',
+    eyebrow: '1 sede',
+    description: 'Per una singola attività che vuole raccogliere, gestire e riutilizzare ogni recensione.',
+    annual: '79',
+    monthly: '99',
+    saving: 'Risparmi 240 € l’anno',
+    popular: true,
+    lead: 'Include i 3 agenti AI',
+    features: ['Agente Visibilità per Google e ricerca AI', 'Agente Risposte alle recensioni', 'Agente Social da recensioni', 'Monitoraggio multi-piattaforma', 'QR e NFC senza limiti', '2.000 richieste email al mese', '100 richieste WhatsApp al mese'],
+  },
+  {
+    name: 'VISIBILE',
+    eyebrow: 'Fino a 3 sedi',
+    description: 'Per chi gestisce più attività o invia molte richieste ogni mese.',
+    annual: '119',
+    monthly: '149',
+    saving: 'Risparmi 360 € l’anno',
+    popular: false,
+    lead: 'Tutto TROVATO, per più sedi',
+    features: ['3 sedi da un solo account', 'Agenti configurati per ogni sede', '4.000 richieste email al mese', '250 richieste WhatsApp al mese', '100 richieste SMS al mese', 'Widget recensioni per il sito', 'Report aggregato per sede'],
+  },
+  {
+    name: 'INEVITABILE',
+    eyebrow: 'Fino a 10 sedi',
+    description: 'Per reti locali che vogliono volume, controllo e una presenza coordinata.',
+    annual: '239',
+    monthly: '319',
+    saving: 'Risparmi 960 € l’anno',
+    popular: false,
+    lead: 'Tutto VISIBILE, con più volume',
+    features: ['Fino a 10 sedi da un solo account', '10.000 richieste email al mese', '1.000 richieste WhatsApp al mese', '200 richieste SMS al mese', 'Contenuti locali per ogni sede', 'Ruoli e accessi per il team', 'Supporto prioritario'],
+  },
+];
+
+const faqs = [
+  ['Cos’è Trovatemi?', 'Trovatemi è un concept di prodotto per attività locali: raccoglie recensioni, prepara risposte e trasforma le esperienze reali dei clienti in contenuti utili per Google, social e sistemi di risposta AI.'],
+  ['Come raccoglie le recensioni?', 'Con QR e NFC nel punto vendita e con richieste automatiche via WhatsApp, SMS o email. Ogni cliente riceve lo stesso percorso: nessun filtro in base al voto e nessun review gating.'],
+  ['Le risposte generate dall’AI vengono pubblicate da sole?', 'Puoi scegliere. La configurazione più prudente prepara una risposta che controlli e modifichi prima della pubblicazione. L’automazione completa è rappresentata nella V11 come funzione di prodotto, ma non è attiva in questa preview.'],
+  ['Funziona per la mia attività?', 'È pensato per attività locali che vengono confrontate online: ristorazione, professionisti, salute, benessere, retail, palestre, hospitality e servizi sul territorio.'],
+  ['Da quali piattaforme raccoglie le recensioni?', 'La V11 presenta Google, TripAdvisor, Trustpilot e Facebook come integrazioni di prodotto. In questa preview le schermate sono dimostrative e non eseguono collegamenti reali.'],
+  ['Mi aiuta a comparire su ChatGPT e Gemini?', 'Usa servizi, domande e parole reali dei clienti per costruire contenuti più comprensibili ai motori di ricerca e ai sistemi AI. Può aumentare le possibilità di essere trovato; non può garantire citazioni o posizioni.'],
+  ['Quanto costa e cosa serve per iniziare?', 'Il listino V11 è un concept commerciale modellato sul prodotto di riferimento: 79 €, 119 € e 239 € al mese con fatturazione annuale. Non è ancora il listino pubblico di Trovatemi e non consente acquisti reali.'],
+  ['Posso disdire quando voglio?', 'Nel concept V11 l’abbonamento è mensile e annullabile. Condizioni definitive, pagamenti e termini restano da approvare prima di qualunque pubblicazione commerciale.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V11Layout
+  title="Trovatemi V11 | Recensioni e visibilità AI per attività locali"
+  description="Trovatemi raccoglie recensioni, prepara risposte e trasforma le esperienze reali dei clienti in contenuti per Google, social e ricerca AI."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="v11-hero" data-v11-hero>
+    <div class="v11-grid" aria-hidden="true"></div>
+    <div class="v11-glow" aria-hidden="true"></div>
+    <div class="v11-wrap v11-hero__grid">
+      <div class="v11-hero__copy" data-reveal>
+        <p class="v11-eyebrow"><i></i><i></i><i></i> Recensioni + AI per attività locali</p>
+        <h1>Più recensioni.<br />Più clienti.<br />Anche quando è <em>l’AI</em> a consigliarti.</h1>
+        <p>Trovatemi raccoglie le recensioni dei tuoi clienti, prepara le risposte e trasforma ogni esperienza reale in visibilità su Google, social e assistenti AI. Tu pensi al lavoro.</p>
+        <div class="v11-actions">
+          <button class="v11-button v11-button--yellow" type="button" data-trial-open data-source="hero">Prova gratuitamente per 14 giorni</button>
+          <button class="v11-link-button" type="button" data-demo-open><span>▶</span> Guarda come funziona</button>
+        </div>
+        <small>Nessuna carta richiesta · Disdici quando vuoi · Concept senza invio dati</small>
+      </div>
+
+      <div class="v11-hero-product" data-reveal aria-label="Dimostrazione illustrativa del prodotto Trovatemi">
+        <span class="v11-demo-label">DEMO V11</span>
+        <div class="v11-hero-product__orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+        <article class="v11-review-window">
+          <header><span><i></i><i></i><i></i></span><small>trovatemi · scheda google</small><b>G</b></header>
+          <div class="v11-review-window__person"><i>ER</i><p><strong>Elena R.</strong><small>Local Guide · 19 recensioni</small></p><time>2 giorni fa</time></div>
+          <div class="v11-stars">★★★★★ <small>2 giorni fa</small></div>
+          <blockquote>Servizio veloce, persone attente. Mi sono sentita seguita dall’inizio alla fine.</blockquote>
+          <div class="v11-ai-answer"><span>Risposta del titolare <b>Trovatemi AI</b></span><p>Grazie Elena! Siamo felici che attenzione e velocità abbiano fatto la differenza. Ti aspettiamo presto.</p></div>
+        </article>
+        <article class="v11-agent-chip v11-agent-chip--visibility"><i>◎</i><p><b>Agente Visibilità</b><span>Contenuto locale pronto</span></p><em>✓</em></article>
+        <article class="v11-agent-chip v11-agent-chip--social"><i>↗</i><p><b>Agente Social</b><span>Post generato</span></p><em>✓</em></article>
+        <article class="v11-live-card"><span>+1</span><p><b>Nuova recensione</b><small>pubblica · adesso</small></p><i>★★★★★</i></article>
+      </div>
+    </div>
+
+    <div class="v11-platforms">
+      <div class="v11-wrap"><span>Monitora e gestisce</span><b>Google</b><b>Tripadvisor</b><b>Trustpilot</b><b>Facebook</b><small>Integrazioni rappresentate nel concept</small></div>
+    </div>
+  </section>
+
+  <section id="come-funziona" class="v11-why">
+    <div class="v11-wrap">
+      <header class="v11-section-head" data-reveal><span class="v11-kicker">01 · Cos’è Trovatemi</span><h2>Oggi i clienti ti scelgono online.</h2></header>
+      <div class="v11-why__grid" data-reveal>
+        <article><b>01</b><h3>Ti confrontano online</h3><p>Il primo sopralluogo non è da te. È su Google, sul telefono, mentre decidono chi chiamare.</p></article>
+        <article><b>02</b><h3>Le recensioni danno fiducia</h3><p>Voto medio, quantità, freschezza e risposte attive rendono una scelta più semplice.</p></article>
+        <article><b>03</b><h3>Una scheda ferma perde terreno</h3><p>Se la tua qualità non lascia tracce recenti, il concorrente sembra più facile da scegliere.</p></article>
+        <article><b>04</b><h3>Ora legge anche l’AI</h3><p>Gli assistenti usano contenuti e segnali pubblici per costruire le risposte che mostrano agli utenti.</p></article>
+      </div>
+      <p class="v11-big-statement" data-reveal>Non conta soltanto ciò che i clienti dicono. Conta ciò che <em>Google e l’AI</em> riescono a capire della tua attività.</p>
+    </div>
+  </section>
+
+  <section class="v11-collection">
+    <div class="v11-wrap">
+      <header class="v11-section-head v11-section-head--dark" data-reveal><span class="v11-kicker">02 · Raccolta recensioni</span><h2>Chiedere recensioni non deve essere un lavoro.</h2><p>Trovatemi riduce la distanza tra un cliente soddisfatto e la sua recensione pubblica. Al bancone oppure dopo, sul canale giusto.</p></header>
+
+      <article class="v11-product-row" data-reveal>
+        <div class="v11-product-row__art v11-qr-art">
+          <span class="v11-demo-label v11-demo-label--dark">MOCKUP ORIGINALE</span>
+          <div class="v11-qr-card"><b>Lasciaci una recensione</b><div class="v11-qr-pattern" aria-hidden="true">▦</div><span>INQUADRA CON LA FOTOCAMERA</span></div>
+          <div class="v11-mini-phone"><i></i><small>ATTIVITÀ LOCALE</small><strong>Com’è andata oggi?</strong><span>★★★★★</span><button type="button">Pubblica su Google</button></div>
+          <div class="v11-nfc-token"><i>)))</i><b>TOCCA</b><small>NFC</small></div>
+        </div>
+        <div class="v11-product-row__copy"><span class="v11-pill">QR + NFC</span><h3>Si avvicina, si inquadra, si recensisce.</h3><p>Il supporto resta sul bancone, al tavolo o alla cassa. Il cliente arriva alla pagina corretta senza cercare il nome dell’attività.</p><ul><li>Materiali pronti per il punto vendita</li><li>Pagina costruita per il telefono</li><li>Stesso percorso per ogni cliente</li></ul></div>
+      </article>
+
+      <article class="v11-product-row v11-product-row--reverse" data-reveal>
+        <div class="v11-product-row__art v11-message-art">
+          <span class="v11-demo-label v11-demo-label--dark">FLUSSO SIMULATO</span>
+          <div class="v11-message-window">
+            <header><i>TL</i><p><b>Trovatemi</b><small>WhatsApp · oggi 14:01</small></p><span>•••</span></header>
+            <div><p>Ciao Marco! Grazie per essere passato. Puoi raccontare com’è andata? Bastano 30 secondi.</p><small>✓✓ Recapitato</small></div>
+            <blockquote>Fatto! ★★★★★</blockquote>
+            <footer>✓✓ Letto 14:06 · Recensione pubblicata</footer>
+          </div>
+          <article class="v11-delivery-card"><span>INVIATE</span><b>24</b><small>questa settimana</small><i>↗</i></article>
+        </div>
+        <div class="v11-product-row__copy"><span class="v11-pill">Richieste automatiche</span><h3>La richiesta parte sul canale giusto.</h3><p>Dopo il passaggio del cliente, Trovatemi prepara o invia la richiesta via WhatsApp, SMS o email nel momento configurato.</p><ul><li>WhatsApp, SMS ed email</li><li>Stato di consegna e lettura</li><li>Promemoria misurati, mai aggressivi</li></ul></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="agenti" class="v11-agents">
+    <div class="v11-wrap">
+      <header class="v11-section-head v11-section-head--dark" data-reveal><span class="v11-kicker">03 · Agenti AI</span><h2>Tre agenti AI che lavorano per te.</h2><p>Ognuno prende una recensione reale e ne ricava qualcosa di utile: visibilità, risposte, contenuti. Il materiale di partenza resta sempre l’esperienza del cliente.</p></header>
+
+      <article class="v11-agent" data-reveal>
+        <div class="v11-agent__copy"><i>◎</i><span>Agente Visibilità</span><h3>Ti fa trovare, anche dall’AI.</h3><p>Usa servizi, territorio, domande e parole dei clienti per creare contenuti comprensibili da Google e dagli assistenti AI.</p><div>→ Più superfici pubbliche in cui la tua attività può essere capita.</div></div>
+        <div class="v11-agent__art v11-search-art">
+          <span class="v11-demo-label">ESEMPIO ILLUSTRATIVO</span>
+          <header><i></i><i></i><i></i><small>google · servizio in città</small></header>
+          <article><span>✦ Panoramica AI</span><p>Tra le attività locali più apprezzate, Officina Centro viene citata per tempi chiari, assistenza e spiegazioni semplici.</p><small><b>T</b> trovatemi.it · Google ★ 4,9</small></article>
+          <div><i>O</i><p><small>trovatemi.it › servizio-citta</small><strong>Perché i clienti scelgono Officina Centro</strong><span>Tempi chiari, assistenza presente e un servizio che i clienti descrivono come semplice...</span></p></div>
+        </div>
+      </article>
+
+      <article class="v11-agent v11-agent--reverse" data-reveal>
+        <div class="v11-agent__copy"><i>★</i><span>Agente Risposte</span><h3>Risponde a ogni recensione.</h3><p>Legge la recensione, prepara una risposta coerente con il tono dell’attività e collega ciò che il cliente ha apprezzato ai servizi reali.</p><aside><b>Il controllo resta tuo.</b><span>Rivedi, modifichi e approvi prima della pubblicazione.</span></aside><div>→ Più fiducia e una scheda Google sempre attiva.</div></div>
+        <div class="v11-agent__art v11-answer-art">
+          <span class="v11-demo-label">RISPOSTA SIMULATA</span>
+          <header><i></i><i></i><i></i><small>scheda google · risposte</small></header>
+          <article><div><i>AC</i><p><b>Andrea C.</b><small>Local Guide · 31 recensioni</small></p><em>G</em></div><span>★★★★★ · 1 settimana fa</span><blockquote>Intervento preciso e tempi rispettati. Finalmente tutto spiegato bene.</blockquote></article>
+          <section><header><span>Risposta del titolare</span><b>Generata · 2s</b></header><p>Grazie Andrea! Chiarezza e puntualità sono parte del nostro modo di lavorare. Siamo felici che sia arrivato.</p><footer><button type="button">Modifica</button><button type="button">Approva</button></footer></section>
+        </div>
+      </article>
+
+      <article class="v11-agent" data-reveal>
+        <div class="v11-agent__copy"><i>↗</i><span>Agente Social</span><h3>Trasforma le recensioni in post.</h3><p>Prende le esperienze migliori e costruisce copy e grafiche pronti da controllare e pubblicare sui canali collegati.</p><div>→ Più riprova sociale, senza inventare ogni giorno un contenuto.</div></div>
+        <div class="v11-agent__art v11-social-art">
+          <span class="v11-demo-label">POST DIMOSTRATIVO</span>
+          <header><i>OC</i><p><b>officina.centro</b><small>Latina</small></p><span>•••</span></header>
+          <div><i>”</i><blockquote>Intervento preciso e tempi rispettati. Finalmente tutto spiegato bene.</blockquote><small>— ANDREA C. · ★★★★★</small></div>
+          <footer><span>♡　⌁　✈</span><b>Salva</b><p><strong>officina.centro</strong> Grazie Andrea per aver raccontato la tua esperienza.</p></footer>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="v11-mid-cta">
+    <div class="v11-wrap" data-reveal><div><span class="v11-kicker">Un solo sistema</span><h2>Più recensioni, più fiducia, più clienti. In automatico.</h2><p>Tu pensi all’attività. A recensioni, risposte e visibilità pensa Trovatemi.</p></div><button class="v11-button v11-button--black" type="button" data-trial-open data-source="mid-cta">Prova gratuitamente per 14 giorni</button></div>
+  </section>
+
+  <section class="v11-loop">
+    <div class="v11-wrap">
+      <header class="v11-section-head" data-reveal><span class="v11-kicker">04 · Il sistema</span><h2>Lo imposti una volta. Poi va avanti da solo.</h2><p>Ogni recensione alimenta il passaggio successivo: risposta, contenuto, nuova visibilità e nuove persone che scoprono l’attività.</p></header>
+      <ol class="v11-loop__steps" data-reveal>
+        <li><b>1</b><h3>Arrivano le recensioni</h3><p>QR, NFC e richieste automatiche</p></li>
+        <li><b>2</b><h3>L’AI risponde</h3><p>Risposte locali e controllabili</p></li>
+        <li><b>3</b><h3>Diventano contenuti</h3><p>Social, Google e sito</p></li>
+        <li><b>4</b><h3>Cresce la presenza</h3><p>Più informazioni pubbliche e recenti</p></li>
+        <li><b>5</b><h3>Arrivano nuove esperienze</h3><p>E il ciclo può ricominciare</p></li>
+      </ol>
+      <div class="v11-loop__line" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <strong class="v11-loop__note">Nessuno deve ricordarsi di far partire ogni singolo passaggio.</strong>
+    </div>
+  </section>
+
+  <section class="v11-evidence">
+    <div class="v11-wrap">
+      <header class="v11-section-head v11-section-head--dark" data-reveal><span class="v11-kicker">Cosa vedi durante la prova</span><h2>Prima i dati del sistema. Poi le promesse.</h2><p>La V11 non inventa clienti o risultati. Mostra gli output che il prodotto può misurare sulla tua attività.</p></header>
+      <div class="v11-evidence__grid" data-reveal>
+        <article><span>01</span><i>↗</i><h3>Richieste</h3><p>Quante partono, su quale canale e quando vengono lette.</p><small>OUTPUT MISURABILE</small></article>
+        <article><span>02</span><i>★</i><h3>Recensioni</h3><p>Quante arrivano, dove vengono pubblicate e quanto sono recenti.</p><small>OUTPUT PUBBLICO</small></article>
+        <article><span>03</span><i>✦</i><h3>Risposte e contenuti</h3><p>Quante bozze vengono create, approvate e distribuite.</p><small>OUTPUT CONTROLLABILE</small></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="v11-onboarding">
+    <div class="v11-wrap">
+      <header class="v11-section-head" data-reveal><span class="v11-kicker">05 · Come funziona</span><h2>Attivo in pochi giorni.</h2></header>
+      <ol data-reveal>
+        <li><b>1</b><div><h3>Collega l’attività</h3><p>Aggiungi la scheda Google e imposti tono, servizi e canali.</p></div><span>01–02</span></li>
+        <li><b>2</b><div><h3>Raccogli recensioni</h3><p>Attivi QR, NFC e richieste automatiche.</p></div><span>03–07</span></li>
+        <li><b>3</b><div><h3>Lascia lavorare gli agenti</h3><p>Risposte, contenuti e aggiornamenti entrano nel flusso.</p></div><span>SEMPRE</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="prezzi" class="v11-pricing">
+    <div class="v11-wrap">
+      <header class="v11-section-head" data-reveal><span class="v11-kicker">06 · Prezzi</span><h2>Scegli quanto vuoi crescere.</h2><p>Ogni piano include i tre agenti AI e 14 giorni di prova gratuita, senza carta.</p></header>
+      <div class="v11-pricing-note" data-reveal><strong>Listino concept V11.</strong> Riproduce la logica commerciale del riferimento per valutarne l’effetto. Non sostituisce il listino approvato di Trovatemi e non permette acquisti.</div>
+      <div class="v11-billing" role="group" aria-label="Periodicità del prezzo" data-reveal><button type="button" data-billing="monthly" aria-pressed="false">Mensile</button><button class="is-active" type="button" data-billing="annual" aria-pressed="true">Annuale</button><span>Fino a 960 € risparmiati</span></div>
+      <div class="v11-pricing__grid">
+        {plans.map((plan) => (
+          <article class:list={['v11-price-card', { 'v11-price-card--popular': plan.popular }]} data-price-card data-annual-price={plan.annual} data-monthly-price={plan.monthly} data-reveal>
+            {plan.popular && <span class="v11-popular">Più popolare</span>}
+            <header><h3>{plan.name}</h3><p>{plan.description}</p><b>{plan.eyebrow}</b></header>
+            <div class="v11-price"><strong><span>€</span><b data-price-value>{plan.annual}</b></strong><em>/ mese</em><small data-price-caption>con fatturazione annuale</small></div>
+            <div class="v11-saving" data-price-saving>{plan.saving}</div>
+            <h4>{plan.lead}</h4>
+            <ul>{plan.features.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul>
+            <button class="v11-button v11-button--black" type="button" data-trial-open data-source={`plan-${plan.name.toLowerCase()}`}>Inizia la prova gratuita</button>
+            <small>14 giorni · Nessuna carta · Preview</small>
+          </article>
+        ))}
+      </div>
+      <p class="v11-enterprise">Hai più di 10 sedi o un’esigenza particolare? <button type="button" data-trial-open data-source="enterprise">Parliamone.</button></p>
+    </div>
+  </section>
+
+  <section id="faq" class="v11-faq">
+    <div class="v11-wrap">
+      <header class="v11-section-head v11-section-head--dark" data-reveal><span class="v11-kicker">07 · Domande frequenti</span><h2>Le domande che ci fanno più spesso.</h2></header>
+      <div class="v11-faq__list" data-reveal>{faqs.map(([question, answer]) => <details><summary>{question}<i>+</i></summary><p>{answer}</p></details>)}</div>
+    </div>
+  </section>
+
+  <section class="v11-final">
+    <div class="v11-grid" aria-hidden="true"></div>
+    <div class="v11-wrap" data-reveal>
+      <span class="v11-kicker">Prova gratuita · 14 giorni · senza carta</span>
+      <h2>Le recensioni ci sono già. Basta raccoglierle.</h2>
+      <p>I clienti contenti esistono già. Manca il sistema che li faccia parlare, risponda quando lo fanno e usi quelle parole per renderti più facile da trovare.</p>
+      <button class="v11-button v11-button--yellow" type="button" data-trial-open data-source="final">Prova gratuitamente per 14 giorni</button>
+      <small>Setup semplice · Output chiari · Fatto per le attività locali</small>
+    </div>
+  </section>
+</V11Layout>

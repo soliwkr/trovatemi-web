@@ -1,0 +1,30 @@
+---
+export const prerender = true;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Trovatemi V10 · Mobile QA</title>
+    <style>
+      :root { color-scheme: dark; font-family: Arial, sans-serif; }
+      * { box-sizing: border-box; }
+      body { min-width: 430px; margin: 0; padding: 32px; background: #090b0d; color: #f5f2e9; }
+      header { width: 390px; display: flex; align-items: center; justify-content: space-between; margin: 0 auto 16px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      iframe { height: 844px; display: block; margin: 0 auto; border: 0; border-radius: 20px; background: #f5f2e9; box-shadow: 0 24px 80px rgb(0 0 0 / 55%); }
+      [data-v10-mobile-frame] { width: 390px; }
+      .qa-frame--test { position: absolute; top: 0; left: -20000px; margin: 0; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <header><span>V10 · mobile QA</span><span>390 CSS px × 844</span></header>
+    <iframe data-v10-mobile-frame src="/brand-demo-v10/" title="Anteprima mobile della homepage Trovatemi V10" width="390" height="844"></iframe>
+    <iframe class="qa-frame--test" data-qa-width="430" src="/brand-demo-v10/" title="Controllo overflow a 430 CSS pixel" width="430" height="932" aria-hidden="true"></iframe>
+    <iframe class="qa-frame--test" data-qa-width="768" src="/brand-demo-v10/" title="Controllo overflow a 768 CSS pixel" width="768" height="900" aria-hidden="true"></iframe>
+    <iframe class="qa-frame--test" data-qa-width="1280" src="/brand-demo-v10/" title="Controllo overflow a 1280 CSS pixel" width="1280" height="900" aria-hidden="true"></iframe>
+    <iframe class="qa-frame--test" data-qa-width="1440" src="/brand-demo-v10/" title="Controllo overflow a 1440 CSS pixel" width="1440" height="900" aria-hidden="true"></iframe>
+  </body>
+</html>

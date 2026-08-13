@@ -1,0 +1,352 @@
+---
+import V8Layout from '../../layouts/V8Layout.astro';
+
+export const prerender = true;
+
+const foundFeatures = [
+  'Raccolta centralizzata delle recensioni',
+  'QR personalizzato e NFC',
+  'Richieste automatiche nei limiti previsti',
+  'Risposte assistite dall’AI, sotto il tuo controllo',
+  'Gestione centralizzata',
+  'Monitoraggio degli output',
+  'Assistenza',
+];
+
+const inevitableFeatures = [
+  'Tutto TROVATO',
+  'Recensioni trasformate in contenuti',
+  'Distribuzione sui canali collegati',
+  'Aggiornamenti Google',
+  'Contenuti locali costruiti da servizi, territorio, domande e recensioni reali',
+  'Hub editoriale',
+  'Monitoraggio e revisione periodica',
+  'Supporto prioritario',
+];
+
+const faqs = [
+  ['Mi garantite il primo posto su Google?', 'No. Nessuno controlla completamente le posizioni di Google. Trovatemi installa e gestisce un processo misurabile; non vende classifiche garantite.'],
+  ['Filtrate le recensioni negative?', 'No. Ogni cliente riceve lo stesso percorso. Non compriamo recensioni, non selezioniamo chi può lasciare un’opinione e non utilizziamo review gating.'],
+  ['È un software che devo imparare a usare?', 'No. La tecnologia è solo una parte. Configuriamo il sistema sulla tua attività e ti accompagniamo nell’utilizzo.'],
+  ['Cosa succede nei 14 giorni?', 'Attivazione, prima richiesta, controllo al giorno 7 e revisione al giorno 14.'],
+  ['Devo avere qualcuno che segue i social?', 'No per TROVATO. Per INEVITABILE eventuali professionisti già presenti possono essere coinvolti senza essere sostituiti.'],
+  ['Posso scegliere il mensile?', 'Sì. Il mensile prevede una quota di attivazione; l’annuale la include.'],
+  ['Mi garantite nuovi clienti?', 'No. Possiamo misurare sistema, richieste, recensioni, contenuti e output. La scelta finale dipende anche da servizio, mercato, prezzi e capacità commerciale dell’attività.'],
+  ['In cosa siete diversi da un software economico?', 'Un software ti dà accesso. Trovatemi configura il processo sulla tua attività, prepara gli strumenti, accompagna il personale e controlla che venga utilizzato. La tecnologia resta dietro le quinte.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+
+<V8Layout
+  title="Trovatemi.it | Recensioni e presenza Google per attività locali"
+  description="Trasforma clienti soddisfatti in recensioni e presenza pubblica. Prova Trovatemi per 14 giorni sulla tua vera attività, con attivazione assistita."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="v8-hero" data-v8-hero>
+    <div class="v8-wrap v8-hero__grid">
+      <div class="v8-hero__copy">
+        <p class="v8-eyebrow">Per attività locali che lavorano bene, ma online non lo dimostrano abbastanza.</p>
+        <h1>Il cliente ti sta già cercando. <em>Il problema è che trova un altro.</em></h1>
+        <p class="v8-lede">Trovatemi installa nella tua attività un sistema semplice per trasformare clienti soddisfatti in recensioni, risposte e prove pubbliche che aiutano chi ti cerca a scegliere te.</p>
+        <div class="v8-actions">
+          <button class="btn btn-primary v8-button" type="button" data-audit-open data-source="hero">Fammi vedere cosa trova un cliente <span aria-hidden="true">↗</span></button>
+          <button class="v8-demo-link" type="button" data-demo-open><span aria-hidden="true">▶</span> Guarda come funziona in 60 secondi</button>
+        </div>
+        <div class="v8-trial-note">
+          <strong>14</strong>
+          <span>giorni di prova assistita.<br />Sulla tua vera attività. Con clienti reali.</span>
+        </div>
+      </div>
+
+      <div class="v8-hero__visual">
+        <figure class="v8-hero-photo">
+          <img src="/images/nfc-review-counter-v7.webp" width="1536" height="1024" alt="Un cliente avvicina il telefono a un supporto NFC di Trovatemi sul bancone" fetchpriority="high" />
+          <figcaption>Il gesto che il cliente capisce subito.</figcaption>
+          <button class="v8-nfc-trigger" type="button" data-demo-open aria-label="Apri la dimostrazione del gesto NFC"><span></span><b>NFC</b></button>
+        </figure>
+        <ol class="v8-hero-sequence" aria-label="Dal cliente soddisfatto alla recensione visibile">
+          <li><span>01</span><b>Cliente soddisfatto</b></li>
+          <li><span>02</span><b>Un gesto semplice</b></li>
+          <li><span>03</span><b>Recensione pubblica</b></li>
+          <li><span>04</span><b>Il titolare la vede</b></li>
+        </ol>
+      </div>
+    </div>
+    <div class="v8-hero__rule"><div class="v8-wrap"><span>Non devi farti vedere da tutti.</span><strong>Devi farti scegliere da chi ti sta cercando.</strong></div></div>
+  </section>
+
+  <section class="v8-diagnosis" aria-labelledby="diagnosis-title">
+    <div class="v8-wrap v8-diagnosis__grid">
+      <span class="v8-kicker">Partiamo da ciò che vede il cliente</span>
+      <div>
+        <h2 id="diagnosis-title">Prima di spiegarti Trovatemi, apriamo la tua attività su Google.</h2>
+        <p>Guardiamo recensioni, risposte e attività recente. Se non c’è un problema reale, te lo diciamo.</p>
+      </div>
+      <button class="btn btn-neutral v8-button" type="button" data-audit-open data-source="diagnosis">Guarda il mio profilo <span aria-hidden="true">↗</span></button>
+    </div>
+  </section>
+
+  <section id="problema" class="v8-section v8-scene">
+    <div class="v8-wrap v8-scene__grid">
+      <div class="v8-scene__story">
+        <span class="v8-kicker">01 · Una scena che conosci</span>
+        <h2>Ogni mese servi clienti soddisfatti. <em>Quanti diventano una recensione?</em></h2>
+        <div class="v8-story-lines">
+          <p>Il cliente paga.</p>
+          <p>Ti ringrazia.</p>
+          <p>Dice che si è trovato benissimo.</p>
+          <p>Gli chiedi una recensione.</p>
+        </div>
+        <blockquote>“Certo, la faccio dopo.”</blockquote>
+        <p class="v8-loss">Poi esce. Torna alla sua giornata. E se ne dimentica.</p>
+      </div>
+
+      <figure class="v8-scene__photo">
+        <img src="/images/hero-local-business.webp" width="1536" height="1024" loading="lazy" alt="Titolare di un’attività locale che guarda il telefono dietro il bancone" />
+        <figcaption>
+          <span>Nel frattempo</span>
+          <strong>Chi cerca il tuo servizio trova il concorrente con recensioni più recenti, risposte presenti e più motivi visibili per fidarsi.</strong>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="v8-section v8-comparison" aria-labelledby="comparison-title">
+    <div class="v8-wrap">
+      <header class="v8-section-head">
+        <span class="v8-kicker">02 · La scelta avviene qui</span>
+        <h2 id="comparison-title">Non significa che il concorrente lavori meglio. <em>Significa che online sembra più facile fidarsi di lui.</em></h2>
+        <p>Mettiamoci per un momento nei panni di una persona che non conosce nessuno dei due.</p>
+      </header>
+
+      <div class="v8-profile-compare">
+        <article class="v8-profile v8-profile--quiet">
+          <header><i>A</i><div><strong>Attività A</strong><span>Servizio locale</span></div><b aria-hidden="true">⋮</b></header>
+          <div class="v8-profile__rating"><strong>4,7</strong><span class="v8-stars">★★★★★</span><small>23 recensioni</small></div>
+          <dl>
+            <div><dt>Ultima recensione</dt><dd>5 mesi fa</dd></div>
+            <div><dt>Risposte del titolare</dt><dd>Non presenti</dd></div>
+            <div><dt>Ultimo aggiornamento</dt><dd>7 mesi fa</dd></div>
+          </dl>
+          <span class="v8-profile__action">Chiama</span>
+        </article>
+
+        <span class="v8-versus">VS</span>
+
+        <article class="v8-profile v8-profile--active">
+          <header><i>B</i><div><strong>Attività B</strong><span>Servizio locale</span></div><b aria-hidden="true">⋮</b></header>
+          <div class="v8-profile__rating"><strong>4,8</strong><span class="v8-stars">★★★★★</span><small>84 recensioni</small></div>
+          <dl>
+            <div><dt>Ultima recensione</dt><dd>3 giorni fa</dd></div>
+            <div><dt>Risposte del titolare</dt><dd>Presenti</dd></div>
+            <div><dt>Ultimo aggiornamento</dt><dd>1 settimana fa</dd></div>
+          </dl>
+          <span class="v8-profile__action">Chiama</span>
+        </article>
+      </div>
+      <p class="v8-example-note">Esempio illustrativo. Attività e numeri sono inventati per mostrare il tipo di confronto; non sono risultati Trovatemi.</p>
+      <div class="v8-comparison-question">
+        <span>La domanda è semplice</span>
+        <h3>Se non conoscessi nessuna delle due attività, quale chiameresti per prima?</h3>
+        <button class="btn btn-neutral v8-button" type="button" data-audit-open data-source="comparison">Ora guardiamo il tuo confronto <span aria-hidden="true">↗</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="v8-search-moment">
+    <div class="v8-wrap v8-search-moment__grid">
+      <div class="v8-search-moment__copy">
+        <span class="v8-kicker v8-kicker--on-dark">03 · Il momento che conta</span>
+        <h2>Chi cerca vale molto più di chi scrolla.</h2>
+        <p>Chi scrolla sta passando il tempo.<br />Chi cerca ha un problema, sta confrontando e deve scegliere.</p>
+        <strong>Non devi farti vedere da tutti. Devi essere credibile davanti alle persone giuste, nel momento giusto.</strong>
+      </div>
+      <div class="v8-intent" aria-label="Confronto fra chi scorre e chi cerca">
+        <article class="v8-intent__scroll">
+          <span>Sta scorrendo</span>
+          <div><i></i><i></i><i></i><i></i></div>
+          <strong>Vede.<br />Passa.<br />Dimentica.</strong>
+        </article>
+        <article class="v8-intent__search">
+          <span>Sta cercando</span>
+          <div class="v8-search-field"><i aria-hidden="true"></i><b>servizio vicino a me</b></div>
+          <ul><li>Confronta le prove</li><li>Legge le recensioni</li><li>Sceglie chi chiamare</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="come-funziona" class="v8-section v8-process-section">
+    <div class="v8-wrap">
+      <header class="v8-section-head">
+        <span class="v8-kicker">04 · Come funziona</span>
+        <h2>Dal complimento alla recensione, <em>senza lasciare tutto alla memoria.</em></h2>
+        <p>Niente percorso complicato. Niente lezione di marketing al personale. Quattro passaggi chiari.</p>
+      </header>
+
+      <ol class="v8-process">
+        <li><span>01</span><div><small>Il momento</small><h3>Il cliente è soddisfatto.</h3><p>La richiesta avviene quando l’esperienza è ancora fresca. Non tre giorni dopo.</p><blockquote>“È andato tutto bene?”</blockquote></div></li>
+        <li><span>02</span><div><small>Il gesto</small><h3>Avvicina il telefono o apre il QR.</h3><p>Niente ricerche complicate. Il percorso si apre dal bancone, dalla reception o dal messaggio.</p><button class="v8-text-link" type="button" data-demo-open>Vedi il gesto NFC <b aria-hidden="true">▶</b></button></div></li>
+        <li><span>03</span><div><small>L’esperienza</small><h3>Lascia la sua opinione.</h3><p>Il percorso è semplice e trasparente. Tutti ricevono lo stesso link, senza filtri sul voto.</p><i class="v8-stars">★★★★★</i></div></li>
+        <li><span>04</span><div><small>Il controllo</small><h3>Tu vedi cosa sta succedendo.</h3><p>Recensioni, risposte e output diventano visibili e misurabili da un unico punto.</p><i>Richiesta → recensione → risposta</i></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="v8-chris" aria-labelledby="chris-title">
+    <div class="v8-wrap v8-chris__grid">
+      <div class="v8-chris__portrait" aria-label="Spazio destinato al ritratto reale di Chris">
+        <span class="v8-chris__initials" aria-hidden="true">CF</span>
+        <span class="v8-chris__asset-note">Preview · ritratto reale da produrre</span>
+        <div><b>Christian Fioravanti</b><small>Installazione · controllo · assistenza</small></div>
+      </div>
+      <div class="v8-chris__copy">
+        <span class="v8-kicker v8-kicker--on-dark">La parte che un software non contiene</span>
+        <h2 id="chris-title">Non ti lasciamo una piattaforma. <em>La installiamo nella tua attività.</em></h2>
+        <p>Chris collega il profilo, prepara NFC e QR, mostra al personale quando chiedere e controlla che il sistema venga davvero utilizzato.</p>
+        <ul><li>Apriamo Google insieme.</li><li>Mettiamo il processo nel lavoro vero.</li><li>Se qualcosa si blocca, sai chi chiamare.</li></ul>
+        <div class="v8-chris__signature"><span>Christian Fioravanti</span><strong>Se chiami, rispondo io.</strong></div>
+        <button class="btn btn-primary v8-button" type="button" data-whatsapp-open>Scrivi a Chris su WhatsApp <span aria-hidden="true">↗</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="trial" class="v8-section v8-trial">
+    <div class="v8-wrap">
+      <header class="v8-trial__head">
+        <div><span class="v8-kicker">05 · La prova</span><h2>Non devi crederci sulla parola. <em>Provalo per 14 giorni sulla tua attività.</em></h2></div>
+        <div><p><strong>Non ti consegniamo una dashboard da esplorare.</strong> Configuriamo il sistema, colleghiamo il profilo, prepariamo QR e NFC e facciamo partire la prima richiesta con clienti reali.</p></div>
+      </header>
+
+      <ol class="v8-trial-timeline">
+        <li><span>Giorno <b>1</b></span><h3>Attivazione e prima richiesta.</h3><p>Colleghiamo il profilo, prepariamo il percorso e lo usiamo davvero.</p></li>
+        <li><span>Giorno <b>7</b></span><h3>Controlliamo dove si blocca.</h3><p>Guardiamo cosa viene utilizzato, cosa viene dimenticato e cosa va corretto.</p></li>
+        <li><span>Giorno <b>14</b></span><h3>Guardiamo cosa è successo.</h3><p>Output, utilizzo e limiti davanti agli occhi. Poi decidi se continuare.</p></li>
+      </ol>
+
+      <div class="v8-trial__action">
+        <button class="btn btn-neutral v8-button" type="button" data-audit-open data-source="trial">Richiedi la prova assistita <span aria-hidden="true">↗</span></button>
+        <small>Riservata alle attività che hanno clienti reali durante i 14 giorni e una persona responsabile del processo.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="v8-section v8-plan-choice" aria-labelledby="plan-choice-title">
+    <div class="v8-wrap v8-plan-choice__grid">
+      <div>
+        <span class="v8-kicker">06 · Due problemi diversi</span>
+        <h2 id="plan-choice-title">Se raccogliessimo più recensioni, sarebbe sufficiente?</h2>
+        <p>La risposta orienta la scelta. Non è un configuratore automatico: Chris verifica il piano corretto.</p>
+      </div>
+      <div class="v8-plan-choice__actions">
+        <button type="button" data-plan-choice="found" aria-pressed="false"><span>01</span><b>Sì, sarebbe sufficiente.</b><i aria-hidden="true">→</i></button>
+        <button type="button" data-plan-choice="inevitable" aria-pressed="false"><span>02</span><b>No, resterebbe il problema di mantenere attivi Google e contenuti.</b><i aria-hidden="true">→</i></button>
+        <article data-plan-result="found" hidden><small>Per quello che hai indicato</small><h3>Partiremmo da TROVATO.</h3><p>Raccoglie e gestisce la prova.</p><a href="#trovato">Vedi TROVATO ↓</a></article>
+        <article data-plan-result="inevitable" hidden><small>Nel tuo caso va valutato</small><h3>INEVITABILE.</h3><p>Raccoglie, trasforma e distribuisce la prova.</p><a href="#inevitabile">Vedi INEVITABILE ↓</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="piani" class="v8-section v8-plans">
+    <div class="v8-wrap">
+      <header class="v8-section-head v8-section-head--split">
+        <div><span class="v8-kicker">07 · Due piani, non tre</span><h2>Prima raccogli la prova. <em>Poi decidi fin dove farla arrivare.</em></h2></div>
+        <p>Se ti bastano recensioni raccolte e gestite bene, c’è TROVATO. Se resta anche il problema della continuità, c’è INEVITABILE.</p>
+      </header>
+
+      <p class="v8-pricing-gate"><strong>Nota preview:</strong> il listino qui sotto rappresenta la direzione approvata. La pubblicazione in root resta subordinata al gate commerciale.</p>
+
+      <div class="v8-plan-grid">
+        <article id="trovato" class="v8-plan">
+          <header><span>Raccoglie e gestisce</span><h3>★ TROVATO</h3><p>Raccoglie e gestisce la prova.</p></header>
+          <div class="v8-plan__body">
+            <p class="v8-plan__who">Per attività che vogliono rendere semplice e continuativa la raccolta delle recensioni.</p>
+            <div class="v8-price"><strong>€199</strong><span>al mese</span></div>
+            <dl><div><dt>Attivazione</dt><dd>€290 una tantum</dd></div><div><dt>Oppure annuale</dt><dd>€1.990 all’anno <small>attivazione inclusa</small></dd></div></dl>
+            <ul>{foundFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul>
+            <details><summary>Quello che non comprende</summary><p>Contenuti social, articoli locali continuativi, blog, gestione editoriale, campagne pubblicitarie, sviluppo personalizzato o più sedi.</p></details>
+            <button class="btn btn-outline v8-button" type="button" data-audit-open data-source="plan-found">Prova TROVATO per 14 giorni <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+
+        <article id="inevitabile" class="v8-plan v8-plan--dark">
+          <header><span>Raccoglie · trasforma · distribuisce</span><h3>★★ INEVITABILE</h3><p>Raccoglie, trasforma e distribuisce la prova.</p></header>
+          <div class="v8-plan__body">
+            <p class="v8-plan__who">Per attività che non vogliono soltanto più recensioni, ma una presenza continuativa su Google, social e ricerca AI.</p>
+            <div class="v8-price"><strong>€399</strong><span>al mese</span></div>
+            <dl><div><dt>Attivazione</dt><dd>€490 una tantum</dd></div><div><dt>Oppure annuale</dt><dd>€3.990 all’anno <small>attivazione inclusa</small></dd></div></dl>
+            <ul>{inevitableFeatures.map((feature) => <li><i>✓</i><span>{feature}</span></li>)}</ul>
+            <details><summary>Quello che non comprende</summary><p>Gestione social completa, foto o video, community management, campagne pubblicitarie, rifacimento completo del sito, SEO manuale illimitata o posizioni garantite.</p></details>
+            <button class="btn btn-primary v8-button" type="button" data-audit-open data-source="plan-inevitable">Scopri se ti serve INEVITABILE <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="v8-vision">
+    <div class="v8-wrap">
+      <span class="v8-vision__star" aria-hidden="true">★</span>
+      <span class="v8-kicker v8-kicker--on-dark">08 · La direzione</span>
+      <h2>Non devi diventare virale. <em>Devi diventare inevitabile.</em></h2>
+      <p>Non ti servono migliaia di persone che scorrono senza cercarti. Ti serve essere presente, credibile e riconoscibile quando qualcuno cerca proprio quello che fai.</p>
+    </div>
+  </section>
+
+  <section class="v8-section v8-proof">
+    <div class="v8-wrap v8-proof__grid">
+      <header>
+        <span class="v8-kicker">09 · Quello che possiamo provare oggi</span>
+        <h2>Niente testimonianze inventate. <em>Ti facciamo vedere il processo.</em></h2>
+        <p>I casi studio arriveranno dopo risultati verificati e autorizzati. Nel frattempo, la prova è trasparente.</p>
+      </header>
+      <div class="v8-proof__rows">
+        <article><span>01</span><div><h3>Una demo che puoi toccare.</h3><p>Avvicini il telefono, apri il percorso e vedi cosa succede.</p></div><button type="button" data-demo-open>Apri la demo ↗</button></article>
+        <article><span>02</span><div><h3>Una baseline prima di partire.</h3><p>Segniamo il punto di partenza. Niente “prima” ricostruiti dopo.</p></div><i>Prima → dopo</i></article>
+        <article><span>03</span><div><h3>Output, non miracoli.</h3><p>Richieste, recensioni, risposte, contenuti e aggiornamenti. Non chiamate o fatturato attribuiti a caso.</p></div><i>Dati controllabili</i></article>
+        <article><span>04</span><div><h3>Una persona che risponde.</h3><p>Chris configura, controlla e ti mostra cosa sta succedendo. Al telefono o di persona.</p></div><button type="button" data-whatsapp-open>Parla con Chris ↗</button></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="v8-section v8-faq">
+    <div class="v8-wrap v8-faq__grid">
+      <header><span class="v8-kicker">10 · Domande vere</span><h2>Prima di dirci di sì, <em>ecco dove ti diciamo di no.</em></h2></header>
+      <div class="v8-faq__list">
+        {faqs.map(([question, answer], index) => (
+          <details open={index === 0}>
+            <summary><span>{String(index + 1).padStart(2, '0')}</span><strong>{question}</strong><i aria-hidden="true">+</i></summary>
+            <div><p>{answer}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="v8-final">
+    <div class="v8-wrap v8-final__grid">
+      <div>
+        <span class="v8-kicker">11 · Partiamo da Google</span>
+        <h2>Vuoi vedere cosa trova oggi un cliente quando cerca il tuo servizio?</h2>
+        <p>Partiamo dal tuo profilo, non da una presentazione. Guardiamo il confronto e capiamo se esiste davvero qualcosa da correggere.</p>
+        <div class="v8-actions"><button class="btn btn-neutral v8-button" type="button" data-audit-open data-source="final">Analizza la mia attività <span aria-hidden="true">↗</span></button><button class="btn btn-outline v8-button" type="button" data-whatsapp-open>Scrivi a Chris su WhatsApp</button></div>
+        <small>Nessuna promessa di primo posto. Nessuna recensione falsa. Nessuna presentazione da agenzia.</small>
+      </div>
+      <aside>
+        <span>L’audit parte da qui</span>
+        <ol><li><b>1</b><p>Apriamo il tuo profilo.</p></li><li><b>2</b><p>Guardiamo cosa vede un estraneo.</p></li><li><b>3</b><p>Confrontiamo le prove.</p></li><li><b>4</b><p>Decidiamo se serve intervenire.</p></li></ol>
+        <div><i>CF</i><p><strong>Christian Fioravanti</strong><small>Se chiami, rispondo io.</small></p></div>
+      </aside>
+    </div>
+  </section>
+</V8Layout>

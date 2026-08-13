@@ -1,0 +1,37 @@
+---
+export const prerender = true;
+
+const viewports = [
+  { width: 390, label: '390 px' },
+  { width: 430, label: '430 px' },
+  { width: 768, label: '768 px' },
+];
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Trovatemi V12 · QA mobile</title>
+    <style>
+      :root { font-family: system-ui, sans-serif; color: #f7f5ef; background: #111; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 24px; }
+      header { max-width: 1100px; margin: 0 auto 24px; }
+      h1 { margin: 0 0 8px; font-size: 24px; }
+      p { margin: 0; color: #aaa; }
+      main { display: flex; align-items: flex-start; gap: 24px; overflow-x: auto; padding-bottom: 24px; }
+      section { flex: 0 0 auto; }
+      h2 { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: #f5b301; }
+      iframe { display: block; width: var(--viewport); height: 820px; border: 1px solid #333; border-radius: 20px; background: white; }
+    </style>
+  </head>
+  <body>
+    <header><h1>V12 · QA mobile</h1><p>La route principale viene renderizzata agli esatti breakpoint di controllo.</p></header>
+    <main>
+      {viewports.map(({ width, label }) => <section style={`--viewport:${width}px`}><h2>{label}</h2><iframe src="/brand-demo-v12/" title={`V12 a ${label}`}></iframe></section>)}
+    </main>
+  </body>
+</html>
