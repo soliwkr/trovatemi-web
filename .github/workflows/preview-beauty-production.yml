@@ -1,0 +1,70 @@
+name: Preview Beauty Production V1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/preview-beauty-production.yml"
+      - "astro.config.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/verify-beauty-production.mjs"
+      - "src/components/production/**"
+      - "src/data/beauty-demo.ts"
+      - "src/layouts/ProductionLayout.astro"
+      - "src/pages/index.astro"
+      - "src/pages/check/**"
+      - "src/pages/report/**"
+      - "src/styles/production.css"
+      - "wrangler.beauty-preview.jsonc"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-beauty-production-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Validate and publish isolated Beauty preview
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate implementation
+        run: |
+          npm run qa:beauty
+          npm run check
+          npm run build
+      - name: Publish isolated preview Worker
+        id: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          command: deploy --config wrangler.beauty-preview.jsonc
+      - name: Verify public preview
+        env:
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          test -n "$PREVIEW_BASE_URL"
+          for route in "" "check/" "report/studio-armonia-massaggi/"; do
+            for attempt in {1..12}; do
+              if curl --fail --silent --show-error --max-time 20 "${PREVIEW_BASE_URL%/}/$route" > "$RUNNER_TEMP/preview.html"; then
+                break
+              fi
+              test "$attempt" -lt 12
+              sleep 5
+            done
+          done
+          echo "Beauty production preview — ${PREVIEW_BASE_URL%/}/" >> "$GITHUB_STEP_SUMMARY"
