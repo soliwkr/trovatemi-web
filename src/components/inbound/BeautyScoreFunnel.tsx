@@ -8,7 +8,6 @@ import {
 } from '../../data/beauty-audit-demo';
 
 type Stage = 'intro' | 'search' | 'confirm' | 'quiz' | 'flash' | 'capture' | 'report';
-
 type Contact = { email: string; whatsapp: string };
 
 export default function BeautyScoreFunnel() {
@@ -27,7 +26,7 @@ export default function BeautyScoreFunnel() {
   const matches = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return auditDemoBusinesses;
-    return auditDemoBusinesses.filter((item) => `${item.name} ${item.city}`.toLowerCase().includes(needle));
+    return auditDemoBusinesses.filter((item) => `${item.name} ${item.city} ${item.category}`.toLowerCase().includes(needle));
   }, [query]);
 
   const chooseAnswer = (value: string) => {
@@ -44,11 +43,11 @@ export default function BeautyScoreFunnel() {
   if (stage === 'intro') {
     return (
       <section className="inbound-card inbound-intro">
-        <span className="inbound-kicker">Beauty Check · prototipo</span>
-        <h1>Quanto è forte il tuo salone su Google?</h1>
-        <p>Cerca la tua attività, rispondi a cinque domande che Google non può conoscere e scopri dove si interrompe il passaparola.</p>
-        <button className="inbound-primary" type="button" onClick={() => setStage('search')}>Cerca il mio salone <b>→</b></button>
-        <small>Preview con dati dimostrativi. Nessuna chiamata Google Maps viene eseguita.</small>
+        <span className="inbound-kicker">Beauty & Wellness Check</span>
+        <h1>Hai clienti che ti adorano. Google lo sa?</h1>
+        <p>Cerca la tua attività. Incrociamo quello che si vede online con cinque cose che Google non può sapere e ti facciamo vedere dove il passaparola smette di lavorare.</p>
+        <button className="inbound-primary" type="button" onClick={() => setStage('search')}>Cerca la mia attività <b>→</b></button>
+        <small>Parrucchieri, barber, centri estetici, nails/lashes, studi massaggi, spa e wellness. Preview con dati demo: zero chiamate Maps.</small>
       </section>
     );
   }
@@ -56,12 +55,12 @@ export default function BeautyScoreFunnel() {
   if (stage === 'search') {
     return (
       <section className="inbound-card inbound-search">
-        <span className="inbound-kicker">01 · Trova la tua attività</span>
-        <h2>Cerca il tuo salone.</h2>
-        <p>Nel prodotto reale la ricerca partirà solo quando confermi, non a ogni tasto.</p>
+        <span className="inbound-kicker">01 · Vediamo chi sei</span>
+        <h2>Cerca la tua attività.</h2>
+        <p>Scrivi nome o città. Nel prodotto reale Google viene interrogato solo quando serve, non mentre digiti ogni lettera.</p>
         <label className="inbound-searchbox">
           <span>Nome attività o città</span>
-          <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Es. Hair Style Formia" />
+          <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Es. studio massaggi Formia" />
         </label>
         <div className="inbound-results">
           {matches.map((item) => (
@@ -78,15 +77,15 @@ export default function BeautyScoreFunnel() {
   if (stage === 'confirm' && business) {
     return (
       <section className="inbound-card inbound-confirm">
-        <span className="inbound-kicker">02 · Attività trovata</span>
+        <span className="inbound-kicker">02 · Ok, ti abbiamo trovato</span>
         <h2>È questa?</h2>
         <article className="business-card">
           <div><b>{business.name}</b><span>{business.category} · {business.address}</span></div>
           <div className="business-stats"><strong>{business.rating.toFixed(1)} ★</strong><span>{business.reviews} recensioni</span></div>
         </article>
-        <p className="inbound-demo-disclaimer">Dati dimostrativi per validare il funnel. Nel prodotto reale questi campi arriveranno da Places con field mask minima.</p>
+        <p className="inbound-demo-disclaimer">Qui sono dati dimostrativi. Nel prodotto reale arriveranno da Places con il minimo indispensabile.</p>
         <div className="inbound-actions-row">
-          <button className="inbound-primary" type="button" onClick={() => setStage('quiz')}>Sì, continua <b>→</b></button>
+          <button className="inbound-primary" type="button" onClick={() => setStage('quiz')}>Sì, sono io <b>→</b></button>
           <button className="inbound-secondary" type="button" onClick={() => setStage('search')}>No, cerca di nuovo</button>
         </div>
       </section>
@@ -111,14 +110,19 @@ export default function BeautyScoreFunnel() {
   }
 
   if (stage === 'flash' && business && report) {
+    const gapCopy = report.reviewGap < 0
+      ? `Hai ${business.reviews} recensioni. La mediana demo del gruppo locale è ${business.cohortMedianReviews}. Mancano ${Math.abs(report.reviewGap)} prove pubbliche solo per arrivare in pari.`
+      : `Hai ${business.reviews} recensioni e sei sopra la mediana demo del gruppo locale. Bene. Ora vediamo se le stai facendo lavorare davvero.`;
+
     return (
       <section className="inbound-report inbound-flash">
         <span className="inbound-kicker">Risultato flash · {business.name}</span>
-        <h1>Qui si interrompe il tuo passaparola.</h1>
+        <h1>Le recensioni non sono soprammobili.</h1>
+        <p>{gapCopy}</p>
         <div className="audit-public-strip">
           <article><span>Rating demo</span><strong>{business.rating.toFixed(1)} ★</strong></article>
           <article><span>Recensioni</span><strong>{business.reviews}</strong></article>
-          <article><span>Mediana cohort demo</span><strong>{business.cohortMedianReviews}</strong></article>
+          <article><span>Mediana demo</span><strong>{business.cohortMedianReviews}</strong></article>
           <article><span>Gap</span><strong>{report.reviewGap}</strong></article>
         </div>
         <div className="audit-pillars">
@@ -127,8 +131,8 @@ export default function BeautyScoreFunnel() {
           <article><span>Risposte</span><b>{report.replies}/100</b><i><em style={{ width: `${report.replies}%` }} /></i></article>
           <article><span>Social proof</span><b>{report.socialProof}/100</b><i><em style={{ width: `${report.socialProof}%` }} /></i></article>
         </div>
-        <div className="flash-callout"><span>Primo collo di bottiglia</span><strong>{report.weakestPillar}</strong><p>Il report completo ti mostra perché e quali tre mosse fare prima.</p></div>
-        <button className="inbound-primary" type="button" onClick={() => setStage('capture')}>Apri il report completo <b>→</b></button>
+        <div className="flash-callout"><span>Primo collo di bottiglia</span><strong>{report.weakestPillar}</strong><p>La radiografia veloce finisce qui. Nel report completo ti facciamo vedere cosa sistemare prima e perché.</p></div>
+        <button className="inbound-primary" type="button" onClick={() => setStage('capture')}>Voglio il report completo <b>→</b></button>
       </section>
     );
   }
@@ -136,15 +140,15 @@ export default function BeautyScoreFunnel() {
   if (stage === 'capture' && business) {
     return (
       <section className="inbound-card inbound-capture">
-        <span className="inbound-kicker">04 · Report pronto</span>
+        <span className="inbound-kicker">04 · Il report è pronto</span>
         <h2>Dove te lo mando?</h2>
-        <p>Abbiamo già il nome dell’attività. Ci serve solo il recapito per consegnare il report.</p>
+        <p>Nome e attività li abbiamo già. Ci serve solo il recapito per consegnarti il report completo.</p>
         <form onSubmit={submitContact}>
           <label>Email<input required type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="nome@email.it" /></label>
           <label>WhatsApp <small>facoltativo</small><input type="tel" value={contact.whatsapp} onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })} /></label>
           <label className="inbound-consent"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} /><span>Voglio ricevere il report e i follow-up collegati a questa diagnosi.</span></label>
-          <button className="inbound-primary" type="submit" disabled={!consent}>Mostrami il report <b>→</b></button>
-          <small className="inbound-preview-note">Preview: i dati restano nel browser e non vengono inviati.</small>
+          <button className="inbound-primary" type="submit" disabled={!consent}>Mandami il report <b>→</b></button>
+          <small className="inbound-preview-note">Non ti chiamiamo mentre hai un cliente sul lettino o sotto il phon. In questa preview, comunque, i dati non partono proprio.</small>
         </form>
       </section>
     );
@@ -155,9 +159,9 @@ export default function BeautyScoreFunnel() {
   return (
     <section className="inbound-report">
       <header className="inbound-report-hero">
-        <span className="inbound-kicker">Beauty Check · {business.name}</span>
-        <h1>Non ti serve più traffico. Ti serve far lavorare meglio quello che succede già nel salone.</h1>
-        <p><b>{business.reviews}</b> recensioni contro una mediana demo di <b>{business.cohortMedianReviews}</b>. Il punto più debole del processo è <b>{report.weakestPillar}</b>.</p>
+        <span className="inbound-kicker">Beauty & Wellness Check · {business.name}</span>
+        <h1>Il punto non è avere clienti contenti. È non far evaporare quello che dicono di te.</h1>
+        <p><b>{business.reviews}</b> recensioni contro una mediana demo di <b>{business.cohortMedianReviews}</b>. Il pezzo più debole oggi è <b>{report.weakestPillar}</b>.</p>
       </header>
 
       <section className="inbound-actions">
@@ -166,9 +170,9 @@ export default function BeautyScoreFunnel() {
       </section>
 
       <section className="inbound-product">
-        <span className="inbound-kicker">Automazione</span>
-        <h2>Trovatemi serve solo se vuoi togliere questi passaggi dalla memoria del team.</h2>
-        <p>Raccolta recensioni, risposte e riutilizzo della prova diventano un flusso operativo. Il report resta il punto di partenza, non una demo commerciale.</p>
+        <span className="inbound-kicker">La parte interessante</span>
+        <h2>Quasi tutto questo si può togliere dalla tua testa.</h2>
+        <p>Cliente contento → recensione → risposta → contenuto → pubblicazione. Trovatemi serve a far girare questo flusso mentre tu continui a fare il lavoro che ti paga davvero.</p>
         <a className="inbound-primary" href="/inbound/next/">Vedi cosa automatizza <b>→</b></a>
       </section>
     </section>
