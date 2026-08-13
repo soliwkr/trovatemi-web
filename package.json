@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "qa:beauty": "node scripts/verify-beauty-production.mjs",
     "preview": "astro preview",
     "check": "wrangler types && astro check && wrangler types --check",
     "cf-typegen": "wrangler types",
     "deploy": "npm run build && wrangler deploy",
-    "deploy:dry": "npm run build && wrangler deploy --dry-run"
+    "deploy:dry": "npm run build && wrangler deploy --dry-run",
+    "preview:beauty:dry": "npm run build && wrangler deploy --dry-run --config wrangler.beauty-preview.jsonc",
+    "preview:beauty:deploy": "npm run build && wrangler deploy --config wrangler.beauty-preview.jsonc"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.1.3",
