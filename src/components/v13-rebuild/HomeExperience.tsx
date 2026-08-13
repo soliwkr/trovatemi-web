@@ -9,9 +9,8 @@ import {
   TracingBeam,
   WobbleCard,
 } from '../v12/Aceternity';
-import { MessageMockup, QrNfcMockup, ReviewHeroMockup } from '../v12/Mockups';
-import { demoTenants, getDemoTenant } from '../../data/demo-tenants';
-import { getVerticalMessaging } from '../../data/vertical-messaging';
+import { EchoMockup, QrNfcMockup, ReplyMockup, ReviewHeroMockup } from '../v12/Mockups';
+import { getDemoTenant } from '../../data/demo-tenants';
 import { faqs, siteCopy } from '../../data/site-copy';
 import { DemoFrame } from './DemoFrame';
 import {
@@ -26,15 +25,19 @@ import {
 } from './Shared';
 
 const processSteps = [
-  ['01', 'Il cliente è soddisfatto', 'Il servizio si è appena concluso e l’esperienza è ancora precisa.'],
-  ['02', 'Avvicina il telefono', 'NFC o QR aprono il percorso corretto senza costringerlo a cercare il profilo.'],
-  ['03', 'Lascia la propria esperienza', 'Tutti ricevono lo stesso percorso, senza filtro sul voto.'],
-  ['04', 'Tu e Chris vedete cosa succede', 'Richieste, recensioni e risposte restano leggibili e controllabili.'],
+  ['01', 'Il cliente è soddisfatto', 'Il servizio è appena finito e il momento è ancora vivo.'],
+  ['02', 'Lascia una recensione Google', 'NFC o QR aprono il percorso senza far cercare il profilo.'],
+  ['03', 'La recensione riceve una risposta', 'Il tono resta coerente con l’attività e l’output resta controllabile.'],
+  ['04', 'La prova diventa contenuto', 'Le recensioni migliori possono essere trasformate in post e formati riutilizzabili.'],
+  ['05', 'La prova viene distribuita', 'Google Business Profile, Instagram, Facebook e TikTok lavorano sulla stessa esperienza reale.'],
 ] as const;
+
+const channels = ['Google Business Profile', 'Instagram', 'Facebook', 'TikTok'] as const;
 
 export default function HomeExperience() {
   const [auditOpen, setAuditOpen] = useState(false);
   const [whatsAppOpen, setWhatsAppOpen] = useState(false);
+  const demo = getDemoTenant('wellness-spa');
 
   return (
     <PageShell>
@@ -47,7 +50,7 @@ export default function HomeExperience() {
           <div className="v12-grid-bg" aria-hidden="true" />
           <div className="v12-wrap v12-hero__grid">
             <div className="v12-hero__copy">
-              <p className="v12-eyebrow"><i /><i /><i /> Per attività locali che lavorano bene, ma online non lo dimostrano abbastanza.</p>
+              <p className="v12-eyebrow"><i /><i /><i /> Un solo sistema. Installato e seguito per te.</p>
               <h1><TextGenerate text={siteCopy.promise} /></h1>
               <p>{siteCopy.mechanism}</p>
               <div className="v12-hero__actions">
@@ -58,97 +61,103 @@ export default function HomeExperience() {
             </div>
             <Reveal className="v12-hero__visual" delay={0.18}><ReviewHeroMockup /></Reveal>
           </div>
-          <div className="v12-hero-flow" aria-label="Il percorso Trovatemi"><div className="v12-wrap"><span>PROFILO REALE</span><i>→</i><b>NFC O QR</b><i>→</i><b>RECENSIONE PUBBLICA</b><i>→</i><strong>CONTROLLO UMANO</strong></div></div>
+          <div className="v12-hero-flow" aria-label="Il flywheel Trovatemi"><div className="v12-wrap"><span>CLIENTE SODDISFATTO</span><i>→</i><b>RECENSIONE</b><i>→</i><b>RISPOSTA</b><i>→</i><b>CONTENUTO</b><i>→</i><strong>NUOVA PROVA</strong></div></div>
         </section>
 
         <section className="v13a-scene">
           <div className="v12-wrap">
-            <Reveal><SectionHead index="01" label="La scena reale" title="Ogni mese servi clienti soddisfatti. Quanti diventano una recensione?" body="Il cliente paga, ti ringrazia e dice che scriverà qualcosa più tardi. Poi esce, torna alla propria giornata e quella buona intenzione sparisce." /></Reveal>
+            <Reveal><SectionHead index="01" label="Il problema" title="Il cliente ti fa il complimento. Poi quella prova sparisce." body="Ogni giorno hai clienti che escono soddisfatti. Senza un gesto semplice nel momento giusto, gran parte di quella soddisfazione non arriva mai online." /></Reveal>
             <WobbleCard className="v13a-scene-card">
-              <span>IL COMPLIMENTO DIMENTICATO</span>
-              <blockquote>«Certo, la faccio dopo.»</blockquote>
-              <p>Il problema non è la qualità del tuo lavoro. È quanta qualità riesce a vedere chi ancora non ti conosce.</p>
+              <span>LA FRASE CHE CONOSCI</span>
+              <blockquote>«Sì sì, la recensione la faccio dopo.»</blockquote>
+              <p>Trovatemi serve a togliere attrito tra quel momento e una prova pubblica reale.</p>
             </WobbleCard>
-          </div>
-        </section>
-
-        <section className="v13a-comparison">
-          <div className="v12-wrap">
-            <Reveal><SectionHead index="02" label="La scelta" title="Non significa che il concorrente lavori meglio. Online sembra più facile fidarsi di lui." body="Chi non conosce nessuna delle due attività decide con ciò che trova: quantità, freschezza, risposte e informazioni recenti." /></Reveal>
-            <div className="v13a-profile-grid">
-              <CardSpotlight className="v13a-profile-card">
-                <small>ESEMPIO ILLUSTRATIVO</small><header><i>OC</i><div><h3>Officina Centro</h3><span>Servizio locale</span></div></header><strong>4,7 <b>★★★★★</b></strong><p>23 recensioni · ultima 5 mesi fa</p><footer>Nessuna risposta recente</footer>
-              </CardSpotlight>
-              <CardSpotlight className="v13a-profile-card v13a-profile-card--active">
-                <small>ESEMPIO ILLUSTRATIVO</small><header><i>ON</i><div><h3>Officina Nord</h3><span>Servizio locale</span></div></header><strong>4,8 <b>★★★★★</b></strong><p>84 recensioni · ultima 3 giorni fa</p><footer>Risposte e aggiornamenti recenti</footer>
-              </CardSpotlight>
-            </div>
-            <Reveal className="v13a-comparison-question"><p>Se non conoscessi nessuna delle due attività, quale chiameresti per prima?</p><button className="v12-yellow-button" type="button" onClick={() => setAuditOpen(true)}>Ora guardiamo il tuo confronto →</button></Reveal>
           </div>
         </section>
 
         <section id="come-funziona" className="v12-collection v13a-mechanism">
           <div className="v12-wrap">
-            <Reveal><SectionHead dark index="03" label="Dal complimento alla prova" title="Il momento giusto esiste già. Trovatemi gli dà un seguito." body="Non chiediamo al titolare di ricordarsi tutto e non chiediamo al cliente di cercare il profilo da solo." /></Reveal>
-            <WobbleCard className="v12-product-row">
-              <QrNfcMockup />
-              <div className="v12-product-copy"><span>NFC + QR</span><h3>Il gesto entra quando l’esperienza è ancora viva.</h3><p>Il supporto viene preparato per bancone, tavolo, cassa o reception. Il cliente avvicina il telefono e arriva al percorso corretto.</p><ul><li>Un gesto semplice nel punto giusto</li><li>Nessuna ricerca manuale del profilo</li><li>Stesso percorso per ogni opinione</li></ul></div>
-            </WobbleCard>
-            <WobbleCard className="v12-product-row v12-product-row--reverse">
-              <MessageMockup />
-              <div className="v12-product-copy"><span>DOPO IL SERVIZIO</span><h3>Quando è già uscito, arriva il messaggio concordato.</h3><p>Configuriamo canale, testo e momento. Il titolare non deve ricordarsi ogni singolo cliente e la richiesta non arriva fuori contesto.</p><ul><li>WhatsApp, SMS o email</li><li>Momento e tono definiti insieme</li><li>Stato della richiesta leggibile</li></ul></div>
-            </WobbleCard>
+            <Reveal><SectionHead dark index="02" label="Il sistema" title="Una recensione non deve finire su Google e basta." body="La stessa esperienza può essere raccolta, gestita e riutilizzata senza chiederti di inventare contenuti ogni volta." /></Reveal>
             <TracingBeam className="v12-system-steps v13a-process-steps">
               {processSteps.map(([number, title, body]) => <article key={number}><b>{number}</b><div><h3>{title}</h3><p>{body}</p></div><span>↓</span></article>)}
             </TracingBeam>
           </div>
         </section>
 
-        <section className="v13a-chris">
+        <section id="cosa-include" className="v13a-comparison">
           <div className="v12-wrap">
-            <Reveal><SectionHead index="04" label="Una persona reale" title={siteCopy.humanPromise} body="Chris collega il profilo, prepara NFC e QR, mostra al personale quando chiedere e controlla che il sistema venga davvero utilizzato." /></Reveal>
-            <WobbleCard className="v13a-chris-card">
-              <div className="v13a-chris-sign"><span>★</span><strong>CHRIS</strong><small>Trovatemi.it</small></div>
-              <div><h3>Se chiami, risponde Chris.</h3><p>Se qualcosa si blocca, non ricevi un link a una guida: lo guardiamo insieme. Il ritratto reale verrà inserito soltanto quando sarà disponibile l’asset autorizzato.</p><button className="v12-black-button" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta} →</button></div>
+            <Reveal><SectionHead index="03" label="Cosa installiamo" title="Raccogli. Rispondi. Riutilizza." body="Tre movimenti dello stesso servizio. Non tre prodotti da scegliere." /></Reveal>
+
+            <WobbleCard className="v12-product-row">
+              <QrNfcMockup />
+              <div className="v12-product-copy"><span>01 / RACCOGLI</span><h3>Il momento giusto entra nella giornata reale.</h3><p>Prepariamo NFC e QR per il punto in cui il cliente è davvero soddisfatto: bancone, cassa, reception o fine servizio.</p><ul><li>Percorso semplice verso la recensione</li><li>Zero review gating</li><li>Una sola attività, configurata bene</li></ul></div>
+            </WobbleCard>
+
+            <WobbleCard className="v12-product-row v12-product-row--reverse">
+              <ReplyMockup />
+              <div className="v12-product-copy"><span>02 / RISPONDI</span><h3>Ogni nuova recensione può ricevere attenzione.</h3><p>Il sistema prepara una risposta coerente con tono e contesto. L’automazione resta un mezzo: la voce dell’attività viene prima.</p><ul><li>Risposte specifiche, non copia-incolla</li><li>Controllo degli output</li><li>Google Business Profile collegato</li></ul></div>
+            </WobbleCard>
+
+            <WobbleCard className="v12-product-row">
+              <EchoMockup />
+              <div className="v12-product-copy"><span>03 / RIUTILIZZA</span><h3>Le recensioni migliori continuano a lavorare.</h3><p>La voce del cliente può diventare contenuto e venire distribuita sui canali collegati senza trasformare Trovatemi in un’agenzia social.</p><ul>{channels.map((channel) => <li key={channel}>{channel}</li>)}</ul></div>
             </WobbleCard>
           </div>
         </section>
 
-        <section id="demo-reale" className="v12-use-cases v13a-home-demo">
+        <section className="v13a-chris">
           <div className="v12-wrap">
-            <Reveal><SectionHead dark index="05" label="Una dimostrazione vera" title="Guarda cosa succede dopo che il cliente ha detto sì." body="Scegli un’attività simile alla tua e naviga il sistema. Recensioni, richieste, risposte e contenuti sono dimostrativi; il prodotto che li organizza è reale." /></Reveal>
-            <HomeDemoShowcase />
-            <Disclosure />
+            <Reveal><SectionHead index="04" label="Done for you" title={siteCopy.humanPromise} body="Colleghiamo il profilo, prepariamo i supporti, configuriamo il flusso e controlliamo che venga davvero usato. Il cliente non compra un’altra dashboard da studiare." /></Reveal>
+            <WobbleCard className="v13a-chris-card">
+              <div className="v13a-chris-sign"><span>★</span><strong>CHRIS</strong><small>Trovatemi.it</small></div>
+              <div><h3>Una visita per partire. Poi il sistema deve alleggerirti, non creare lavoro.</h3><p>Il setup è locale e concreto. Dopo l’installazione, assistenza e controllo possono essere gestiti quasi interamente da remoto.</p><button className="v12-black-button" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta} →</button></div>
+            </WobbleCard>
           </div>
         </section>
 
-        <section id="soluzioni" className="v12-pricing v13a-plans">
-          <div className="v12-wrap">
-            <Reveal><SectionHead index="06" label="Due problemi diversi" title="Più recensioni sarebbero sufficienti, oppure resterebbe il problema di mantenere viva la presenza?" body="La risposta orienta la conversazione. Non sostituisce l’analisi di Chris e non apre un checkout." /></Reveal>
-            <div className="v13a-plan-grid">
-              <CardSpotlight className="v13a-plan-card"><span>01 / REPUTAZIONE</span><h3>TROVATO</h3><strong>Raccoglie e gestisce la prova.</strong><p>Per chi deve rendere più semplice la richiesta, riunire le recensioni e curare le risposte.</p><ul><li>NFC, QR e richieste configurate</li><li>Recensioni in un unico sistema</li><li>Risposte assistite e controllabili</li></ul><a href="/demo/sunny-cafe/">Guarda il nucleo del sistema →</a></CardSpotlight>
-              <CardSpotlight className="v13a-plan-card v13a-plan-card--dark"><span>02 / PRESENZA</span><h3>INEVITABILE</h3><strong>Raccoglie, trasforma e distribuisce la prova.</strong><p>Per chi, oltre alle recensioni, deve mantenere vivi contenuti e informazioni pubbliche.</p><ul><li>Tutto ciò che fa TROVATO</li><li>Prove trasformate in contenuti</li><li>Distribuzione sui canali collegati</li></ul><a href="/demo/grand-hotel-riviera/">Guarda il ciclo completo →</a></CardSpotlight>
+        {demo && (
+          <section id="demo-reale" className="v12-use-cases v13a-home-demo">
+            <div className="v12-wrap">
+              <Reveal><SectionHead dark index="05" label="Demo" title="Guarda il sistema in un contesto vicino al beauty." body="La demo wellness usa dati costruiti apposta. Il sistema che organizza recensioni, risposte e contenuti è reale." /></Reveal>
+              <DemoFrame demo={demo} intro="Segui il percorso: richiesta, recensione, risposta e riutilizzo della prova." surface="home" />
+              <Disclosure />
             </div>
-            <CardSpotlight className="v13a-network-card"><span>03 / MULTI-SEDE</span><div><h3>RETE</h3><p>Coordina lo stesso sistema su più sedi, senza perdere la lettura locale.</p></div><a href="/demo/grand-hotel-riviera/">Esplora un contesto multi-servizio →</a></CardSpotlight>
+          </section>
+        )}
+
+        <section id="prezzo" className="v12-pricing v13a-plans">
+          <div className="v12-wrap">
+            <Reveal><SectionHead index="06" label="Un piano" title="Un solo servizio, senza livelli da scegliere." body="Il Super MVP parte con una attività, una configurazione e un risultato operativo leggibile." /></Reveal>
+            <div className="v13a-plan-grid">
+              <CardSpotlight className="v13a-plan-card v13a-plan-card--dark">
+                <span>TROVATEMI · CLIMBO WHITE LABEL</span>
+                <h3>€{siteCopy.price}<small>/mese</small></h3>
+                <strong>Recensioni → risposte → contenuti → distribuzione.</strong>
+                <p>Una location. Setup fatto per te. Mensile. Nessun catalogo da decifrare.</p>
+                <ul><li>Google Business Profile</li><li>NFC + QR</li><li>Raccolta recensioni senza gating</li><li>Risposte alle recensioni</li><li>Contenuti dalle migliori recensioni</li><li>Google, Instagram, Facebook e TikTok quando collegati</li><li>Installazione e assistenza</li></ul>
+                <button className="v12-yellow-button" type="button" onClick={() => setAuditOpen(true)}>Voglio vedere il mio caso →</button>
+              </CardSpotlight>
+            </div>
+            <p className="v13a-boundary-line">Prezzo candidato della branch di reset. Nessun checkout è attivo e la produzione resta invariata.</p>
           </div>
         </section>
 
         <section className="v13a-vision">
           <Spotlight />
           <BackgroundBeams />
-          <Reveal className="v12-wrap"><small>LA VISIONE</small><h2>NON DEVI DIVENTARE VIRALE.<br />DEVI DIVENTARE INEVITABILE.</h2><p>Quando qualcuno cerca, confronta o chiede consiglio a un assistente, deve trovare prove recenti, risposte curate e informazioni abbastanza chiare da poterti scegliere.</p></Reveal>
+          <Reveal className="v12-wrap"><small>IL PRINCIPIO</small><h2>UNA BUONA ESPERIENZA DEVE CONTINUARE A LAVORARE.</h2><p>{siteCopy.vision}</p></Reveal>
         </section>
 
         <section id="faq" className="v12-faq">
           <div className="v12-wrap">
-            <Reveal><SectionHead dark index="07" label="Domande frequenti" title="Prima di dirci di sì, ecco dove ti diciamo di no." /></Reveal>
+            <Reveal><SectionHead dark index="07" label="FAQ" title="Le cose che il servizio fa. E quelle che non promette." /></Reveal>
             <div className="v12-faq__list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<i>+</i></summary><p>{answer}</p></details>)}</div>
           </div>
         </section>
 
         <section className="v12-final-cta">
           <Spotlight className="v12-final-spotlight" /><BackgroundBeams />
-          <Reveal className="v12-wrap v12-final-cta__inner"><span>IL PROFILO REALE</span><h2>VUOI VEDERE COSA TROVA OGGI UN CLIENTE?</h2><p>Partiamo dal tuo profilo, non da una presentazione. Guardiamo il confronto e capiamo se esiste davvero qualcosa da correggere.</p><MovingBorderButton onClick={() => setAuditOpen(true)}>Analizza la mia attività <b>→</b></MovingBorderButton><button className="v13a-contact-link" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta}</button><BoundaryLine /></Reveal>
+          <Reveal className="v12-wrap v12-final-cta__inner"><span>IL TUO CASO REALE</span><h2>QUANTE BUONE ESPERIENZE STAI LASCIANDO SUL BANCONE?</h2><p>Partiamo da come lavori oggi. Se il sistema ha senso per la tua attività, te lo faccio vedere sul tuo caso.</p><MovingBorderButton onClick={() => setAuditOpen(true)}>{siteCopy.primaryCta} <b>→</b></MovingBorderButton><button className="v13a-contact-link" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta}</button><BoundaryLine /></Reveal>
         </section>
       </main>
 
@@ -156,24 +165,5 @@ export default function HomeExperience() {
       <AuditModal open={auditOpen} onClose={() => setAuditOpen(false)} />
       <WhatsAppModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
     </PageShell>
-  );
-}
-
-function HomeDemoShowcase() {
-  const [selectedId, setSelectedId] = useState('sunny-cafe');
-  const selected = getDemoTenant(selectedId) ?? demoTenants[0];
-  const message = getVerticalMessaging(selected.id);
-
-  return (
-    <div className="v13a-demo-showcase">
-      <div className="v13a-demo-selector" role="tablist" aria-label="Scegli la demo">
-        {demoTenants.map((demo) => (
-          <CardSpotlight className={`v13a-demo-tab ${selected.id === demo.id ? 'is-active' : ''}`} key={demo.id}>
-            <button type="button" role="tab" aria-selected={selected.id === demo.id} onClick={() => setSelectedId(demo.id)}><span>{demo.icon}</span><b>{demo.shortName}</b><small>{demo.sectorLabel}</small></button>
-          </CardSpotlight>
-        ))}
-      </div>
-      <DemoFrame key={selected.id} demo={selected} intro={message?.demoLens ?? 'Apri il sistema e segui richiesta, recensione e risposta.'} surface="home" />
-    </div>
   );
 }
