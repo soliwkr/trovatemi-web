@@ -1,0 +1,49 @@
+---
+import '@fontsource/anton/latin.css';
+import '@fontsource-variable/archivo';
+import '../styles/production.css';
+import Wordmark from '../components/production/Wordmark.astro';
+
+type Props = { title: string; description: string; noindex?: boolean; canonicalPath?: string };
+const { title, description, noindex = false, canonicalPath = '/' } = Astro.props;
+const canonicalUrl = new URL(canonicalPath, 'https://trovatemi.it').toString();
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4efe6" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Trovatemi.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {!noindex && <link rel="canonical" href={canonicalUrl} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+    <header class="production-header">
+      <div class="shell production-nav">
+        <Wordmark />
+        <nav aria-label="Navigazione principale">
+          <a href="/#come-funziona">Come funziona</a>
+          <a class="nav-cta" href="/#beauty-check">Fai il Beauty Check <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="contenuto"><slot /></main>
+    <footer class="production-footer">
+      <div class="shell footer-grid">
+        <div><Wordmark tone="light" /><p>Trasforma il lavoro che fai bene in prove che si vedono.</p></div>
+        <div><strong>Per chi</strong><p>Hair · Barber · Estetica<br />Nails · Lashes · Massaggi<br />Spa · Wellness</p></div>
+        <div><strong>In questa versione</strong><p>Il Beauty Check usa esclusivamente dati dimostrativi. Nessun profilo reale viene interrogato.</p></div>
+      </div>
+      <div class="shell footer-base"><span>© 2026 Trovatemi.it</span><span>Beauty & wellness, fatto con criterio.</span></div>
+    </footer>
+  </body>
+</html>
