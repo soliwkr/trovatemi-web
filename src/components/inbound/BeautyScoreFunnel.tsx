@@ -103,7 +103,7 @@ export default function BeautyScoreFunnel() {
         <span className="inbound-kicker">Se vuoi automatizzare questi passaggi</span>
         <h2>Trovatemi collega recensioni, risposte e contenuti nello stesso flusso.</h2>
         <p>Il passaggio successivo non è una call: è vedere cosa viene attivato, il prezzo e l’onboarding.</p>
-        <a className="inbound-primary" href="/inbound/attiva/">Vedi l’attivazione <b>→</b></a>
+        <a className="inbound-primary" href="/inbound/next/">Vedi il prossimo passaggio <b>→</b></a>
       </section>
     </section>
   );
