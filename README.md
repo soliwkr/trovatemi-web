@@ -2,6 +2,10 @@
 
 Sito marketing SSR di Trovatemi.it, costruito con Astro e distribuito su Cloudflare Workers.
 
+## Linea production Beauty & Wellness
+
+Il contratto canonico del conversion plane è in [`docs/production/`](./docs/production/README.md). Definisce prodotto, funnel, Audit Engine, confini dati, economics approvati, roadmap e gate prima del codice production.
+
 ## Sviluppo
 
 ```bash
