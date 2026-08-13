@@ -4,6 +4,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   output: 'server',
+  devToolbar: {
+    enabled: false,
+  },
   adapter: cloudflare({
     imageService: 'compile',
     inspectorPort: 9229,
