@@ -1,14 +1,21 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "trovatemi-beauty-production-preview",
-  "main": "./src/worker.ts",
+  "main": "./dist/server/entry.mjs",
   "compatibility_date": "2026-07-18",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "preview_urls": true,
+  "no_bundle": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": ["**/*.js", "**/*.mjs"]
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist"
+    "directory": "./dist/client"
   },
   "observability": {
     "enabled": true,
