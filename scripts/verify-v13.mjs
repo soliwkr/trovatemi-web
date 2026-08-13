@@ -33,8 +33,9 @@ if (/\btrovato\b/i.test(resetSource)) fail('vecchia tassonomia piano reintrodott
 if (/\brete\b/i.test(resetSource)) fail('vecchia tassonomia piano reintrodotta: RETE');
 
 for (const required of [
-  'I tuoi clienti parlano bene di te',
-  'Recensioni vere. Zero gating.',
+  'Per saloni, barber e centri estetici',
+  'I tuoi clienti escono contenti dal salone',
+  'Fammi vedere sul mio salone',
   'TikTok',
   "price: '149'",
 ]) {
@@ -66,5 +67,5 @@ if (!existsSync(demoFile)) {
 }
 
 if (!process.exitCode) {
-  console.log('Reset gate superato: un solo prodotto, flywheel completo, preview noindex, produzione invariata.');
+  console.log('Reset gate superato: beauty-first, un solo prodotto, preview noindex, produzione invariata.');
 }
