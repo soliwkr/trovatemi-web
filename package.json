@@ -10,7 +10,7 @@
     "check": "wrangler types && astro check && wrangler types --check",
     "verify:v13": "node scripts/verify-v13.mjs",
     "qa:v13": "npm run check && npm run build && npm run verify:v13",
-    "verify:reset": "node scripts/verify-reset.mjs",
+    "verify:reset": "node scripts/verify-v13.mjs",
     "qa:reset": "npm run check && npm run build && npm run verify:reset",
     "cf-typegen": "wrangler types",
     "deploy": "npm run build && wrangler deploy",
