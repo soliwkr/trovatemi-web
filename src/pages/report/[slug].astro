@@ -1,0 +1,40 @@
+---
+import ProductionLayout from '../../layouts/ProductionLayout.astro';
+import { beautyDemoBusinesses } from '../../data/beauty-demo';
+export const prerender = true;
+export function getStaticPaths() { return beautyDemoBusinesses.map((business) => ({ params: { slug: business.slug }, props: { business } })); }
+const { business } = Astro.props;
+---
+<ProductionLayout title={`Beauty Check di ${business.name} — Demo`} description={`Report dimostrativo Beauty Check per ${business.name}.`} noindex>
+  <section class="report-page" style={`--business-accent:${business.accent}`}>
+    <div class="shell report-shell">
+      <div class="report-topline"><a class="back-link" href="/check/">← Cambia attività</a><span>Dati dimostrativi · aggiornati per questa preview</span></div>
+      <header class="report-header">
+        <div><p class="eyebrow"><span>02</span> Beauty Check</p><span class="place-category">{business.category} · {business.city}</span><h1>{business.name}</h1><p>{business.address}, {business.city}</p></div>
+        <div class="main-score"><span>Profilo</span><strong>{business.profileScore}<small>/100</small></strong><i>Margine concreto</i></div>
+      </header>
+      <div class="demo-disclaimer"><strong>Questo è un report demo.</strong><span>Numeri e osservazioni sono simulati: non provengono da Google Maps né da database reali.</span></div>
+      <section class="signal-grid" aria-label="Segnali principali">
+        <article><span>Valutazione</span><strong>{business.rating.toFixed(1)}</strong><p class="stars">★★★★★</p><small>{business.reviews} recensioni totali</small></article>
+        <article><span>Freschezza</span><strong>{business.latestReviewDays}<small> gg</small></strong><p>dall’ultima recensione</p><small>{business.latestReviewDays > 30 ? 'Da riattivare' : 'Ritmo presente'}</small></article>
+        <article><span>Conversazioni</span><strong>{business.unanswered}</strong><p>recensioni senza risposta</p><small>{business.unanswered > 15 ? 'Priorità alta' : 'Da completare'}</small></article>
+        <article><span>Immagini</span><strong>{business.photoCount}</strong><p>foto nel profilo</p><small>{business.photoCount < 15 ? 'Racconto debole' : 'Buona base'}</small></article>
+      </section>
+      <section class="report-reading">
+        <div><p class="eyebrow"><span>03</span> La lettura</p><h2>La qualità c’è.<br /><em>La prova può fare di più.</em></h2></div>
+        <blockquote>{business.insight}</blockquote>
+      </section>
+      <section class="score-bars">
+        <h2>I tre segnali</h2>
+        {[['Profilo completo', business.profileScore], ['Visibilità delle prove', business.visibilityScore], ['Cura delle risposte', business.responseScore]].map(([label, value]) => (
+          <div class="score-row"><div><span>{label}</span><strong>{value}/100</strong></div><div class="score-track"><i style={`--score:${value}%`}></i></div></div>
+        ))}
+      </section>
+      <section class="priorities">
+        <div class="section-heading"><p class="eyebrow"><span>04</span> Da dove partire</p><h2>Tre mosse.<br /><em>In ordine.</em></h2></div>
+        <ol>{business.priorities.map((priority, index) => (<li><span>{String(index + 1).padStart(2, '0')}</span><div><small>Impatto {priority.impact}</small><h3>{priority.title}</h3><p>{priority.copy}</p></div></li>))}</ol>
+      </section>
+      <section class="report-end"><p>Questo è il tipo di chiarezza che vogliamo portare su ogni profilo reale.</p><a class="button button--dark" href="/">Torna al Beauty Check <span>↗</span></a></section>
+    </div>
+  </section>
+</ProductionLayout>
