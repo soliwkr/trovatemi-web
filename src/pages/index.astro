@@ -1,7 +1,54 @@
 ---
-import V72Home from './brand-demo-v7-2/index.astro';
-
+import ProductionLayout from '../layouts/ProductionLayout.astro';
+import BusinessSearch from '../components/production/BusinessSearch.astro';
 export const prerender = true;
 ---
+<ProductionLayout title="Trovatemi.it — Il Beauty Check per la tua attività" description="Scopri cosa racconta oggi il tuo profilo Google e quali prove stai lasciando invisibili. Per beauty e wellness.">
+  <section class="hero" id="beauty-check">
+    <div class="shell hero-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span>01</span> Beauty & wellness check</p>
+        <h1>Hai clienti che ti <em>adorano.</em><br />Google lo sa?</h1>
+        <p class="hero-lede">Cerca la tua attività. In meno di un minuto vedi quanta fiducia hai già costruito — e dove si sta perdendo per strada.</p>
+        <BusinessSearch />
+        <p class="sector-line">Parrucchieri · barber · estetica · nails · lashes · massaggi · spa · wellness</p>
+      </div>
+      <div class="hero-art reveal reveal--delay" aria-hidden="true">
+        <div class="portrait-card">
+          <div class="portrait-glow"></div>
+          <span class="portrait-label">Il lavoro<br />si sente.</span>
+          <span class="portrait-label portrait-label--bottom">Facciamolo<br />vedere.</span>
+        </div>
+        <div class="floating-review"><span>★★★★★</span><strong>“Finalmente ho trovato il mio posto.”</strong><small>una cliente felice · 3 giorni fa</small></div>
+        <div class="score-seal"><b>47</b><span>prove<br />pubbliche</span></div>
+      </div>
+    </div>
+    <div class="hero-ticker" aria-hidden="true"><span>RECENSIONI FRESCHE ✦ PROFILO CURATO ✦ FIDUCIA VISIBILE ✦ </span><span>RECENSIONI FRESCHE ✦ PROFILO CURATO ✦ FIDUCIA VISIBILE ✦ </span></div>
+  </section>
 
-<V72Home />
+  <section class="truth-section">
+    <div class="shell truth-grid">
+      <p class="eyebrow"><span>02</span> Il punto</p>
+      <blockquote>Le recensioni non sono soprammobili.</blockquote>
+      <div class="truth-copy"><p>Sono il passaparola che lavora anche quando hai le mani occupate, un cliente sul lettino o il phon acceso.</p><p>Il problema non è avere clienti contenti. È non far evaporare quello che dicono di te.</p></div>
+    </div>
+  </section>
+
+  <section class="how-section" id="come-funziona">
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow"><span>03</span> Come funziona</p><h2>Prima guardiamo.<br /><em>Poi decidiamo.</em></h2></div>
+      <ol class="steps">
+        <li><span>01</span><div class="step-icon">⌖</div><h3>Trova il profilo</h3><p>Cerchi l’attività come farebbe una cliente che ancora non ti conosce.</p></li>
+        <li><span>02</span><div class="step-icon">◌</div><h3>Leggi i segnali</h3><p>Recensioni, freschezza, risposte e immagini diventano un quadro leggibile.</p></li>
+        <li><span>03</span><div class="step-icon">↗</div><h3>Vedi le priorità</h3><p>Non una pagella generica: le prime mosse con il maggiore impatto.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="closing-check">
+    <div class="shell closing-grid">
+      <div><p class="eyebrow eyebrow--light"><span>04</span> Tocca a te</p><h2>Il tuo prossimo cliente sta già confrontando.</h2></div>
+      <div><p>Fagli trovare le prove giuste.</p><a class="button button--coral" href="#beauty-check">Controlla la mia attività <span>↗</span></a></div>
+    </div>
+  </section>
+</ProductionLayout>
