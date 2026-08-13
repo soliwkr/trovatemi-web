@@ -1,12 +1,12 @@
 export const siteCopy = {
-  promise: 'I tuoi clienti parlano bene di te. Facciamo in modo che si veda.',
-  mechanism: 'Trovatemi installa nella tua attività un sistema semplice: raccoglie recensioni Google autentiche, prepara le risposte e trasforma le prove migliori in contenuti da distribuire sui canali collegati.',
-  primaryCta: 'Fammi vedere come funziona',
-  demoCta: 'Guarda il sistema',
+  promise: 'I tuoi clienti escono contenti dal salone. Facciamo in modo che si veda anche online.',
+  mechanism: 'Dopo un servizio c’è un momento perfetto: il cliente è ancora davanti a te ed è soddisfatto. Trovatemi rende semplice trasformare quel momento in una recensione Google vera, poi prepara la risposta e riutilizza le migliori sui tuoi canali.',
+  primaryCta: 'Fammi vedere sul mio salone',
+  demoCta: 'Guarda come funziona',
   contactCta: 'Scrivi a Chris su WhatsApp',
-  humanPromise: 'Non ti lasciamo un software. Installiamo il sistema e lo seguiamo con te.',
-  vision: 'Una buona esperienza non deve finire quando il cliente esce dalla porta.',
-  boundary: 'Recensioni vere. Zero gating. Nessuna promessa di primo posto.',
+  humanPromise: 'Te lo installiamo noi. Tu continui a lavorare.',
+  vision: 'Una buona esperienza non deve finire quando il cliente esce dal salone.',
+  boundary: 'Recensioni vere. Nessun filtro sul voto. Nessuna promessa di primo posto.',
   price: '149',
 } as const;
 
