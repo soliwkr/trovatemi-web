@@ -37,11 +37,33 @@ export const auditDemoBusinesses: AuditBusiness[] = [
     id: 'beauty-room-fondi',
     name: 'Beauty Room Fondi',
     city: 'Fondi',
-    category: 'Beauty salon',
+    category: 'Centro estetico',
     address: 'Centro, Fondi LT',
     rating: 4.7,
     reviews: 88,
     cohortMedianReviews: 104,
+    cohortMedianRating: 4.6,
+  },
+  {
+    id: 'studio-armonia-massaggi',
+    name: 'Studio Armonia Massaggi',
+    city: 'Formia',
+    category: 'Studio massaggi',
+    address: 'Formia LT',
+    rating: 4.9,
+    reviews: 39,
+    cohortMedianReviews: 67,
+    cohortMedianRating: 4.7,
+  },
+  {
+    id: 'wellness-spa-gaeta',
+    name: 'Wellness Spa Gaeta',
+    city: 'Gaeta',
+    category: 'Spa e centro benessere',
+    address: 'Gaeta LT',
+    rating: 4.7,
+    reviews: 112,
+    cohortMedianReviews: 136,
     cohortMedianRating: 4.6,
   },
 ];
@@ -51,39 +73,39 @@ export type AuditAnswers = Record<string, string>;
 export const auditQuestions = [
   {
     id: 'reviewAsk',
-    title: 'Come chiedi oggi una recensione?',
+    title: 'Il cliente esce contento. E dopo?',
     options: [
-      ['never', 'Non la chiediamo quasi mai'],
-      ['sometimes', 'Quando ci ricordiamo'],
-      ['physical', 'Abbiamo già QR o NFC'],
-      ['systematic', 'È già parte del servizio'],
+      ['never', 'Ci salutiamo e finisce lì'],
+      ['sometimes', 'Ogni tanto chiedo la recensione'],
+      ['physical', 'Ho già QR o NFC'],
+      ['systematic', 'La richiesta fa parte del servizio'],
     ],
   },
   {
     id: 'replies',
-    title: 'Chi risponde alle recensioni?',
+    title: 'Arriva una recensione la sera. Chi risponde?',
     options: [
       ['never', 'Nessuno'],
-      ['sometimes', 'Ogni tanto'],
-      ['always', 'Rispondiamo sempre'],
-      ['automated', 'È già automatizzato'],
+      ['sometimes', 'Quando abbiamo tempo'],
+      ['always', 'Rispondiamo quasi sempre'],
+      ['automated', 'Lo gestisce già un sistema'],
     ],
   },
   {
     id: 'reuse',
-    title: 'Cosa fai oggi con una bella recensione?',
+    title: 'Ti lasciano 5 stelle e scrivono una cosa bellissima. Poi?',
     options: [
-      ['nothing', 'Nulla'],
+      ['nothing', 'Resta lì su Google'],
       ['reshare', 'La ricondivido ogni tanto'],
-      ['manual', 'Creo manualmente un post'],
-      ['automatic', 'Ho già un sistema automatico'],
+      ['manual', 'Ci faccio un post a mano'],
+      ['automatic', 'Ho già un sistema che la riutilizza'],
     ],
   },
   {
     id: 'channels',
-    title: 'Dove pubblichi con continuità?',
+    title: 'Dove fai vedere davvero quello che dicono di te?',
     options: [
-      ['none', 'Nessun canale'],
+      ['none', 'Da nessuna parte con costanza'],
       ['one', 'Un canale'],
       ['two', 'Due canali'],
       ['many', 'Instagram, TikTok, Facebook o più'],
@@ -91,7 +113,7 @@ export const auditQuestions = [
   },
   {
     id: 'weeklyClients',
-    title: 'Quanti clienti servi circa ogni settimana?',
+    title: 'In una settimana normale quante persone passano da te?',
     options: [
       ['low', 'Fino a 20'],
       ['medium', '21–50'],
@@ -126,7 +148,7 @@ export function buildAuditReport(business: AuditBusiness, answers: AuditAnswers)
   const ordered = [...pillars].sort((a, b) => a[1] - b[1]);
 
   const actions: string[] = [];
-  if (reviewGap < 0) actions.push(`Colma il gap di ${Math.abs(reviewGap)} recensioni rispetto alla mediana demo della cohort locale.`);
+  if (reviewGap < 0) actions.push(`Recupera il gap di ${Math.abs(reviewGap)} recensioni rispetto alla mediana demo della zona.`);
   if (collection < 70) actions.push('Rendi la richiesta recensione un passaggio fisso subito dopo il servizio.');
   if (replies < 70) actions.push('Porta le risposte a una routine costante, non occasionale.');
   if (socialProof < 70) actions.push('Riutilizza le recensioni migliori come contenuti sui canali che già usi.');
