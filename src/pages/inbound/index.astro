@@ -1,0 +1,25 @@
+---
+import V13AceternityLayout from '../../layouts/V13AceternityLayout.astro';
+import BeautyScoreFunnel from '../../components/inbound/BeautyScoreFunnel';
+import '../../styles/inbound.css';
+---
+
+<V13AceternityLayout
+  title="Beauty & Wellness Check | Trovatemi.it"
+  description="Cerca la tua attività beauty o wellness e scopri dove il passaparola smette di lavorare."
+  bodyClass="inbound-page"
+>
+  <div class="inbound-shell">
+    <header class="inbound-top">
+      <a class="inbound-logo" href="/inbound/"><span>★</span>TROVATEMI</a>
+      <small>Beauty & Wellness Check</small>
+    </header>
+
+    <BeautyScoreFunnel client:load />
+
+    <footer class="inbound-bottom">
+      <span>© 2026 Trovatemi.it</span>
+      <span>Preview isolata · dati demo · nessuna chiamata Maps</span>
+    </footer>
+  </div>
+</V13AceternityLayout>
