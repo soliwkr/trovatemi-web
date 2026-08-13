@@ -1,0 +1,74 @@
+---
+import V13Layout from '../../layouts/V13Layout.astro';
+import '../../styles/inbound.css';
+---
+
+<V13Layout
+  title="Trovatemi Beauty — Piano visuale inbound"
+  description="Mappa visuale del motore di diagnosi inbound e outbound Trovatemi Beauty."
+  header="none"
+  surface="landing"
+  robots="noindex, nofollow"
+  bodyClass="inbound-page"
+>
+  <div class="inbound-shell">
+    <header class="inbound-top">
+      <a class="inbound-logo" href="/inbound/"><span>★</span>TROVATEMI</a>
+      <small>Piano visuale · preview</small>
+    </header>
+  </div>
+
+  <section class="plan-shell">
+    <div class="plan-hero">
+      <span class="inbound-kicker">Un motore, due ingressi</span>
+      <h1>Inbound e outbound arrivano allo stesso report.</h1>
+      <p>Il sito non è il centro. Il centro è il motore di diagnosi: identifica l’attività reale, combina dati pubblici con poche risposte private, produce un report e porta all’attivazione.</p>
+    </div>
+
+    <div class="plan-grid">
+      <div class="plan-lanes">
+        <div class="plan-lane">
+          <article class="plan-node plan-node--signal"><small>Ingresso A · inbound</small><strong>Reel · TikTok · SEO · DM · Ads</strong><p>Ogni contenuto ha un content_id e porta al Beauty Check.</p></article>
+          <article class="plan-node"><small>Intent</small><strong>“Scopri come sei messo”</strong><p>Curiosità diagnostica, non demo e non call.</p></article>
+        </div>
+        <div class="plan-lane">
+          <article class="plan-node plan-node--signal"><small>Ingresso B · outbound</small><strong>Reportly / discovery</strong><p>Trova attività beauty e prepara lo stesso audit engine.</p></article>
+          <article class="plan-node"><small>Intent</small><strong>Report già pronto</strong><p>Email o DM porta direttamente al report persistente.</p></article>
+        </div>
+      </div>
+
+      <div class="plan-arrow">↓</div>
+
+      <article class="plan-node plan-node--wide plan-node--dark"><small>Core 01</small><strong>Beauty Check</strong><p>Il titolare cerca e conferma la propria attività. In preview usiamo dati demo; in produzione una ricerca controllata, non autocomplete a ogni tasto.</p></article>
+      <article class="plan-node plan-node--wide"><small>Cost gate</small><strong>1 ricerca economica</strong><p>Solo su submit. Field mask minima per identificare nome, categoria, indirizzo, place id e posizione.</p></article>
+
+      <div class="plan-arrow">↓</div>
+
+      <article class="plan-node"><small>Public data</small><strong>Rating + recensioni</strong><p>Richiesti solo dopo che l’attività è stata confermata.</p></article>
+      <article class="plan-node"><small>Cohort</small><strong>Benchmark locale</strong><p>Attività simili per costruire mediana, gap e percentile; niente ranking Maps inventato.</p></article>
+      <article class="plan-node"><small>Private data</small><strong>5 domande</strong><p>Richiesta recensioni, risposte, riuso, canali e volume clienti.</p></article>
+      <article class="plan-node"><small>Scoring</small><strong>Deterministico</strong><p>Google reputation, review system, replies e social proof. L’AI può spiegare, non decidere il numero.</p></article>
+
+      <div class="plan-arrow">↓</div>
+
+      <article class="plan-node plan-node--wide plan-node--signal"><small>Value moment</small><strong>Risultato flash</strong><p>Il prospect vede subito il gap, i quattro pillar e il primo collo di bottiglia prima di lasciare il contatto.</p></article>
+      <article class="plan-node plan-node--wide"><small>Capture</small><strong>“Dove ti mando il report?”</strong><p>Email obbligatoria; WhatsApp separato e facoltativo. Attribution e consent entrano in D1.</p></article>
+
+      <div class="plan-arrow">↓</div>
+
+      <article class="plan-node plan-node--wide plan-node--dark"><small>Asset condiviso</small><strong>/report/:id</strong><p>Stesso formato per inbound e outbound. Dati, score, tre mosse, spiegazione, casi e automazione pertinente.</p></article>
+      <article class="plan-node plan-node--wide"><small>Nurture</small><strong>Report → intent → follow-up</strong><p>Email, retargeting e DM riportano sempre al report o al next step, non a “scrivi a Chris”.</p></article>
+
+      <div class="plan-arrow">↓</div>
+
+      <article class="plan-node plan-node--wide plan-node--signal"><small>Conversion</small><strong>Attiva Trovatemi</strong><p>Scope, prezzo, checkout e onboarding self-service. Intervento umano solo per eccezioni.</p></article>
+      <article class="plan-node plan-node--wide"><small>Delivery</small><strong>Climbo dopo il gate</strong><p>Solo dopo conversione/onboarding approvato: business, location, Google/social, NFC/QR e automazioni delivery.</p></article>
+    </div>
+
+    <section class="cost-gates">
+      <article><span>Gate 1</span><b>0 chiamate / tasto</b><p>Niente autocomplete aggressivo. La ricerca parte solo quando l’utente invia nome + città.</p></article>
+      <article><span>Gate 2</span><b>Enrichment dopo intent</b><p>Rating, review count e competitor cohort si pagano solo dopo conferma attività e prosecuzione del checkup.</p></article>
+      <article><span>Gate 3</span><b>Hard budget cap</b><p>Quota e alert Google Cloud impediscono al funnel di superare un tetto mensile senza intervento manuale.</p></article>
+    </section>
+  </section>
+</V13Layout>
