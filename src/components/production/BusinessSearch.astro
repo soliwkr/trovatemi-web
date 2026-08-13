@@ -1,0 +1,15 @@
+---
+type Props = { compact?: boolean; value?: string };
+const { compact = false, value = '' } = Astro.props;
+---
+<form class:list={['business-search', { 'business-search--compact': compact }]} action="/check/" method="get" data-business-search>
+  <label for={compact ? 'business-search-compact' : 'business-search-home'}>
+    <span>Nome attività o città</span>
+    <span class="search-field">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+      <input id={compact ? 'business-search-compact' : 'business-search-home'} name="q" type="search" value={value} placeholder="Es. Studio Armonia, Roma" autocomplete="off" required />
+      <button type="submit">Cerca <span aria-hidden="true">→</span></button>
+    </span>
+  </label>
+  <p><i aria-hidden="true"></i> Simulazione su attività demo. Nessun dato viene inviato a Google.</p>
+</form>
