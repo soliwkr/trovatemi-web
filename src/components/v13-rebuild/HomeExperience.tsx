@@ -12,7 +12,8 @@ import { EchoMockup, QrNfcMockup, ReplyMockup, ReviewHeroMockup } from '../v12/M
 import { getDemoTenant } from '../../data/demo-tenants';
 import { faqs, siteCopy } from '../../data/site-copy';
 import { DemoFrame } from './DemoFrame';
-import { AuditModal, BoundaryLine, Disclosure, PageShell, SectionHead, SiteChrome, SiteFooter, WhatsAppModal } from './Shared';
+import { BoundaryLine, Disclosure, PageShell, SectionHead } from './Shared';
+import { BeautyAuditModal, BeautySiteChrome, BeautySiteFooter, BeautyWhatsAppModal } from './BeautyChrome';
 
 const channels = ['Google Business Profile', 'Instagram', 'Facebook', 'TikTok'] as const;
 
@@ -23,7 +24,7 @@ export default function HomeExperience() {
 
   return (
     <PageShell>
-      <SiteChrome onAudit={() => setAuditOpen(true)} />
+      <BeautySiteChrome onAudit={() => setAuditOpen(true)} />
       <main id="v13a-main">
         <section className="v12-hero v13a-home-hero">
           <Spotlight /><BackgroundBeams className="v12-hero-beams" /><div className="v12-grid-bg" aria-hidden="true" />
@@ -94,9 +95,9 @@ export default function HomeExperience() {
 
         <section className="v12-final-cta"><Spotlight className="v12-final-spotlight" /><BackgroundBeams /><Reveal className="v12-wrap v12-final-cta__inner"><span>IL TUO SALONE</span><h2>QUANTI COMPLIMENTI STANNO USCENDO DALLA PORTA SENZA DIVENTARE UNA RECENSIONE?</h2><p>Fammi vedere il tuo profilo Google e come lavori oggi. Ti faccio vedere dove entrerebbe Trovatemi.</p><MovingBorderButton onClick={() => setAuditOpen(true)}>{siteCopy.primaryCta} <b>→</b></MovingBorderButton><button className="v13a-contact-link" type="button" onClick={() => setWhatsAppOpen(true)}>{siteCopy.contactCta}</button><BoundaryLine /></Reveal></section>
       </main>
-      <SiteFooter />
-      <AuditModal open={auditOpen} onClose={() => setAuditOpen(false)} />
-      <WhatsAppModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
+      <BeautySiteFooter />
+      <BeautyAuditModal open={auditOpen} onClose={() => setAuditOpen(false)} />
+      <BeautyWhatsAppModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
     </PageShell>
   );
 }
