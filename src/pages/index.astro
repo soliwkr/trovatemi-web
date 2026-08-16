@@ -1,7 +1,399 @@
 ---
-import V72Home from './brand-demo-v7-2/index.astro';
-
-export const prerender = true;
+import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
 ---
 
-<V72Home />
+<BeautyLeanLayout
+  title="Beauty & Wellness Check | Trovatemi"
+  description="Scopri dove il passaparola della tua attività beauty smette di lavorare. Preview L1 con dati demo."
+>
+  <div class="funnel-app" data-funnel-app>
+    <header class="funnel-topbar">
+      <a class="wordmark" href="/" aria-label="Trovatemi Beauty Check">
+        <span>TROVATEMI</span>
+        <i>beauty check</i>
+      </a>
+
+      <div class="stage-meta" aria-hidden="true">
+        <span data-stage-label>Ingresso</span>
+        <b data-stage-count>01 / 07</b>
+      </div>
+
+      <button class="quiet-button" type="button" data-back hidden>Indietro</button>
+    </header>
+
+    <div class="progress-rail" aria-hidden="true"><i data-progress></i></div>
+
+    <main id="funnel-stage" class="funnel-stage" data-stage tabindex="-1" aria-live="polite"></main>
+
+    <footer class="funnel-foot">
+      <p><i></i> Dati demo · zero chiamate Maps</p>
+      <p>Preview isolata · nessun dato viene trasmesso</p>
+    </footer>
+  </div>
+
+  <noscript>
+    <div class="no-script">Per percorrere il Beauty Check serve JavaScript.</div>
+  </noscript>
+
+  <script>
+    import { auditQuestions, buildAuditReport, demoBusinesses } from '../data/beauty-lean-demo.mjs';
+
+    type Stage = 'intro' | 'search' | 'confirm' | 'quiz' | 'flash' | 'capture' | 'report';
+    type Business = (typeof demoBusinesses)[number];
+
+    const app = document.querySelector<HTMLElement>('[data-funnel-app]');
+    const stageElement = document.querySelector<HTMLElement>('[data-stage]');
+    const backButton = document.querySelector<HTMLButtonElement>('[data-back]');
+    const progressElement = document.querySelector<HTMLElement>('[data-progress]');
+    const stageLabel = document.querySelector<HTMLElement>('[data-stage-label]');
+    const stageCount = document.querySelector<HTMLElement>('[data-stage-count]');
+
+    const state: {
+      stage: Stage;
+      query: string;
+      business: Business | null;
+      step: number;
+      answers: Record<string, string>;
+      email: string;
+      consent: boolean;
+    } = {
+      stage: 'intro',
+      query: '',
+      business: null,
+      step: 0,
+      answers: {},
+      email: '',
+      consent: false,
+    };
+
+    const meta: Record<Stage, { label: string; count: string }> = {
+      intro: { label: 'Ingresso', count: '01 / 07' },
+      search: { label: 'Cerca attività', count: '02 / 07' },
+      confirm: { label: 'Conferma', count: '03 / 07' },
+      quiz: { label: 'Check privato', count: '04 / 07' },
+      flash: { label: 'Risultato flash', count: '05 / 07' },
+      capture: { label: 'Consegna', count: '06 / 07' },
+      report: { label: 'Report', count: '07 / 07' },
+    };
+
+    const progress = () => {
+      if (state.stage === 'intro') return 3;
+      if (state.stage === 'search') return 12;
+      if (state.stage === 'confirm') return 24;
+      if (state.stage === 'quiz') return 30 + ((state.step + 1) / auditQuestions.length) * 42;
+      if (state.stage === 'flash') return 82;
+      if (state.stage === 'capture') return 91;
+      return 100;
+    };
+
+    const arrow = '<span aria-hidden="true">↗</span>';
+
+    const setStage = (next: Stage) => {
+      state.stage = next;
+      render();
+    };
+
+    const renderIntro = () => `
+      <section class="stage-layout stage-intro" data-state="intro">
+        <div class="intro-index" aria-hidden="true">
+          <span>Beauty &amp;<br>Wellness</span>
+          <strong>01—26</strong>
+        </div>
+        <div class="intro-copy">
+          <p class="eyebrow">Check reputazione · 60 secondi scarsi</p>
+          <h1>Hai clienti<br>che ti <em>adorano.</em><br>Google lo sa?</h1>
+          <p class="lede">Cerca la tua attività. Incrociamo quello che si vede online con cinque cose che Google non può sapere. Poi ti diciamo dove il passaparola smette di lavorare.</p>
+          <button class="primary-action" type="button" data-next="search">Cerca la mia attività ${arrow}</button>
+          <p class="sector-note">Hair · barber · estetica · nails/lashes · massaggi · spa &amp; wellness</p>
+        </div>
+        <aside class="intro-note">
+          <span>La verità?</span>
+          <p>Il complimento detto davanti alla cassa vale. Quello che resta online lavora anche domani.</p>
+        </aside>
+      </section>`;
+
+    const businessRows = (items: Business[]) => items.length
+      ? items.map((business, index) => `
+          <button class="business-row" type="button" data-business-id="${business.id}">
+            <span class="row-number">0${index + 1}</span>
+            <span class="row-name"><b>${business.name}</b><small>${business.category} · ${business.address}</small></span>
+            <span class="row-rating"><b>${business.rating.toFixed(1)}</b><small>★ · ${business.reviews} recensioni</small></span>
+            ${arrow}
+          </button>`).join('')
+      : '<p class="empty-state">Niente qui. Prova “Formia”, “Gaeta” oppure “nails”.</p>';
+
+    const matchingBusinesses = () => {
+      const needle = state.query.trim().toLocaleLowerCase('it');
+      if (!needle) return demoBusinesses;
+      return demoBusinesses.filter((business) =>
+        `${business.name} ${business.city} ${business.category}`.toLocaleLowerCase('it').includes(needle),
+      );
+    };
+
+    const renderSearch = () => `
+      <section class="stage-layout stage-search" data-state="search">
+        <div class="section-number" aria-hidden="true">01</div>
+        <div class="stage-copy">
+          <p class="eyebrow">Vediamo chi sei</p>
+          <h1>Cerca la tua<br><em>attività.</em></h1>
+          <p class="stage-explainer">Scrivi nome, città o categoria. Qui usiamo solo un piccolo set dimostrativo.</p>
+          <label class="search-field">
+            <span class="sr-only">Nome attività o città</span>
+            <i aria-hidden="true">⌕</i>
+            <input data-search-input type="search" autocomplete="off" placeholder="Es. nails Gaeta" />
+            <small>demo</small>
+          </label>
+        </div>
+        <div class="business-list" data-business-list>${businessRows(matchingBusinesses())}</div>
+      </section>`;
+
+    const renderConfirm = (business: Business) => `
+      <section class="stage-layout stage-confirm" data-state="confirm">
+        <div class="section-number" aria-hidden="true">02</div>
+        <div class="stage-copy confirm-copy">
+          <p class="eyebrow">Ok, ti abbiamo trovato</p>
+          <h1>È questa?</h1>
+          <article class="business-confirmation">
+            <header><span>${business.category}</span><b>${business.rating.toFixed(1)} ★</b></header>
+            <h2>${business.name}</h2>
+            <p>${business.address}</p>
+            <dl>
+              <div><dt>Recensioni</dt><dd>${business.reviews}</dd></div>
+              <div><dt>Mediana demo</dt><dd>${business.cohortMedianReviews}</dd></div>
+            </dl>
+          </article>
+          <div class="action-pair">
+            <button class="primary-action" type="button" data-next="quiz">Sì, sono io ${arrow}</button>
+            <button class="text-action" type="button" data-next="search">No, cerca di nuovo</button>
+          </div>
+          <p class="demo-line"><i></i> Nome, rating e numeri sono dimostrativi.</p>
+        </div>
+        <blockquote>“Non ci interessa sembrare perfetti. Ci interessa vedere dove si perde valore.”</blockquote>
+      </section>`;
+
+    const renderQuiz = () => {
+      const question = auditQuestions[state.step];
+      const selected = state.answers[question.id];
+      return `
+        <section class="stage-layout stage-quiz" data-state="quiz">
+          <div class="quiz-counter" aria-hidden="true"><b>0${state.step + 1}</b><span>/ 05</span></div>
+          <div class="quiz-copy">
+            <p class="eyebrow">${question.eyebrow}</p>
+            <h1>${question.title}</h1>
+            <p class="private-note">Rispondi come va davvero. Non è un esame e in questa preview non salviamo nulla.</p>
+          </div>
+          <div class="answer-list">
+            ${question.options.map(([value, label], index) => `
+              <button class="answer-row${selected === value ? ' is-selected' : ''}" type="button" data-answer="${value}">
+                <span>${String.fromCharCode(65 + index)}</span><b>${label}</b>${arrow}
+              </button>`).join('')}
+          </div>
+        </section>`;
+    };
+
+    const pillarMarkup = (label: string, value: number) => `
+      <article class="pillar-line">
+        <div><span>${label}</span><b>${value}<small>/100</small></b></div>
+        <i><em style="--score:${value}%"></em></i>
+      </article>`;
+
+    const renderFlash = (business: Business) => {
+      const report = buildAuditReport(business, state.answers);
+      const gap = Math.abs(report.reviewGap);
+      const gapCopy = report.reviewGap < 0
+        ? `Hai ${business.reviews} recensioni. La mediana demo del gruppo locale è ${business.cohortMedianReviews}. Te ne mancano ${gap} solo per arrivare in pari.`
+        : `Hai ${business.reviews} recensioni e sei sopra la mediana demo locale. Bene. Ora vediamo se le stai facendo lavorare davvero.`;
+      return `
+        <section class="stage-layout stage-flash" data-state="flash">
+          <header class="flash-heading">
+            <p class="eyebrow">Risultato flash · ${business.name}</p>
+            <h1>Le recensioni<br>non sono<br><em>soprammobili.</em></h1>
+            <p>${gapCopy}</p>
+          </header>
+          <div class="flash-score">
+            <span>Primo collo<br>di bottiglia</span>
+            <strong>${report.weakestPillar}</strong>
+            <small>Risposte private + dati demo</small>
+          </div>
+          <div class="pillar-list">
+            ${pillarMarkup('Reputazione Google', report.reputation)}
+            ${pillarMarkup('Sistema recensioni', report.collection)}
+            ${pillarMarkup('Risposte', report.replies)}
+            ${pillarMarkup('Social proof', report.socialProof)}
+          </div>
+          <div class="flash-cta">
+            <p>Questa è la radiografia veloce. Nel report trovi cosa sistemare prima, in ordine.</p>
+            <button class="primary-action primary-action--acid" type="button" data-next="capture">Voglio il report completo ${arrow}</button>
+          </div>
+        </section>`;
+    };
+
+    const renderCapture = (business: Business) => `
+      <section class="stage-layout stage-capture" data-state="capture">
+        <div class="section-number" aria-hidden="true">05</div>
+        <div class="capture-copy">
+          <p class="eyebrow">Il report di ${business.name} è pronto</p>
+          <h1>Dove te lo<br><em>mando?</em></h1>
+          <p>Nome e attività li abbiamo già. Ci serve solo l’email per consegnarti il report completo.</p>
+        </div>
+        <form class="capture-form" data-capture-form>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" value="${state.email}" autocomplete="email" placeholder="nome@email.it" required />
+          </label>
+          <label class="consent-row">
+            <input type="checkbox" name="consent" ${state.consent ? 'checked' : ''} required />
+            <span>Voglio ricevere il report e i follow-up collegati a questa diagnosi.</span>
+          </label>
+          <button class="primary-action" type="submit">Apri il mio report ${arrow}</button>
+          <small>In questa preview i dati restano nel browser e non partono proprio.</small>
+        </form>
+        <aside class="capture-aside"><span>Zero chiamate a sorpresa.</span><p>Hai un cliente sul lettino, sotto il phon o davanti allo specchio. Lo sappiamo.</p></aside>
+      </section>`;
+
+    const renderReport = (business: Business) => {
+      const report = buildAuditReport(business, state.answers);
+      return `
+        <section class="stage-report" data-state="report">
+          <header class="report-hero">
+            <p class="eyebrow">Beauty &amp; Wellness Check · ${business.name}</p>
+            <h1>Il punto non è avere clienti contenti. È non far <em>evaporare</em> quello che dicono di te.</h1>
+            <div class="report-summary">
+              <p><b>${business.reviews}</b> recensioni contro una mediana demo di <b>${business.cohortMedianReviews}</b>.</p>
+              <p>Il pezzo più debole oggi è <b>${report.weakestPillar}</b>. Quello più solido è <b>${report.strongestPillar}</b>.</p>
+              <p><b>${report.weeklyClientReading.range}.</b> ${report.weeklyClientReading.insight}</p>
+            </div>
+          </header>
+
+          <section class="report-readout">
+            <div class="report-stamp"><span>La tua lettura</span><strong>${report.reputation}</strong><small>reputazione<br>demo / 100</small></div>
+            <div class="report-pillar-list">
+              ${pillarMarkup('Reputazione Google', report.reputation)}
+              ${pillarMarkup('Sistema recensioni', report.collection)}
+              ${pillarMarkup('Risposte', report.replies)}
+              ${pillarMarkup('Social proof', report.socialProof)}
+            </div>
+          </section>
+
+          <section class="report-actions">
+            <header><p class="eyebrow">Le prime tre mosse</p><h2>Falle in<br><em>quest’ordine.</em></h2></header>
+            <ol>
+              ${report.actions.map((action: string, index: number) => `
+                <li><span>0${index + 1}</span><p>${action}</p></li>`).join('')}
+            </ol>
+          </section>
+
+          <footer class="report-close">
+            <p>Cliente contento → recensione → risposta → contenuto. Quasi tutto questo si può togliere dalla tua testa.</p>
+            <div><span>L1 · demo completata</span><button class="text-action" type="button" data-restart>Rifai il check ↻</button></div>
+          </footer>
+        </section>`;
+    };
+
+    const render = () => {
+      if (!stageElement || !app) return;
+      const business = state.business;
+      let markup = renderIntro();
+      if (state.stage === 'search') markup = renderSearch();
+      if (state.stage === 'confirm' && business) markup = renderConfirm(business);
+      if (state.stage === 'quiz') markup = renderQuiz();
+      if (state.stage === 'flash' && business) markup = renderFlash(business);
+      if (state.stage === 'capture' && business) markup = renderCapture(business);
+      if (state.stage === 'report' && business) markup = renderReport(business);
+
+      stageElement.innerHTML = markup;
+      app.dataset.currentStage = state.stage;
+      stageLabel!.textContent = meta[state.stage].label;
+      stageCount!.textContent = meta[state.stage].count;
+      progressElement!.style.width = `${progress()}%`;
+      if (backButton) backButton.hidden = state.stage === 'intro' || state.stage === 'report';
+
+      bindStage();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      requestAnimationFrame(() => stageElement.focus({ preventScroll: true }));
+    };
+
+    const bindStage = () => {
+      if (!stageElement) return;
+      stageElement.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((button) => {
+        button.addEventListener('click', () => setStage(button.dataset.next as Stage));
+      });
+
+      stageElement.querySelectorAll<HTMLButtonElement>('[data-business-id]').forEach((button) => {
+        button.addEventListener('click', () => {
+          state.business = demoBusinesses.find((business) => business.id === button.dataset.businessId) ?? null;
+          setStage('confirm');
+        });
+      });
+
+      const searchInput = stageElement.querySelector<HTMLInputElement>('[data-search-input]');
+      if (searchInput) searchInput.value = state.query;
+      searchInput?.addEventListener('input', () => {
+        state.query = searchInput.value;
+        const list = stageElement.querySelector<HTMLElement>('[data-business-list]');
+        if (list) {
+          list.innerHTML = businessRows(matchingBusinesses());
+          list.querySelectorAll<HTMLButtonElement>('[data-business-id]').forEach((button) => {
+            button.addEventListener('click', () => {
+              state.business = demoBusinesses.find((business) => business.id === button.dataset.businessId) ?? null;
+              setStage('confirm');
+            });
+          });
+        }
+      });
+
+      stageElement.querySelectorAll<HTMLButtonElement>('[data-answer]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const question = auditQuestions[state.step];
+          state.answers[question.id] = button.dataset.answer ?? '';
+          if (state.step < auditQuestions.length - 1) {
+            state.step += 1;
+            render();
+          } else {
+            setStage('flash');
+          }
+        });
+      });
+
+      const captureForm = stageElement.querySelector<HTMLFormElement>('[data-capture-form]');
+      captureForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!captureForm.reportValidity()) return;
+        const data = new FormData(captureForm);
+        state.email = String(data.get('email') ?? '');
+        state.consent = data.get('consent') === 'on';
+        setStage('report');
+      });
+
+      stageElement.querySelector<HTMLButtonElement>('[data-restart]')?.addEventListener('click', () => {
+        state.stage = 'intro';
+        state.query = '';
+        state.business = null;
+        state.step = 0;
+        state.answers = {};
+        state.email = '';
+        state.consent = false;
+        render();
+      });
+    };
+
+    backButton?.addEventListener('click', () => {
+      if (state.stage === 'search') return setStage('intro');
+      if (state.stage === 'confirm') return setStage('search');
+      if (state.stage === 'quiz') {
+        if (state.step > 0) {
+          state.step -= 1;
+          return render();
+        }
+        return setStage('confirm');
+      }
+      if (state.stage === 'flash') {
+        state.step = auditQuestions.length - 1;
+        return setStage('quiz');
+      }
+      if (state.stage === 'capture') return setStage('flash');
+    });
+
+    render();
+  </script>
+</BeautyLeanLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     version="1.2"
+     baseProfile="tiny-ps"
+     viewBox="0 0 512 512">
+  <title>Trovatemi</title>
+  <rect width="512" height="512" fill="#12161B"/>
+  <path fill="#F5B301" d="M115 211 L199 275 L169 377 L255 317 L342 377 L312 275 L396 211 L291 209 L256 110 L220 209 Z"/>
+</svg>
