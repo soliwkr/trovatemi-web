@@ -1,8 +1,8 @@
 name: Preview Master Home on Cloudflare Workers
 
 on:
-  pull_request:
-    branches: [feat/beauty-lean-mvp]
+  push:
+    branches: [feat/master-home-h0]
     paths:
       - ".github/workflows/preview-master-home.yml"
       - "astro.config.mjs"
@@ -18,13 +18,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: preview-master-home-${{ github.event.pull_request.number }}
+  group: preview-master-home-h0
   cancel-in-progress: true
 
 jobs:
   preview:
     name: Validate and publish isolated H0 master-home preview
-    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
     steps:
