@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
 
 concurrency:
   group: preview-master-home-h0
@@ -73,3 +75,11 @@ jobs:
             "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-master-home.html"
           grep -Fq "Hai già clienti felici" "$RUNNER_TEMP/trovatemi-master-home.html"
           echo "Master Home preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish preview URL on PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          PREVIEW_URL="${PREVIEW_BASE_URL%/}/master-home/"
+          gh pr comment 31 --body "✅ H0 master-home preview deployed and verified: $PREVIEW_URL"
