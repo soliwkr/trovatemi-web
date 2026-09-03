@@ -9,6 +9,8 @@ on:
       - "package.json"
       - "package-lock.json"
       - "src/pages/master-home.astro"
+      - "public/images/master-home-*.webp"
+      - "tests/master-home-h0.test.mjs"
       - "src/components/v72/**"
       - "src/layouts/V72Layout.astro"
       - "src/styles/v72.css"
@@ -43,6 +45,9 @@ jobs:
 
       - name: Validate project
         run: npm run check
+
+      - name: Run tests
+        run: npm test
 
       - name: Build Astro Worker
         run: npm run build
