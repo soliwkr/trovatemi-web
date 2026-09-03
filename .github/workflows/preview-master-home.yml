@@ -9,6 +9,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "src/pages/master-home.astro"
+      - "src/styles/master-home-v2.css"
       - "public/images/master-home-*.webp"
       - "tests/master-home-h0.test.mjs"
       - "src/components/v72/**"
