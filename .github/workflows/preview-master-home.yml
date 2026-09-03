@@ -75,10 +75,12 @@ jobs:
         run: |
           test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
           PREVIEW_URL="${PREVIEW_BASE_URL%/}/master-home/"
-          curl --fail --silent --show-error \
+          curl --fail --location --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-master-home.html"
-          grep -Fq "Hai già clienti felici" "$RUNNER_TEMP/trovatemi-master-home.html"
+          grep -Fq "Hai già" "$RUNNER_TEMP/trovatemi-master-home.html"
+          grep -Fq "clienti felici" "$RUNNER_TEMP/trovatemi-master-home.html"
+          grep -Fq "Peccato che" "$RUNNER_TEMP/trovatemi-master-home.html"
           echo "Master Home preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish preview URL on PR
