@@ -80,7 +80,7 @@ jobs:
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
           grep -Fq "Beauty Check" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
-          grep -Fq "Quanto resta visibile" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
+          grep -Fq "data-funnel-app" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
           echo "Beauty Check v2 preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish preview URL on PR
