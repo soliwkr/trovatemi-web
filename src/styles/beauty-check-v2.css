@@ -1,0 +1,220 @@
+.check-v2-intro .intro-copy h1 {
+  max-width: 11.5ch;
+  font-size: clamp(3.1rem, 13vw, 7.9rem);
+}
+
+.plain-clarifier {
+  max-width: 34rem;
+  margin: -0.5rem 0 1.8rem;
+  border-left: 4px solid var(--pink);
+  padding-left: 0.85rem;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.check-v2-flash {
+  gap: 2rem;
+}
+
+.check-v2-flash .flash-heading h1 {
+  max-width: 11ch;
+}
+
+.check-v2-flash .flash-score {
+  min-height: 13rem;
+}
+
+.check-v2-flash .flash-score strong {
+  max-width: 12ch;
+  font-size: clamp(2.5rem, 9vw, 4.6rem);
+  text-transform: uppercase;
+}
+
+.evidence-card {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid rgba(255, 250, 244, 0.35);
+  padding: 1.2rem;
+  background: rgba(255, 250, 244, 0.06);
+}
+
+.evidence-card > span {
+  color: var(--pink);
+  font-size: 0.6rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.evidence-numbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-block: 1px solid rgba(255, 250, 244, 0.22);
+}
+
+.evidence-numbers > div {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem 0;
+}
+
+.evidence-numbers > div + div {
+  border-left: 1px solid rgba(255, 250, 244, 0.22);
+  padding-left: 1rem;
+}
+
+.evidence-numbers strong {
+  font-family: var(--serif);
+  font-size: clamp(2.7rem, 10vw, 5rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 0.9;
+}
+
+.evidence-numbers small,
+.evidence-method {
+  color: rgba(255, 250, 244, 0.58);
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.evidence-card > p {
+  margin: 0;
+  color: rgba(255, 250, 244, 0.78);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.story-readout {
+  align-items: stretch;
+}
+
+.story-stamp {
+  width: min(22rem, 82vw);
+  border-radius: 0;
+  transform: rotate(-2deg);
+}
+
+.story-stamp strong {
+  max-width: 7ch;
+  margin: 0 auto;
+  font-size: clamp(2.6rem, 11vw, 5.6rem);
+  text-transform: uppercase;
+}
+
+.story-readout .evidence-card {
+  align-self: stretch;
+  align-content: center;
+}
+
+.report-mechanism {
+  display: grid;
+  gap: 2.6rem;
+  padding: clamp(4rem, 9vw, 8rem) var(--stage-padding);
+  color: var(--paper);
+  background: var(--wine);
+}
+
+.report-mechanism .eyebrow {
+  color: var(--acid);
+}
+
+.report-mechanism h2 {
+  max-width: 12ch;
+  font-size: clamp(3.2rem, 10vw, 7rem);
+  line-height: 0.86;
+}
+
+.report-mechanism h2 em {
+  color: var(--acid);
+  font-style: italic;
+}
+
+.mechanism-grid {
+  display: grid;
+  border-top: 1px solid rgba(255, 250, 244, 0.35);
+}
+
+.mechanism-grid article {
+  display: grid;
+  gap: 0.4rem;
+  border-bottom: 1px solid rgba(255, 250, 244, 0.25);
+  padding: 1.2rem 0;
+}
+
+.mechanism-grid article:nth-child(even) {
+  color: var(--ink);
+  background: var(--acid);
+  padding-inline: 0.8rem;
+}
+
+.mechanism-grid span {
+  color: var(--pink);
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mechanism-grid article:nth-child(even) span {
+  color: var(--wine);
+}
+
+.mechanism-grid b {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.mechanism-grid p {
+  margin: 0;
+  color: rgba(255, 250, 244, 0.68);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.mechanism-grid article:nth-child(even) p {
+  color: rgba(36, 24, 32, 0.72);
+}
+
+@media (min-width: 58rem) {
+  .check-v2-flash {
+    grid-template-columns: 1.05fr 0.85fr;
+    gap: 2rem 6vw;
+  }
+
+  .check-v2-flash .flash-heading {
+    grid-row: span 2;
+  }
+
+  .check-v2-flash .flash-score,
+  .check-v2-flash .evidence-card {
+    align-self: stretch;
+  }
+
+  .check-v2-flash .flash-cta {
+    grid-column: 1 / -1;
+  }
+
+  .report-mechanism {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 8vw;
+  }
+
+  .mechanism-grid {
+    grid-template-columns: 1fr 1fr;
+    align-self: start;
+  }
+
+  .mechanism-grid article {
+    min-height: 10rem;
+    align-content: center;
+    padding: 1.2rem;
+  }
+}
