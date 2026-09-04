@@ -3,6 +3,83 @@
   font-size: clamp(3.1rem, 13vw, 7.9rem);
 }
 
+.lookup-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 50rem;
+}
+
+.lookup-submit {
+  min-width: 9rem;
+}
+
+.lookup-status,
+.demo-warning,
+.lookup-provenance {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.lookup-status {
+  padding: 1.4rem 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.lookup-status--loading {
+  color: var(--wine);
+}
+
+.lookup-status--error,
+.demo-warning {
+  border-left: 4px solid var(--pink);
+  padding-left: 0.8rem;
+}
+
+.demo-warning {
+  margin-top: 1rem;
+}
+
+.lookup-provenance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+}
+
+.gmp-attribution {
+  color: #5e5e5e;
+  font-family: Roboto, var(--sans), sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+.inline-attribution {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+}
+
+.google-content {
+  box-shadow: inset 0 0 0 1px rgba(95, 95, 95, 0.18);
+}
+
+.row-source b {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.source-dd {
+  font-size: 1rem !important;
+}
+
 .plain-clarifier {
   max-width: 34rem;
   margin: -0.5rem 0 1.8rem;
@@ -89,6 +166,10 @@
   font-family: var(--serif);
   font-size: 1.15rem;
   line-height: 1.35;
+}
+
+.evidence-card .gmp-attribution {
+  color: rgba(255, 250, 244, 0.72);
 }
 
 .story-readout {
@@ -181,6 +262,13 @@
 
 .mechanism-grid article:nth-child(even) p {
   color: rgba(36, 24, 32, 0.72);
+}
+
+@media (min-width: 42rem) {
+  .lookup-form {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
 }
 
 @media (min-width: 58rem) {
