@@ -89,3 +89,24 @@ test('public evidence remains separate from the diagnosis and keeps the transpar
   assert.equal(diagnosis.evidence.reviewGap, -45);
   assert.match(diagnosis.evidence.note, /45 recensioni/);
 });
+
+test('real lookup evidence does not invent a cohort when none exists', () => {
+  const diagnosis = buildPassaparolaDiagnosis({
+    id: 'ChIJ12345678_test',
+    name: 'Gloss Nails',
+    reviews: 73,
+    rating: 4.8,
+    cohortMedianReviews: null,
+  }, {
+    reviewAsk: 'sometimes',
+    replies: 'always',
+    reuse: 'manual',
+    channels: 'two',
+    weeklyClients: 'medium',
+  });
+
+  assert.equal(diagnosis.evidence.reviews, 73);
+  assert.equal(diagnosis.evidence.cohortMedianReviews, null);
+  assert.equal(diagnosis.evidence.reviewGap, null);
+  assert.match(diagnosis.evidence.note, /benchmark verrà mostrato solo/);
+});
