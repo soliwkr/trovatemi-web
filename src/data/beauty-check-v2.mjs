@@ -119,11 +119,37 @@ function answerSummary(answers) {
   ].filter(Boolean).join(', ');
 }
 
+function buildEvidence(business) {
+  const reviews = Number.isInteger(business?.reviews) ? business.reviews : null;
+  const cohortMedianReviews = Number.isInteger(business?.cohortMedianReviews)
+    ? business.cohortMedianReviews
+    : null;
+  const reviewGap = reviews !== null && cohortMedianReviews !== null
+    ? reviews - cohortMedianReviews
+    : null;
+
+  let note = 'Mostriamo soltanto i dati pubblici disponibili, senza trasformarli in un voto sulla qualità.';
+
+  if (reviewGap !== null && reviewGap < 0) {
+    note = `Online oggi si vede meno prova rispetto alla mediana demo del gruppo comparabile: ${Math.abs(reviewGap)} recensioni di differenza.`;
+  } else if (reviewGap !== null) {
+    note = 'Online oggi la tua attività è sopra la mediana demo del gruppo comparabile per numero di recensioni.';
+  } else if (reviews !== null) {
+    note = `${reviews} recensioni sono visibili oggi. Il benchmark verrà mostrato solo quando avremo un gruppo comparabile metodologicamente valido.`;
+  }
+
+  return {
+    reviews,
+    cohortMedianReviews,
+    reviewGap,
+    note,
+  };
+}
+
 export function buildPassaparolaDiagnosis(business, answers) {
   const code = chooseDiagnosis(answers);
   const copy = diagnosisCopy[code];
   const volume = weeklyVolume[answers.weeklyClients] ?? weeklyVolume.low;
-  const reviewGap = business.reviews - business.cohortMedianReviews;
 
   return {
     version: diagnosisVersion,
@@ -134,13 +160,6 @@ export function buildPassaparolaDiagnosis(business, answers) {
     actions: [...copy.actions],
     answerSummary: answerSummary(answers),
     weeklyVolumeLabel: volume.label,
-    evidence: {
-      reviews: business.reviews,
-      cohortMedianReviews: business.cohortMedianReviews,
-      reviewGap,
-      note: reviewGap < 0
-        ? `Online oggi si vede meno prova rispetto alla mediana demo del gruppo comparabile: ${Math.abs(reviewGap)} recensioni di differenza.`
-        : `Online oggi la tua attività è sopra la mediana demo del gruppo comparabile per numero di recensioni.`,
-    },
+    evidence: buildEvidence(business),
   };
 }
