@@ -8,13 +8,17 @@ on:
       - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
+      - "src/env.d.ts"
       - "src/pages/beauty-check/**"
+      - "src/pages/api/places/**"
       - "src/data/beauty-check-v2.mjs"
       - "src/data/beauty-lean-demo.mjs"
+      - "src/data/google-places.mjs"
       - "src/layouts/BeautyLeanLayout.astro"
       - "src/styles/beauty-lean.css"
       - "src/styles/beauty-check-v2.css"
       - "tests/beauty-check-v2.test.mjs"
+      - "tests/google-places.test.mjs"
       - "wrangler.beauty-check-v2-preview.jsonc"
 
 permissions:
