@@ -17,19 +17,21 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 
 export const GET: APIRoute = async ({ url }) => {
   const placeId = String(url.searchParams.get('id') ?? '');
+  const runtimeEnv = env as typeof env & { GOOGLE_PLACES_API_KEY?: string };
+  const apiKey = runtimeEnv.GOOGLE_PLACES_API_KEY;
 
   if (!isValidPlaceId(placeId)) {
     return json({ error: 'invalid_place_id' }, 400);
   }
 
-  if (!env.GOOGLE_PLACES_API_KEY) {
+  if (!apiKey) {
     return json({ error: 'places_unconfigured' }, 503);
   }
 
   try {
     const response = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
       headers: {
-        'X-Goog-Api-Key': env.GOOGLE_PLACES_API_KEY,
+        'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': googlePlaceDetailsFieldMask,
       },
     });
