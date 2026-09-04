@@ -65,6 +65,9 @@ import '../../styles/beauty-check-v2.css';
       sourceLabel: string;
     };
 
+    type SearchPayload = { places?: SearchCandidate[] };
+    type DetailsPayload = { business?: Business };
+
     const app = document.querySelector<HTMLElement>('[data-funnel-app]');
     const stageElement = document.querySelector<HTMLElement>('[data-stage]');
     const backButton = document.querySelector<HTMLButtonElement>('[data-back]');
@@ -408,7 +411,7 @@ import '../../styles/beauty-check-v2.css';
         }
 
         if (!response.ok) throw new Error('search_failed');
-        const payload = await response.json();
+        const payload = await response.json() as SearchPayload;
         state.searchResults = Array.isArray(payload.places) ? payload.places : [];
         state.searchStatus = 'ready';
         render();
@@ -438,8 +441,9 @@ import '../../styles/beauty-check-v2.css';
           headers: { accept: 'application/json' },
         });
         if (!response.ok) throw new Error('details_failed');
-        const payload = await response.json();
-        state.business = payload.business as Business;
+        const payload = await response.json() as DetailsPayload;
+        if (!payload.business) throw new Error('invalid_details');
+        state.business = payload.business;
         setStage('confirm');
       } catch {
         state.searchStatus = 'error';
