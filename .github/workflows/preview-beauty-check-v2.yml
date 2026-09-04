@@ -8,7 +8,6 @@ on:
       - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
-      - "src/env.d.ts"
       - "src/pages/beauty-check/**"
       - "src/pages/api/places/**"
       - "src/data/beauty-check-v2.mjs"
