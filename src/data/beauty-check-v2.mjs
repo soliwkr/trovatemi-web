@@ -98,8 +98,10 @@ const diagnosisCopy = {
 
 function chooseDiagnosis(answers) {
   const volume = weeklyVolume[answers.weeklyClients] ?? weeklyVolume.low;
+  const collectionBase = collectionSeverity[answers.reviewAsk] ?? 0;
+  const collectionRisk = collectionBase === 0 ? 0 : collectionBase + volume.boost;
   const ranked = [
-    ['collection_leak', (collectionSeverity[answers.reviewAsk] ?? 0) + volume.boost],
+    ['collection_leak', collectionRisk],
     ['reply_leak', replySeverity[answers.replies] ?? 0],
     ['reuse_leak', reuseSeverity[answers.reuse] ?? 0],
     ['distribution_leak', distributionSeverity[answers.channels] ?? 0],
