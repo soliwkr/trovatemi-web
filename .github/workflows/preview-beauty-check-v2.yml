@@ -73,6 +73,19 @@ jobs:
           wranglerVersion: "4.112.0"
           command: deploy --config wrangler.beauty-check-v2-preview.jsonc
 
+      - name: Provision optional Google Places secret
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          if [ -z "$GOOGLE_PLACES_API_KEY" ]; then
+            echo "GOOGLE_PLACES_API_KEY not configured; preview will use the explicit demo fallback."
+            exit 0
+          fi
+          printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY --config wrangler.beauty-check-v2-preview.jsonc
+          echo "Google Places secret provisioned for isolated preview."
+
       - name: Verify preview route
         env:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
