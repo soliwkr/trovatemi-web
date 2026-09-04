@@ -19,12 +19,14 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 
 export const GET: APIRoute = async ({ url }) => {
   const query = normalizeSearchQuery(url.searchParams.get('q'));
+  const runtimeEnv = env as typeof env & { GOOGLE_PLACES_API_KEY?: string };
+  const apiKey = runtimeEnv.GOOGLE_PLACES_API_KEY;
 
   if (!isValidSearchQuery(query)) {
     return json({ error: 'invalid_query' }, 400);
   }
 
-  if (!env.GOOGLE_PLACES_API_KEY) {
+  if (!apiKey) {
     return json({ error: 'places_unconfigured' }, 503);
   }
 
@@ -33,7 +35,7 @@ export const GET: APIRoute = async ({ url }) => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'X-Goog-Api-Key': env.GOOGLE_PLACES_API_KEY,
+        'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': googlePlacesSearchFieldMask,
       },
       body: JSON.stringify(buildGoogleTextSearchBody(query)),
