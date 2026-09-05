@@ -15,142 +15,186 @@ import '../styles/master-home-v2.css';
     />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#11110f" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2311110f'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='%23f5bd18'%3E%E2%98%85%3C/text%3E%3C/svg%3E"
+    />
     <title>Trovatemi.it ★ — Fai vedere online quanto sei bravo davvero.</title>
   </head>
   <body>
     <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
     <header class="topbar">
-      <a class="wordmark" href="/master-home/" aria-label="Trovatemi.it, home">TROVATEMI.IT <span>★</span></a>
-      <a class="top-cta" href="#la-tua-attivita">LA TUA ATTIVITÀ ↓</a>
+      <a class="wordmark" href="/master-home/" aria-label="Trovatemi.it, home">
+        TROVATEMI<span>.IT</span><i aria-hidden="true">★</i>
+      </a>
+      <a class="topbar-action" href="#attivita">Cerca la tua attività <span aria-hidden="true">↓</span></a>
     </header>
 
     <main id="contenuto">
-      <section class="beat beat-hero" aria-labelledby="hero-title">
-        <img class="beat-bg" src="/images/master-home-hero-v3.webp" width="1536" height="1024" alt="Cliente che lascia un’attività locale" fetchpriority="high" />
-        <div class="shade shade-left" aria-hidden="true"></div>
-        <div class="shell hero-copy">
-          <p class="eyebrow">PER LE ATTIVITÀ CHE LAVORANO BENE</p>
-          <h1 id="hero-title">Hai già<br />clienti felici.<br /><em>Fai in modo<br />che si veda.</em></h1>
-          <p class="product-truth">Trovatemi fa vedere online quanto sei bravo davvero.</p>
-          <p class="quiet">Il passaparola c’è. Solo che gira male.</p>
-          <a class="beat-link" href="#storia-1">GUARDA COSA SUCCEDE <span>↓</span></a>
+      <section class="hero poster-white" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="campaign-kicker">IL PASSAPAROLA CHE HAI GIÀ</p>
+          <h1 id="hero-title">Hai già<br />clienti felici.</h1>
+          <p class="hero-command">Fai in modo<br /><em>che si veda.</em></p>
+        </div>
+
+        <figure class="hero-photo">
+          <img
+            src="/images/master-home-hero-v3.webp"
+            width="1536"
+            height="1024"
+            alt="Una cliente felice lascia un’attività locale dopo aver salutato la titolare"
+            fetchpriority="high"
+          />
+          <figcaption>IL COMPLIMENTO C’È.<br /><strong>ONLINE ANCORA NO.</strong></figcaption>
+        </figure>
+
+        <div class="product-truth">
+          <span aria-hidden="true">★</span>
+          <p>Trovatemi fa vedere online<br /><strong>quanto sei bravo davvero.</strong></p>
         </div>
       </section>
 
-      <section id="storia-1" class="beat beat-dark story-compliment" aria-labelledby="story1-title">
-        <div class="shell story-grid">
-          <div class="story-copy">
-            <p class="story-no">STORIA 01</p>
-            <blockquote id="story1-title">“Mi sono trovata<br /><em>benissimo.</em>”</blockquote>
-            <div class="beats" aria-label="La scena">
-              <span>Grazie ❤️</span>
-              <span>Paga.</span>
-              <span>Esce.</span>
-              <span>Fine.</span>
-            </div>
+      <section id="storia" class="compliment dark-cinematic" aria-labelledby="compliment-title">
+        <figure class="compliment-photo reveal">
+          <img
+            src="/images/master-home-goodbye.webp"
+            width="1536"
+            height="1024"
+            alt="La cliente saluta sorridendo mentre sta per uscire dall’attività"
+            loading="lazy"
+          />
+          <span class="quote-bubble">“Mi sono trovata<br /><strong>benissimo.</strong>”</span>
+        </figure>
+
+        <div class="compliment-copy reveal">
+          <p class="campaign-label">UN COMPLIMENTO. POI IL NULLA.</p>
+          <h2 id="compliment-title">Grazie.<br />Paga.<br />Esce.<br /><em>Fine.</em></h2>
+          <p class="timecode">16:42:46 — NESSUNA TRACCIA</p>
+        </div>
+      </section>
+
+      <section class="bam bam-google" aria-label="Peccato che Google non era lì">
+        <div class="bam-inner reveal">
+          <p>Peccato che</p>
+          <h2>Google<br />non era lì.</h2>
+          <span aria-hidden="true">★</span>
+        </div>
+      </section>
+
+      <section class="missing poster-white" aria-labelledby="missing-title">
+        <div class="missing-copy reveal">
+          <p class="campaign-label">UNA GIORNATA NORMALE</p>
+          <div class="stat-line"><strong>50</strong><span>clienti<br />felici.</span></div>
+          <div class="stat-line stat-line-gold"><strong>4</strong><span>recensioni.</span></div>
+          <h2 id="missing-title">Dove sono finite<br /><em>le altre 46?</em></h2>
+        </div>
+
+        <figure class="missing-photo reveal">
+          <img
+            src="/images/master-home-missing-v3.webp"
+            width="1536"
+            height="1024"
+            alt="Quattro prove con una stella restano sul bancone mentre gli altri scontrini scompaiono"
+            loading="lazy"
+          />
+          <figcaption><strong>4 PROVE RESTANO.</strong><br />LE ALTRE SPARISCONO.</figcaption>
+        </figure>
+      </section>
+
+      <section class="comparison dark-cinematic" aria-labelledby="comparison-title">
+        <div class="comparison-copy reveal">
+          <p class="campaign-label">IL CLIENTE DEVE SCEGLIERE</p>
+          <h2 id="comparison-title">Sei più bravo.</h2>
+          <p>Ma non ti conosce ancora.</p>
+        </div>
+
+        <figure class="comparison-photo reveal">
+          <img
+            src="/images/master-home-compare-v3.webp"
+            width="1536"
+            height="1024"
+            alt="Un titolare guarda l’attività concorrente mentre sul telefono confronta solo il numero di recensioni"
+            loading="lazy"
+          />
+          <div class="review-count" role="group" aria-label="Lui ha 384 recensioni, tu ne hai 41">
+            <div><span>LUI</span><strong>384</strong><small>RECENSIONI</small></div>
+            <i aria-hidden="true"></i>
+            <div><span>TU</span><strong>41</strong><small>RECENSIONI</small></div>
           </div>
-          <figure class="story-photo">
-            <img src="/images/master-home-goodbye.webp" width="1536" height="1024" alt="Una cliente saluta ed esce" loading="lazy" />
-            <figcaption>NESSUNA TRACCIA.</figcaption>
+        </figure>
+
+        <div class="comparison-bam reveal">
+          <p>Indovina chi sembra<br /><strong>più bravo.</strong></p>
+          <span aria-hidden="true">★</span>
+        </div>
+      </section>
+
+      <section class="word-of-mouth dark-cinematic" aria-labelledby="word-of-mouth-title">
+        <div class="word-of-mouth-heading reveal">
+          <p class="campaign-label">QUANDO IL PASSAPAROLA NON SPARISCE</p>
+          <h2 id="word-of-mouth-title">Il complimento<br />continua a<br /><em>lavorare.</em></h2>
+        </div>
+
+        <div class="story-machine reveal">
+          <figure>
+            <img
+              src="/images/master-home-proof-v2.webp"
+              width="1536"
+              height="1024"
+              alt="Una cliente avvicina il telefono al supporto Trovatemi sul bancone"
+              loading="lazy"
+            />
+            <figcaption>UN GESTO SEMPLICE. <strong>LA PROVA RESTA.</strong></figcaption>
           </figure>
-        </div>
-        <div class="punch punch-gold"><div class="shell"><span>Peccato che</span><strong>Google non era lì.</strong><b>★</b></div></div>
-      </section>
-
-      <section id="storia-2" class="beat beat-missing" aria-labelledby="story2-title">
-        <img class="beat-bg" src="/images/master-home-missing-v3.webp" width="1536" height="1024" alt="Scontrini e prove che si perdono" loading="lazy" />
-        <div class="shade shade-left" aria-hidden="true"></div>
-        <div class="shell missing-copy">
-          <p class="story-no">STORIA 02</p>
-          <div class="big-stat"><strong>50</strong><span>clienti<br />felici.</span></div>
-          <div class="big-stat accent"><strong>4</strong><span>recensioni.</span></div>
-          <h2 id="story2-title">Dove sono finite<br /><em>le altre 46?</em></h2>
-          <p class="quiet">Quattro prove restano. Il resto della giornata sparisce.</p>
-        </div>
-      </section>
-
-      <section id="storia-3" class="beat beat-paper compare" aria-labelledby="story3-title">
-        <div class="shell compare-wrap">
-          <p class="story-no">STORIA 03</p>
-          <div class="compare-head">
-            <h2 id="story3-title">Sei più bravo.</h2>
-            <p>Lui ha <strong>384</strong> recensioni.<br />Tu <strong>41</strong>.</p>
-            <h3>Indovina chi sembra più bravo.</h3>
-          </div>
-          <div class="compare-visual">
-            <figure>
-              <img src="/images/master-home-compare-v3.webp" width="1536" height="1024" alt="Confronto tra due attività locali" loading="lazy" />
-            </figure>
-            <div class="count-card count-them"><span>LUI</span><strong>384</strong><small>RECENSIONI</small></div>
-            <div class="count-card count-you"><span>TU</span><strong>41</strong><small>RECENSIONI</small></div>
-          </div>
-          <div class="yellow-strip">Essere più bravo non basta.<br /><strong>Devi sembrarlo quando scelgono.</strong></div>
-        </div>
-      </section>
-
-      <section id="storia-4" class="beat beat-dark solution" aria-labelledby="story4-title">
-        <div class="shell solution-grid">
-          <div class="solution-copy">
-            <p class="story-no">STORIA 04</p>
-            <h2 id="story4-title">Quando il passaparola<br /><em>non sparisce.</em></h2>
-            <p class="product-truth compact">Trovatemi fa vedere online quanto sei bravo davvero.</p>
-          </div>
-          <figure class="solution-photo">
-            <img src="/images/master-home-proof-v2.webp" width="1536" height="1024" alt="Cliente che usa il telefono sul bancone" loading="lazy" />
-          </figure>
-          <ol class="story-flow" aria-label="Come continua a lavorare il passaparola">
-            <li><b>01</b><strong>Cliente contento</strong><span>Succede già.</span></li>
-            <li><b>02</b><strong>Richiesta</strong><span>Arriva al momento giusto.</span></li>
-            <li><b>03</b><strong>Recensione</strong><span>Diventa visibile.</span></li>
-            <li><b>04</b><strong>Risposta</strong><span>Non resta sola.</span></li>
-            <li><b>05</b><strong>Riuso</strong><span>Continua a parlare di te.</span></li>
+          <ol aria-label="Il passaparola viene messo al lavoro">
+            <li><b>01</b><strong>Cliente contento</strong><span aria-hidden="true">→</span></li>
+            <li><b>02</b><strong>Richiesta</strong><span aria-hidden="true">→</span></li>
+            <li><b>03</b><strong>Recensione</strong><span aria-hidden="true">→</span></li>
+            <li><b>04</b><strong>Risposta</strong><span aria-hidden="true">→</span></li>
+            <li><b>05</b><strong>Riuso</strong><span aria-hidden="true">★</span></li>
           </ol>
-          <div class="brand-signature"><span>★</span><p>Il passaparola che hai già.<br /><strong>Messo al lavoro.</strong></p></div>
+        </div>
+
+        <div class="signature reveal">
+          <p>Il passaparola che hai già.</p>
+          <strong>Messo al lavoro.</strong>
+          <span aria-hidden="true">★</span>
         </div>
       </section>
 
-      <section id="la-tua-attivita" class="beat beat-gold lookup" aria-labelledby="lookup-title">
-        <div class="shell lookup-wrap">
-          <p class="story-no">ADESSO TOCCA A TE</p>
-          <h2 id="lookup-title">Cerca la tua attività.</h2>
-          <p>Il punto è vedere cosa vede davvero un cliente quando cerca te, non una demo generica.</p>
-          <div class="fake-search" aria-label="Anteprima della futura ricerca attività">
-            <span>Nome attività o città</span><button type="button" disabled aria-disabled="true">CERCA →</button>
+      <section id="attivita" class="business-search poster-white" aria-labelledby="business-title">
+        <div class="business-heading reveal">
+          <p class="campaign-label">IL PROSSIMO PASSO SARÀ IL TUO CASO</p>
+          <h2 id="business-title">Cerca la tua<br /><em>attività.</em></h2>
+        </div>
+
+        <div class="lookup-concept reveal" role="group" aria-label="Anteprima della futura ricerca attività">
+          <label for="business-name">NOME ATTIVITÀ O CITTÀ</label>
+          <div class="lookup-row">
+            <input id="business-name" type="text" placeholder="Es. Studio Aurora, Torino" disabled />
+            <button type="button" disabled aria-disabled="true">CERCA <span aria-hidden="true">→</span></button>
           </div>
-          <small>La ricerca reale verrà attivata con L2. Qui non mostriamo dati inventati.</small>
+          <p>Qui Trovatemi guarderà il tuo caso reale. La ricerca verrà attivata con L2: nessun dato inventato.</p>
         </div>
       </section>
 
-      <section id="prezzo" class="beat beat-paper offer" aria-labelledby="offer-title">
-        <div class="shell offer-grid">
-          <div>
-            <p class="story-no">UNA SOLA OFFERTA</p>
-            <h2 id="offer-title">21 giorni.<br /><em>Zero teoria.</em></h2>
-            <p>Mettiamo Trovatemi sulla tua attività. Tu guardi cosa succede davvero.</p>
-          </div>
-          <div class="price-poster">
-            <span>DURANTE IL TRIAL</span>
-            <strong>€0</strong>
-            <small>PER 21 GIORNI</small>
-            <hr />
-            <span>DAL GIORNO 22</span>
-            <strong>€149<small>/MESE</small></strong>
-            <p>per sede, salvo cancellazione prima del rinnovo</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="beat beat-dark final-cta" aria-labelledby="final-title">
-        <div class="shell final-wrap">
-          <h2 id="final-title">Hai già clienti felici.<br /><em>Fai in modo che si veda.</em></h2>
-          <div class="route-row">
-            <a href="/" class="route-primary">BEAUTY &amp; WELLNESS → <small>Fai il Beauty Check</small></a>
-            <a href="#la-tua-attivita" class="route-secondary">ALTRA ATTIVITÀ LOCALE → <small>Partiamo dalla tua attività</small></a>
-          </div>
-          <div class="footer-line"><strong>TROVATEMI.IT ★</strong><span>21 GIORNI · €0 DURANTE IL TRIAL · POI €149/MESE</span></div>
+      <section id="offerta" class="offer bam" aria-labelledby="offer-title">
+        <div class="offer-inner reveal">
+          <p class="campaign-label">UNA SOLA OFFERTA</p>
+          <h2 id="offer-title"><span>21 giorni</span><strong>€0</strong></h2>
+          <p class="trial-copy">durante il trial</p>
+          <div class="then-price"><span>POI</span><strong>€149<small>/MESE</small></strong></div>
+          <p class="offer-note">Un solo prodotto. Una sede. Cancelli prima del rinnovo se non fa per te.</p>
         </div>
       </section>
     </main>
+
+    <footer class="footer dark-cinematic">
+      <a class="footer-wordmark" href="/master-home/">TROVATEMI.IT <span aria-hidden="true">★</span></a>
+      <p>Il passaparola che hai già.<br /><strong>Messo al lavoro.</strong></p>
+      <span>21 GIORNI · €0 DURANTE IL TRIAL · POI €149/MESE</span>
+    </footer>
   </body>
 </html>

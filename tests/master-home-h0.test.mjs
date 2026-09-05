@@ -4,88 +4,90 @@ import test from 'node:test';
 
 const source = await readFile(new URL('../src/pages/master-home.astro', import.meta.url), 'utf8');
 
+function assertAppearsInOrder(lines) {
+  let previousIndex = -1;
+
+  for (const line of lines) {
+    const currentIndex = source.indexOf(line);
+    assert.notEqual(currentIndex, -1, `missing story beat: ${line}`);
+    assert.ok(currentIndex > previousIndex, `story beat out of order: ${line}`);
+    previousIndex = currentIndex;
+  }
+}
+
 test('H0 remains an isolated noindex preview', () => {
   assert.match(source, /name="robots" content="noindex, nofollow, noarchive"/);
   assert.match(source, /href="\/master-home\/"/);
 });
 
-test('H0 carries the approved public messaging backbone', () => {
+test('H0 leads with the approved recognition and product truth', () => {
   for (const line of [
     'Hai già',
     'clienti felici.',
     'Fai in modo',
     'che si veda.',
-    'Trovatemi fa vedere online quanto sei bravo davvero.',
-    'Peccato che',
-    'Google non era lì.',
-    'Dove sono finite',
-    'le altre 46?',
-    'Sei più bravo.',
-    'Indovina chi sembra più bravo.',
-    'Il passaparola c’è.',
-    'Solo che gira male.',
-    'Il passaparola che hai già.',
-    'Messo al lavoro.',
-    'Cerca la tua attività.',
+    'Trovatemi fa vedere online',
+    'quanto sei bravo davvero.',
   ]) {
-    assert.ok(source.includes(line), `missing approved copy: ${line}`);
+    assert.ok(source.includes(line), `missing approved product truth: ${line}`);
   }
 });
 
-test('H0 tells the campaign story in the approved order', () => {
-  const beats = [
-    'STORIA 01',
-    'STORIA 02',
-    'STORIA 03',
-    'STORIA 04',
-    'ADESSO TOCCA A TE',
-    'UNA SOLA OFFERTA',
-  ];
-
-  let previous = -1;
-  for (const beat of beats) {
-    const index = source.indexOf(beat);
-    assert.ok(index >= 0, `missing story beat: ${beat}`);
-    assert.ok(index > previous, `story beat out of order: ${beat}`);
-    previous = index;
-  }
+test('H0 locks the campaign story-first order', () => {
+  assertAppearsInOrder([
+    'Hai già',
+    'Mi sono trovata',
+    'Google<br />non era lì.',
+    'Dove sono finite',
+    'Sei più bravo.',
+    'Cliente contento',
+    'id="attivita"',
+    '21 giorni',
+  ]);
 });
 
-test('H0 explains the product before mechanism detail', () => {
-  const productTruth = source.indexOf('Trovatemi fa vedere online quanto sei bravo davvero.');
-  const mechanism = source.indexOf('Cliente contento');
-  assert.ok(productTruth >= 0, 'missing product truth');
-  assert.ok(mechanism >= 0, 'missing mechanism story');
-  assert.ok(productTruth < mechanism, 'product truth must appear before mechanism detail');
+test('H0 turns the compliment into one continuous narrative sequence', () => {
+  assertAppearsInOrder(['Mi sono trovata', 'Grazie.', 'Paga.', 'Esce.', 'Fine.', 'Google<br />non era lì.']);
+  assertAppearsInOrder(['Cliente contento', 'Richiesta', 'Recensione', 'Risposta', 'Riuso']);
+  assert.match(source, /Il passaparola che hai già\./);
+  assert.match(source, /Messo al lavoro\./);
 });
 
-test('H0 keeps the lookup conceptual until L2 exists', () => {
-  assert.match(source, /Cerca la tua attività\./);
-  assert.match(source, /disabled aria-disabled="true"/);
-  assert.match(source, /La ricerca reale verrà attivata con L2/);
+test('H0 keeps the competitor story honest and pronouns coherent', () => {
+  assert.match(source, />LUI<\/span><strong>384<\/strong><small>RECENSIONI/);
+  assert.match(source, />TU<\/span><strong>41<\/strong><small>RECENSIONI/);
+  assert.doesNotMatch(source, />LORO<\/span>/);
+  assert.doesNotMatch(source, /\b[1-5][,.][0-9]\b/);
 });
 
-test('H0 avoids misleading competitor ratings and feature-zoo patterns', () => {
-  assert.doesNotMatch(source, /4,8|4,9|4,3|rating/i);
-  assert.doesNotMatch(source, /class="four-actions/);
-  assert.doesNotMatch(source, /mock-card|dashboard/i);
+test('H0 presents the future business lookup as a disabled concept', () => {
+  assert.match(source, /id="attivita"/);
+  assert.match(source, /Cerca la tua/);
+  assert.match(source, /Qui Trovatemi guarderà il tuo caso reale\./);
+  assert.match(source, /La ricerca verrà attivata con L2: nessun dato inventato\./);
+  assert.match(source, /<input[^>]+disabled/);
+  assert.match(source, /<button[^>]+disabled/);
+  assert.doesNotMatch(source, /<form|action=/);
 });
 
-test('H0 exposes the approved offer only', () => {
-  assert.match(source, /€0/);
+test('H0 exposes one approved offer after the business concept', () => {
+  assertAppearsInOrder(['id="attivita"', 'id="offerta"']);
   assert.match(source, /21 giorni/);
+  assert.match(source, /€0/);
   assert.match(source, /€149/);
-  assert.match(source, /per sede, salvo cancellazione prima del rinnovo/);
+  assert.match(source, /durante il trial/i);
+  assert.match(source, /UNA SOLA OFFERTA/);
 });
 
-test('H0 does not publish internal strategic labels', () => {
+test('H0 excludes internal jargon, dashboards and feature zoo patterns', () => {
   assert.doesNotMatch(source, />\s*FIDUCIA\s*</);
   assert.doesNotMatch(source, />\s*VISIBILITÀ\s*</);
   assert.doesNotMatch(source, />\s*SCELTA\s*</);
-  assert.doesNotMatch(source, /porta direttamente a SCELTA/i);
+  assert.doesNotMatch(source, /dashboard|mock-card|feature-grid|four-actions|route-card/i);
+  assert.doesNotMatch(source, /<article|<h3/);
 });
 
-test('H0 uses the campaign-led image system', () => {
+test('H0 uses the approved campaign photography', () => {
   for (const image of [
     'master-home-hero-v3.webp',
     'master-home-goodbye.webp',
