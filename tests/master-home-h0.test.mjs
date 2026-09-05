@@ -31,12 +31,36 @@ test('H0 carries the approved public messaging backbone', () => {
   }
 });
 
-test('H0 explains the product before expanding into mechanism', () => {
+test('H0 tells the story in the approved order', () => {
+  const beats = [
+    'IL COMPLIMENTO FANTASMA',
+    'LE RECENSIONI SCOMPARSE',
+    'QUELLO PEGGIORE CHE VINCE',
+    'QUANDO IL PASSAPAROLA NON SPARISCE',
+    'LA TUA ATTIVITÀ',
+    'UNA SOLA OFFERTA. FINE.',
+  ];
+
+  let previous = -1;
+  for (const beat of beats) {
+    const index = source.indexOf(beat);
+    assert.ok(index >= 0, `missing story beat: ${beat}`);
+    assert.ok(index > previous, `story beat out of order: ${beat}`);
+    previous = index;
+  }
+});
+
+test('H0 explains the product before mechanism detail', () => {
   const productTruth = source.indexOf('Trovatemi fa vedere online quanto sei bravo davvero.');
-  const mechanism = source.indexOf('Raccogli.');
+  const mechanism = source.indexOf('Cliente contento');
   assert.ok(productTruth >= 0, 'missing product truth');
-  assert.ok(mechanism >= 0, 'missing mechanism section');
-  assert.ok(productTruth < mechanism, 'product truth must appear before feature/mechanism detail');
+  assert.ok(mechanism >= 0, 'missing mechanism story');
+  assert.ok(productTruth < mechanism, 'product truth must appear before mechanism detail');
+});
+
+test('H0 avoids the feature-zoo pattern', () => {
+  assert.doesNotMatch(source, /class="four-actions/);
+  assert.doesNotMatch(source, /mock-card|dashboard/i);
 });
 
 test('H0 exposes exactly the approved offer and cross-vertical routes', () => {
@@ -47,11 +71,11 @@ test('H0 exposes exactly the approved offer and cross-vertical routes', () => {
   assert.match(source, /class="route-card route-local" href="#demo"/);
 });
 
-test('H0 does not publish internal messaging labels or decorative dashboards', () => {
+test('H0 does not publish internal messaging labels', () => {
   assert.doesNotMatch(source, />\s*FIDUCIA\s*</);
   assert.doesNotMatch(source, />\s*VISIBILITÀ\s*</);
   assert.doesNotMatch(source, />\s*SCELTA\s*</);
-  assert.doesNotMatch(source, /mock-card|dashboard/i);
+  assert.doesNotMatch(source, /porta direttamente a SCELTA/i);
 });
 
 test('H0 uses the campaign-led image system', () => {
