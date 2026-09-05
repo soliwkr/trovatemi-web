@@ -26,19 +26,20 @@ test('H0 carries the approved public messaging backbone', () => {
     'Solo che gira male.',
     'Il passaparola che hai già.',
     'Messo al lavoro.',
+    'Cerca la tua attività.',
   ]) {
     assert.ok(source.includes(line), `missing approved copy: ${line}`);
   }
 });
 
-test('H0 tells the story in the approved order', () => {
+test('H0 tells the campaign story in the approved order', () => {
   const beats = [
-    'IL COMPLIMENTO FANTASMA',
-    'LE RECENSIONI SCOMPARSE',
-    'QUELLO PEGGIORE CHE VINCE',
-    'QUANDO IL PASSAPAROLA NON SPARISCE',
-    'LA TUA ATTIVITÀ',
-    'UNA SOLA OFFERTA. FINE.',
+    'STORIA 01',
+    'STORIA 02',
+    'STORIA 03',
+    'STORIA 04',
+    'ADESSO TOCCA A TE',
+    'UNA SOLA OFFERTA',
   ];
 
   let previous = -1;
@@ -58,20 +59,26 @@ test('H0 explains the product before mechanism detail', () => {
   assert.ok(productTruth < mechanism, 'product truth must appear before mechanism detail');
 });
 
-test('H0 avoids the feature-zoo pattern', () => {
+test('H0 keeps the lookup conceptual until L2 exists', () => {
+  assert.match(source, /Cerca la tua attività\./);
+  assert.match(source, /disabled aria-disabled="true"/);
+  assert.match(source, /La ricerca reale verrà attivata con L2/);
+});
+
+test('H0 avoids misleading competitor ratings and feature-zoo patterns', () => {
+  assert.doesNotMatch(source, /4,8|4,9|4,3|rating/i);
   assert.doesNotMatch(source, /class="four-actions/);
   assert.doesNotMatch(source, /mock-card|dashboard/i);
 });
 
-test('H0 exposes exactly the approved offer and cross-vertical routes', () => {
-  assert.match(source, /21 giorni di trial/);
-  assert.match(source, /€0 durante il trial/);
-  assert.match(source, /€149\/mese/);
-  assert.match(source, /class="route-card route-beauty" href="\/"/);
-  assert.match(source, /class="route-card route-local" href="#demo"/);
+test('H0 exposes the approved offer only', () => {
+  assert.match(source, /€0/);
+  assert.match(source, /21 giorni/);
+  assert.match(source, /€149/);
+  assert.match(source, /per sede, salvo cancellazione prima del rinnovo/);
 });
 
-test('H0 does not publish internal messaging labels', () => {
+test('H0 does not publish internal strategic labels', () => {
   assert.doesNotMatch(source, />\s*FIDUCIA\s*</);
   assert.doesNotMatch(source, />\s*VISIBILITÀ\s*</);
   assert.doesNotMatch(source, />\s*SCELTA\s*</);
@@ -81,8 +88,10 @@ test('H0 does not publish internal messaging labels', () => {
 test('H0 uses the campaign-led image system', () => {
   for (const image of [
     'master-home-hero-v3.webp',
+    'master-home-goodbye.webp',
     'master-home-missing-v3.webp',
     'master-home-compare-v3.webp',
+    'master-home-proof-v2.webp',
   ]) {
     assert.ok(source.includes(image), `missing campaign image: ${image}`);
   }
