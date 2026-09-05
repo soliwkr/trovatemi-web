@@ -44,3 +44,13 @@ test('H0 does not publish internal messaging labels or decorative dashboards', (
   assert.doesNotMatch(source, />\s*SCELTA\s*</);
   assert.doesNotMatch(source, /mock-card|dashboard/i);
 });
+
+test('H0 uses the campaign-led image system', () => {
+  for (const image of [
+    'master-home-hero-v3.webp',
+    'master-home-missing-v3.webp',
+    'master-home-compare-v3.webp',
+  ]) {
+    assert.ok(source.includes(image), `missing campaign image: ${image}`);
+  }
+});

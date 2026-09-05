@@ -40,10 +40,10 @@ import '../styles/master-home-v2.css';
       <section class="hero" aria-labelledby="hero-title">
         <img
           class="hero-image"
-          src="/images/master-home-compliment-v2.webp"
+          src="/images/master-home-hero-v3.webp"
           width="1536"
           height="1024"
-          alt="Una cliente racconta soddisfatta la sua esperienza alla titolare di una piccola attività locale"
+          alt="Una cliente felice lascia un’attività locale mentre il suo complimento svanisce dalla vetrina"
           fetchpriority="high"
         />
         <div class="hero-wash" aria-hidden="true"></div>
@@ -56,7 +56,7 @@ import '../styles/master-home-v2.css';
           <div class="hero-foot">
             <p>Il passaparola c’è.<br /><strong>Solo che gira male.</strong></p>
             <a class="disc-link" href="#il-problema">
-              <span>VEDI DOVE<br />SI PERDE</span><b aria-hidden="true">↓</b>
+              <span>SCOPRI DOVE SI PERDE</span><b aria-hidden="true">↓</b>
             </a>
           </div>
         </div>
@@ -66,24 +66,18 @@ import '../styles/master-home-v2.css';
       </section>
 
       <section id="il-problema" class="compliment-section dark-section" aria-labelledby="compliment-title">
-        <div class="page-shell compliment-intro reveal">
-          <div class="section-mark"><b>01</b><span>IL COMPLIMENTO FANTASMA</span></div>
-          <blockquote id="compliment-title">“Mi sono trovata<br /><em>benissimo.</em>”</blockquote>
-          <p class="compliment-note">È vero. È prezioso.<br />E tra trenta secondi sarà già sparito.</p>
-        </div>
-
-        <div class="photo-sequence page-shell" aria-label="La storia del complimento che si perde">
-          <figure class="photo-frame photo-frame-a reveal">
-            <img
-              src="/images/master-home-compliment-v2.webp"
-              width="1536"
-              height="1024"
-              alt="La cliente fa un complimento alla titolare"
-              loading="lazy"
-            />
-            <figcaption><span>16:42:08</span><b>LO DICE.</b></figcaption>
-          </figure>
-          <figure class="photo-frame photo-frame-b reveal">
+        <div class="compliment-campaign page-shell">
+          <div class="compliment-copy reveal">
+            <div class="section-mark"><b>01</b><span>IL COMPLIMENTO FANTASMA</span></div>
+            <blockquote id="compliment-title">“Mi sono trovata<br /><em>benissimo.</em>”</blockquote>
+            <ol class="vanish-beats" aria-label="Cosa succede dopo il complimento">
+              <li><span>01</span><strong>Grazie.</strong></li>
+              <li><span>02</span><strong>Paga.</strong></li>
+              <li><span>03</span><strong>Esce.</strong></li>
+              <li><span>04</span><strong>Fine.</strong></li>
+            </ol>
+          </div>
+          <figure class="compliment-poster reveal">
             <img
               src="/images/master-home-goodbye.webp"
               width="1536"
@@ -91,17 +85,8 @@ import '../styles/master-home-v2.css';
               alt="La cliente saluta la titolare e si avvia verso l’uscita"
               loading="lazy"
             />
-            <figcaption><span>16:42:31</span><b>SALUTA.</b></figcaption>
-          </figure>
-          <figure class="photo-frame photo-frame-c reveal">
-            <img
-              src="/images/master-home-exit-v2.webp"
-              width="1536"
-              height="1024"
-              alt="La cliente esce mentre la titolare resta dietro il bancone"
-              loading="lazy"
-            />
-            <figcaption><span>16:42:46</span><b>ESCE.</b></figcaption>
+            <span class="speech-card">MI SONO TROVATA<br /><strong>BENISSIMO.</strong></span>
+            <figcaption><span>16:42:46</span><b>NESSUNA TRACCIA.</b></figcaption>
           </figure>
         </div>
 
@@ -114,53 +99,48 @@ import '../styles/master-home-v2.css';
         </div>
       </section>
 
-      <section class="missing-section gold-section" aria-labelledby="missing-title">
-        <div class="page-shell">
-          <div class="section-mark"><b>02</b><span>LE RECENSIONI SCOMPARSE</span></div>
-          <div class="missing-layout">
-            <div class="missing-math reveal">
-              <div class="math-line"><strong>50</strong><p>clienti<br />felici.</p></div>
-              <div class="math-line math-line-white"><strong>4</strong><p>recensioni.</p></div>
-              <div class="math-rule" aria-hidden="true"></div>
-              <h2 id="missing-title">Dove sono finite<br /><em>le altre 46?</em></h2>
-            </div>
-            <figure class="receipt-evidence reveal">
-              <img
-                src="/images/master-home-receipt.webp"
-                width="1730"
-                height="909"
-                alt="Lo scontrino lasciato sul bancone alla fine della visita"
-                loading="lazy"
-              />
-              <figcaption>
-                <span>PROVA N. 46</span>
-                <p>Il cliente era felice.<br />La traccia finisce qui.</p>
-              </figcaption>
-            </figure>
+      <section class="missing-section dark-section" aria-labelledby="missing-title">
+        <img
+          class="missing-image"
+          src="/images/master-home-missing-v3.webp"
+          width="1536"
+          height="1024"
+          alt="Molti scontrini scompaiono nel buio mentre soltanto quattro prove con una stella restano sul bancone"
+          loading="lazy"
+        />
+        <div class="missing-wash" aria-hidden="true"></div>
+        <div class="missing-campaign page-shell">
+          <div class="section-mark section-mark-gold"><b>02</b><span>LE RECENSIONI SCOMPARSE</span></div>
+          <div class="missing-copy reveal">
+            <p class="missing-stat"><strong>50</strong><span>clienti<br />felici.</span></p>
+            <p class="missing-stat missing-stat-gold"><strong>4</strong><span>recensioni.</span></p>
+            <h2 id="missing-title">Dove sono finite<br /><em>le altre 46?</em></h2>
           </div>
+          <p class="missing-caption reveal"><b>4 prove restano.</b><br />Il resto della giornata sparisce.</p>
         </div>
       </section>
 
-      <section class="comparison-section paper-section" aria-labelledby="comparison-title">
+      <section class="comparison-section dark-section" aria-labelledby="comparison-title">
         <div class="page-shell comparison-heading reveal">
-          <div class="section-mark"><b>03</b><span>IL CONFRONTO CHE VEDE IL CLIENTE</span></div>
-          <h2 id="comparison-title">Sei più bravo.<br /><em>Lui sembra più bravo.</em></h2>
-          <p>La qualità che non si vede non entra nel confronto.</p>
+          <div class="section-mark section-mark-gold"><b>03</b><span>IL CONFRONTO CHE VEDE IL CLIENTE</span></div>
+          <h2 id="comparison-title">Sei più bravo.</h2>
+          <p>Ma prima di conoscerti, il cliente può giudicare solo quello che vede.</p>
         </div>
-
-        <div class="review-comparison page-shell" aria-label="Confronto ipotetico tra recensioni">
-          <article class="competitor-row reveal">
-            <header><span>LUI</span><b>384</b><small>RECENSIONI</small></header>
-            <div class="comparison-bar" aria-hidden="true"><i></i></div>
-            <p>Non sai se è più bravo. Ma ha lasciato molte più prove.</p>
-          </article>
-          <article class="competitor-row competitor-you reveal">
-            <header><span>TU</span><b>41</b><small>RECENSIONI</small></header>
-            <div class="comparison-bar" aria-hidden="true"><i></i></div>
-            <p>I clienti felici ci sono. Online ne sono arrivati pochi.</p>
-          </article>
-        </div>
-
+        <figure class="comparison-stage page-shell reveal">
+          <img
+            src="/images/master-home-compare-v3.webp"
+            width="1536"
+            height="1024"
+            alt="Un titolare confronta la propria presenza online con quella di un concorrente"
+            loading="lazy"
+          />
+          <div class="phone-comparison" aria-label="Lui ha 384 recensioni, tu 41">
+            <span>LUI</span><strong>384</strong><small>RECENSIONI</small>
+            <i aria-hidden="true"></i>
+            <span>TU</span><strong>41</strong><small>RECENSIONI</small>
+          </div>
+          <figcaption>Non sai se è più bravo.<br /><strong>Online sembra di sì.</strong></figcaption>
+        </figure>
         <div class="comparison-verdict">
           <div class="page-shell reveal">
             <p>Indovina chi sembra più bravo.</p>
