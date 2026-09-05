@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const source = await readFile(new URL('../src/pages/master-home.astro', import.meta.url), 'utf8');
+const demoSource = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
 
 function assertAppearsInOrder(lines) {
   let previousIndex = -1;
@@ -60,14 +61,19 @@ test('H0 keeps the competitor story honest and pronouns coherent', () => {
   assert.doesNotMatch(source, /\b[1-5][,.][0-9]\b/);
 });
 
-test('H0 presents the future business lookup as a disabled concept', () => {
+test('H0 hands off to the complete declared demo without faking L2', () => {
   assert.match(source, /id="attivita"/);
   assert.match(source, /Cerca la tua/);
-  assert.match(source, /Qui Trovatemi guarderà il tuo caso reale\./);
-  assert.match(source, /La ricerca verrà attivata con L2: nessun dato inventato\./);
-  assert.match(source, /<input[^>]+disabled/);
-  assert.match(source, /<button[^>]+disabled/);
+  assert.match(source, /APRI LA DEMO COMPLETA/);
+  assert.match(source, /href="\/\?demo=search&amp;from=master-home"/);
+  assert.match(source, /dati dimostrativi dichiarati/);
+  assert.match(source, /Il lookup reale verrà attivato con L2\./);
   assert.doesNotMatch(source, /<form|action=/);
+
+  assert.match(demoSource, /searchParams\.get\('demo'\) === 'search'/);
+  assert.match(demoSource, /stage: startsAtSearch \? 'search' : 'intro'/);
+  assert.match(demoSource, /'intro' \| 'search' \| 'confirm' \| 'quiz' \| 'flash' \| 'capture' \| 'report'/);
+  assert.match(demoSource, /\/master-home\/#attivita/);
 });
 
 test('H0 exposes one approved offer after the business concept', () => {

@@ -1,5 +1,11 @@
 ---
 import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
+
+const startsFromMasterHome = Astro.url.searchParams.get('from') === 'master-home';
+const returnHref = startsFromMasterHome ? '/master-home/#attivita' : '/';
+const wordmarkLabel = startsFromMasterHome
+  ? 'Trovatemi Beauty Check, torna alla master home'
+  : 'Trovatemi Beauty Check';
 ---
 
 <BeautyLeanLayout
@@ -8,7 +14,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
 >
   <div class="funnel-app" data-funnel-app>
     <header class="funnel-topbar">
-      <a class="wordmark" href="/" aria-label="Trovatemi Beauty Check">
+      <a class="wordmark" href={returnHref} aria-label={wordmarkLabel}>
         <span>TROVATEMI</span>
         <i>beauty check</i>
       </a>
@@ -47,6 +53,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
     const progressElement = document.querySelector<HTMLElement>('[data-progress]');
     const stageLabel = document.querySelector<HTMLElement>('[data-stage-label]');
     const stageCount = document.querySelector<HTMLElement>('[data-stage-count]');
+    const startsAtSearch = new URL(window.location.href).searchParams.get('demo') === 'search';
 
     const state: {
       stage: Stage;
@@ -57,7 +64,7 @@ import BeautyLeanLayout from '../layouts/BeautyLeanLayout.astro';
       email: string;
       consent: boolean;
     } = {
-      stage: 'intro',
+      stage: startsAtSearch ? 'search' : 'intro',
       query: '',
       business: null,
       step: 0,
