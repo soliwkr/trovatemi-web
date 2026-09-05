@@ -15,6 +15,7 @@ test('H0 carries the approved public messaging backbone', () => {
     'clienti felici.',
     'Fai in modo',
     'che si veda.',
+    'Trovatemi fa vedere online quanto sei bravo davvero.',
     'Peccato che',
     'Google non era lì.',
     'Dove sono finite',
@@ -28,6 +29,14 @@ test('H0 carries the approved public messaging backbone', () => {
   ]) {
     assert.ok(source.includes(line), `missing approved copy: ${line}`);
   }
+});
+
+test('H0 explains the product before expanding into mechanism', () => {
+  const productTruth = source.indexOf('Trovatemi fa vedere online quanto sei bravo davvero.');
+  const mechanism = source.indexOf('Raccogli.');
+  assert.ok(productTruth >= 0, 'missing product truth');
+  assert.ok(mechanism >= 0, 'missing mechanism section');
+  assert.ok(productTruth < mechanism, 'product truth must appear before feature/mechanism detail');
 });
 
 test('H0 exposes exactly the approved offer and cross-vertical routes', () => {
