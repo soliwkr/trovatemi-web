@@ -224,7 +224,7 @@
   .report-summary b { color: var(--paper); }
   .report-readout { display: grid; gap: 3rem; border-block: 1px solid rgba(255, 250, 244, 0.25); padding: clamp(3rem, 8vw, 7rem) var(--stage-padding); background: var(--wine); }
   .report-stamp { display: grid; width: min(17rem, 75vw); aspect-ratio: 1; place-content: center; border: 1px solid var(--pink); border-radius: 50%; text-align: center; transform: rotate(-4deg); }
-  .report-stamp span { color: var(--pink); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.11em; text-transform: uppercase; }
+  .report-stamp span { color: var(--cream); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.11em; text-transform: uppercase; }
   .report-stamp strong { font-family: var(--serif); font-size: 7rem; font-weight: 500; font-style: italic; line-height: 0.9; }
   .report-stamp small { color: rgba(255, 250, 244, 0.65); font-size: 0.58rem; line-height: 1.3; text-transform: uppercase; }
   .report-actions { display: grid; gap: 3rem; padding: clamp(4rem, 9vw, 8rem) var(--stage-padding); color: var(--ink); background: var(--cream); }
