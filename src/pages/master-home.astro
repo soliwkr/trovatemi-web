@@ -1,8 +1,7 @@
 ---
 import '@fontsource/anton/latin.css';
 import '@fontsource-variable/archivo';
-import '../styles/master-home-v2.css';
-import '../styles/master-home-meme-v3.css';
+import '../styles/master-home-campaign-v4.css';
 ---
 
 <!doctype html>
@@ -12,231 +11,199 @@ import '../styles/master-home-meme-v3.css';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trovatemi chiede recensioni, segue chi dimentica, organizza le risposte e rimette le parole dei tuoi clienti al lavoro online."
+      content="Trovatemi mette al lavoro il passaparola che hai già: recensioni, follow-up, risposte e riuso delle prove migliori online."
     />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#fffefa" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2311110f'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='%23f5bd18'%3E%E2%98%85%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='%23ffc515'%3E%E2%98%85%3C/text%3E%3C/svg%3E"
     />
-    <title>Trovatemi.it ★ — Fai vedere online quanto sei bravo davvero.</title>
+    <title>Trovatemi.it ★ — Il passaparola che hai già, messo al lavoro.</title>
   </head>
   <body>
     <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
-    <header class="topbar">
-      <a class="wordmark" href="/master-home/" aria-label="Trovatemi.it, home">
-        TROVATEMI<span>.IT</span><i aria-hidden="true">★</i>
+    <header class="site-header">
+      <a class="brand" href="/master-home/" aria-label="Trovatemi.it, home">
+        TROVATEMI.IT <b aria-hidden="true">★</b>
+        <small>Il passaparola che hai già. Messo al lavoro.</small>
       </a>
-      <a class="topbar-action" href="#storia">Guarda cosa succede <span aria-hidden="true">↓</span></a>
+      <nav class="nav" aria-label="Navigazione principale">
+        <a href="#come-funziona">Come funziona</a>
+        <a href="#esempi">Esempi</a>
+        <a href="#prezzi">Prezzi</a>
+        <a href="#attivita">Per chi è</a>
+      </nav>
+      <a class="header-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
     </header>
 
     <main id="contenuto">
-      <section class="hero poster-white" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="campaign-kicker">RECENSIONI · RISPOSTE · RIUSO</p>
-          <h1 id="hero-title">Hai già<br />clienti felici.</h1>
-          <p class="hero-command">Fai in modo<br /><em>che si veda.</em></p>
-          <p class="hero-definition">Trovatemi chiede recensioni, segue chi dimentica, organizza le risposte e riusa le parole migliori online.</p>
-          <a class="hero-cta" href="#storia">GUARDA COSA SUCCEDE <span aria-hidden="true">↓</span></a>
-        </div>
-
-        <figure class="hero-photo">
+      <section class="hero" aria-labelledby="hero-title">
+        <figure class="hero-scene">
           <img
             src="/images/master-home-hero-v3.webp"
             width="1536"
             height="1024"
-            alt="Una cliente felice lascia un’attività locale dopo aver salutato la titolare"
+            alt="Una cliente soddisfatta sorride dopo il servizio in un salone"
             fetchpriority="high"
           />
-          <figcaption>IL COMPLIMENTO C’È.<br /><strong>ONLINE ANCORA NO.</strong></figcaption>
-        </figure>
-
-        <div class="product-truth">
-          <span aria-hidden="true">★</span>
-          <p><strong>Trovatemi fa vedere online quanto sei bravo davvero.</strong><br />Chiede recensioni, segue chi dimentica, organizza le risposte e rimette le parole dei clienti al lavoro.</p>
-        </div>
-      </section>
-
-      <section id="storia" class="compliment poster-white" aria-labelledby="compliment-title">
-        <figure class="compliment-photo reveal">
-          <img
-            src="/images/master-home-goodbye.webp"
-            width="1536"
-            height="1024"
-            alt="La cliente saluta sorridendo mentre sta per uscire dall’attività"
-            loading="lazy"
-          />
-          <span class="quote-bubble">“Mi sono trovata<br /><strong>benissimo.</strong>”</span>
-        </figure>
-
-        <div class="compliment-copy reveal">
-          <p class="campaign-label">ECCO IL PROBLEMA</p>
-          <h2 id="compliment-title">Grazie.<br />Paga.<br />Esce.<br /><em>Fine.</em></h2>
-          <p class="timecode">16:42:46 — NESSUNA TRACCIA</p>
-        </div>
-      </section>
-
-      <section class="bam bam-google" aria-label="Peccato che Google non era lì">
-        <div class="bam-inner reveal">
-          <p>Peccato che</p>
-          <h2>Google<br />non era lì.</h2>
-          <span aria-hidden="true">★</span>
-        </div>
-      </section>
-
-      <section class="missing poster-white" aria-labelledby="missing-title">
-        <div class="missing-copy reveal">
-          <p class="campaign-label">UNA GIORNATA NORMALE</p>
-          <div class="stat-line"><strong>50</strong><span>clienti<br />felici.</span></div>
-          <div class="stat-line stat-line-gold"><strong>4</strong><span>recensioni.</span></div>
-          <h2 id="missing-title">Dove sono finite<br /><em>le altre 46?</em></h2>
-        </div>
-
-        <figure class="missing-photo reveal">
-          <img
-            src="/images/master-home-missing-v3.webp"
-            width="1536"
-            height="1024"
-            alt="Quattro prove con una stella restano sul bancone mentre gli altri scontrini scompaiono"
-            loading="lazy"
-          />
-          <figcaption><strong>4 PROVE RESTANO.</strong><br />LE ALTRE SPARISCONO.</figcaption>
-        </figure>
-      </section>
-
-      <section class="comparison dark-cinematic" aria-labelledby="comparison-title">
-        <div class="comparison-copy reveal">
-          <p class="campaign-label">IL CLIENTE DEVE SCEGLIERE</p>
-          <h2 id="comparison-title">Sei più bravo.</h2>
-          <p>Ma non ti conosce ancora.</p>
-        </div>
-
-        <figure class="comparison-photo reveal">
-          <img
-            src="/images/master-home-compare-v3.webp"
-            width="1536"
-            height="1024"
-            alt="Due attività confrontate dal punto di vista di chi deve scegliere"
-            loading="lazy"
-          />
-          <div class="review-count" role="group" aria-label="Loro hanno 384 recensioni, tu ne hai 41">
-            <div><span>LORO</span><strong>384</strong><small>RECENSIONI</small></div>
-            <i aria-hidden="true"></i>
-            <div><span>TU</span><strong>41</strong><small>RECENSIONI</small></div>
+          <blockquote class="scene-quote">“Finalmente qualcuno che ha capito i miei capelli.” ♡</blockquote>
+          <div class="scene-beats" aria-label="Il complimento finisce senza lasciare una traccia online">
+            <span>Grazie! ❤️</span>
+            <span>Paga.</span>
+            <span>Esce.</span>
+            <span>Fine.</span>
           </div>
+          <figcaption class="tape">Peccato che Google non era lì.</figcaption>
         </figure>
 
-        <div class="comparison-bam reveal">
-          <p>Indovina chi sembra<br /><strong>più bravo.</strong></p>
-          <span aria-hidden="true">★</span>
+        <div class="hero-copy">
+          <p class="eyebrow">BEAUTY &amp; WELLNESS</p>
+          <h1 id="hero-title">Hai già<br />clienti felici.</h1>
+          <p class="marker-line">Fai in modo che si veda.</p>
+          <p class="lede">Le persone ti scelgono, ti fanno i complimenti, tornano. Ma troppo spesso non lo dicono online. Trovatemi trasforma il tuo passaparola in recensioni, prova visibile e nuovi clienti.</p>
+
+          <div class="outcomes" aria-label="Risultati del sistema Trovatemi">
+            <span class="outcome"><i aria-hidden="true">↗</i>Più visibilità</span>
+            <span class="outcome"><i aria-hidden="true">●</i>Più clienti</span>
+            <span class="outcome"><i aria-hidden="true">★</i>Più prova</span>
+          </div>
+
+          <div class="cta-row">
+            <a class="primary-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
+            <p class="hand-note">Gratis.<br />In 2 minuti.</p>
+          </div>
         </div>
       </section>
 
-      <section id="prodotto" class="product-reveal dark-cinematic" aria-labelledby="product-title">
-        <div class="product-heading reveal">
-          <p class="campaign-label">QUESTO È IL PRODOTTO</p>
-          <h2 id="product-title">Il cliente è contento.<br /><em>Trovatemi fa il resto.</em></h2>
-          <p>Trasforma un buon servizio in una sequenza che continua dopo il pagamento. Senza affidarsi alla memoria tua o del cliente.</p>
+      <section id="esempi" class="deck-section comparison" aria-labelledby="comparison-title">
+        <div>
+          <p class="section-kicker">LA REALTÀ DI OGGI</p>
+          <h2 id="comparison-title">Sei più brava.<br />Ma online…<br /><span class="yellow-script">vince un’altra.</span></h2>
+          <p class="section-copy">Le persone confrontano in pochi secondi. Non scelgono sempre il migliore: scelgono quello che sembra più affidabile quando devono decidere.</p>
         </div>
 
-        <div class="product-system reveal">
-          <figure>
-            <img
-              src="/images/master-home-proof-v2.webp"
-              width="1536"
-              height="1024"
-              alt="Una cliente usa il supporto Trovatemi sul bancone di un’attività locale"
-              loading="lazy"
-            />
-            <figcaption>UN GESTO SEMPLICE. <strong>IL PASSAPAROLA PARTE.</strong></figcaption>
-          </figure>
-          <ol aria-label="Cosa fa Trovatemi dopo un cliente soddisfatto">
-            <li><b>01</b><div><strong>CHIEDE</strong><span>La richiesta parte nel momento giusto.</span></div></li>
-            <li><b>02</b><div><strong>RICORDA</strong><span>Se il cliente dimentica, arriva un promemoria.</span></div></li>
-            <li><b>03</b><div><strong>RISPONDE</strong><span>Le recensioni non restano senza seguito.</span></div></li>
-            <li><b>04</b><div><strong>RIUSA</strong><span>Le parole migliori tornano sui canali attivi.</span></div></li>
-          </ol>
-        </div>
+        <div class="phone-stage" role="group" aria-label="Esempio illustrativo: un concorrente con 384 recensioni confrontato con la tua attività con 41 recensioni">
+          <span class="phone-label loro">LORO</span>
+          <span class="phone-label tu">TU</span>
 
-        <div class="product-payoff reveal">
-          <span>PIÙ PROVA VISIBILE.</span>
-          <strong>MENO PASSAGGI DA RICORDARE.</strong>
-        </div>
-      </section>
+          <div class="phone" aria-label="Profilo concorrente: 384 recensioni">
+            <div class="screen">
+              <div class="google">Google</div>
+              <div class="searchbar">parrucchiere formia</div>
+              <p class="business-name">Hair Studio Glam</p>
+              <p class="rating"><span class="stars">★★★★★</span> <strong>(384)</strong></p>
+              <p class="meta">Parrucchiere · Formia<br /><span class="open">Aperto</span> · Chiude alle 19:30</p>
+              <div class="screen-photo"><img src="/images/master-home-compare-v3.webp" alt="Interno luminoso di un salone" loading="lazy" /></div>
+              <div class="quick-actions" aria-hidden="true">
+                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito web</span>
+              </div>
+              <p class="review-snippet">“Professionali e cordiali. Tornerò sicuramente!”</p>
+            </div>
+          </div>
 
-      <section class="daily-system dark-cinematic" aria-labelledby="daily-title">
-        <div class="daily-heading reveal">
-          <p class="campaign-label">COSA CAMBIA OGNI GIORNO</p>
-          <h2 id="daily-title">Non ti serve<br />altro marketing.<br /><em>Ti serve un sistema.</em></h2>
-          <p>Tu continui a lavorare bene. Trovatemi gestisce il passaggio che oggi dipende dalla memoria.</p>
-        </div>
+          <div class="phone" aria-label="La tua attività: 41 recensioni">
+            <div class="screen">
+              <div class="google">Google</div>
+              <div class="searchbar">il tuo salone</div>
+              <p class="business-name">Il Tuo Salone</p>
+              <p class="rating"><span class="stars">★★★★☆</span> <strong>(41)</strong></p>
+              <p class="meta">Parrucchiere · Formia<br /><span class="open">Aperto</span> · Chiude alle 19:30</p>
+              <div class="screen-photo"><img src="/images/master-home-goodbye.webp" alt="Cliente in un salone" loading="lazy" /></div>
+              <div class="quick-actions" aria-hidden="true">
+                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito web</span>
+              </div>
+              <p class="review-snippet">“Brave, ma è difficile prenotare…”</p>
+            </div>
+          </div>
 
-        <div class="before-after reveal" role="group" aria-label="Prima e dopo Trovatemi">
-          <div class="table-head"><span>TU OGGI</span><span>CON TROVATEMI</span></div>
-          <div><span>Ricordarti di chiedere</span><strong>Richiesta + promemoria</strong></div>
-          <div><span>Ricordarti di rispondere</span><strong>Routine di risposta</strong></div>
-          <div><span>Copiare recensioni a mano</span><strong>Riuso sui canali attivi</strong></div>
-        </div>
-
-        <div class="signature reveal">
-          <p>Il passaparola che hai già.</p>
-          <strong>Messo al lavoro.</strong>
-          <span aria-hidden="true">★</span>
+          <p class="choose-note">Stesso servizio.<br />Due percezioni diverse.<br /><br />Indovina chi sceglie il cliente.</p>
         </div>
       </section>
 
-      <section class="trial-delivery poster-white" aria-labelledby="trial-delivery-title">
-        <div class="trial-heading reveal">
-          <p class="campaign-label">COSA RICEVI NEI PRIMI 21 GIORNI</p>
-          <h2 id="trial-delivery-title">Mettiamo in moto<br /><em>il sistema nella tua sede.</em></h2>
-          <p>Un solo prodotto. Una sede. Nessun piano da scegliere.</p>
+      <section class="deck-section lost" aria-labelledby="lost-title">
+        <div>
+          <p class="section-kicker">PASSAPAROLA PERSO</p>
+          <p class="big-stat">50 clienti felici.<br />4 recensioni.</p>
+          <h2 id="lost-title"><span class="yellow-script">Dove sono finite<br />le altre 46?</span></h2>
+          <p class="section-copy">Ogni giorno vivi complimenti, sorrisi e clienti soddisfatti. Se non lasciano una traccia online, per il prossimo cliente è come se non fosse mai successo.</p>
         </div>
-        <ol class="delivery-list reveal">
-          <li><b>01</b><strong>Starter Review Kit digitale</strong></li>
-          <li><b>02</b><strong>Richieste recensione e promemoria</strong></li>
-          <li><b>03</b><strong>Flusso Google-first</strong></li>
-          <li><b>04</b><strong>Risposte e riuso sui canali attivi</strong></li>
-          <li><b>05</b><strong>Andamento sotto controllo</strong></li>
-        </ol>
+
+        <div class="lost-visual" aria-label="Esempio: 50 clienti serviti ma solo 4 nuove recensioni">
+          <div class="receipt">
+            <h3>Scontrino di oggi</h3>
+            <div class="receipt-lines">
+              <div><span>Taglio</span><span>25,00</span></div>
+              <div><span>Piega</span><span>20,00</span></div>
+              <div><span>Colore</span><span>45,00</span></div>
+              <div><span>Trattamenti</span><span>15,00</span></div>
+              <div><strong>Totale clienti serviti</strong><strong>50</strong></div>
+            </div>
+            <p class="receipt-quote">“Grazie! A presto.” ♡</p>
+          </div>
+
+          <div class="review-card">
+            <p>Nuove recensioni<br />questa settimana</p>
+            <strong>4</strong>
+            <div class="stars" aria-label="Quattro stelle su cinque">★★★★☆</div>
+          </div>
+
+          <p class="lost-note">Il tuo passaparola c’è.<br />Solo che <mark>gira male.</mark></p>
+        </div>
       </section>
 
-      <section id="attivita" class="business-search poster-white" aria-labelledby="business-title">
-        <div class="business-heading reveal">
-          <p class="campaign-label">IL PROSSIMO PASSO SARÀ IL TUO CASO</p>
-          <h2 id="business-title">Cerca la tua<br /><em>attività.</em></h2>
+      <section id="come-funziona" class="deck-section how" aria-labelledby="how-title">
+        <div class="how-grid">
+          <div>
+            <p class="section-kicker">COME FUNZIONA</p>
+            <h2 id="how-title">Semplice.<br />Concreto.<br />Locale.</h2>
+          </div>
+          <div class="step"><b>1</b><strong>Cerca la tua attività</strong><p>Troviamo il tuo profilo e guardiamo cosa appare oggi.</p></div>
+          <div class="step"><b>2</b><strong>Vedi cosa perdi</strong><p>Ti mostriamo dove il passaparola si spegne prima di diventare prova online.</p></div>
+          <div class="step"><b>3</b><strong>Attiva Trovatemi</strong><p>Chiede, ricorda, organizza le risposte e rimette le parole migliori al lavoro.</p></div>
+        </div>
+      </section>
+
+      <section id="attivita" class="deck-section lookup" aria-labelledby="lookup-title">
+        <div>
+          <p class="section-kicker">ADESSO TOCCA ALLA TUA ATTIVITÀ</p>
+          <h2 id="lookup-title">Non un audit generico.<br /><span class="yellow-script">Il tuo caso.</span></h2>
+          <p class="section-copy">Trovatemi parte da quello che un cliente vede davvero quando ti cerca: presenza, reputazione, chiarezza e prossimo passo.</p>
         </div>
 
-        <div class="lookup-concept reveal" role="group" aria-label="Anteprima della futura ricerca attività">
+        <div class="lookup-box" role="group" aria-label="Anteprima della ricerca attività, non ancora interattiva">
           <p class="lookup-label">NOME ATTIVITÀ O CITTÀ</p>
-          <div class="lookup-placeholder" aria-disabled="true">
-            <span>Es. Studio Aurora, Torino</span><strong>CERCA <b aria-hidden="true">→</b></strong>
+          <div class="fake-input" aria-disabled="true">
+            <span>Es. Studio Aurora, Formia</span>
+            <b>CERCA →</b>
           </div>
-          <p>Qui Trovatemi guarderà il tuo caso reale: cosa si vede, dove si ferma il passaparola e cosa sistemare prima. Il lookup verrà attivato con L2.</p>
+          <p>Questa preview non finge il lookup: il campo si attiverà quando sarà collegato ai dati reali del prossimo slice.</p>
         </div>
       </section>
 
-      <section id="offerta" class="offer bam" aria-labelledby="offer-title">
-        <div class="offer-inner reveal">
-          <p class="campaign-label">UNA SOLA OFFERTA</p>
-          <p class="offer-product">TUTTO TROVATEMI · UNA SEDE</p>
-          <h2 id="offer-title"><span>21 giorni</span><strong>€0</strong></h2>
-          <p class="trial-copy">durante il trial</p>
-          <div class="then-price"><span>POI</span><strong>€149<small>/MESE</small></strong></div>
+      <section id="prezzi" class="offer" aria-labelledby="offer-title">
+        <div class="offer-copy">
+          <p class="section-kicker">UNA SOLA OFFERTA</p>
+          <h2 id="offer-title">Provalo<br />nel tuo<br />business.</h2>
+          <p class="section-copy">Una sede. Un prodotto. Nessun piano da decifrare.</p>
+        </div>
+        <div class="offer-price">
+          <p class="eyebrow">21 GIORNI DI TRIAL</p>
+          <div class="price-zero"><strong>€0</strong><span>durante<br />il trial</span></div>
+          <p class="then">Poi <strong>€149/mese</strong></p>
           <div class="offer-terms">
-            <p>Carta richiesta all’attivazione. Cancelli prima del rinnovo se non fa per te.</p>
-            <p>Welcome Kit fisico dopo il primo pagamento riuscito.</p>
+            Carta richiesta all’attivazione. Puoi cancellare prima del rinnovo. Il Welcome Kit fisico parte dopo il primo pagamento riuscito.
           </div>
-          <a class="offer-cta" href="#prodotto">RIVEDI COSA FA TROVATEMI <span aria-hidden="true">↑</span></a>
+          <a class="primary-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
         </div>
       </section>
     </main>
 
-    <footer class="footer dark-cinematic">
-      <a class="footer-wordmark" href="/master-home/">TROVATEMI.IT <span aria-hidden="true">★</span></a>
-      <p>Il passaparola che hai già.<br /><strong>Messo al lavoro.</strong></p>
-      <span>21 GIORNI · €0 DURANTE IL TRIAL · POI €149/MESE</span>
+    <footer class="footer">
+      <a class="brand" href="/master-home/">TROVATEMI.IT <b aria-hidden="true">★</b></a>
+      <p>Il passaparola che hai già. <strong>Messo al lavoro.</strong></p>
+      <p>21 giorni · €0 · poi €149/mese</p>
     </footer>
   </body>
 </html>
