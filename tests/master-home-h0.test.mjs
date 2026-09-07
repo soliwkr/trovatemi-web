@@ -20,6 +20,11 @@ test('H0 remains an isolated noindex preview', () => {
   assert.match(source, /href="\/master-home\/"/);
 });
 
+test('H0 loads the meme-light campaign treatment', () => {
+  assert.match(source, /master-home-meme-v3\.css/);
+  assert.match(source, /theme-color" content="#fffefa"/);
+});
+
 test('H0 leads with the approved recognition and an explicit product truth', () => {
   for (const line of [
     'Hai già',
@@ -75,10 +80,10 @@ test('H0 explains the daily product change without a feature zoo', () => {
   assert.match(source, /Ti serve un sistema\./);
 });
 
-test('H0 keeps the competitor story honest and pronouns coherent', () => {
-  assert.match(source, />LUI<\/span><strong>384<\/strong><small>RECENSIONI/);
+test('H0 keeps the competitor story explicit and comparison-led', () => {
+  assert.match(source, />LORO<\/span><strong>384<\/strong><small>RECENSIONI/);
   assert.match(source, />TU<\/span><strong>41<\/strong><small>RECENSIONI/);
-  assert.doesNotMatch(source, />LORO<\/span>/);
+  assert.match(source, /aria-label="Loro hanno 384 recensioni, tu ne hai 41"/);
   assert.doesNotMatch(source, /\b[1-5][,.][0-9]\b/);
 });
 
