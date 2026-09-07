@@ -37,23 +37,28 @@ test('H0 leads with the approved recognition and an explicit product truth', () 
   }
 });
 
-test('H0 sells the product before using the campaign stories as proof', () => {
+test('H0 lets the canonical stories create recognition before revealing the product', () => {
   assertAppearsInOrder([
     'Hai già',
+    'Mi sono trovata',
+    'Google<br />non era lì.',
+    'Dove sono finite',
+    'Sei più bravo.',
     'QUESTO È IL PRODOTTO',
     '>CHIEDE<',
     '>RICORDA<',
     '>RISPONDE<',
     '>RIUSA<',
-    'Mi sono trovata',
-    'Google<br />non era lì.',
-    'Dove sono finite',
-    'Sei più bravo.',
     'COSA CAMBIA OGNI GIORNO',
     'COSA RICEVI NEI PRIMI 21 GIORNI',
     'id="attivita"',
     '21 giorni',
   ]);
+});
+
+test('H0 entry CTAs continue the story instead of skipping directly to product explanation', () => {
+  assert.match(source, /topbar-action" href="#storia">Guarda cosa succede/);
+  assert.match(source, /hero-cta" href="#storia">GUARDA COSA SUCCEDE/);
 });
 
 test('H0 turns the compliment into one continuous narrative sequence', () => {
