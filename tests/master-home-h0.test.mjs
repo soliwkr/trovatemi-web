@@ -6,7 +6,6 @@ const source = await readFile(new URL('../src/pages/master-home.astro', import.m
 
 function assertAppearsInOrder(lines) {
   let previousIndex = -1;
-
   for (const line of lines) {
     const currentIndex = source.indexOf(line);
     assert.notEqual(currentIndex, -1, `missing story beat: ${line}`);
@@ -20,110 +19,77 @@ test('H0 remains an isolated noindex preview', () => {
   assert.match(source, /href="\/master-home\/"/);
 });
 
-test('H0 loads the meme-light campaign treatment', () => {
-  assert.match(source, /master-home-meme-v3\.css/);
+test('H0 uses the campaign-deck visual system instead of legacy landing treatments', () => {
+  assert.match(source, /master-home-campaign-v4\.css/);
+  assert.doesNotMatch(source, /master-home-v2\.css|master-home-meme-v3\.css/);
   assert.match(source, /theme-color" content="#fffefa"/);
 });
 
-test('H0 leads with the approved recognition and an explicit product truth', () => {
-  for (const line of [
+test('H0 opens on a recognizable real-world scene before explanation', () => {
+  assertAppearsInOrder([
+    'Finalmente qualcuno che ha capito i miei capelli.',
+    'Grazie! ❤️',
+    'Paga.',
+    'Esce.',
+    'Fine.',
+    'Peccato che Google non era lì.',
     'Hai già',
     'clienti felici.',
-    'Fai in modo',
-    'che si veda.',
-    'Trovatemi fa vedere online',
-    'quanto sei bravo davvero.',
-    'Chiede recensioni',
-    'segue chi dimentica',
-    'organizza le risposte',
-    'rimette le parole dei clienti al lavoro',
-  ]) {
-    assert.ok(source.includes(line), `missing approved product truth: ${line}`);
-  }
-});
-
-test('H0 lets the canonical stories create recognition before revealing the product', () => {
-  assertAppearsInOrder([
-    'Hai già',
-    'Mi sono trovata',
-    'Google<br />non era lì.',
-    'Dove sono finite',
-    'Sei più bravo.',
-    'QUESTO È IL PRODOTTO',
-    '>CHIEDE<',
-    '>RICORDA<',
-    '>RISPONDE<',
-    '>RIUSA<',
-    'COSA CAMBIA OGNI GIORNO',
-    'COSA RICEVI NEI PRIMI 21 GIORNI',
-    'id="attivita"',
-    '21 giorni',
+    'Fai in modo che si veda.',
   ]);
 });
 
-test('H0 entry CTAs continue the story instead of skipping directly to product explanation', () => {
-  assert.match(source, /topbar-action" href="#storia">Guarda cosa succede/);
-  assert.match(source, /hero-cta" href="#storia">GUARDA COSA SUCCEDE/);
+test('H0 makes the competitive choice visible through two explicit phone screens', () => {
+  assert.match(source, /class="phone-stage"/);
+  assert.match(source, />LORO<\/span>/);
+  assert.match(source, />TU<\/span>/);
+  assert.match(source, /\(384\)/);
+  assert.match(source, /\(41\)/);
+  assert.match(source, /Stesso servizio[\s\S]*Due percezioni diverse/);
+  assert.match(source, /Indovina chi sceglie il cliente/);
 });
 
-test('H0 turns the compliment into one continuous narrative sequence', () => {
-  assertAppearsInOrder(['Mi sono trovata', 'Grazie.', 'Paga.', 'Esce.', 'Fine.', 'Google<br />non era lì.']);
-  assert.match(source, /Il passaparola che hai già\./);
-  assert.match(source, /Messo al lavoro\./);
+test('H0 preserves the 50 happy customers / 4 reviews lost-word-of-mouth story', () => {
+  assertAppearsInOrder(['50 clienti felici.', '4 recensioni.', 'Dove sono finite', 'le altre 46?']);
+  assert.match(source, /Totale clienti serviti<\/strong><strong>50/);
+  assert.match(source, /Nuove recensioni[\s\S]*questa settimana/);
+  assert.match(source, /Solo che[\s\S]*gira male/);
 });
 
-test('H0 explains the daily product change without a feature zoo', () => {
-  assertAppearsInOrder(['Ricordarti di chiedere', 'Richiesta + promemoria']);
-  assertAppearsInOrder(['Ricordarti di rispondere', 'Routine di risposta']);
-  assertAppearsInOrder(['Copiare recensioni a mano', 'Riuso sui canali attivi']);
-  assert.match(source, /Non ti serve[\s\S]*altro marketing\./);
-  assert.match(source, /Ti serve un sistema\./);
+test('H0 explains the product as three clear actions, not a feature zoo', () => {
+  assertAppearsInOrder(['Cerca la tua attività', 'Vedi cosa perdi', 'Attiva Trovatemi']);
+  assert.match(source, /Chiede, ricorda, organizza le risposte e rimette le parole migliori al lavoro/);
+  assert.doesNotMatch(source, /feature-grid|dashboard|mock-card|route-card/i);
 });
 
-test('H0 keeps the competitor story explicit and comparison-led', () => {
-  assert.match(source, />LORO<\/span><strong>384<\/strong><small>RECENSIONI/);
-  assert.match(source, />TU<\/span><strong>41<\/strong><small>RECENSIONI/);
-  assert.match(source, /aria-label="Loro hanno 384 recensioni, tu ne hai 41"/);
-  assert.doesNotMatch(source, /\b[1-5][,.][0-9]\b/);
-});
-
-test('H0 presents the future real lookup without linking to the outdated demo or faking L2', () => {
+test('H0 keeps the master lookup honest until real L2 data is wired', () => {
   assert.match(source, /id="attivita"/);
-  assert.match(source, /Cerca la tua/);
-  assert.match(source, /cosa si vede, dove si ferma il passaparola e cosa sistemare prima/);
-  assert.match(source, /Il lookup verrà attivato con L2\./);
+  assert.match(source, /Non un audit generico/);
+  assert.match(source, /Il tuo caso/);
   assert.match(source, /aria-disabled="true"/);
-  assert.doesNotMatch(source, /<form|<input|action=|\?demo=search|APRI LA DEMO COMPLETA|BEAUTY CHECK/i);
+  assert.match(source, /non finge il lookup/i);
+  assert.doesNotMatch(source, /<form|<input|action=|\?demo=search|BEAUTY CHECK/i);
 });
 
-test('H0 explains trial delivery and exposes one approved offer', () => {
-  assertAppearsInOrder(['Starter Review Kit digitale', 'id="attivita"', 'id="offerta"']);
-  assertAppearsInOrder(['id="attivita"', 'id="offerta"']);
-  assert.match(source, /21 giorni/);
+test('H0 exposes only the canonical commercial offer', () => {
+  assert.match(source, /21 GIORNI DI TRIAL/);
   assert.match(source, /€0/);
-  assert.match(source, /€149/);
-  assert.match(source, /durante il trial/i);
-  assert.match(source, /UNA SOLA OFFERTA/);
-  assert.match(source, /TUTTO TROVATEMI · UNA SEDE/);
+  assert.match(source, /€149\/mese/);
   assert.match(source, /Carta richiesta all’attivazione/);
-  assert.match(source, /Welcome Kit fisico dopo il primo pagamento riuscito/);
+  assert.match(source, /Welcome Kit fisico parte dopo il primo pagamento riuscito/);
+  assert.match(source, /Una sede\. Un prodotto\./);
 });
 
-test('H0 excludes internal jargon, dashboards and feature zoo patterns', () => {
-  assert.doesNotMatch(source, />\s*FIDUCIA\s*</);
-  assert.doesNotMatch(source, />\s*VISIBILITÀ\s*</);
-  assert.doesNotMatch(source, />\s*SCELTA\s*</);
-  assert.doesNotMatch(source, /dashboard|mock-card|feature-grid|four-actions|route-card/i);
-  assert.doesNotMatch(source, /<article|<h3/);
+test('H0 keeps Beauty & Wellness as the active vertical without inventing new checks', () => {
+  assert.match(source, /BEAUTY &amp; WELLNESS/);
+  assert.doesNotMatch(source, /Food Check|Dental Check|Restaurant Check|Bar Check/i);
 });
 
-test('H0 uses the approved campaign photography', () => {
+test('H0 uses existing approved local campaign imagery', () => {
   for (const image of [
     'master-home-hero-v3.webp',
-    'master-home-goodbye.webp',
-    'master-home-missing-v3.webp',
     'master-home-compare-v3.webp',
-    'master-home-proof-v2.webp',
+    'master-home-goodbye.webp',
   ]) {
     assert.ok(source.includes(image), `missing campaign image: ${image}`);
   }
