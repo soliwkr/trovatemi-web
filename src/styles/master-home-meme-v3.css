@@ -1,0 +1,374 @@
+:root {
+  --meme-paper: #fffefa;
+  --meme-soft: #f5f3ed;
+  --meme-ink: #0d0d0c;
+  --meme-yellow: #ffc400;
+  --meme-yellow-deep: #e8ad00;
+}
+
+/* H0 visual correction: campaign poster first, dark manifesto second. */
+body {
+  background: var(--meme-paper);
+}
+
+.topbar {
+  color: var(--meme-ink);
+  background: rgba(255, 254, 250, 0.96);
+  border-bottom: 2px solid var(--meme-ink);
+  backdrop-filter: blur(10px);
+}
+.wordmark span,
+.wordmark i { color: var(--meme-yellow-deep); }
+.topbar-action {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+  border: 2px solid var(--meme-ink);
+}
+
+.hero,
+.compliment,
+.missing,
+.trial-delivery,
+.business-search {
+  background: var(--meme-paper);
+}
+
+.hero-photo,
+.compliment-photo,
+.missing-photo {
+  border: 3px solid var(--meme-ink);
+  box-shadow: 10px 10px 0 var(--meme-yellow);
+}
+.hero-photo img,
+.compliment-photo img,
+.missing-photo img {
+  filter: contrast(1.02) saturate(1.03);
+}
+.hero-photo::after,
+.compliment-photo::after,
+.missing-photo::after {
+  background: linear-gradient(0deg, rgba(13, 13, 12, 0.36), transparent 46%);
+}
+
+.hero h1,
+.compliment h2,
+.missing h2,
+.comparison h2,
+.product-reveal h2,
+.daily-system h2,
+.trial-delivery h2,
+.business-search h2 {
+  color: var(--meme-ink);
+}
+.hero-command em,
+.poster-white em,
+.comparison em,
+.product-reveal em,
+.daily-system em {
+  color: var(--meme-yellow-deep);
+}
+
+.hero-definition {
+  border-top: 3px solid var(--meme-ink);
+}
+.hero-cta {
+  border: 2px solid var(--meme-ink);
+  box-shadow: 7px 7px 0 var(--meme-ink);
+}
+
+.product-truth {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+  border-top: 3px solid var(--meme-ink);
+  border-bottom: 3px solid var(--meme-ink);
+}
+.product-truth > span,
+.product-truth strong { color: var(--meme-ink); }
+
+.quote-bubble {
+  border: 3px solid var(--meme-ink);
+  box-shadow: 9px 9px 0 var(--meme-yellow);
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: 800;
+}
+.quote-bubble strong { color: var(--meme-ink); }
+.timecode {
+  color: var(--meme-ink);
+  border-top: 3px solid var(--meme-ink);
+  font-weight: 900;
+}
+
+.bam-google {
+  min-height: 68svh;
+  background: var(--meme-yellow);
+  border-top: 3px solid var(--meme-ink);
+  border-bottom: 3px solid var(--meme-ink);
+}
+.bam-inner p {
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.bam-inner h2 { color: var(--meme-ink); }
+.bam-inner > span { color: var(--meme-ink); }
+
+.stat-line { border-top: 4px solid var(--meme-ink); }
+.stat-line-gold strong { color: var(--meme-yellow-deep); }
+.missing-photo figcaption {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+  border: 2px solid var(--meme-ink);
+}
+.missing-photo figcaption strong { color: var(--meme-ink); }
+
+/* Competitor meme: readable comparison screens, no dark lifestyle ambiguity. */
+.comparison.dark-cinematic {
+  color: var(--meme-ink);
+  background: var(--meme-paper);
+  border-top: 3px solid var(--meme-ink);
+  border-bottom: 3px solid var(--meme-ink);
+}
+.comparison .campaign-label { color: var(--meme-ink); }
+.comparison-copy > p:last-child { color: var(--meme-ink); }
+.comparison-photo {
+  min-height: auto;
+  background: transparent;
+  overflow: visible;
+}
+.comparison-photo > img { display: none; }
+.review-count {
+  position: static;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr);
+  gap: 22px;
+  align-items: stretch;
+  padding: 0;
+  color: var(--meme-ink);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.review-count > i {
+  width: 2px;
+  height: auto;
+  background: var(--meme-yellow);
+}
+.review-count > div {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 42px 26px 30px;
+  overflow: hidden;
+  background: #fff;
+  border: 10px solid var(--meme-ink);
+  border-radius: 42px;
+  box-shadow: 10px 12px 0 rgba(13, 13, 12, 0.12);
+}
+.review-count > div::before {
+  width: calc(100% + 52px);
+  margin: -42px -26px 26px;
+  padding: 72px 22px 26px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(13,13,12,0.12), rgba(13,13,12,0.34)),
+    url('/images/master-home-compare-v3.webp') center 40% / cover;
+  border-bottom: 2px solid #e6e6e6;
+  font-size: 1.15rem;
+  font-weight: 900;
+  content: 'HAIR STUDIO GLAM';
+}
+.review-count > div:nth-child(3)::before {
+  background-position: 74% 40%;
+  filter: saturate(0.72) brightness(1.08);
+  content: 'IL TUO SALONE';
+}
+.review-count > div > span {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 7px 11px;
+  color: var(--meme-ink);
+  background: #fff;
+  border: 2px solid var(--meme-ink);
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+.review-count > div > strong {
+  color: var(--meme-yellow-deep);
+  font-family: var(--display);
+  font-size: clamp(5rem, 8vw, 8rem);
+  font-weight: 400;
+  line-height: 0.88;
+}
+.review-count > div > small {
+  margin-top: 4px;
+  color: var(--meme-ink);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+.review-count > div::after {
+  margin-top: 24px;
+  color: #292929;
+  font-size: 0.92rem;
+  font-weight: 720;
+  line-height: 1.7;
+  white-space: pre-line;
+  content: '4,8  ★★★★★\AParrucchiere\AAperto · Chiude alle 19:30\A\A↗ Indicazioni   ☎ Chiama   ⌂ Sito web';
+}
+.review-count > div:nth-child(3)::after {
+  content: '4,3  ★★★★☆\AParrucchiere\AAperto · Chiude alle 19:30\A\A↗ Indicazioni   ☎ Chiama   ⌂ Sito web';
+}
+.comparison-bam {
+  margin-top: 42px;
+  padding: 24px 30px;
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+  border: 3px solid var(--meme-ink);
+  box-shadow: 9px 9px 0 var(--meme-ink);
+}
+.comparison-bam p,
+.comparison-bam strong { color: var(--meme-ink); }
+.comparison-bam > span { color: var(--meme-ink); }
+
+/* Product reveal becomes a bright explainer, not a dark manifesto. */
+.product-reveal.dark-cinematic,
+.daily-system.dark-cinematic {
+  color: var(--meme-ink);
+  background: var(--meme-soft);
+}
+.product-reveal .campaign-label,
+.daily-system .campaign-label { color: var(--meme-ink); }
+.product-heading > p:last-child,
+.daily-heading > p:last-child {
+  color: var(--meme-ink);
+  border-top-color: var(--meme-ink);
+}
+.product-system {
+  border: 3px solid var(--meme-ink);
+  box-shadow: 12px 12px 0 var(--meme-yellow);
+}
+.product-system figure::after {
+  background: linear-gradient(0deg, rgba(13,13,12,0.48), transparent 46%);
+}
+.product-system ol { background: var(--meme-yellow); }
+.product-system li { border-bottom: 2px solid rgba(13,13,12,0.32); }
+.product-payoff span { color: var(--meme-ink); }
+.product-payoff strong { color: var(--meme-yellow-deep); }
+
+.before-after {
+  color: var(--meme-ink);
+  background: #fff;
+  border: 3px solid var(--meme-ink);
+  box-shadow: 10px 10px 0 var(--meme-yellow);
+}
+.before-after > div { border-bottom-color: rgba(13,13,12,0.2); }
+.before-after .table-head {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+}
+.before-after strong { color: var(--meme-ink); }
+.signature {
+  color: var(--meme-ink);
+  border-top-color: var(--meme-ink);
+}
+.signature strong { color: var(--meme-yellow-deep); }
+.signature > span { color: var(--meme-yellow-deep); }
+
+.delivery-list li {
+  background: #fff;
+  border-color: var(--meme-ink);
+}
+.delivery-list li:nth-child(odd) { background: var(--meme-yellow); }
+
+.lookup-concept {
+  background: #fff;
+  border: 3px solid var(--meme-ink);
+  box-shadow: 10px 10px 0 var(--meme-yellow);
+}
+.lookup-placeholder { border-color: var(--meme-ink); }
+.lookup-placeholder strong {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+}
+
+.offer.bam {
+  color: var(--meme-ink);
+  background: var(--meme-yellow);
+  border-top: 3px solid var(--meme-ink);
+}
+.offer-cta {
+  border: 3px solid var(--meme-ink);
+  background: #fff;
+  box-shadow: 8px 8px 0 var(--meme-ink);
+}
+
+.footer.dark-cinematic {
+  color: var(--white);
+  background: var(--meme-ink);
+}
+.footer strong,
+.footer-wordmark span { color: var(--meme-yellow); }
+
+@media (max-width: 900px) {
+  .topbar { min-height: 58px; padding-inline: 16px; }
+  .wordmark { font-size: 1.25rem; }
+  .topbar-action { font-size: 0.56rem; }
+
+  .hero-photo,
+  .compliment-photo,
+  .missing-photo {
+    box-shadow: 6px 6px 0 var(--meme-yellow);
+  }
+
+  .review-count {
+    grid-template-columns: 1fr 10px 1fr;
+    gap: 8px;
+  }
+  .review-count > div {
+    min-height: 390px;
+    padding: 26px 12px 20px;
+    border-width: 6px;
+    border-radius: 26px;
+  }
+  .review-count > div::before {
+    width: calc(100% + 24px);
+    margin: -26px -12px 18px;
+    padding: 52px 10px 16px;
+    font-size: 0.68rem;
+  }
+  .review-count > div > span {
+    top: 9px;
+    left: 9px;
+    padding: 5px 7px;
+    font-size: 0.55rem;
+  }
+  .review-count > div > strong {
+    font-size: clamp(3.4rem, 16vw, 5.4rem);
+  }
+  .review-count > div > small { font-size: 0.58rem; }
+  .review-count > div::after {
+    margin-top: 16px;
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+  .comparison-bam {
+    margin-top: 24px;
+    padding: 18px;
+    box-shadow: 6px 6px 0 var(--meme-ink);
+  }
+
+  .product-system,
+  .before-after,
+  .lookup-concept {
+    box-shadow: 6px 6px 0 var(--meme-yellow);
+  }
+}
