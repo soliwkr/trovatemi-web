@@ -1,0 +1,27 @@
+---
+import '@fontsource-variable/archivo';
+import '../styles/beauty-lean.css';
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#741c3c" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#funnel-stage">Vai al check</a>
+    <slot />
+  </body>
+</html>
