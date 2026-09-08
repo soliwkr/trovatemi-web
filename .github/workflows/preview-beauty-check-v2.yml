@@ -107,6 +107,25 @@ jobs:
           grep -Fq "Ti cercano." "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Una cliente vede anche questi." "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "PIÙ PROVA VISIBILE" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "OPPURE LO METTI A SISTEMA" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "PUBBLICAZIONE SOLO DOVE IL CANALE È OPERATIVO E TESTATO" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "DA CONFIGURARE SUL FLUSSO" "$RUNNER_TEMP/beauty-direct-response.js"
+          if grep -Fq "BASELINE ATTIVA" "$RUNNER_TEMP/beauty-direct-response.js"; then
+            echo "Unverified active-reminder claim found in preview JS" >&2
+            exit 1
+          fi
+
+          curl --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
+            "$BASE_URL/beauty-direct-response.css" > "$RUNNER_TEMP/beauty-direct-response.css"
+          grep -Fq ".proof-scene--collect" "$RUNNER_TEMP/beauty-direct-response.css"
+          grep -Fq ".proof-scene--reply" "$RUNNER_TEMP/beauty-direct-response.css"
+          grep -Fq ".proof-scene--reuse" "$RUNNER_TEMP/beauty-direct-response.css"
+          curl --fail --location --silent --show-error --max-time 20 \
+            "$BASE_URL/images/proof-beauty-nfc-v1.webp" > /dev/null
+          curl --fail --location --silent --show-error --max-time 20 \
+            "$BASE_URL/images/proof-beauty-social-v1.webp" > /dev/null
           echo "Beauty Check direct-response preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live Places search, details and same-query context

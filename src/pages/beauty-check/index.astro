@@ -374,6 +374,7 @@ import '../../styles/beauty-check-v2.css';
       if (state.stage === 'capture' && business) markup = renderCapture(business);
       if (state.stage === 'report' && business) markup = renderReport(business);
 
+      stageElement.setAttribute('aria-live', state.stage === 'report' ? 'off' : 'polite');
       stageElement.innerHTML = markup;
       app.dataset.currentStage = state.stage;
       stageLabel!.textContent = meta[state.stage].label;
