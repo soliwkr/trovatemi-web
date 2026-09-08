@@ -5,6 +5,15 @@ export const googlePlacesSearchFieldMask = [
   'places.primaryTypeDisplayName',
 ].join(',');
 
+export const googlePlacesContextFieldMask = [
+  'places.id',
+  'places.displayName',
+  'places.formattedAddress',
+  'places.primaryTypeDisplayName',
+  'places.rating',
+  'places.userRatingCount',
+].join(',');
+
 export const googlePlaceDetailsFieldMask = [
   'id',
   'displayName',
@@ -27,12 +36,12 @@ export function isValidPlaceId(input) {
   return /^[A-Za-z0-9_-]{8,256}$/.test(String(input ?? ''));
 }
 
-export function buildGoogleTextSearchBody(query) {
+export function buildGoogleTextSearchBody(query, pageSize = 5) {
   return {
     textQuery: normalizeSearchQuery(query),
     languageCode: 'it',
     regionCode: 'IT',
-    pageSize: 5,
+    pageSize,
   };
 }
 
@@ -45,6 +54,22 @@ export function normalizeGoogleSearchResponse(payload) {
       name: place?.displayName?.text ?? '',
       address: place?.formattedAddress ?? '',
       category: place?.primaryTypeDisplayName?.text ?? 'Attività locale',
+      source: 'google_maps',
+    }))
+    .filter((place) => place.id && place.name);
+}
+
+export function normalizeGoogleContextResponse(payload) {
+  const places = Array.isArray(payload?.places) ? payload.places : [];
+
+  return places
+    .map((place) => ({
+      id: place?.id ?? '',
+      name: place?.displayName?.text ?? '',
+      address: place?.formattedAddress ?? '',
+      category: place?.primaryTypeDisplayName?.text ?? 'Attività locale',
+      rating: Number.isFinite(place?.rating) ? place.rating : null,
+      reviews: Number.isInteger(place?.userRatingCount) ? place.userRatingCount : null,
       source: 'google_maps',
     }))
     .filter((place) => place.id && place.name);
