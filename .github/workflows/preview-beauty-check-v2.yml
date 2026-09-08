@@ -9,6 +9,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "public/beauty-direct-response.js"
+      - "public/beauty-direct-response.css"
       - "src/pages/beauty-check/**"
       - "src/pages/api/places/**"
       - "src/data/beauty-check-v2.mjs"
@@ -105,6 +106,13 @@ jobs:
             "$BASE_URL/beauty-direct-response.js" > "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Quante clienti felici" "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "beauty-direct-response.css" "$RUNNER_TEMP/beauty-direct-response.js"
+
+          curl --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
+            "$BASE_URL/beauty-direct-response.css" > "$RUNNER_TEMP/beauty-direct-response.css"
+          grep -Fq -- "--dr-yellow" "$RUNNER_TEMP/beauty-direct-response.css"
+          grep -Fq 'business-confirmation' "$RUNNER_TEMP/beauty-direct-response.css"
           echo "Beauty Check direct-response preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live Places search and details when configured
