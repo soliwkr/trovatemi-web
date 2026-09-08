@@ -11,6 +11,18 @@
   if (!stage) return;
 
   let selectedBusinessName = '';
+  let lastSearchQuery = sessionStorage.getItem('trovatemi:last-search-query') || '';
+  const comparisonCache = new Map();
+  let comparisonRequestKey = '';
+
+  const escapeHtml = (value) => String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+  const normalize = (value) => String(value ?? '').trim().toLocaleLowerCase('it').replace(/\s+/g, ' ');
 
   const setText = (selector, value) => {
     const node = stage.querySelector(selector);
@@ -27,13 +39,86 @@
     if (node instanceof HTMLInputElement && node.placeholder !== value) node.placeholder = value;
   };
 
+  const renderSameQueryProof = (places, selectedName, query) => {
+    const rows = places
+      .filter((place) => normalize(place.name) !== normalize(selectedName))
+      .slice(0, 3);
+
+    if (!rows.length) return '';
+
+    return `
+      <section class="same-query-proof" data-same-query-proof>
+        <div class="same-query-proof__head">
+          <span>STESSA RICERCA · ${escapeHtml(query)}</span>
+          <strong>Una cliente vede anche questi.</strong>
+          <p>Non è una classifica. Sono altri risultati reali emersi dalla stessa ricerca.</p>
+        </div>
+        <div class="same-query-proof__grid">
+          ${rows.map((place, index) => `
+            <article class="same-query-proof__card">
+              <span class="same-query-proof__index">0${index + 1}</span>
+              <h3>${escapeHtml(place.name)}</h3>
+              <p>${escapeHtml(place.category || 'Attività locale')}</p>
+              <div class="same-query-proof__numbers">
+                <b>${place.rating === null ? '—' : Number(place.rating).toFixed(1)} ★</b>
+                <strong>${place.reviews === null ? '—' : escapeHtml(place.reviews)}</strong>
+                <small>recensioni visibili</small>
+              </div>
+            </article>`).join('')}
+        </div>
+        <footer><span translate="no">Google Maps</span><p>Dati correnti mostrati al momento del Check · nessuna inferenza sul ranking.</p></footer>
+      </section>`;
+  };
+
+  const loadSameQueryProof = async () => {
+    const confirmation = stage.querySelector('.business-confirmation');
+    const selectedName = confirmation?.querySelector('h2')?.textContent?.trim() || '';
+    const query = lastSearchQuery.trim();
+    if (!confirmation || !selectedName || query.length < 3) return;
+
+    const key = `${query}::${selectedName}`;
+    if (stage.querySelector('[data-same-query-proof]')) return;
+
+    const cached = comparisonCache.get(key);
+    if (cached) {
+      confirmation.insertAdjacentHTML('afterend', cached);
+      return;
+    }
+
+    if (comparisonRequestKey === key) return;
+    comparisonRequestKey = key;
+
+    const loading = document.createElement('div');
+    loading.className = 'same-query-proof same-query-proof--loading';
+    loading.dataset.sameQueryProof = 'loading';
+    loading.innerHTML = '<span>Sto guardando cosa vede anche una cliente nella stessa ricerca…</span>';
+    confirmation.insertAdjacentElement('afterend', loading);
+
+    try {
+      const response = await fetch(`/api/places/context?q=${encodeURIComponent(query)}`, {
+        headers: { accept: 'application/json' },
+      });
+      if (!response.ok) throw new Error('context_failed');
+      const payload = await response.json();
+      const html = renderSameQueryProof(Array.isArray(payload.places) ? payload.places : [], selectedName, query);
+      loading.remove();
+      if (!html) return;
+      comparisonCache.set(key, html);
+      confirmation.insertAdjacentHTML('afterend', html);
+    } catch {
+      loading.remove();
+    } finally {
+      comparisonRequestKey = '';
+    }
+  };
+
   const patchIntro = () => {
     setText('.intro-copy .eyebrow', '60 secondi · il tuo business · nessun punteggio inventato');
-    setHTML('.intro-copy h1', 'Quante clienti felici<br>stai lasciando uscire<br><em>senza lasciare una traccia?</em>');
-    setText('.intro-copy .lede', 'Cerca la tua attività. In meno di un minuto ti mostro il primo punto dove il passaparola che hai già smette di lavorare per te.');
+    setHTML('.intro-copy h1', 'Ti cercano.<br>Ti confrontano.<br><em>Scelgono in pochi secondi.</em>');
+    setText('.intro-copy .lede', 'Cerca la tua attività. Ti faccio vedere la tua vetrina reale e il primo punto dove il passaparola che hai già smette di lavorare per te.');
     setHTML('.intro-copy .primary-action', 'Fammi vedere il mio caso <span aria-hidden="true">↗</span>');
-    setText('.intro-note span', 'Succede ogni giorno');
-    setText('.intro-note p', '“Mi sono trovata benissimo.” Paga. Saluta. Esce. Se nessuno trasforma quel complimento in prova, muore lì. Peccato che Google non era lì.');
+    setText('.intro-note span', 'La scena che conosci');
+    setText('.intro-note p', '“Mi sono trovata benissimo.” Paga. Saluta. Esce. Peccato che Google non era lì.');
   };
 
   const patchSearch = () => {
@@ -50,16 +135,17 @@
   const patchConfirm = () => {
     const name = stage.querySelector('.business-confirmation h2')?.textContent?.trim();
     if (name) selectedBusinessName = name;
-    setText('.confirm-copy .eyebrow', 'Fermati un secondo. Questa è la prova che lavora mentre tu sei occupata.');
+    setText('.confirm-copy .eyebrow', 'Questo è quello che una cliente può vedere prima di scegliere.');
     setHTML('.confirm-copy h1', 'Questa è<br><em>la tua vetrina.</em>');
     setText('.plain-clarifier', 'Non stiamo giudicando quanto sei brava. Stiamo guardando quanta prova resta visibile dopo che una cliente è uscita contenta.');
     setHTML('.action-pair .primary-action', 'Sì. Fammi vedere dove si perde <span aria-hidden="true">↗</span>');
-    setText('.stage-confirm blockquote', 'Il problema non è avere clienti felici. È far sì che resti qualcosa dopo il complimento.');
+    setText('.stage-confirm blockquote', 'Il cliente non legge il tuo curriculum. Guarda prove, confronta al volo e sceglie ciò che sembra più sicuro.');
+    void loadSameQueryProof();
   };
 
   const patchQuiz = () => {
-    setText('.quiz-copy .eyebrow', '5 domande. Niente teoria.');
-    setText('.private-note', 'Scegli ciò che succede davvero nel tuo centro. La risposta giusta è quella vera.');
+    setText('.quiz-copy .eyebrow', 'Google vede questo. Ora dimmi cosa succede davvero.');
+    setText('.private-note', '5 domande. Scegli ciò che succede davvero nel tuo centro. La risposta giusta è quella vera.');
   };
 
   const patchFlash = () => {
@@ -88,6 +174,17 @@
     setText('.report-mechanism .eyebrow', 'Il punto non è lavorare di più');
     setHTML('.report-mechanism h2', 'È smettere di lasciare<br><em>il passaparola al caso.</em>');
   };
+
+  document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || !form.matches('[data-search-form]')) return;
+    const input = form.querySelector('[data-search-input]');
+    if (!(input instanceof HTMLInputElement)) return;
+    const value = input.value.trim();
+    if (value.length < 3) return;
+    lastSearchQuery = value;
+    sessionStorage.setItem('trovatemi:last-search-query', value);
+  }, true);
 
   const patch = () => {
     const state = stage.querySelector('[data-state]')?.getAttribute('data-state');
