@@ -1,0 +1,1 @@
+Founder authorized root fallback cutover on 2026-09-08. Scope: lean master fallback only; preserve one-product €149/month, 21-day trial, Beauty first campaign, D1 backbone, Climbo downstream delivery. No second vertical or architecture expansion.
