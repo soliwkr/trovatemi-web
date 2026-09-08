@@ -99,6 +99,33 @@ jobs:
           grep -Fq "data-funnel-app" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
           echo "Beauty Check v2 preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Verify live Places search and details when configured
+        env:
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          if [ -z "$GOOGLE_PLACES_API_KEY" ]; then
+            echo "Live Places proof skipped: GOOGLE_PLACES_API_KEY is not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          BASE_URL="${PREVIEW_BASE_URL%/}"
+          SEARCH_JSON=$(curl --fail --silent --show-error --get \
+            --data-urlencode "q=parrucchiere Formia" \
+            "$BASE_URL/api/places/search")
+
+          printf '%s' "$SEARCH_JSON" | grep -Fq '"source":"google_maps"'
+          PLACE_ID=$(printf '%s' "$SEARCH_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const p=JSON.parse(s).places?.[0]?.id||'';process.stdout.write(p)})")
+          test -n "$PLACE_ID" || { echo "Places search returned no selectable business"; exit 1; }
+
+          DETAILS_JSON=$(curl --fail --silent --show-error --get \
+            --data-urlencode "id=$PLACE_ID" \
+            "$BASE_URL/api/places/details")
+
+          printf '%s' "$DETAILS_JSON" | grep -Fq '"source":"google_maps"'
+          printf '%s' "$DETAILS_JSON" | grep -Fq '"business"'
+          echo "Live Places proof passed: search + selected-place details." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Publish preview URL on PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
