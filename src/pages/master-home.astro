@@ -1,7 +1,7 @@
 ---
 import '@fontsource/anton/latin.css';
 import '@fontsource-variable/archivo';
-import '../styles/master-home-campaign-v4.css';
+import '../styles/master-home-product-v5.css';
 ---
 
 <!doctype html>
@@ -11,13 +11,13 @@ import '../styles/master-home-campaign-v4.css';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trovatemi mette al lavoro il passaparola che hai già: recensioni, follow-up, risposte e riuso delle prove migliori online."
+      content="Trovatemi mette al lavoro il passaparola che hai già: richieste recensione, follow-up, risposte e riuso delle prove migliori online."
     />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <meta name="theme-color" content="#fffefa" />
+    <meta name="theme-color" content="#fffdf8" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='%23ffc515'%3E%E2%98%85%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2311110f'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='%23ffc515'%3E%E2%98%85%3C/text%3E%3C/svg%3E"
     />
     <title>Trovatemi.it ★ — Il passaparola che hai già, messo al lavoro.</title>
   </head>
@@ -30,17 +30,16 @@ import '../styles/master-home-campaign-v4.css';
         <small>Il passaparola che hai già. Messo al lavoro.</small>
       </a>
       <nav class="nav" aria-label="Navigazione principale">
-        <a href="#come-funziona">Come funziona</a>
-        <a href="#esempi">Esempi</a>
-        <a href="#prezzi">Prezzi</a>
-        <a href="#attivita">Per chi è</a>
+        <a href="#prodotto">Come funziona</a>
+        <a href="#esempio">Esempio</a>
+        <a href="#prezzi">Prezzo</a>
       </nav>
       <a class="header-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
     </header>
 
     <main id="contenuto">
       <section class="hero" aria-labelledby="hero-title">
-        <figure class="hero-scene">
+        <figure class="hero-story">
           <img
             src="/images/master-home-hero-v3.webp"
             width="1536"
@@ -48,43 +47,57 @@ import '../styles/master-home-campaign-v4.css';
             alt="Una cliente soddisfatta sorride dopo il servizio in un salone"
             fetchpriority="high"
           />
-          <blockquote class="scene-quote">“Finalmente qualcuno che ha capito i miei capelli.” ♡</blockquote>
-          <div class="scene-beats" aria-label="Il complimento finisce senza lasciare una traccia online">
+          <blockquote class="story-quote">“Finalmente qualcuno che ha capito i miei capelli.” ♡</blockquote>
+          <div class="story-beats" aria-label="Il complimento non lascia una traccia online">
             <span>Grazie! ❤️</span>
             <span>Paga.</span>
             <span>Esce.</span>
             <span>Fine.</span>
           </div>
-          <figcaption class="tape">Peccato che Google non era lì.</figcaption>
+          <figcaption class="story-bam">Peccato che Google non era lì.</figcaption>
         </figure>
 
-        <div class="hero-copy">
+        <div class="hero-main">
           <p class="eyebrow">BEAUTY &amp; WELLNESS</p>
           <h1 id="hero-title">Hai già<br />clienti felici.</h1>
-          <p class="marker-line">Fai in modo che si veda.</p>
-          <p class="lede">Le persone ti scelgono, ti fanno i complimenti, tornano. Ma troppo spesso non lo dicono online. Trovatemi trasforma il tuo passaparola in recensioni, prova visibile e nuovi clienti.</p>
+          <p class="marker">Fai in modo che si veda.</p>
+          <p class="hero-lede">Trovatemi trasforma i complimenti che ricevi ogni giorno in recensioni, risposte e prova visibile quando il prossimo cliente deve scegliere.</p>
 
-          <div class="outcomes" aria-label="Risultati del sistema Trovatemi">
-            <span class="outcome"><i aria-hidden="true">↗</i>Più visibilità</span>
-            <span class="outcome"><i aria-hidden="true">●</i>Più clienti</span>
-            <span class="outcome"><i aria-hidden="true">★</i>Più prova</span>
+          <div class="hero-actions">
+            <a class="primary-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
+            <span class="micro">Gratis · circa 2 minuti</span>
           </div>
 
-          <div class="cta-row">
-            <a class="primary-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
-            <p class="hand-note">Gratis.<br />In 2 minuti.</p>
+          <div class="product-glimpse" aria-label="Anteprima concreta di cosa fa Trovatemi">
+            <div class="glimpse-card">
+              <small>1 · Trovatemi chiede</small>
+              <div class="wa-message">Ciao Giulia 👋 grazie per essere passata oggi. Ti va di raccontare com’è andata?<b>Lascia una recensione →</b></div>
+              <span class="glimpse-arrow" aria-hidden="true">→</span>
+            </div>
+            <div class="glimpse-card review-mini">
+              <small>2 · Il cliente lascia prova</small>
+              <strong>Giulia M.</strong>
+              <span class="stars">★★★★★</span>
+              <p>“Finalmente qualcuno che ha capito i miei capelli.”</p>
+              <span class="glimpse-arrow" aria-hidden="true">→</span>
+            </div>
+            <div class="glimpse-card reply-mini">
+              <small>3 · Trovatemi la rimette al lavoro</small>
+              <b>Risposta pronta ✓</b>
+              <p>La recensione non resta ferma: viene seguita, risposta e riutilizzata sui canali attivi.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="esempi" class="deck-section comparison" aria-labelledby="comparison-title">
-        <div>
-          <p class="section-kicker">LA REALTÀ DI OGGI</p>
-          <h2 id="comparison-title">Sei più brava.<br />Ma online…<br /><span class="yellow-script">vince un’altra.</span></h2>
-          <p class="section-copy">Le persone confrontano in pochi secondi. Non scelgono sempre il migliore: scelgono quello che sembra più affidabile quando devono decidere.</p>
+      <section id="esempio" class="proof-strip" aria-labelledby="comparison-title">
+        <div class="proof-copy">
+          <p class="section-kicker">QUANDO DEVONO SCEGLIERE</p>
+          <h2 id="comparison-title" class="section-title">Sei più brava.<br />Ma online…<br /><span class="yellow-hand">vince un’altra.</span></h2>
+          <p>Le persone non vedono il lavoro che hai fatto ieri. Vedono quello che Google riesce a mostrare oggi.</p>
         </div>
 
-        <div class="phone-stage" role="group" aria-label="Esempio illustrativo: un concorrente con 384 recensioni confrontato con la tua attività con 41 recensioni">
+        <div class="phone-stage" role="group" aria-label="Esempio illustrativo: concorrente con 384 recensioni e la tua attività con 41 recensioni">
           <span class="phone-label loro">LORO</span>
           <span class="phone-label tu">TU</span>
 
@@ -97,7 +110,7 @@ import '../styles/master-home-campaign-v4.css';
               <p class="meta">Parrucchiere · Formia<br /><span class="open">Aperto</span> · Chiude alle 19:30</p>
               <div class="screen-photo"><img src="/images/master-home-compare-v3.webp" alt="Interno luminoso di un salone" loading="lazy" /></div>
               <div class="quick-actions" aria-hidden="true">
-                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito web</span>
+                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito</span>
               </div>
               <p class="review-snippet">“Professionali e cordiali. Tornerò sicuramente!”</p>
             </div>
@@ -112,98 +125,140 @@ import '../styles/master-home-campaign-v4.css';
               <p class="meta">Parrucchiere · Formia<br /><span class="open">Aperto</span> · Chiude alle 19:30</p>
               <div class="screen-photo"><img src="/images/master-home-goodbye.webp" alt="Cliente in un salone" loading="lazy" /></div>
               <div class="quick-actions" aria-hidden="true">
-                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito web</span>
+                <span><b>☎</b>Chiama</span><span><b>⌖</b>Indicazioni</span><span><b>↗</b>Sito</span>
               </div>
               <p class="review-snippet">“Brave, ma è difficile prenotare…”</p>
             </div>
           </div>
-
-          <p class="choose-note">Stesso servizio.<br />Due percezioni diverse.<br /><br />Indovina chi sceglie il cliente.</p>
         </div>
       </section>
 
-      <section class="deck-section lost" aria-labelledby="lost-title">
-        <div>
-          <p class="section-kicker">PASSAPAROLA PERSO</p>
-          <p class="big-stat">50 clienti felici.<br />4 recensioni.</p>
-          <h2 id="lost-title"><span class="yellow-script">Dove sono finite<br />le altre 46?</span></h2>
-          <p class="section-copy">Ogni giorno vivi complimenti, sorrisi e clienti soddisfatti. Se non lasciano una traccia online, per il prossimo cliente è come se non fosse mai successo.</p>
+      <section id="prodotto" class="product" aria-labelledby="product-title">
+        <div class="product-head">
+          <div>
+            <p class="section-kicker">QUESTO È TROVATEMI</p>
+            <h2 id="product-title" class="section-title">Il passaparola<br />non deve<br /><span class="yellow-hand">sparire.</span></h2>
+          </div>
+          <p class="product-thesis">Tu continui a lavorare bene. Trovatemi prende il momento in cui il cliente è soddisfatto e lo accompagna fino a diventare prova online, senza affidarsi alla memoria tua o sua.</p>
         </div>
 
-        <div class="lost-visual" aria-label="Esempio: 50 clienti serviti ma solo 4 nuove recensioni">
+        <div class="product-flow" aria-label="Il flusso prodotto Trovatemi">
+          <section class="product-card" aria-labelledby="step-1">
+            <span class="number">1</span>
+            <h3 id="step-1">CHIEDE</h3>
+            <p>Nel momento giusto, in sede o dopo il servizio.</p>
+            <div class="ui qr-ui">
+              <div>
+                <div class="qr" aria-hidden="true"></div>
+                <p>Scansiona e raccontaci com’è andata</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="product-card" aria-labelledby="step-2">
+            <span class="number">2</span>
+            <h3 id="step-2">RICORDA</h3>
+            <p>Se il cliente esce e dimentica, il passaparola non finisce lì.</p>
+            <div class="ui">
+              <div class="ui-bar"><span>WhatsApp</span><span>18:42</span></div>
+              <div class="request-ui">
+                <div class="bubble">Ciao Giulia 👋 grazie per oggi. Se ti sei trovata bene, qui puoi lasciare la tua recensione.<br /><strong>Apri Google →</strong></div>
+                <div class="sent">Consegnato ✓✓</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="product-card" aria-labelledby="step-3">
+            <span class="number">3</span>
+            <h3 id="step-3">RACCOGLIE</h3>
+            <p>Il complimento diventa una prova che il prossimo cliente può vedere.</p>
+            <div class="ui">
+              <div class="ui-bar"><span>Google</span><span>Nuova recensione</span></div>
+              <div class="review-ui">
+                <strong>Giulia Marchetti</strong>
+                <div class="stars">★★★★★</div>
+                <p>Finalmente qualcuno che ha capito i miei capelli. Tornerò sicuramente.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="product-card" aria-labelledby="step-4">
+            <span class="number">4</span>
+            <h3 id="step-4">RIMETTE AL LAVORO</h3>
+            <p>Risposte e riuso fanno durare quella prova più di un singolo momento.</p>
+            <div class="ui">
+              <div class="ui-bar"><span>Trovatemi</span><span>Pronto</span></div>
+              <div class="reply-ui">
+                <div class="source">RISPOSTA ALLA RECENSIONE</div>
+                <blockquote>Grazie Giulia! Siamo felici che il risultato ti sia piaciuto. Ti aspettiamo presto.</blockquote>
+                <div class="reuse"><span>Risposta</span><span>Social proof</span><span>Presenza locale</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="meme-break" aria-labelledby="lost-title">
+        <div>
+          <p class="section-kicker">PASSAPAROLA PERSO</p>
+          <p class="big">50 clienti felici.<br /><em>4 recensioni.</em></p>
+          <h2 id="lost-title" class="question">Dove sono finite le altre 46?</h2>
+        </div>
+        <div class="loss-ui" aria-label="Esempio: 50 clienti serviti, 4 nuove recensioni">
           <div class="receipt">
             <h3>Scontrino di oggi</h3>
             <div class="receipt-lines">
               <div><span>Taglio</span><span>25,00</span></div>
               <div><span>Piega</span><span>20,00</span></div>
               <div><span>Colore</span><span>45,00</span></div>
-              <div><span>Trattamenti</span><span>15,00</span></div>
-              <div><strong>Totale clienti serviti</strong><strong>50</strong></div>
+              <div><span>Trattamento</span><span>15,00</span></div>
+              <div><strong>Clienti serviti</strong><strong>50</strong></div>
             </div>
             <p class="receipt-quote">“Grazie! A presto.” ♡</p>
           </div>
-
-          <div class="review-card">
+          <div class="review-count-card">
             <p>Nuove recensioni<br />questa settimana</p>
             <strong>4</strong>
-            <div class="stars" aria-label="Quattro stelle su cinque">★★★★☆</div>
+            <div class="stars">★★★★☆</div>
           </div>
-
-          <p class="lost-note">Il tuo passaparola c’è.<br />Solo che <mark>gira male.</mark></p>
         </div>
       </section>
 
-      <section id="come-funziona" class="deck-section how" aria-labelledby="how-title">
-        <div class="how-grid">
-          <div>
-            <p class="section-kicker">COME FUNZIONA</p>
-            <h2 id="how-title">Semplice.<br />Concreto.<br />Locale.</h2>
-          </div>
-          <div class="step"><b>1</b><strong>Cerca la tua attività</strong><p>Troviamo il tuo profilo e guardiamo cosa appare oggi.</p></div>
-          <div class="step"><b>2</b><strong>Vedi cosa perdi</strong><p>Ti mostriamo dove il passaparola si spegne prima di diventare prova online.</p></div>
-          <div class="step"><b>3</b><strong>Attiva Trovatemi</strong><p>Chiede, ricorda, organizza le risposte e rimette le parole migliori al lavoro.</p></div>
-        </div>
-      </section>
-
-      <section id="attivita" class="deck-section lookup" aria-labelledby="lookup-title">
+      <section id="attivita" class="lookup" aria-labelledby="lookup-title">
         <div>
           <p class="section-kicker">ADESSO TOCCA ALLA TUA ATTIVITÀ</p>
-          <h2 id="lookup-title">Non un audit generico.<br /><span class="yellow-script">Il tuo caso.</span></h2>
-          <p class="section-copy">Trovatemi parte da quello che un cliente vede davvero quando ti cerca: presenza, reputazione, chiarezza e prossimo passo.</p>
+          <h2 id="lookup-title" class="section-title">Non un esempio.<br /><span class="yellow-hand">Il tuo caso.</span></h2>
+          <p class="section-copy">Partiamo da ciò che un cliente vede davvero quando ti cerca e ti mostriamo dove il passaparola si ferma prima di diventare prova.</p>
         </div>
-
         <div class="lookup-box" role="group" aria-label="Anteprima della ricerca attività, non ancora interattiva">
           <p class="lookup-label">NOME ATTIVITÀ O CITTÀ</p>
           <div class="fake-input" aria-disabled="true">
             <span>Es. Studio Aurora, Formia</span>
             <b>CERCA →</b>
           </div>
-          <p>Questa preview non finge il lookup: il campo si attiverà quando sarà collegato ai dati reali del prossimo slice.</p>
+          <p>Il lookup si attiverà con i dati reali nel prossimo slice L2; questa preview non simula risultati inesistenti.</p>
         </div>
       </section>
 
       <section id="prezzi" class="offer" aria-labelledby="offer-title">
         <div class="offer-copy">
-          <p class="section-kicker">UNA SOLA OFFERTA</p>
+          <p class="section-kicker">UN SOLO PRODOTTO</p>
           <h2 id="offer-title">Provalo<br />nel tuo<br />business.</h2>
-          <p class="section-copy">Una sede. Un prodotto. Nessun piano da decifrare.</p>
+          <p>Una sede. Tutto Trovatemi. Nessun piano da scegliere.</p>
         </div>
-        <div class="offer-price">
+        <div class="offer-card">
           <p class="eyebrow">21 GIORNI DI TRIAL</p>
           <div class="price-zero"><strong>€0</strong><span>durante<br />il trial</span></div>
           <p class="then">Poi <strong>€149/mese</strong></p>
-          <div class="offer-terms">
-            Carta richiesta all’attivazione. Puoi cancellare prima del rinnovo. Il Welcome Kit fisico parte dopo il primo pagamento riuscito.
-          </div>
+          <p class="terms">Carta richiesta all’attivazione. Puoi cancellare prima del rinnovo. Il Welcome Kit fisico parte dopo il primo pagamento riuscito.</p>
           <a class="primary-cta" href="#attivita">Cerca la tua attività <span aria-hidden="true">→</span></a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <a class="brand" href="/master-home/">TROVATEMI.IT <b aria-hidden="true">★</b></a>
-      <p>Il passaparola che hai già. <strong>Messo al lavoro.</strong></p>
-      <p>21 giorni · €0 · poi €149/mese</p>
+      <a class="brand" href="/master-home/">TROVATEMI.IT <b aria-hidden="true">★</b><small>Il passaparola che hai già. Messo al lavoro.</small></a>
+      <p>21 giorni · €0 · poi <strong>€149/mese</strong></p>
     </footer>
   </body>
 </html>
