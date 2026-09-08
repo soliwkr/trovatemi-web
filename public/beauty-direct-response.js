@@ -7,6 +7,10 @@
     document.head.appendChild(stylesheet);
   }
 
+  document.title = 'Trovatemi | Guarda il tuo caso';
+  const campaignLabel = document.querySelector('.wordmark i');
+  if (campaignLabel) campaignLabel.textContent = 'guarda il tuo caso';
+
   const stage = document.querySelector('#funnel-stage');
   if (!stage) return;
 
@@ -90,8 +94,30 @@
               </div>
             </article>`).join('')}
         </div>
-        <footer><span translate="no">Google Maps</span><p>Dati correnti mostrati al momento del Check · nessuna inferenza sul ranking.</p></footer>
+        <footer><span translate="no">Google Maps</span><p>Dati correnti mostrati al momento · nessuna inferenza sul ranking.</p></footer>
       </section>`;
+  };
+
+  const ensureMissingMoment = () => {
+    if (stage.querySelector('[data-missing-moment]')) return;
+    const clarifier = stage.querySelector('.plain-clarifier');
+    if (!clarifier) return;
+
+    clarifier.insertAdjacentHTML('beforebegin', `
+      <section class="missing-moment" data-missing-moment>
+        <div class="missing-moment__label">POI SUCCEDE QUESTO</div>
+        <div class="missing-moment__scene">
+          <blockquote>“Mi sono trovata benissimo.” <span>❤️</span></blockquote>
+          <div class="missing-moment__beats" aria-label="La cliente paga, esce e il complimento rischia di finire lì">
+            <strong>PAGA.</strong><i>→</i><strong>ESCE.</strong><i>→</i><strong>FINE?</strong>
+          </div>
+        </div>
+        <div class="missing-moment__punch">
+          <span>IL MOMENTO CHE NON SI VEDE ONLINE</span>
+          <h2>PECCATO CHE<br><em>GOOGLE NON ERA LÌ.</em></h2>
+          <p>Google può vedere ciò che resta pubblico. Adesso dimmi cosa fate davvero quando una cliente esce felice.</p>
+        </div>
+      </section>`);
   };
 
   const loadSameQueryProof = async () => {
@@ -137,16 +163,16 @@
   };
 
   const patchIntro = () => {
-    setText('.intro-copy .eyebrow', '60 secondi · il tuo business · nessun punteggio inventato');
+    setText('.intro-copy .eyebrow', 'IL TUO BUSINESS · DATI REALI · ZERO PUNTEGGI INVENTATI');
     setHTML('.intro-copy h1', 'Ti cercano.<br>Ti confrontano.<br><em>Scelgono in pochi secondi.</em>');
-    setText('.intro-copy .lede', 'Cerca la tua attività. Ti faccio vedere la tua vetrina reale e il primo punto dove il passaparola che hai già smette di lavorare per te.');
-    setHTML('.intro-copy .primary-action', 'Fammi vedere il mio caso <span aria-hidden="true">↗</span>');
+    setText('.intro-copy .lede', 'Cerca la tua attività. Ti faccio vedere cosa può vedere una nuova cliente e dove il passaparola che hai già smette di diventare prova.');
+    setHTML('.intro-copy .primary-action', 'Guarda il mio caso <span aria-hidden="true">↗</span>');
     setText('.intro-note span', 'La scena che conosci');
     setText('.intro-note p', '“Mi sono trovata benissimo.” Paga. Saluta. Esce. Peccato che Google non era lì.');
   };
 
   const patchSearch = () => {
-    setText('.stage-copy .eyebrow', 'Non teoria. Il tuo nome.');
+    setText('.stage-copy .eyebrow', 'NON TEORIA. IL TUO NOME.');
     setHTML('.stage-copy h1', 'Scrivi il nome<br><em>del tuo centro.</em>');
     setText('.stage-explainer', 'Ti mostro quello che una nuova cliente può vedere prima ancora di chiamarti o prenotare.');
     setPlaceholder('[data-search-input]', 'Es. Nails Formia');
@@ -159,28 +185,29 @@
   const patchConfirm = () => {
     const name = stage.querySelector('.business-confirmation h2')?.textContent?.trim();
     if (name) selectedBusinessName = name;
-    setText('.confirm-copy .eyebrow', 'Questo è quello che una cliente può vedere prima di scegliere.');
+    setText('.confirm-copy .eyebrow', 'QUESTO È QUELLO CHE UNA CLIENTE PUÒ VEDERE PRIMA DI SCEGLIERE.');
     setHTML('.confirm-copy h1', 'Questa è<br><em>la tua vetrina.</em>');
     setText('.plain-clarifier', 'Non stiamo giudicando quanto sei brava. Stiamo guardando quanta prova resta visibile dopo che una cliente è uscita contenta.');
-    setHTML('.action-pair .primary-action', 'Sì. Fammi vedere dove si perde <span aria-hidden="true">↗</span>');
-    setText('.stage-confirm blockquote', 'Il cliente non legge il tuo curriculum. Guarda prove, confronta al volo e sceglie ciò che sembra più sicuro.');
+    setHTML('.action-pair .primary-action', 'Ora dimmi cosa succede dopo <span aria-hidden="true">↗</span>');
+    setText('.stage-confirm blockquote', 'Ti cercano. Ti confrontano. Poi scelgono con quello che riescono a vedere.');
+    ensureMissingMoment();
     void loadSameQueryProof();
   };
 
   const patchQuiz = () => {
-    setText('.quiz-copy .eyebrow', 'Google vede questo. Ora dimmi cosa succede davvero.');
-    setText('.private-note', '5 domande. Scegli ciò che succede davvero nel tuo centro. La risposta giusta è quella vera.');
+    setText('.quiz-copy .eyebrow', 'GOOGLE VEDE IL PRIMA. ORA DIMMI IL DOPO.');
+    setText('.private-note', '5 scene vere. Scegli ciò che succede davvero nel tuo centro. La risposta giusta è quella vera.');
   };
 
   const patchFlash = () => {
-    setText('.flash-heading .eyebrow', 'Eccolo.');
+    setText('.flash-heading .eyebrow', 'ECCOLO.');
     setText('.flash-score > span', 'IL PRIMO PUNTO DOVE STAI PERDENDO PROVA');
     setText('.flash-cta p', 'Hai già la materia prima: clienti soddisfatte. Questo è il punto dove smette di trasformarsi in prova visibile.');
     setHTML('.flash-cta .primary-action', 'Dammi le 3 mosse <span aria-hidden="true">↗</span>');
   };
 
   const patchCapture = () => {
-    setText('.capture-copy .eyebrow', 'Ora sai dove perde.');
+    setText('.capture-copy .eyebrow', 'ORA SAI DOVE PERDE.');
     setHTML('.capture-copy h1', 'Vuoi sapere<br><em>cosa fare domani?</em>');
     if (selectedBusinessName) {
       setText('.capture-copy > p:not(.eyebrow)', `Ti preparo le 3 mosse in ordine per ${selectedBusinessName}. Zero teoria: prima, seconda, terza.`);
@@ -189,14 +216,16 @@
     }
     setHTML('.capture-form .primary-action', 'Mandami le 3 mosse <span aria-hidden="true">↗</span>');
     setText('.capture-aside span', 'Nessuna demo obbligatoria.');
-    setText('.capture-aside p', 'Prima vedi il problema e le mosse. Poi decidi se vuoi che Trovatemi faccia il lavoro con te.');
+    setText('.capture-aside p', 'Prima vedi il problema e le mosse. Poi decidi se vuoi che Trovatemi tolga quei passaggi dalla tua testa.');
   };
 
   const patchReport = () => {
-    setText('.report-actions .eyebrow', 'Niente lista infinita.');
+    setText('.report-actions .eyebrow', 'BAM. BAM. BAM.');
     setHTML('.report-actions h2', 'Fai queste tre cose.<br><em>In quest’ordine.</em>');
-    setText('.report-mechanism .eyebrow', 'Il punto non è lavorare di più');
-    setHTML('.report-mechanism h2', 'È smettere di lasciare<br><em>il passaparola al caso.</em>');
+    setText('.report-mechanism .eyebrow', 'PUOI FARLO A MANO. OGNI VOLTA.');
+    setHTML('.report-mechanism h2', 'Oppure smetti di lasciare<br><em>il passaparola al caso.</em>');
+    const restart = stage.querySelector('[data-restart]');
+    if (restart) restart.textContent = 'Rivedi dall’inizio ↻';
   };
 
   document.addEventListener('submit', (event) => {
