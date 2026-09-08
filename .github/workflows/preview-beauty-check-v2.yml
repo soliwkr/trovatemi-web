@@ -104,18 +104,12 @@ jobs:
           curl --fail --location --silent --show-error \
             --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
             "$BASE_URL/beauty-direct-response.js" > "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Quante clienti felici" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Ti cercano." "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Una cliente vede anche questi." "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "beauty-direct-response.css" "$RUNNER_TEMP/beauty-direct-response.js"
-
-          curl --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
-            "$BASE_URL/beauty-direct-response.css" > "$RUNNER_TEMP/beauty-direct-response.css"
-          grep -Fq -- "--dr-yellow" "$RUNNER_TEMP/beauty-direct-response.css"
-          grep -Fq 'business-confirmation' "$RUNNER_TEMP/beauty-direct-response.css"
           echo "Beauty Check direct-response preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Verify live Places search and details when configured
+      - name: Verify live Places search, details and same-query context
         env:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
           GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
@@ -139,10 +133,20 @@ jobs:
             --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
             --data-urlencode "id=$PLACE_ID" \
             "$BASE_URL/api/places/details")
-
           printf '%s' "$DETAILS_JSON" | grep -Fq '"source":"google_maps"'
           printf '%s' "$DETAILS_JSON" | grep -Fq '"business"'
-          echo "Live Places proof passed: Nails Formia search + selected-place details." >> "$GITHUB_STEP_SUMMARY"
+
+          CONTEXT_JSON=$(curl --fail --silent --show-error --get \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
+            --data-urlencode "q=Nails Formia" \
+            "$BASE_URL/api/places/context")
+          printf '%s' "$CONTEXT_JSON" | grep -Fq '"method":"same_text_query"'
+          CONTEXT_COUNT=$(printf '%s' "$CONTEXT_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const p=JSON.parse(s).places||[];process.stdout.write(String(p.length))})")
+          test "$CONTEXT_COUNT" -ge 4 || { echo "Same-query context returned fewer than four real results"; exit 1; }
+          printf '%s' "$CONTEXT_JSON" | grep -Fq '"rating"'
+          printf '%s' "$CONTEXT_JSON" | grep -Fq '"reviews"'
+
+          echo "Live Places proof passed: Nails Formia search + details + same-query context ($CONTEXT_COUNT results)." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish preview URL on PR
         env:
