@@ -8,6 +8,7 @@ on:
       - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
+      - "public/beauty-direct-response.js"
       - "src/pages/beauty-check/**"
       - "src/pages/api/places/**"
       - "src/data/beauty-check-v2.mjs"
@@ -86,18 +87,25 @@ jobs:
           printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY --config wrangler.beauty-check-v2-preview.jsonc
           echo "Google Places secret provisioned for isolated preview."
 
-      - name: Verify preview route
+      - name: Verify preview route and direct-response layer
         env:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
           test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
-          PREVIEW_URL="${PREVIEW_BASE_URL%/}/beauty-check/"
+          BASE_URL="${PREVIEW_BASE_URL%/}"
+          PREVIEW_URL="$BASE_URL/beauty-check/"
           curl --fail --location --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
           grep -Fq "Beauty Check" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
           grep -Fq "data-funnel-app" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
-          echo "Beauty Check v2 preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+
+          curl --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
+            "$BASE_URL/beauty-direct-response.js" > "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Quante clienti felici" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
+          echo "Beauty Check direct-response preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live Places search and details when configured
         env:
@@ -111,20 +119,22 @@ jobs:
 
           BASE_URL="${PREVIEW_BASE_URL%/}"
           SEARCH_JSON=$(curl --fail --silent --show-error --get \
-            --data-urlencode "q=parrucchiere Formia" \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
+            --data-urlencode "q=Nails Formia" \
             "$BASE_URL/api/places/search")
 
           printf '%s' "$SEARCH_JSON" | grep -Fq '"source":"google_maps"'
           PLACE_ID=$(printf '%s' "$SEARCH_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const p=JSON.parse(s).places?.[0]?.id||'';process.stdout.write(p)})")
-          test -n "$PLACE_ID" || { echo "Places search returned no selectable business"; exit 1; }
+          test -n "$PLACE_ID" || { echo "Places search returned no selectable business for Nails Formia"; exit 1; }
 
           DETAILS_JSON=$(curl --fail --silent --show-error --get \
+            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
             --data-urlencode "id=$PLACE_ID" \
             "$BASE_URL/api/places/details")
 
           printf '%s' "$DETAILS_JSON" | grep -Fq '"source":"google_maps"'
           printf '%s' "$DETAILS_JSON" | grep -Fq '"business"'
-          echo "Live Places proof passed: search + selected-place details." >> "$GITHUB_STEP_SUMMARY"
+          echo "Live Places proof passed: Nails Formia search + selected-place details." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish preview URL on PR
         env:
@@ -132,4 +142,4 @@ jobs:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
           PREVIEW_URL="${PREVIEW_BASE_URL%/}/beauty-check/"
-          gh pr comment 33 --body "✅ Beauty Check v2 preview deployed and verified: $PREVIEW_URL"
+          gh pr comment 33 --body "✅ Beauty Check direct-response preview deployed and verified: $PREVIEW_URL"
