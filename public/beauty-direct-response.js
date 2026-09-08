@@ -67,6 +67,24 @@
       @media(min-width:58rem){.same-query-proof__grid{grid-template-columns:repeat(3,1fr)}.same-query-proof__card{border-right:1px solid rgba(247,247,242,.2);border-bottom:0}.same-query-proof__card:last-child{border-right:0}}
     </style>`;
 
+  const missingMomentStyles = `
+    <style data-missing-moment-style>
+      .missing-moment{position:relative;margin:2.6rem 0 1.6rem;overflow:hidden;border:2px solid #f7f7f2;background:#f7f7f2;color:#050505;box-shadow:12px 12px 0 #f6bd00}
+      .missing-moment__label{display:inline-block;margin:1rem 1rem 0;background:#050505;color:#f7f7f2;padding:.38rem .55rem;font:900 .62rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+      .missing-moment__scene{padding:1.1rem 1rem 1.25rem}
+      .missing-moment__scene blockquote{max-width:24rem;margin:0 0 1rem!important;border:0!important;background:#e8f8df!important;padding:.85rem 1rem!important;color:#050505!important;box-shadow:none!important;transform:rotate(-1deg);font:850 clamp(1.25rem,5vw,2rem)/1.05 "Archivo Variable",Arial,sans-serif!important}
+      .missing-moment__scene blockquote span{font-size:.85em}
+      .missing-moment__beats{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;border-top:2px solid #050505;padding-top:.85rem}
+      .missing-moment__beats strong{font:900 clamp(1.15rem,4.8vw,1.85rem)/1 "Archivo Variable",Arial,sans-serif;letter-spacing:-.04em}
+      .missing-moment__beats i{color:#f6bd00;font:900 1.35rem/1 Arial,sans-serif;font-style:normal}
+      .missing-moment__punch{background:#050505;padding:1.1rem 1rem 1.3rem;color:#f7f7f2}
+      .missing-moment__punch>span{display:block;margin-bottom:.6rem;color:#f6bd00;font:900 .62rem/1.1 "Archivo Variable",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+      .missing-moment__punch h2{max-width:12ch;margin:0;color:#f7f7f2!important;font:900 clamp(2.6rem,10vw,5.6rem)/.86 "Archivo Variable",Arial,sans-serif!important;letter-spacing:-.06em!important;text-transform:uppercase}
+      .missing-moment__punch h2 em{color:#ffc400!important;font-style:normal!important}
+      .missing-moment__punch p{max-width:34rem;margin:1rem 0 0;color:rgba(247,247,242,.7);font:650 .92rem/1.4 "Archivo Variable",Arial,sans-serif}
+      @media(max-width:41.99rem){.missing-moment{box-shadow:7px 7px 0 #f6bd00}.missing-moment__beats{gap:.35rem}.missing-moment__punch h2{font-size:clamp(2.45rem,13vw,4.4rem)}}
+    </style>`;
+
   const renderSameQueryProof = (places, selectedName, query) => {
     const rows = places
       .filter((place) => normalize(place.name) !== normalize(selectedName))
@@ -103,7 +121,7 @@
     const clarifier = stage.querySelector('.plain-clarifier');
     if (!clarifier) return;
 
-    clarifier.insertAdjacentHTML('beforebegin', `
+    clarifier.insertAdjacentHTML('beforebegin', `${missingMomentStyles}
       <section class="missing-moment" data-missing-moment>
         <div class="missing-moment__label">POI SUCCEDE QUESTO</div>
         <div class="missing-moment__scene">
