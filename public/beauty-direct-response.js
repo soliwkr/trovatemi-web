@@ -85,6 +85,33 @@
       @media(max-width:41.99rem){.missing-moment{box-shadow:7px 7px 0 #f6bd00}.missing-moment__beats{gap:.35rem}.missing-moment__punch h2{font-size:clamp(2.45rem,13vw,4.4rem)}}
     </style>`;
 
+  const reportStoryStyles = `
+    <style data-report-proof-story-style>
+      .proof-moves{margin:2.5rem 0 0;border-top:2px solid #ffc400;background:#050505;color:#f7f7f2}
+      .proof-moves__head{padding:1.2rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,.15)}
+      .proof-moves__head span{display:inline-block;background:#ffc400;color:#050505;padding:.35rem .55rem;font:900 .62rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+      .proof-moves__head h2{max-width:11ch;margin:.7rem 0 .4rem;color:#f7f7f2!important;font:900 clamp(2.8rem,10vw,6rem)/.86 "Archivo Variable",Arial,sans-serif!important;letter-spacing:-.06em!important;text-transform:uppercase}
+      .proof-moves__head p{max-width:34rem;margin:0;color:rgba(247,247,242,.66);font:650 .9rem/1.4 "Archivo Variable",Arial,sans-serif}
+      .proof-moves__grid{display:grid}
+      .proof-move{position:relative;min-height:18rem;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.18);padding:1rem;background:#0b0b0b}
+      .proof-move__n{position:absolute;top:.6rem;right:.8rem;color:rgba(255,196,0,.2);font:900 4rem/1 "Archivo Variable",Arial,sans-serif}
+      .proof-move__tag{display:inline-block;margin-bottom:.9rem;color:#ffc400;font:900 .66rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+      .proof-move h3{max-width:10ch;margin:0 0 .65rem;color:#f7f7f2;font:900 clamp(2.2rem,8vw,4.4rem)/.86 "Archivo Variable",Arial,sans-serif;letter-spacing:-.055em;text-transform:uppercase}
+      .proof-move>p{max-width:28rem;margin:0 0 1rem;color:rgba(247,247,242,.68);font:650 .86rem/1.4 "Archivo Variable",Arial,sans-serif}
+      .proof-visual{margin-top:1.1rem;border:2px solid #ffc400;background:#f7f7f2;color:#050505;box-shadow:7px 7px 0 rgba(255,196,0,.18)}
+      .proof-visual__qr{display:grid;grid-template-columns:5.5rem 1fr;gap:.8rem;align-items:center;padding:.8rem}
+      .fake-qr{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;aspect-ratio:1;background:#fff;padding:.35rem;border:2px solid #050505}
+      .fake-qr i{background:#050505}.fake-qr i:nth-child(2n),.fake-qr i:nth-child(5n){background:transparent}
+      .proof-visual b{display:block;font:900 1rem/1.05 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}.proof-visual small{font:700 .7rem/1.3 "Archivo Variable",Arial,sans-serif;color:#555}
+      .proof-review{padding:.8rem}.proof-review__stars{color:#f6bd00;font-size:1.15rem;letter-spacing:.08em}.proof-review__quote{margin:.45rem 0;padding:.65rem;background:#fff;border:1px solid #ddd;font:750 .86rem/1.3 "Archivo Variable",Arial,sans-serif}.proof-review__reply{margin-left:1.2rem;padding:.65rem;background:#e8f8df;border-left:4px solid #2ea44f;font:700 .78rem/1.3 "Archivo Variable",Arial,sans-serif}
+      .proof-social{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;padding:.6rem;background:#050505}.proof-social article{min-height:7rem;padding:.55rem;background:#f7f7f2;color:#050505}.proof-social article:nth-child(2){background:#ffc400}.proof-social b{font-size:.75rem}.proof-social p{margin:.55rem 0 0;font:850 .7rem/1.1 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}
+      .manual-vs-system{margin:0;background:#f7f7f2;color:#050505}
+      .manual-vs-system__manual{padding:1.2rem 1rem}.manual-vs-system__manual>span{font:900 .66rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}.manual-vs-system__manual h2{max-width:12ch;margin:.55rem 0 1rem;color:#050505!important;font:900 clamp(2.7rem,10vw,6rem)/.86 "Archivo Variable",Arial,sans-serif!important;letter-spacing:-.06em!important;text-transform:uppercase}
+      .manual-chain{display:flex;flex-wrap:wrap;gap:.4rem}.manual-chain span{border:2px solid #050505;padding:.5rem .65rem;font:900 .68rem/1 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}.manual-chain i{align-self:center;font-style:normal;font-weight:900;color:#f6bd00}
+      .system-slab{background:#ffc400;padding:1.25rem 1rem 1.35rem;color:#050505}.system-slab>span{font:900 .66rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}.system-slab h2{max-width:11ch;margin:.6rem 0;color:#050505!important;font:900 clamp(3rem,11vw,6.5rem)/.84 "Archivo Variable",Arial,sans-serif!important;letter-spacing:-.065em!important;text-transform:uppercase}.system-slab p{max-width:32rem;margin:.8rem 0 0;font:750 .94rem/1.38 "Archivo Variable",Arial,sans-serif}.system-slab strong{display:block;margin-top:1rem;border-top:2px solid #050505;padding-top:.8rem;font:900 1rem/1.15 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}
+      @media(min-width:58rem){.proof-moves__grid{grid-template-columns:repeat(3,1fr)}.proof-move{border-right:1px solid rgba(255,255,255,.18);border-bottom:0}.proof-move:last-child{border-right:0}.manual-vs-system{display:grid;grid-template-columns:1fr 1fr}}
+    </style>`;
+
   const renderSameQueryProof = (places, selectedName, query) => {
     const rows = places
       .filter((place) => normalize(place.name) !== normalize(selectedName))
@@ -180,6 +207,68 @@
     }
   };
 
+  const ensureReportProofStory = () => {
+    if (stage.querySelector('[data-proof-moves]')) return;
+    const actions = stage.querySelector('.report-actions');
+    const mechanism = stage.querySelector('.report-mechanism');
+    if (!actions || !mechanism) return;
+
+    actions.insertAdjacentHTML('afterend', `${reportStoryStyles}
+      <section class="proof-moves" data-proof-moves>
+        <header class="proof-moves__head">
+          <span>LE 3 MOSSE · VISTE, NON SPIEGATE</span>
+          <h2>Raccogli. Rispondi. Riusa.</h2>
+          <p>Il passaparola diventa prova quando smette di dipendere dalla memoria e comincia a lasciare tracce visibili.</p>
+        </header>
+        <div class="proof-moves__grid">
+          <article class="proof-move">
+            <span class="proof-move__n">01</span><span class="proof-move__tag">RACCOGLI</span>
+            <h3>Prendilo quando è caldo.</h3>
+            <p>Il momento migliore è quando la cliente è ancora lì e l’esperienza è fresca.</p>
+            <div class="proof-visual proof-visual__qr">
+              <div class="fake-qr" aria-hidden="true">${'<i></i>'.repeat(25)}</div>
+              <div><b>Lascia la tua recensione</b><small>QR / tap NFC come punto fisico di raccolta. Il kit fisico completo resta post-payment.</small></div>
+            </div>
+          </article>
+          <article class="proof-move">
+            <span class="proof-move__n">02</span><span class="proof-move__tag">RISPONDI</span>
+            <h3>Non lasciarla sola.</h3>
+            <p>Una recensione è una conversazione pubblica. La risposta fa vedere che dietro il profilo c’è un’attività viva.</p>
+            <div class="proof-visual proof-review">
+              <div class="proof-review__stars">★★★★★</div>
+              <div class="proof-review__quote">“Mi sono trovata benissimo. Tornerò sicuramente.”</div>
+              <div class="proof-review__reply">Grazie di cuore. Ti aspettiamo presto 💛</div>
+            </div>
+          </article>
+          <article class="proof-move">
+            <span class="proof-move__n">03</span><span class="proof-move__tag">RIUSA</span>
+            <h3>Falla girare di nuovo.</h3>
+            <p>Quando operativo e verificato, la prova migliore non deve morire dove è nata: può diventare materiale per i canali che usi già.</p>
+            <div class="proof-visual proof-social">
+              <article><b>IG STORY</b><p>“Servizio fantastico” ★★★★★</p></article>
+              <article><b>POST</b><p>La cliente l’ha già detto meglio di noi.</p></article>
+              <article><b>STATUS</b><p>Prova sociale, non un altro post da inventare.</p></article>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="manual-vs-system" data-manual-system>
+        <div class="manual-vs-system__manual">
+          <span>PUOI FARLO A MANO. OGNI VOLTA.</span>
+          <h2>E ricordarti tutto domani.</h2>
+          <div class="manual-chain"><span>CHIEDI</span><i>→</i><span>INSEGUI</span><i>→</i><span>RISPONDI</span><i>→</i><span>COPIA</span><i>→</i><span>PUBBLICA</span><i>→</i><span>RICOMINCIA</span></div>
+        </div>
+        <div class="system-slab">
+          <span>OPPURE LO METTI A SISTEMA.</span>
+          <h2>Qui entra Trovatemi.</h2>
+          <p>Richieste, reminder, routine di risposta e riuso dove effettivamente supportato: non un altro software da imparare, ma meno passaggi da tenere in testa.</p>
+          <strong>Tu pensa alle clienti. Il passaparola continua a lavorare. ★</strong>
+        </div>
+      </section>`);
+
+    mechanism.hidden = true;
+  };
+
   const patchIntro = () => {
     setText('.intro-copy .eyebrow', 'IL TUO BUSINESS · DATI REALI · ZERO PUNTEGGI INVENTATI');
     setHTML('.intro-copy h1', 'Ti cercano.<br>Ti confrontano.<br><em>Scelgono in pochi secondi.</em>');
@@ -242,6 +331,7 @@
     setHTML('.report-actions h2', 'Fai queste tre cose.<br><em>In quest’ordine.</em>');
     setText('.report-mechanism .eyebrow', 'PUOI FARLO A MANO. OGNI VOLTA.');
     setHTML('.report-mechanism h2', 'Oppure smetti di lasciare<br><em>il passaparola al caso.</em>');
+    ensureReportProofStory();
     const restart = stage.querySelector('[data-restart]');
     if (restart) restart.textContent = 'Rivedi dall’inizio ↻';
   };
