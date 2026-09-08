@@ -1,8 +1,16 @@
 (() => {
+  if (!document.querySelector('link[data-beauty-direct-response]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = '/beauty-direct-response.css';
+    stylesheet.dataset.beautyDirectResponse = 'true';
+    document.head.appendChild(stylesheet);
+  }
+
   const stage = document.querySelector('#funnel-stage');
   if (!stage) return;
 
-  let currentBusinessName = '';
+  let selectedBusinessName = '';
 
   const setText = (selector, value) => {
     const node = stage.querySelector(selector);
@@ -40,7 +48,8 @@
   };
 
   const patchConfirm = () => {
-    currentBusinessName = stage.querySelector('.business-confirmation h2')?.textContent?.trim() || currentBusinessName;
+    const name = stage.querySelector('.business-confirmation h2')?.textContent?.trim();
+    if (name) selectedBusinessName = name;
     setText('.confirm-copy .eyebrow', 'Fermati un secondo. Questa è la prova che lavora mentre tu sei occupata.');
     setHTML('.confirm-copy h1', 'Questa è<br><em>la tua vetrina.</em>');
     setText('.plain-clarifier', 'Non stiamo giudicando quanto sei brava. Stiamo guardando quanta prova resta visibile dopo che una cliente è uscita contenta.');
@@ -63,12 +72,11 @@
   const patchCapture = () => {
     setText('.capture-copy .eyebrow', 'Ora sai dove perde.');
     setHTML('.capture-copy h1', 'Vuoi sapere<br><em>cosa fare domani?</em>');
-    setText(
-      '.capture-copy > p:not(.eyebrow)',
-      currentBusinessName
-        ? `Ti preparo le 3 mosse in ordine per ${currentBusinessName}. Zero teoria: prima, seconda, terza.`
-        : 'Ti preparo le 3 mosse in ordine. Zero teoria: prima, seconda, terza.'
-    );
+    if (selectedBusinessName) {
+      setText('.capture-copy > p:not(.eyebrow)', `Ti preparo le 3 mosse in ordine per ${selectedBusinessName}. Zero teoria: prima, seconda, terza.`);
+    } else {
+      setText('.capture-copy > p:not(.eyebrow)', 'Ti preparo le 3 mosse in ordine. Zero teoria: prima, seconda, terza.');
+    }
     setHTML('.capture-form .primary-action', 'Mandami le 3 mosse <span aria-hidden="true">↗</span>');
     setText('.capture-aside span', 'Nessuna demo obbligatoria.');
     setText('.capture-aside p', 'Prima vedi il problema e le mosse. Poi decidi se vuoi che Trovatemi faccia il lavoro con te.');
