@@ -39,6 +39,30 @@
     if (node instanceof HTMLInputElement && node.placeholder !== value) node.placeholder = value;
   };
 
+  const proofStyles = `
+    <style data-same-query-proof-style>
+      .same-query-proof{margin:2.2rem 0 1.6rem;border:2px solid #f6bd00;background:#050505;color:#f7f7f2;box-shadow:10px 10px 0 rgba(246,189,0,.16)}
+      .same-query-proof__head{padding:1rem 1rem 1.25rem;border-bottom:2px solid #f6bd00}
+      .same-query-proof__head>span{display:inline-block;margin-bottom:.65rem;background:#f6bd00;color:#050505;padding:.3rem .45rem;font:900 .62rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+      .same-query-proof__head strong{display:block;max-width:12ch;font:900 clamp(2rem,8vw,4.2rem)/.88 "Archivo Variable",Arial,sans-serif;letter-spacing:-.055em;text-transform:uppercase}
+      .same-query-proof__head p{max-width:36rem;margin:.8rem 0 0;color:rgba(247,247,242,.66);font:650 .78rem/1.35 "Archivo Variable",Arial,sans-serif}
+      .same-query-proof__grid{display:grid}
+      .same-query-proof__card{position:relative;min-height:10rem;padding:1rem;border-bottom:1px solid rgba(247,247,242,.2);background:#0c0c0c}
+      .same-query-proof__card:last-child{border-bottom:0}
+      .same-query-proof__index{position:absolute;top:.7rem;right:.85rem;color:rgba(246,189,0,.34);font:900 2.4rem/1 "Archivo Variable",Arial,sans-serif}
+      .same-query-proof__card h3{max-width:17ch;margin:0 2rem .35rem 0;color:#f7f7f2;font:900 1.18rem/1.02 "Archivo Variable",Arial,sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+      .same-query-proof__card>p{margin:0;color:rgba(247,247,242,.5);font:700 .66rem/1.3 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}
+      .same-query-proof__numbers{display:grid;grid-template-columns:auto 1fr;gap:.15rem .7rem;align-items:end;margin-top:1.1rem;padding-top:.8rem;border-top:1px solid rgba(246,189,0,.36)}
+      .same-query-proof__numbers b{color:#f6bd00;font:900 1.15rem/1 "Archivo Variable",Arial,sans-serif}
+      .same-query-proof__numbers strong{justify-self:end;color:#f7f7f2;font:900 2.35rem/.85 "Archivo Variable",Arial,sans-serif;letter-spacing:-.05em}
+      .same-query-proof__numbers small{grid-column:2;justify-self:end;color:rgba(247,247,242,.5);font:800 .55rem/1 "Archivo Variable",Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+      .same-query-proof footer{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 1rem;border-top:2px solid #f6bd00;color:rgba(247,247,242,.52);font:700 .56rem/1.25 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}
+      .same-query-proof footer span{color:#f6bd00;white-space:nowrap}
+      .same-query-proof footer p{margin:0;text-align:right}
+      .same-query-proof--loading{padding:1rem;color:#f6bd00;font:850 .72rem/1.25 "Archivo Variable",Arial,sans-serif;text-transform:uppercase}
+      @media(min-width:58rem){.same-query-proof__grid{grid-template-columns:repeat(3,1fr)}.same-query-proof__card{border-right:1px solid rgba(247,247,242,.2);border-bottom:0}.same-query-proof__card:last-child{border-right:0}}
+    </style>`;
+
   const renderSameQueryProof = (places, selectedName, query) => {
     const rows = places
       .filter((place) => normalize(place.name) !== normalize(selectedName))
@@ -46,7 +70,7 @@
 
     if (!rows.length) return '';
 
-    return `
+    return `${proofStyles}
       <section class="same-query-proof" data-same-query-proof>
         <div class="same-query-proof__head">
           <span>STESSA RICERCA · ${escapeHtml(query)}</span>
