@@ -1718,3 +1718,865 @@ h2 em,
     animation: none;
   }
 }
+
+/* S01 creative system v3 — controlled type, full-funnel editorial rhythm. */
+html[data-creative="beauty-roma-direct"] {
+  --dr-display: "Anton", "Arial Narrow", sans-serif;
+  --dr-body: "Archivo Variable", sans-serif;
+  background: var(--dr-black);
+  overflow-x: clip;
+}
+
+html[data-creative="beauty-roma-direct"] body,
+html[data-creative="beauty-roma-direct"] button,
+html[data-creative="beauty-roma-direct"] input {
+  font-family: var(--dr-body);
+}
+
+html[data-creative="beauty-roma-direct"] h1,
+html[data-creative="beauty-roma-direct"] h2,
+html[data-creative="beauty-roma-direct"] h3,
+html[data-creative="beauty-roma-direct"] .intro-copy h1,
+html[data-creative="beauty-roma-direct"] .stage-copy h1,
+html[data-creative="beauty-roma-direct"] .confirm-copy h1,
+html[data-creative="beauty-roma-direct"] .quiz-copy h1,
+html[data-creative="beauty-roma-direct"] .flash-heading h1,
+html[data-creative="beauty-roma-direct"] .capture-copy h1,
+html[data-creative="beauty-roma-direct"] .report-hero h1,
+html[data-creative="beauty-roma-direct"] .report-actions h2,
+html[data-creative="beauty-roma-direct"] .proof-moves__head h2,
+html[data-creative="beauty-roma-direct"] .proof-scene__header h3,
+html[data-creative="beauty-roma-direct"] .manual-vs-system__manual h2,
+html[data-creative="beauty-roma-direct"] .system-slab h2 {
+  font-family: var(--dr-display) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  letter-spacing: 0.005em !important;
+  line-height: 0.9 !important;
+  text-wrap: balance;
+}
+
+html[data-creative="beauty-roma-direct"] .funnel-app {
+  --stage-padding: max(clamp(1.1rem, 4vw, 4.5rem), calc((100vw - 92rem) / 2));
+  overflow: clip;
+  background:
+    radial-gradient(circle at 75% 8%, rgba(255, 196, 0, 0.12), transparent 25rem),
+    var(--dr-black);
+}
+
+html[data-creative="beauty-roma-direct"] .funnel-topbar {
+  min-height: 4.8rem !important;
+  padding-inline: var(--stage-padding);
+  backdrop-filter: blur(12px);
+}
+
+html[data-creative="beauty-roma-direct"] .wordmark span {
+  font-family: var(--dr-display);
+  font-size: 1.35rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.02em !important;
+}
+
+html[data-creative="beauty-roma-direct"] .wordmark i {
+  font-family: var(--dr-body);
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+html[data-creative="beauty-roma-direct"] .stage-meta {
+  font-size: 0.62rem;
+  font-weight: 850;
+}
+
+html[data-creative="beauty-roma-direct"] .progress-rail {
+  height: 3px !important;
+}
+
+html[data-creative="beauty-roma-direct"] .funnel-stage,
+html[data-creative="beauty-roma-direct"] .stage-layout {
+  min-height: calc(100svh - 8.6rem);
+}
+
+html[data-creative="beauty-roma-direct"] .stage-layout {
+  isolation: isolate;
+  padding: clamp(4rem, 7vw, 7rem) var(--stage-padding);
+}
+
+html[data-creative="beauty-roma-direct"] .stage-layout::after {
+  z-index: 0;
+  inset: clamp(0.55rem, 1.4vw, 1.2rem);
+  border-color: rgba(255, 196, 0, 0.2);
+}
+
+html[data-creative="beauty-roma-direct"] .eyebrow {
+  display: block;
+  width: fit-content;
+  margin-bottom: 1.1rem;
+  padding: 0.42rem 0.58rem;
+  color: var(--dr-black) !important;
+  background: var(--dr-yellow-hot);
+  font-size: clamp(0.62rem, 0.7vw, 0.72rem);
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+
+html[data-creative="beauty-roma-direct"] .lede,
+html[data-creative="beauty-roma-direct"] .stage-explainer,
+html[data-creative="beauty-roma-direct"] .plain-clarifier,
+html[data-creative="beauty-roma-direct"] .private-note,
+html[data-creative="beauty-roma-direct"] .flash-cta p,
+html[data-creative="beauty-roma-direct"] .capture-copy > p,
+html[data-creative="beauty-roma-direct"] .report-summary {
+  font-family: var(--dr-body) !important;
+  font-size: clamp(0.98rem, 1.25vw, 1.13rem) !important;
+  line-height: 1.52 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .primary-action {
+  min-height: 4.35rem !important;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  border-radius: 0.85rem !important;
+  padding: 1rem 1.25rem !important;
+  font-family: var(--dr-display);
+  font-size: clamp(1rem, 1.25vw, 1.2rem) !important;
+  font-weight: 400 !important;
+  line-height: 1;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 0.65rem 1.8rem rgba(255, 196, 0, 0.14) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .primary-action span {
+  font-family: var(--dr-body);
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+/* 00 — creative-matched entry */
+html[data-creative="beauty-roma-direct"] .stage-intro {
+  grid-template-columns: 4.5rem minmax(0, 1.05fr) minmax(23rem, 0.8fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+  align-content: center;
+}
+
+html[data-creative="beauty-roma-direct"] .stage-intro::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 54%;
+  background:
+    linear-gradient(90deg, var(--dr-black) 0%, rgba(5, 5, 5, 0.1) 55%),
+    linear-gradient(0deg, rgba(5, 5, 5, 0.66), transparent 52%),
+    url("/images/proof-beauty-social-v1.webp") center 38% / cover no-repeat;
+  clip-path: polygon(13% 0, 100% 0, 100% 97%, 88% 99%, 72% 96%, 56% 99%, 38% 96%, 18% 99%, 0 96%);
+  content: "";
+  filter: saturate(0.86) contrast(1.08);
+  opacity: 0.92;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-index {
+  z-index: 2;
+  display: flex;
+  min-height: 32rem;
+  border-right-color: rgba(255, 196, 0, 0.35);
+  padding-right: 1.2rem;
+  color: var(--dr-yellow-hot);
+}
+
+html[data-creative="beauty-roma-direct"] .intro-index span {
+  font-family: var(--dr-display);
+  font-size: 1.45rem;
+  font-style: normal;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-copy h1 {
+  max-width: 12ch !important;
+  font-size: clamp(4.25rem, 6.35vw, 6.4rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-copy h1 em {
+  color: #ffe071 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-copy .lede {
+  max-width: 31rem !important;
+  margin-block: 1.55rem 1.9rem;
+  color: rgba(247, 247, 242, 0.86) !important;
+  font-weight: 650;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-note {
+  z-index: 2;
+  align-self: end;
+  max-width: 21rem;
+  margin: 0 0 1.2rem auto;
+  border: 2px solid var(--dr-white) !important;
+  border-radius: 1.15rem;
+  background: rgba(5, 5, 5, 0.9) !important;
+  color: var(--dr-white) !important;
+  transform: rotate(-1.4deg);
+}
+
+html[data-creative="beauty-roma-direct"] .intro-note span {
+  color: var(--dr-yellow-hot) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .intro-note p {
+  color: var(--dr-white) !important;
+  font-size: 1.05rem !important;
+}
+
+/* 01 — search becomes the Google decision object */
+html[data-creative="beauty-roma-direct"] .stage-search {
+  grid-template-columns: minmax(22rem, 0.78fr) minmax(30rem, 1.22fr);
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
+  align-content: center;
+}
+
+html[data-creative="beauty-roma-direct"] .stage-search .stage-copy h1 {
+  max-width: 7.4ch;
+  font-size: clamp(4.4rem, 7.6vw, 7.3rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .stage-explainer {
+  max-width: 30rem;
+  margin-block: 1.25rem 1.6rem;
+}
+
+html[data-creative="beauty-roma-direct"] .search-field {
+  border: 2px solid var(--dr-white) !important;
+  border-radius: 1rem;
+  padding: 0.28rem 0.55rem !important;
+  background: rgba(17, 17, 17, 0.9) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 196, 0, 0.15);
+}
+
+html[data-creative="beauty-roma-direct"] .business-list {
+  overflow: hidden;
+  border: 2px solid var(--dr-black) !important;
+  border-radius: 1.8rem;
+  padding: 1.1rem 1.4rem 0.45rem;
+  color: var(--dr-black);
+  background: var(--dr-white);
+  box-shadow: 0.9rem 0.9rem 0 var(--dr-yellow-hot);
+  transform: rotate(0.35deg);
+}
+
+html[data-creative="beauty-roma-direct"] .business-list::before {
+  display: block;
+  margin: -0.15rem 0 0.8rem;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.2);
+  padding-bottom: 0.8rem;
+  color: var(--dr-black);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  content: "RISULTATI CHE VEDE UNA CLIENTE";
+}
+
+html[data-creative="beauty-roma-direct"] .business-row {
+  border-bottom-color: rgba(5, 5, 5, 0.16) !important;
+  color: var(--dr-black) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .business-row .row-number,
+html[data-creative="beauty-roma-direct"] .business-row .row-name small,
+html[data-creative="beauty-roma-direct"] .business-row .row-rating small,
+html[data-creative="beauty-roma-direct"] .business-list .lookup-status,
+html[data-creative="beauty-roma-direct"] .business-list .lookup-provenance {
+  color: rgba(5, 5, 5, 0.58) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .business-row .row-source b {
+  color: #8a6600 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .business-row:hover,
+html[data-creative="beauty-roma-direct"] .business-row:focus-visible {
+  color: var(--dr-black) !important;
+  background: var(--dr-yellow-hot) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .business-list .gmp-attribution {
+  color: #5e5e5e !important;
+}
+
+/* 02 — selected business and missing moment share one editorial spread */
+html[data-creative="beauty-roma-direct"] .stage-confirm {
+  display: block;
+}
+
+html[data-creative="beauty-roma-direct"] .confirm-copy {
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.78fr) minmax(30rem, 1.22fr);
+  gap: 1.5rem clamp(3rem, 6vw, 7rem);
+  align-items: start;
+}
+
+html[data-creative="beauty-roma-direct"] .confirm-copy > .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+html[data-creative="beauty-roma-direct"] .confirm-copy > h1 {
+  grid-column: 1;
+  grid-row: 2;
+  max-width: 5ch;
+  font-size: clamp(5rem, 8vw, 8rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .business-confirmation {
+  grid-column: 1;
+  grid-row: 3;
+  margin: 0 !important;
+  border-radius: 1.2rem;
+  box-shadow: 0.75rem 0.75rem 0 var(--dr-yellow-hot);
+}
+
+html[data-creative="beauty-roma-direct"] .business-confirmation h2 {
+  font-family: var(--dr-display) !important;
+  font-size: clamp(2.5rem, 4vw, 4.2rem) !important;
+  font-weight: 400 !important;
+  line-height: 0.96 !important;
+  letter-spacing: 0 !important;
+  overflow-wrap: anywhere;
+}
+
+html[data-creative="beauty-roma-direct"] .missing-moment {
+  grid-column: 2;
+  grid-row: 2 / 5;
+  margin: 0 !important;
+  align-self: stretch;
+}
+
+html[data-creative="beauty-roma-direct"] .missing-moment__punch h2 {
+  font-family: var(--dr-display) !important;
+  font-size: clamp(3.5rem, 6vw, 6.4rem) !important;
+  font-weight: 400 !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .plain-clarifier {
+  grid-column: 1;
+  grid-row: 4;
+  margin: 1rem 0 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .same-query-proof {
+  grid-column: 1 / -1;
+  grid-row: 5;
+  margin: 2.3rem 0 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .action-pair {
+  grid-column: 1 / -1;
+  grid-row: 6;
+  margin-top: 1rem;
+}
+
+html[data-creative="beauty-roma-direct"] .stage-confirm > blockquote {
+  max-width: none;
+  margin: 3.5rem 0 0;
+  border: 0 !important;
+  border-left: 0.65rem solid var(--dr-yellow-hot) !important;
+  padding: 1.3rem 1.5rem !important;
+  background: var(--dr-white) !important;
+  color: var(--dr-black) !important;
+  font-family: var(--dr-display) !important;
+  font-size: clamp(1.8rem, 3vw, 3rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  transform: none;
+}
+
+/* 03 — the five questions feel like a rapid-fire interview */
+html[data-creative="beauty-roma-direct"] .stage-quiz {
+  grid-template-columns: 7rem minmax(21rem, 0.86fr) minmax(28rem, 1.14fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+  align-content: center;
+  background:
+    linear-gradient(125deg, rgba(255, 196, 0, 0.055), transparent 48%),
+    var(--dr-black) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .quiz-counter {
+  align-self: start;
+  flex-direction: column;
+  font-family: var(--dr-display) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .quiz-counter b {
+  font-size: clamp(4.5rem, 7vw, 6.5rem);
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 0.8;
+}
+
+html[data-creative="beauty-roma-direct"] .quiz-copy h1 {
+  max-width: 11ch;
+  font-size: clamp(3.35rem, 5.6vw, 5.7rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .private-note {
+  max-width: 30rem;
+  color: rgba(247, 247, 242, 0.68) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .answer-list {
+  display: grid;
+  gap: 0.65rem;
+  border-top: 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .answer-row {
+  min-height: 4.7rem;
+  border: 1px solid rgba(247, 247, 242, 0.32) !important;
+  padding: 0.9rem 1rem;
+}
+
+html[data-creative="beauty-roma-direct"] .answer-row b {
+  font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+  line-height: 1.3;
+}
+
+html[data-creative="beauty-roma-direct"] .answer-row:hover,
+html[data-creative="beauty-roma-direct"] .answer-row.is-selected {
+  padding-inline: 1.25rem !important;
+}
+
+/* 04 — diagnosis: headline, evidence, decision */
+html[data-creative="beauty-roma-direct"] .stage-flash {
+  grid-template-columns: minmax(25rem, 1fr) minmax(30rem, 0.95fr);
+  gap: 2rem clamp(3rem, 6vw, 7rem);
+  align-items: stretch;
+  align-content: center;
+}
+
+html[data-creative="beauty-roma-direct"] .check-v2-flash .flash-heading h1 {
+  max-width: 9ch !important;
+  font-size: clamp(4rem, 7vw, 7rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .flash-heading > p:last-child {
+  max-width: 33rem;
+  margin-top: 1.3rem;
+  font-family: var(--dr-body);
+  font-size: 1.02rem;
+}
+
+html[data-creative="beauty-roma-direct"] .flash-score {
+  min-height: 14rem;
+  border-radius: 0.35rem;
+  padding: 1.35rem;
+}
+
+html[data-creative="beauty-roma-direct"] .flash-score strong {
+  font-family: var(--dr-display) !important;
+  font-size: clamp(3.6rem, 6vw, 6rem) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .evidence-card {
+  border-color: rgba(247, 247, 242, 0.65) !important;
+  padding: clamp(1.25rem, 2.2vw, 2rem);
+}
+
+html[data-creative="beauty-roma-direct"] .evidence-numbers strong {
+  font-family: var(--dr-display) !important;
+  font-size: clamp(3.4rem, 5vw, 5rem);
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+html[data-creative="beauty-roma-direct"] .flash-cta {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 0.5rem;
+}
+
+/* 05 — value exchange with a real visual payoff */
+html[data-creative="beauty-roma-direct"] .stage-capture {
+  grid-template-columns: minmax(25rem, 1fr) minmax(28rem, 0.86fr);
+  gap: 2rem clamp(4rem, 8vw, 9rem);
+  align-content: center;
+  background:
+    linear-gradient(90deg, var(--dr-black) 0 49%, rgba(5, 5, 5, 0.28) 78%, var(--dr-black) 100%),
+    url("/images/proof-beauty-nfc-v1.webp") 82% center / 58% auto no-repeat !important;
+}
+
+html[data-creative="beauty-roma-direct"] .capture-copy h1 {
+  max-width: 8ch;
+  font-size: clamp(4.4rem, 7vw, 7rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .capture-form {
+  border: 2px solid var(--dr-black) !important;
+  border-radius: 1.25rem;
+  padding: clamp(1.3rem, 2.6vw, 2rem) !important;
+  color: var(--dr-black);
+  background: var(--dr-yellow-hot) !important;
+  box-shadow: 0.85rem 0.85rem 0 var(--dr-white);
+}
+
+html[data-creative="beauty-roma-direct"] .capture-form > label:first-child span,
+html[data-creative="beauty-roma-direct"] .capture-form > small {
+  color: rgba(5, 5, 5, 0.68) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .capture-form input[type="email"] {
+  border: 0 !important;
+  border-bottom: 2px solid var(--dr-black) !important;
+  color: var(--dr-black) !important;
+  background: transparent !important;
+  font-family: var(--dr-display) !important;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+}
+
+html[data-creative="beauty-roma-direct"] .capture-form input[type="email"]::placeholder {
+  color: rgba(5, 5, 5, 0.35) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .capture-form .primary-action {
+  width: 100%;
+  border-color: var(--dr-black) !important;
+  color: var(--dr-white) !important;
+  background: var(--dr-black) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .capture-aside {
+  grid-column: 1;
+  max-width: 30rem;
+  align-self: start;
+  border: 0 !important;
+  border-left: 0.55rem solid var(--dr-yellow-hot) !important;
+  background: var(--dr-white) !important;
+  transform: none;
+}
+
+/* 06 — report without typographic collisions */
+html[data-creative="beauty-roma-direct"] .report-hero {
+  min-height: clamp(42rem, 78svh, 56rem);
+  grid-template-columns: minmax(0, 1.45fr) minmax(25rem, 0.55fr);
+  grid-template-rows: auto auto;
+  gap: 1.5rem clamp(4rem, 7vw, 8rem);
+  align-content: center;
+  align-items: end;
+  padding: clamp(4.5rem, 7vw, 7rem) var(--stage-padding);
+}
+
+html[data-creative="beauty-roma-direct"] .report-hero .eyebrow {
+  grid-column: 1 / -1;
+  margin: 0 0 0.6rem;
+}
+
+html[data-creative="beauty-roma-direct"] .report-hero h1 {
+  max-width: 8.4ch;
+  font-size: clamp(5rem, 8vw, 8rem) !important;
+  align-self: end;
+}
+
+html[data-creative="beauty-roma-direct"] .report-summary {
+  width: 100%;
+  max-width: 31rem;
+  min-width: 0;
+  margin: 0 0 0.25rem;
+  border-left-width: 0.38rem;
+  padding-left: 1.2rem;
+  color: rgba(247, 247, 242, 0.74) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .report-summary p {
+  overflow-wrap: break-word;
+}
+
+html[data-creative="beauty-roma-direct"] .report-readout {
+  grid-template-columns: minmax(20rem, 0.68fr) minmax(32rem, 1.32fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  padding-block: clamp(4rem, 7vw, 6.5rem);
+}
+
+html[data-creative="beauty-roma-direct"] .story-stamp {
+  width: min(22rem, 100%);
+  box-shadow: 0.9rem 0.9rem 0 rgba(247, 247, 242, 0.09);
+}
+
+html[data-creative="beauty-roma-direct"] .story-stamp strong {
+  font-family: var(--dr-display) !important;
+  font-size: clamp(3.5rem, 5.5vw, 5.8rem);
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 0.9;
+  letter-spacing: 0 !important;
+}
+
+html[data-creative="beauty-roma-direct"] .report-actions {
+  grid-template-columns: minmax(25rem, 0.9fr) minmax(31rem, 1.1fr);
+  gap: clamp(3rem, 7vw, 8rem);
+  align-items: center;
+  min-height: 48rem;
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+html[data-creative="beauty-roma-direct"] .report-actions h2 {
+  max-width: 7.4ch;
+  font-size: clamp(4.6rem, 7vw, 7.4rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .report-actions li {
+  grid-template-columns: 4rem minmax(0, 1fr);
+  padding-block: 1.35rem;
+}
+
+html[data-creative="beauty-roma-direct"] .report-actions li span {
+  font-family: var(--dr-display);
+  font-size: 2.2rem;
+  font-style: normal;
+}
+
+html[data-creative="beauty-roma-direct"] .report-actions li p {
+  max-width: 38rem;
+  font-size: 1.03rem;
+}
+
+/* Proof Story inherits the same campaign type, with hard caps. */
+html[data-creative="beauty-roma-direct"] .proof-moves__head h2 {
+  max-width: 7.2ch;
+  font-size: clamp(5rem, 9vw, 8.5rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .proof-scene__header h3 {
+  max-width: 10ch;
+  font-size: clamp(4rem, 6.5vw, 6.6rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .proof-scene__n {
+  font-family: var(--dr-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+html[data-creative="beauty-roma-direct"] .manual-vs-system__manual h2,
+html[data-creative="beauty-roma-direct"] .system-slab h2 {
+  font-size: clamp(4.6rem, 7vw, 7.2rem) !important;
+}
+
+html[data-creative="beauty-roma-direct"] .report-close > p {
+  font-family: var(--dr-display);
+  font-size: clamp(3.2rem, 5vw, 5rem);
+  font-style: normal;
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+@media (max-width: 57.99rem) {
+  html[data-creative="beauty-roma-direct"] .stage-intro,
+  html[data-creative="beauty-roma-direct"] .stage-search,
+  html[data-creative="beauty-roma-direct"] .stage-quiz,
+  html[data-creative="beauty-roma-direct"] .stage-flash,
+  html[data-creative="beauty-roma-direct"] .stage-capture,
+  html[data-creative="beauty-roma-direct"] .report-hero,
+  html[data-creative="beauty-roma-direct"] .report-readout,
+  html[data-creative="beauty-roma-direct"] .report-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-intro {
+    padding-bottom: 25rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-intro::before {
+    top: auto;
+    width: 100%;
+    height: 28rem;
+    background:
+      linear-gradient(180deg, var(--dr-black), rgba(5, 5, 5, 0.08) 34%, rgba(5, 5, 5, 0.6)),
+      url("/images/proof-beauty-social-v1.webp") center 42% / cover no-repeat;
+    opacity: 1;
+  }
+
+  html[data-creative="beauty-roma-direct"] .intro-index {
+    display: none;
+  }
+
+  html[data-creative="beauty-roma-direct"] .intro-note {
+    position: absolute;
+    z-index: 2;
+    right: var(--stage-padding);
+    bottom: 2rem;
+    left: var(--stage-padding);
+    margin: 0;
+  }
+
+  html[data-creative="beauty-roma-direct"] .confirm-copy {
+    display: block;
+  }
+
+  html[data-creative="beauty-roma-direct"] .confirm-copy > *,
+  html[data-creative="beauty-roma-direct"] .missing-moment,
+  html[data-creative="beauty-roma-direct"] .same-query-proof,
+  html[data-creative="beauty-roma-direct"] .action-pair {
+    margin-top: 1.5rem !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .confirm-copy > .eyebrow {
+    margin-top: 0 !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-confirm > blockquote {
+    margin-top: 2rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .quiz-counter {
+    flex-direction: row;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-capture {
+    background:
+      linear-gradient(0deg, var(--dr-black) 0 62%, rgba(5, 5, 5, 0.48) 80%, var(--dr-black) 100%),
+      url("/images/proof-beauty-nfc-v1.webp") top center / 100% auto no-repeat !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .capture-aside {
+    grid-column: auto;
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-hero {
+    min-height: auto;
+    gap: 2rem;
+    padding-block: clamp(4rem, 12vw, 6rem);
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-hero .eyebrow {
+    grid-column: auto;
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-summary {
+    max-width: 42rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-actions {
+    min-height: auto;
+  }
+
+  html[data-creative="beauty-roma-direct"] .flash-cta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 41.99rem) {
+  html[data-creative="beauty-roma-direct"] .stage-layout {
+    min-height: calc(100svh - 8.6rem);
+    padding: 3.4rem 1rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-layout::after {
+    inset: 0.45rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .wordmark i {
+    display: none;
+  }
+
+  html[data-creative="beauty-roma-direct"] .intro-copy h1,
+  html[data-creative="beauty-roma-direct"] .stage-search .stage-copy h1,
+  html[data-creative="beauty-roma-direct"] .confirm-copy > h1,
+  html[data-creative="beauty-roma-direct"] .capture-copy h1,
+  html[data-creative="beauty-roma-direct"] .report-hero h1 {
+    max-width: 100%;
+    font-size: clamp(3.45rem, 18vw, 5.25rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .quiz-copy h1,
+  html[data-creative="beauty-roma-direct"] .check-v2-flash .flash-heading h1 {
+    max-width: 100% !important;
+    font-size: clamp(3rem, 15vw, 4.5rem) !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-intro {
+    padding-bottom: 23rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .stage-intro::before {
+    height: 25rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .intro-note {
+    right: 1rem;
+    bottom: 1.4rem;
+    left: 1rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .business-list {
+    border-radius: 1.2rem;
+    padding-inline: 0.8rem;
+    box-shadow: 0.5rem 0.5rem 0 var(--dr-yellow-hot);
+  }
+
+  html[data-creative="beauty-roma-direct"] .business-row {
+    grid-template-columns: 1.7rem minmax(0, 1fr) auto;
+  }
+
+  html[data-creative="beauty-roma-direct"] .row-name b,
+  html[data-creative="beauty-roma-direct"] .row-name small {
+    white-space: normal;
+  }
+
+  html[data-creative="beauty-roma-direct"] .missing-moment__punch h2 {
+    font-size: clamp(3rem, 15vw, 4.4rem) !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .answer-row {
+    grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+  }
+
+  html[data-creative="beauty-roma-direct"] .flash-score strong {
+    font-size: clamp(3rem, 15vw, 4.5rem) !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .capture-form {
+    box-shadow: 0.5rem 0.5rem 0 var(--dr-white);
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-readout,
+  html[data-creative="beauty-roma-direct"] .report-actions {
+    padding: 3.5rem 1rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .story-stamp {
+    width: min(18rem, calc(100vw - 3rem));
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-actions h2,
+  html[data-creative="beauty-roma-direct"] .proof-moves__head h2,
+  html[data-creative="beauty-roma-direct"] .proof-scene__header h3,
+  html[data-creative="beauty-roma-direct"] .manual-vs-system__manual h2,
+  html[data-creative="beauty-roma-direct"] .system-slab h2 {
+    max-width: 100%;
+    font-size: clamp(3.2rem, 16vw, 4.8rem) !important;
+  }
+
+  html[data-creative="beauty-roma-direct"] .proof-scene__n {
+    font-size: 4.6rem;
+  }
+
+  html[data-creative="beauty-roma-direct"] .report-close > div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

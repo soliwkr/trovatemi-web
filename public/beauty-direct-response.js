@@ -7,9 +7,10 @@
     document.head.appendChild(stylesheet);
   }
 
-  document.title = 'Trovatemi | Guarda il tuo caso';
+  document.documentElement.dataset.creative = 'beauty-roma-direct';
+  document.title = 'Trovatemi Beauty Check | Famme vede’ er mio caso';
   const campaignLabel = document.querySelector('.wordmark i');
-  if (campaignLabel) campaignLabel.textContent = 'guarda il tuo caso';
+  if (campaignLabel) campaignLabel.textContent = 'beauty businesses grow';
 
   const stage = document.querySelector('#funnel-stage');
   if (!stage) return;
@@ -189,9 +190,9 @@
     actions.insertAdjacentHTML('afterend', `
       <section class="proof-moves" data-proof-moves>
         <header class="proof-moves__head">
-          <div class="proof-moves__kicker">LE 3 MOSSE · VISTE, NON SPIEGATE</div>
-          <h2>Raccogli.<br>Rispondi.<br><mark>Riusa.</mark></h2>
-          <p>Un complimento diventa prova solo quando passa da un gesto concreto a una traccia pubblica che puoi continuare a usare.</p>
+          <div class="proof-moves__kicker">MO FACCIAMOLO LAVORÀ · 3 MOSSE, IN FILA</div>
+          <h2>Raccogli.<br>Rispondi.<br><mark>Falla girà.</mark></h2>
+          <p>Il complimento c’è già. Il punto è non lasciarlo morire sulla porta: raccoglilo, rispondi, trasformalo in prova dove il canale è davvero operativo.</p>
           <div class="proof-loop" aria-label="Cliente felice, raccogli, recensione, rispondi, riusa, più prova visibile">
             <span>CLIENTE FELICE</span><i>→</i><span>RACCOGLI</span><i>→</i><span>RECENSIONE</span><i>→</i><span>RISPONDI</span><i>→</i><span>RIUSA</span><i>→</i><span>PIÙ PROVA VISIBILE</span>
           </div>
@@ -200,7 +201,7 @@
           <article class="proof-scene proof-scene--collect">
             <header class="proof-scene__header">
               <span class="proof-scene__n">01</span>
-              <div><span class="proof-scene__tag">RACCOGLI</span><h3>Chiedilo nel momento giusto.</h3></div>
+              <div><span class="proof-scene__tag">RACCOGLI</span><h3>Chiedila mentre sorride.</h3></div>
             </header>
             <div class="proof-scene__body">
               <div class="proof-scene__copy">
@@ -234,7 +235,7 @@
           <article class="proof-scene proof-scene--reply">
             <header class="proof-scene__header">
               <span class="proof-scene__n">02</span>
-              <div><span class="proof-scene__tag">RISPONDI</span><h3>Fai vedere che ci sei.</h3></div>
+              <div><span class="proof-scene__tag">RISPONDI</span><h3>Faje vede’ che ce sei.</h3></div>
             </header>
             <div class="proof-scene__body">
               <div class="proof-scene__copy">
@@ -261,7 +262,7 @@
           <article class="proof-scene proof-scene--reuse">
             <header class="proof-scene__header">
               <span class="proof-scene__n">03</span>
-              <div><span class="proof-scene__tag">RIUSA</span><h3>Trasforma la prova. Non il senso.</h3></div>
+              <div><span class="proof-scene__tag">RIUSA</span><h3>La prova c’è. Falla girà.</h3></div>
             </header>
             <div class="proof-scene__body">
               <div class="proof-scene__copy">
@@ -289,8 +290,8 @@
       </section>
       <section class="manual-vs-system" data-manual-system>
         <div class="manual-vs-system__manual">
-          <span class="manual-vs-system__label">PUOI FARLO A MANO. OGNI VOLTA.</span>
-          <h2>Ogni passaggio<br>torna da te.</h2>
+          <span class="manual-vs-system__label">A MANO? SE RICOMINCIA OGNI GIORNO.</span>
+          <h2>Tutto sulle<br>spalle tue.</h2>
           <div class="manual-chain" aria-label="Chiedi, insegui, rispondi, copia, pubblica, ricomincia">
             <div><small>01 · TOCCA A TE</small><span>CHIEDI</span></div><i>→</i>
             <div><small>02 · TOCCA A TE</small><span>INSEGUI</span></div><i>→</i>
@@ -318,19 +319,22 @@
   };
 
   const patchIntro = () => {
-    setText('.intro-copy .eyebrow', 'IL TUO BUSINESS · DATI REALI · ZERO PUNTEGGI INVENTATI');
-    setHTML('.intro-copy h1', 'Ti cercano.<br>Ti confrontano.<br><em>Scelgono in pochi secondi.</em>');
-    setText('.intro-copy .lede', 'Cerca la tua attività. Ti faccio vedere cosa può vedere una nuova cliente e dove il passaparola che hai già smette di diventare prova.');
-    setHTML('.intro-copy .primary-action', 'Guarda il mio caso <span aria-hidden="true">↗</span>');
-    setText('.intro-note span', 'La scena che conosci');
-    setText('.intro-note p', '“Mi sono trovata benissimo.” Paga. Saluta. Esce. Peccato che Google non era lì.');
+    setText('.intro-copy .eyebrow', 'BEAUTY CHECK · DATI VERI · ZERO FUFFA');
+    setHTML('.intro-copy h1', 'Te cercano.<br>Te confrontano.<br><em>Te scelgono<br>in 5 secondi.</em>');
+    setText('.intro-copy .lede', 'C’hai clienti che escono contente. Bene. Mo vediamo se online si capisce o se stai regalando fiducia a chi si presenta meglio.');
+    setHTML('.intro-copy .primary-action', 'Famme vede’ er mio caso <span aria-hidden="true">→</span>');
+    setText('.intro-note span', 'C’HAI CLIENTI FELICI.');
+    setText('.intro-note p', 'Bello. Mo facciamo in modo che si veda pure fuori.');
+    setHTML('.intro-index span', 'Beauty.<br>Ma tosta.');
+    setText('.intro-index strong', 'IL PASSAPAROLA CHE C’HAI GIÀ');
   };
 
   const patchSearch = () => {
-    setText('.stage-copy .eyebrow', 'NON TEORIA. IL TUO NOME.');
-    setHTML('.stage-copy h1', 'Scrivi il nome<br><em>del tuo centro.</em>');
-    setText('.stage-explainer', 'Ti mostro quello che una nuova cliente può vedere prima ancora di chiamarti o prenotare.');
+    setText('.stage-copy .eyebrow', 'NIENTE TEORIA. NOME E CITTÀ.');
+    setHTML('.stage-copy h1', 'Dimme come<br><em>te chiami.</em>');
+    setText('.stage-explainer', 'Scrivi la tua attività. La cerco solo quando premi: niente chiamate mentre digiti, niente sprechi.');
     setPlaceholder('[data-search-input]', 'Es. Nails Formia');
+    setHTML('.lookup-submit', 'CERCA SU GOOGLE <span aria-hidden="true">→</span>');
     const idle = stage.querySelector('.lookup-status');
     if (idle && !idle.classList.contains('lookup-status--loading') && !idle.classList.contains('lookup-status--error')) {
       if (idle.textContent !== 'Nome + città. Poi scegli il tuo risultato.') idle.textContent = 'Nome + città. Poi scegli il tuo risultato.';
@@ -340,43 +344,44 @@
   const patchConfirm = () => {
     const name = stage.querySelector('.business-confirmation h2')?.textContent?.trim();
     if (name) selectedBusinessName = name;
-    setText('.confirm-copy .eyebrow', 'QUESTO È QUELLO CHE UNA CLIENTE PUÒ VEDERE PRIMA DI SCEGLIERE.');
-    setHTML('.confirm-copy h1', 'Questa è<br><em>la tua vetrina.</em>');
-    setText('.plain-clarifier', 'Non stiamo giudicando quanto sei brava. Stiamo guardando quanta prova resta visibile dopo che una cliente è uscita contenta.');
-    setHTML('.action-pair .primary-action', 'Ora dimmi cosa succede dopo <span aria-hidden="true">↗</span>');
-    setText('.stage-confirm > blockquote', 'Ti cercano. Ti confrontano. Poi scelgono con quello che riescono a vedere.');
+    setText('.confirm-copy .eyebrow', 'QUESTO VEDE CHI ANCORA NON TE CONOSCE.');
+    setHTML('.confirm-copy h1', 'Sì.<br><em>Sei te.</em>');
+    setText('.plain-clarifier', 'Non sto giudicando quanto sei brava. Sto guardando quanto si capisce prima che una cliente scelga.');
+    setHTML('.action-pair .primary-action', 'Mo dimme che succede dopo <span aria-hidden="true">→</span>');
+    setText('.stage-confirm > blockquote', 'Te cercano. Te confrontano. Poi scelgono con quello che vedono, mica con quello che sai fare tu.');
     ensureMissingMoment();
     void loadSameQueryProof();
   };
 
   const patchQuiz = () => {
-    setText('.quiz-copy .eyebrow', 'GOOGLE VEDE IL PRIMA. ORA DIMMI IL DOPO.');
-    setText('.private-note', '5 scene vere. Scegli ciò che succede davvero nel tuo centro. La risposta giusta è quella vera.');
+    setText('.quiz-copy .eyebrow', 'GOOGLE VEDE ER PRIMA. TU DIMME ER DOPO.');
+    setText('.private-note', 'Cinque scene vere. Niente risposte da brochure: dimmi come va davvero nel tuo centro.');
   };
 
   const patchFlash = () => {
-    setText('.flash-heading .eyebrow', 'ECCOLO.');
+    setText('.flash-heading .eyebrow', 'ECCOLO. ER PUNTO È QUESTO.');
     setText('.flash-score > span', 'IL PRIMO PUNTO DOVE STAI PERDENDO PROVA');
-    setText('.flash-cta p', 'Hai già la materia prima: clienti soddisfatte. Questo è il punto dove smette di trasformarsi in prova visibile.');
-    setHTML('.flash-cta .primary-action', 'Dammi le 3 mosse <span aria-hidden="true">↗</span>');
+    setText('.flash-cta p', 'Il problema non è se sei brava. È il punto preciso in cui smette di vedersi.');
+    setHTML('.flash-cta .primary-action', 'Dammi le 3 mosse <span aria-hidden="true">→</span>');
   };
 
   const patchCapture = () => {
-    setText('.capture-copy .eyebrow', 'ORA SAI DOVE PERDE.');
-    setHTML('.capture-copy h1', 'Vuoi sapere<br><em>cosa fare domani?</em>');
+    setText('.capture-copy .eyebrow', 'ADESSO LO SAI. MO METTIAMO IN FILA LE MOSSE.');
+    setHTML('.capture-copy h1', 'Tre mosse.<br><em>Niente casino.</em>');
     if (selectedBusinessName) {
       setText('.capture-copy > p:not(.eyebrow)', `Ti preparo le 3 mosse in ordine per ${selectedBusinessName}. Zero teoria: prima, seconda, terza.`);
     } else {
       setText('.capture-copy > p:not(.eyebrow)', 'Ti preparo le 3 mosse in ordine. Zero teoria: prima, seconda, terza.');
     }
-    setHTML('.capture-form .primary-action', 'Mandami le 3 mosse <span aria-hidden="true">↗</span>');
+    setHTML('.capture-form .primary-action', 'Aprimi il report <span aria-hidden="true">→</span>');
     setText('.capture-aside span', 'Nessuna demo obbligatoria.');
     setText('.capture-aside p', 'Prima vedi il problema e le mosse. Poi decidi se vuoi che Trovatemi tolga quei passaggi dalla tua testa.');
   };
 
   const patchReport = () => {
-    setText('.report-actions .eyebrow', 'BAM. BAM. BAM.');
-    setHTML('.report-actions h2', 'Fai queste tre cose.<br><em>In quest’ordine.</em>');
+    setHTML('.report-hero h1', 'Er passaparola<br>te se ferma <em>qui.</em>');
+    setText('.report-actions .eyebrow', 'BAM. BAM. BAM. SENZA PERDE TEMPO.');
+    setHTML('.report-actions h2', 'Tre mosse.<br><em>In fila. Pulite.</em>');
     setText('.report-mechanism .eyebrow', 'PUOI FARLO A MANO. OGNI VOLTA.');
     setHTML('.report-mechanism h2', 'Oppure smetti di lasciare<br><em>il passaparola al caso.</em>');
     ensureReportProofStory();
@@ -395,8 +400,11 @@
     sessionStorage.setItem('trovatemi:last-search-query', value);
   }, true);
 
+  let patchedState = '';
+
   const patch = () => {
     const state = stage.querySelector('[data-state]')?.getAttribute('data-state');
+    if (!state) return;
     if (state === 'intro') patchIntro();
     if (state === 'search') patchSearch();
     if (state === 'confirm') patchConfirm();
@@ -404,11 +412,13 @@
     if (state === 'flash') patchFlash();
     if (state === 'capture') patchCapture();
     if (state === 'report') patchReport();
+    patchedState = state;
   };
 
   let queued = false;
   const queuePatch = () => {
-    if (queued) return;
+    const nextState = stage.querySelector('[data-state]')?.getAttribute('data-state') || '';
+    if (!nextState || nextState === patchedState || queued) return;
     queued = true;
     requestAnimationFrame(() => {
       queued = false;
@@ -416,6 +426,7 @@
     });
   };
 
-  new MutationObserver(queuePatch).observe(stage, { childList: true, subtree: true });
-  queuePatch();
+  patch();
+  const observer = new MutationObserver(queuePatch);
+  observer.observe(stage, { childList: true, subtree: true });
 })();
