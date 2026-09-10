@@ -104,8 +104,9 @@ jobs:
           curl --fail --location --silent --show-error \
             --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
             "$BASE_URL/beauty-direct-response.js" > "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Te cercano." "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "beauty-roma-direct" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Ti cercano." "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "beauty-proof-story" "$RUNNER_TEMP/beauty-direct-response.js"
+          grep -Fq "Le tre mosse del passaparola visibile" "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Una cliente vede anche questi." "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
           grep -Fq "PIÙ PROVA VISIBILE" "$RUNNER_TEMP/beauty-direct-response.js"

@@ -7,8 +7,8 @@
     document.head.appendChild(stylesheet);
   }
 
-  document.documentElement.dataset.creative = 'beauty-roma-direct';
-  document.title = 'Trovatemi Beauty Check | Famme vede’ er mio caso';
+  document.documentElement.dataset.creative = 'beauty-proof-story';
+  document.title = 'Trovatemi Beauty Check | Guarda il tuo caso';
   const campaignLabel = document.querySelector('.wordmark i');
   if (campaignLabel) campaignLabel.textContent = 'beauty businesses grow';
 
@@ -190,9 +190,9 @@
     actions.insertAdjacentHTML('afterend', `
       <section class="proof-moves" data-proof-moves>
         <header class="proof-moves__head">
-          <div class="proof-moves__kicker">MO FACCIAMOLO LAVORÀ · 3 MOSSE, IN FILA</div>
-          <h2>Raccogli.<br>Rispondi.<br><mark>Falla girà.</mark></h2>
-          <p>Il complimento c’è già. Il punto è non lasciarlo morire sulla porta: raccoglilo, rispondi, trasformalo in prova dove il canale è davvero operativo.</p>
+          <div class="proof-moves__kicker">IL PASSAPAROLA DIVENTA VISIBILE · 3 MOSSE</div>
+          <h2>Raccogli.<br>Rispondi.<br><mark>Riusa.</mark></h2>
+          <p>Il complimento c’è già. Il punto è non lasciarlo sulla porta: raccoglilo, rispondi e trasformalo in prova solo dove il canale è davvero operativo.</p>
           <div class="proof-loop" aria-label="Cliente felice, raccogli, recensione, rispondi, riusa, più prova visibile">
             <span>CLIENTE FELICE</span><i>→</i><span>RACCOGLI</span><i>→</i><span>RECENSIONE</span><i>→</i><span>RISPONDI</span><i>→</i><span>RIUSA</span><i>→</i><span>PIÙ PROVA VISIBILE</span>
           </div>
@@ -235,7 +235,7 @@
           <article class="proof-scene proof-scene--reply">
             <header class="proof-scene__header">
               <span class="proof-scene__n">02</span>
-              <div><span class="proof-scene__tag">RISPONDI</span><h3>Faje vede’ che ce sei.</h3></div>
+              <div><span class="proof-scene__tag">RISPONDI</span><h3>Fai vedere che ci sei.</h3></div>
             </header>
             <div class="proof-scene__body">
               <div class="proof-scene__copy">
@@ -262,7 +262,7 @@
           <article class="proof-scene proof-scene--reuse">
             <header class="proof-scene__header">
               <span class="proof-scene__n">03</span>
-              <div><span class="proof-scene__tag">RIUSA</span><h3>La prova c’è. Falla girà.</h3></div>
+              <div><span class="proof-scene__tag">RIUSA</span><h3>La prova c’è. Falla circolare.</h3></div>
             </header>
             <div class="proof-scene__body">
               <div class="proof-scene__copy">
@@ -290,8 +290,8 @@
       </section>
       <section class="manual-vs-system" data-manual-system>
         <div class="manual-vs-system__manual">
-          <span class="manual-vs-system__label">A MANO? SE RICOMINCIA OGNI GIORNO.</span>
-          <h2>Tutto sulle<br>spalle tue.</h2>
+          <span class="manual-vs-system__label">A MANO? RIPARTI OGNI GIORNO.</span>
+          <h2>Tutto torna<br>sulle tue spalle.</h2>
           <div class="manual-chain" aria-label="Chiedi, insegui, rispondi, copia, pubblica, ricomincia">
             <div><small>01 · TOCCA A TE</small><span>CHIEDI</span></div><i>→</i>
             <div><small>02 · TOCCA A TE</small><span>INSEGUI</span></div><i>→</i>
@@ -318,20 +318,34 @@
     mechanism.remove();
   };
 
+  const ensureIntroProof = () => {
+    if (stage.querySelector('[data-intro-proof]')) return;
+    const note = stage.querySelector('.intro-note');
+    if (!note) return;
+
+    note.insertAdjacentHTML('afterend', `
+      <div class="intro-proof" data-intro-proof aria-label="Le tre mosse del passaparola visibile">
+        <article><span>01 · RACCOGLI</span><strong>QR · NFC · LINK</strong><small>IL GESTO, NEL MOMENTO GIUSTO</small></article>
+        <article><span>02 · RISPONDI</span><strong>APRI · PREPARA · CONTROLLA</strong><small>LA CURA RESTA PUBBLICA</small></article>
+        <article><span>03 · RIUSA</span><strong>RECENSIONE → PROVA SOCIALE</strong><small>SOLO DOVE OPERATIVO E TESTATO</small></article>
+      </div>`);
+  };
+
   const patchIntro = () => {
     setText('.intro-copy .eyebrow', 'BEAUTY CHECK · DATI VERI · ZERO FUFFA');
-    setHTML('.intro-copy h1', 'Te cercano.<br>Te confrontano.<br><em>Te scelgono<br>in 5 secondi.</em>');
-    setText('.intro-copy .lede', 'C’hai clienti che escono contente. Bene. Mo vediamo se online si capisce o se stai regalando fiducia a chi si presenta meglio.');
-    setHTML('.intro-copy .primary-action', 'Famme vede’ er mio caso <span aria-hidden="true">→</span>');
-    setText('.intro-note span', 'C’HAI CLIENTI FELICI.');
-    setText('.intro-note p', 'Bello. Mo facciamo in modo che si veda pure fuori.');
-    setHTML('.intro-index span', 'Beauty.<br>Ma tosta.');
-    setText('.intro-index strong', 'IL PASSAPAROLA CHE C’HAI GIÀ');
+    setHTML('.intro-copy h1', 'Ti cercano.<br>Ti confrontano.<br><em>Ti scelgono<br>in 5 secondi.</em>');
+    setText('.intro-copy .lede', 'Hai già clienti felici. Ora vediamo se online si capisce oppure se stai regalando fiducia a chi si presenta meglio.');
+    setHTML('.intro-copy .primary-action', 'Guarda il tuo caso <span aria-hidden="true">→</span>');
+    setText('.intro-note span', 'DA CLIENTE FELICE A PROVA VISIBILE.');
+    setText('.intro-note p', 'Tre mosse concrete. Un solo filo: raccogli, rispondi, riusa.');
+    setHTML('.intro-index span', 'Beauty.<br>Visibile.');
+    setText('.intro-index strong', 'IL PASSAPAROLA CHE HAI GIÀ');
+    ensureIntroProof();
   };
 
   const patchSearch = () => {
     setText('.stage-copy .eyebrow', 'NIENTE TEORIA. NOME E CITTÀ.');
-    setHTML('.stage-copy h1', 'Dimme come<br><em>te chiami.</em>');
+    setHTML('.stage-copy h1', 'Trova la tua<br><em>attività.</em>');
     setText('.stage-explainer', 'Scrivi la tua attività. La cerco solo quando premi: niente chiamate mentre digiti, niente sprechi.');
     setPlaceholder('[data-search-input]', 'Es. Nails Formia');
     setHTML('.lookup-submit', 'CERCA SU GOOGLE <span aria-hidden="true">→</span>');
@@ -345,29 +359,29 @@
     const name = stage.querySelector('.business-confirmation h2')?.textContent?.trim();
     if (name) selectedBusinessName = name;
     setText('.confirm-copy .eyebrow', 'QUESTO VEDE CHI ANCORA NON TE CONOSCE.');
-    setHTML('.confirm-copy h1', 'Sì.<br><em>Sei te.</em>');
+    setHTML('.confirm-copy h1', 'Sì.<br><em>È la tua.</em>');
     setText('.plain-clarifier', 'Non sto giudicando quanto sei brava. Sto guardando quanto si capisce prima che una cliente scelga.');
-    setHTML('.action-pair .primary-action', 'Mo dimme che succede dopo <span aria-hidden="true">→</span>');
-    setText('.stage-confirm > blockquote', 'Te cercano. Te confrontano. Poi scelgono con quello che vedono, mica con quello che sai fare tu.');
+    setHTML('.action-pair .primary-action', 'Ora dimmi cosa succede dopo <span aria-hidden="true">→</span>');
+    setText('.stage-confirm > blockquote', 'Ti cercano. Ti confrontano. Poi scelgono con quello che vedono, non con quello che sai fare tu.');
     ensureMissingMoment();
     void loadSameQueryProof();
   };
 
   const patchQuiz = () => {
-    setText('.quiz-copy .eyebrow', 'GOOGLE VEDE ER PRIMA. TU DIMME ER DOPO.');
+    setText('.quiz-copy .eyebrow', 'GOOGLE VEDE IL PRIMA. TU RACCONTAMI IL DOPO.');
     setText('.private-note', 'Cinque scene vere. Niente risposte da brochure: dimmi come va davvero nel tuo centro.');
   };
 
   const patchFlash = () => {
-    setText('.flash-heading .eyebrow', 'ECCOLO. ER PUNTO È QUESTO.');
+    setText('.flash-heading .eyebrow', 'ECCOLO. IL PUNTO È QUESTO.');
     setText('.flash-score > span', 'IL PRIMO PUNTO DOVE STAI PERDENDO PROVA');
     setText('.flash-cta p', 'Il problema non è se sei brava. È il punto preciso in cui smette di vedersi.');
     setHTML('.flash-cta .primary-action', 'Dammi le 3 mosse <span aria-hidden="true">→</span>');
   };
 
   const patchCapture = () => {
-    setText('.capture-copy .eyebrow', 'ADESSO LO SAI. MO METTIAMO IN FILA LE MOSSE.');
-    setHTML('.capture-copy h1', 'Tre mosse.<br><em>Niente casino.</em>');
+    setText('.capture-copy .eyebrow', 'ADESSO LO SAI. METTIAMO IN FILA LE MOSSE.');
+    setHTML('.capture-copy h1', 'Tre mosse.<br><em>Niente confusione.</em>');
     if (selectedBusinessName) {
       setText('.capture-copy > p:not(.eyebrow)', `Ti preparo le 3 mosse in ordine per ${selectedBusinessName}. Zero teoria: prima, seconda, terza.`);
     } else {
@@ -379,9 +393,9 @@
   };
 
   const patchReport = () => {
-    setHTML('.report-hero h1', 'Er passaparola<br>te se ferma <em>qui.</em>');
-    setText('.report-actions .eyebrow', 'BAM. BAM. BAM. SENZA PERDE TEMPO.');
-    setHTML('.report-actions h2', 'Tre mosse.<br><em>In fila. Pulite.</em>');
+    setHTML('.report-hero h1', 'Il passaparola<br>si ferma <em>qui.</em>');
+    setText('.report-actions .eyebrow', 'PRIMA. POI. DOPO. IN QUEST’ORDINE.');
+    setHTML('.report-actions h2', 'Tre mosse.<br><em>In fila. Chiare.</em>');
     setText('.report-mechanism .eyebrow', 'PUOI FARLO A MANO. OGNI VOLTA.');
     setHTML('.report-mechanism h2', 'Oppure smetti di lasciare<br><em>il passaparola al caso.</em>');
     ensureReportProofStory();
