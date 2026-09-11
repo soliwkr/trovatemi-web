@@ -55,8 +55,10 @@ test("server-rendered check contains the full customer story without JavaScript"
   const html = renderPublicCheck(check);
 
   assert.match(html, /data-trovatemi-check=/);
-  assert.match(html, /IL CLIENTE NON LEGGE IL TUO/);
-  assert.match(html, /TRE COSE/);
+  assert.match(html, /Risultati osservati/);
+  assert.match(html, /Non è un ranking Google assoluto/);
+  assert.match(html, /ESEMPIO ILLUSTRATIVO/);
+  assert.match(html, /TRE MODULI/);
   assert.match(html, /Sistemamelo/);
   assert.match(html, /€197/);
   assert.equal(html.includes('<div id="root"></div>'), false);
@@ -68,7 +70,17 @@ test("server-rendered check exposes only boolean contactability, not the phone n
   const html = renderPublicCheck(check);
 
   assert.match(html, /Telefono/);
+  assert.match(html, /Numero pubblico osservato/);
   assert.equal(html.includes("+390771000000"), false);
+});
+
+test("illustrative mockups are explicitly disclosed and make no fake future metric", () => {
+  const check = buildPublicCheck(run, prospect, "0123456789abcdef0123456789abcdef", 197);
+  const html = renderPublicCheck(check);
+
+  assert.match(html, /NON È LA TUA SCHEDA ATTUALE/);
+  assert.match(html, /non scansionabile/i);
+  assert.equal(html.includes("86 recensioni"), false);
 });
 
 test("server-rendered check escapes business-controlled text", () => {
