@@ -133,7 +133,7 @@ jobs:
 
           fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "Il cliente ti sta già cercando."             "Il problema è che trova un altro."             "21 giorni per capire se entra davvero nel tuo lavoro."             "€149"
 
-          fetch_text_with_markers             "$BASE_URL/beauty-check/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi diagnostic"             "Guarda la tua attività come la vede chi deve scegliere."             "data-funnel-app"             "Nessun punteggio inventato."             "ALTRI RISULTATI EMERSI DALLA STESSA RICERCA"             "Senza review gating"
+          fetch_text_with_markers             "$BASE_URL/beauty-check/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi diagnostic"             "Trovatemi | Guarda cosa vede chi ti cerca"             "data-funnel-app"             "Dati pubblici quando disponibili"             "Preview diagnostica"
 
           echo "Trovatemi preview — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
           echo "Diagnostic — $BASE_URL/beauty-check/" >> "$GITHUB_STEP_SUMMARY"
