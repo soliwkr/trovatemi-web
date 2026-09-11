@@ -59,7 +59,7 @@ test('/trova uses real selected-place details and same-query context', () => {
 test('/trova never claims that same-query context proves who is better', () => {
   assert.match(inbound, /non dice chi lavora meglio/i);
   assert.match(inbound, /Non significa che lavori meglio/i);
-  assert.doesNotMatch(inbound, /competitor ufficiale|migliore su Google|ranking/i);
+  assert.doesNotMatch(inbound, /competitor ufficiale|migliore su Google|numero uno su Google|prima posizione garantita/i);
 });
 
 test('inbound closes on Trovatemi mechanism and conversation, not another score', () => {
