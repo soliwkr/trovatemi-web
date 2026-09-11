@@ -57,3 +57,27 @@ Hono is a small Web Standards framework designed for Workers. The Radar keeps pr
 Browser-heavy enrichment should use Cloudflare Browser Run / Queues as a separate fallback, not block the initial Radar request.
 
 Apify/Google Maps/social actors can later emit the observation contract defined in the parent `prospect_radar_sim` spike.
+
+
+## Shareable Check
+
+Il Radar può trasformare un prospect idoneo in una snapshot pubblica minimizzata:
+
+```text
+prospect
+→ Genera check
+→ token opaco
+→ /c/<token>
+→ messaggio outreach pronto
+```
+
+Regole:
+
+- il link scade dopo 30 giorni;
+- lo score interno non entra mai nella snapshot pubblica;
+- email e telefono del prospect non vengono serializzati nel check;
+- il check pubblico contiene solo evidenze business necessarie alla conversazione;
+- il messaggio viene copiato manualmente: nessun invio automatico;
+- la CTA pubblica apre il contatto TROVATEMI, senza hardcodare un prezzo non ancora canonico.
+
+La CI esercita il flusso end-to-end: scan live → prospect idoneo → share → fetch check → privacy assertions.
