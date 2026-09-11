@@ -119,12 +119,35 @@ jobs:
           const raw = JSON.stringify(check);
           if ('score' in check || raw.includes('"score"')) throw new Error('Internal score leaked into public check');
           if (raw.includes('@')) throw new Error('Email-like value leaked into public check');
-          if (!check.threeThingsToShow?.length) throw new Error('Public check has no evidence');
+          if (!check.journey?.length) throw new Error('Public check has no customer journey');
+          if (!check.actions?.length) throw new Error('Public check has no actions');
+          const copy = JSON.stringify({journey: check.journey, actions: check.actions}).toLowerCase();
+          if (copy.includes('gap recensioni') || copy.includes('conversion friction') || copy.includes('opportunity score')) {
+            throw new Error('Internal jargon leaked into customer check');
+          }
           NODE
 
           curl --fail --silent --show-error \
             "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"
 
+          curl --fail --silent --show-error -X POST \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/events/view" > "$RUNNER_TEMP/view-stats.json"
+          grep -Fq '"views":1' "$RUNNER_TEMP/view-stats.json"
+
+          curl --silent --show-error --output /dev/null --dump-header "$RUNNER_TEMP/cta.headers" \
+            "$PREVIEW_URL/go/$CHECK_TOKEN"
+          grep -Fq 'location: /a/' "$RUNNER_TEMP/cta.headers"
+
+          curl --fail --silent --show-error -X POST \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/activation-intent" > "$RUNNER_TEMP/activation.json"
+          grep -Fq '"status":"intent_recorded"' "$RUNNER_TEMP/activation.json"
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/stats" > "$RUNNER_TEMP/final-stats.json"
+          grep -Fq '"views":1' "$RUNNER_TEMP/final-stats.json"
+          grep -Fq '"ctaClicks":1' "$RUNNER_TEMP/final-stats.json"
+          grep -Fq '"activationIntents":1' "$RUNNER_TEMP/final-stats.json"
+
           echo "Radar preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
-          echo "Share flow — scan → generate check → privacy gate: OK" >> "$GITHUB_STEP_SUMMARY"
+          echo "Share flow — scan → narrative check → open → CTA → activation intent: OK" >> "$GITHUB_STEP_SUMMARY"
