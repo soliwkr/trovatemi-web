@@ -1,5 +1,7 @@
 # TROVATEMI PROOF STORY v1 — Design System Lock
 
+> **SUPERSEDED 2026-09-11.** Founder direction replaced this visual/CRO system with `docs/design-system/trovatemi-public-v2.md`. Keep this file only as historical context; do not use it to drive current public UI or copy.
+
 Status: **LOCKED for S01/S02 unless founder explicitly changes it.**
 
 This is the visual/CRO contract for the Beauty campaign experience currently routed at `/beauty-check/`. The public experience does not need to call itself “Beauty Check”; Beauty remains the campaign/vertical layer, while Trovatemi remains the product.
