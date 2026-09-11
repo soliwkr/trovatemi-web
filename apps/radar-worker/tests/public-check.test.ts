@@ -55,11 +55,20 @@ test("server-rendered check contains the full customer story without JavaScript"
   const html = renderPublicCheck(check);
 
   assert.match(html, /data-trovatemi-check=/);
-  assert.match(html, /SEI MEGLIO DI COME APPARI/);
+  assert.match(html, /IL CLIENTE NON LEGGE IL TUO/);
+  assert.match(html, /TRE COSE/);
   assert.match(html, /Sistemamelo/);
   assert.match(html, /€197/);
   assert.equal(html.includes('<div id="root"></div>'), false);
   assert.equal(html.includes("<script"), false);
+});
+
+test("server-rendered check exposes only boolean contactability, not the phone number", () => {
+  const check = buildPublicCheck(run, prospect, "0123456789abcdef0123456789abcdef", 197);
+  const html = renderPublicCheck(check);
+
+  assert.match(html, /Telefono/);
+  assert.equal(html.includes("+390771000000"), false);
 });
 
 test("server-rendered check escapes business-controlled text", () => {
