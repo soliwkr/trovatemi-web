@@ -65,3 +65,29 @@ export type RadarRun = {
   medianRating: number | null;
   prospects: ProspectResult[];
 };
+
+
+export type PublicCheck = {
+  token: string;
+  createdAt: string;
+  expiresAt: string;
+  business: {
+    name: string;
+    category: string;
+    city: string;
+    address: string;
+    rating: number | null;
+    reviews: number | null;
+    positionSignal: number;
+    googleMapsUri: string | null;
+  };
+  query: string;
+  headline: string;
+  threeThingsToShow: Array<{ label: string; reason: string }>;
+  evidence: string[];
+  claimRule: string;
+  cta: {
+    label: string;
+    href: string;
+  };
+};
