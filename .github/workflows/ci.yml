@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -27,8 +31,71 @@ jobs:
       - name: Typecheck
         run: npm run check
 
+      - name: Tests
+        run: npm test
+
       - name: Build Worker
         run: npm run build
 
       - name: Validate Cloudflare bundle
         run: npx wrangler deploy --dry-run
+
+      - name: Verify preview deployment secrets
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/google-like-funnel-v1'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test -n "$GOOGLE_PLACES_API_KEY" || { echo "Missing GOOGLE_PLACES_API_KEY"; exit 1; }
+
+      - name: Derive isolated preview config from Astro build
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/google-like-funnel-v1'
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const source = 'dist/server/wrangler.json';
+          const target = 'dist/server/wrangler.preview.json';
+          const config = JSON.parse(fs.readFileSync(source, 'utf8'));
+
+          config.name = 'trovatemi-google-like-preview';
+          config.workers_dev = true;
+          delete config.routes;
+          delete config.route;
+
+          fs.writeFileSync(target, JSON.stringify(config, null, 2));
+          console.log('Preview config derived from Astro build; production routes removed.');
+          NODE
+
+      - name: Create or update preview Worker
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/google-like-funnel-v1'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy --config dist/server/wrangler.preview.json
+
+      - name: Sync Google Places secret to preview Worker
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/google-like-funnel-v1'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY --config dist/server/wrangler.preview.json
+
+      - name: Verify preview funnel and live Places
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/google-like-funnel-v1'
+        env:
+          PREVIEW_URL: https://trovatemi-google-like-preview.soliwkr.workers.dev
+        run: |
+          curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 \
+            "$PREVIEW_URL/" > "$RUNNER_TEMP/preview-home.html"
+          grep -Fq 'id="searchForm"' "$RUNNER_TEMP/preview-home.html"
+
+          curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 \
+            "$PREVIEW_URL/api/places/search?q=parrucchiere%20Formia" > "$RUNNER_TEMP/places.json"
+          grep -Fq '"source":"google_places"' "$RUNNER_TEMP/places.json"
+          grep -Fq '"places":[' "$RUNNER_TEMP/places.json"
+
+          echo "Preview URL — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"

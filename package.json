@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "wrangler types && astro check && wrangler types --check",
+    "test": "node --check public/search-funnel.js && node --check public/funnel-analysis.js && node --test",
     "cf-typegen": "wrangler types",
     "deploy": "npm run build && wrangler deploy",
     "deploy:dry": "npm run build && wrangler deploy --dry-run"
