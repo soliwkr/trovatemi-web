@@ -1,4 +1,4 @@
-import type { Bindings, RadarRun } from "./types.ts";
+import type { Bindings, PublicCheck, RadarRun } from "./types.ts";
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -38,6 +38,22 @@ export class RadarStore {
         run,
       });
       return json({ ok: true });
+    }
+
+    if (request.method === "PUT" && parts[0] === "shares" && parts[1]) {
+      const check = await request.json() as PublicCheck;
+      await this.state.storage.put(`share:${parts[1]}`, check);
+      return json({ ok: true });
+    }
+
+    if (request.method === "GET" && parts[0] === "shares" && parts[1]) {
+      const check = await this.state.storage.get(`share:${parts[1]}`) as PublicCheck | undefined;
+      if (!check) return json({ error: "check_not_found" }, 404);
+      if (Date.parse(check.expiresAt) <= Date.now()) {
+        await this.state.storage.delete(`share:${parts[1]}`);
+        return json({ error: "check_expired" }, 410);
+      }
+      return json(check);
     }
 
     if (request.method === "POST" && parts[0] === "rate" && parts[1] && parts[2]) {
@@ -91,4 +107,20 @@ export async function takeRateToken(env: Bindings, hashedIp: string): Promise<bo
   const day = new Date().toISOString().slice(0, 10);
   const response = await storeStub(env).fetch(new Request(`https://radar-store/rate/${day}/${hashedIp}`, { method: "POST" }));
   return response.ok;
+}
+
+
+export async function savePublicCheck(env: Bindings, check: PublicCheck) {
+  await storeStub(env).fetch(new Request(`https://radar-store/shares/${encodeURIComponent(check.token)}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(check),
+  }));
+}
+
+export async function loadPublicCheck(env: Bindings, token: string): Promise<PublicCheck | null> {
+  const response = await storeStub(env).fetch(
+    new Request(`https://radar-store/shares/${encodeURIComponent(token)}`)
+  );
+  return response.ok ? await response.json() as PublicCheck : null;
 }
