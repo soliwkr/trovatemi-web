@@ -5,6 +5,9 @@ export type Bindings = {
   RUN_LIMIT?: string;
   ACTIVATION_CHECKOUT_URL?: string;
   ACTIVATION_PRICE_EUR?: string;
+  CLIMBO_API_KEY?: string;
+  CLIMBO_PLAN_ID?: string;
+  PROVISIONING_SECRET?: string;
 };
 
 export type PlaceRecord = {
@@ -106,6 +109,7 @@ export type PublicCheck = {
     directActionPresent: boolean;
   };
   query: string;
+  searchCategory: string;
   headline: string;
   journey: PublicCheckJourneyStep[];
   actions: PublicCheckAction[];
@@ -135,4 +139,16 @@ export type CheckStats = {
   lastOpenedAt: string | null;
   lastCtaAt: string | null;
   lastActivationAt: string | null;
+};
+
+
+export type ActivationDraft = {
+  token: string;
+  businessName: string;
+  ownerName: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  status: "intent" | "checkout_ready" | "provisioned";
+  providerRef: string | null;
 };
