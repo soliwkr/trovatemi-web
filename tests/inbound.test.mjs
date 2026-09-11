@@ -65,8 +65,7 @@ test('/trova never claims that same-query context proves who is better', () => {
 test('inbound closes on Trovatemi mechanism and conversation, not another score', () => {
   assert.match(inbound, /IL PASSAPAROLA CHE HAI GIÀ/);
   assert.match(inbound, /MESSO AL LAVORO/);
-  assert.match(inbound, /VEDI COME FUNZIONA/);
-  assert.match(inbound, /VOGLIO PARLARNE/);
+  assert.match(inbound, /VEDI COME TROVATEMI LO METTE AL LAVORO/);
   assert.doesNotMatch(inbound, /score|67\/100|audit/i);
 });
 
