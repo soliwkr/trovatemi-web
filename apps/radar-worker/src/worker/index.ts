@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { searchPlaces, validateRadarInput } from "./places.ts";
 import { inspectWebsite } from "./website.ts";
 import { median, scoreProspect } from "./scoring.ts";
-import { loadCache, loadPublicCheck, loadRun, RadarStore, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
+import { getCheckStats, loadCache, loadPublicCheck, loadRun, RadarStore, recordCheckEvent, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
 import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import type { Bindings, RadarRun } from "./types.ts";
@@ -107,15 +107,22 @@ app.post("/api/runs/:id/prospects/:prospectId/share", async (c) => {
   if (!prospect.eligible) return c.json({ error: "prospect_not_shareable" }, 409);
 
   const token = createShareToken();
-  const check = buildPublicCheck(run, prospect, token);
+  const priceEur = Math.max(0, Number(c.env.ACTIVATION_PRICE_EUR) || 197);
+  const check = buildPublicCheck(run, prospect, token, priceEur);
   await savePublicCheck(c.env, check);
 
   const origin = new URL(c.req.url).origin;
   const shareUrl = `${origin}/c/${token}`;
   return c.json({
+    token,
     shareUrl,
     expiresAt: check.expiresAt,
     outreachMessage: buildOutreachMessage(check, shareUrl),
+    stats: {
+      views: 0,
+      ctaClicks: 0,
+      activationIntents: 0,
+    },
   });
 });
 
@@ -125,6 +132,70 @@ app.get("/api/checks/:token", async (c) => {
 
   const check = await loadPublicCheck(c.env, token);
   return check ? c.json(check) : c.json({ error: "check_not_found" }, 404);
+});
+
+
+app.get("/api/checks/:token/stats", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
+  const check = await loadPublicCheck(c.env, token);
+  if (!check) return c.json({ error: "check_not_found" }, 404);
+  const stats = await getCheckStats(c.env, token);
+  return c.json(stats);
+});
+
+app.post("/api/checks/:token/events/:event", async (c) => {
+  const token = c.req.param("token");
+  const event = c.req.param("event");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
+  if (!["view", "activation"].includes(event)) return c.json({ error: "invalid_check_event" }, 400);
+
+  const stats = await recordCheckEvent(c.env, token, event as "view" | "activation");
+  return stats ? c.json(stats) : c.json({ error: "check_not_found" }, 404);
+});
+
+app.get("/go/:token", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.redirect("/", 302);
+
+  const check = await loadPublicCheck(c.env, token);
+  if (!check) return c.redirect("/", 302);
+
+  await recordCheckEvent(c.env, token, "cta");
+  return c.redirect(`/a/${token}`, 302);
+});
+
+app.post("/api/checks/:token/activation-intent", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
+
+  const check = await loadPublicCheck(c.env, token);
+  if (!check) return c.json({ error: "check_not_found" }, 404);
+
+  await recordCheckEvent(c.env, token, "activation");
+
+  const configured = Boolean(c.env.ACTIVATION_CHECKOUT_URL);
+  if (!configured) {
+    return c.json({
+      ok: true,
+      checkoutReady: false,
+      priceEur: check.offer.priceEur,
+      status: "intent_recorded",
+    });
+  }
+
+  const checkout = new URL(c.env.ACTIVATION_CHECKOUT_URL!);
+  checkout.searchParams.set("client_reference_id", token);
+  checkout.searchParams.set("utm_source", "trovatemi-check");
+  checkout.searchParams.set("utm_medium", "activation");
+  checkout.searchParams.set("utm_campaign", check.business.city.toLowerCase());
+
+  return c.json({
+    ok: true,
+    checkoutReady: true,
+    priceEur: check.offer.priceEur,
+    checkoutUrl: checkout.toString(),
+  });
 });
 
 app.get("/api/runs/:id/export.csv", async (c) => {
