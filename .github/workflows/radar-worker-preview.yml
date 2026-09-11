@@ -139,7 +139,7 @@ jobs:
             "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
           grep -Fiq 'x-trovatemi-render: server' "$RUNNER_TEMP/check-page.headers"
           grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/check-page.html"
-          grep -Fq 'SEI MEGLIO DI COME APPARI.' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'LE 3 COSE CHE SISTEMEREI' "$RUNNER_TEMP/check-page.html"
           grep -Fq 'Sistemamelo' "$RUNNER_TEMP/check-page.html"
           if grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"; then
             echo "Public check unexpectedly fell back to React shell"
@@ -158,7 +158,7 @@ jobs:
             const noJsContext = await browser.newContext({ javaScriptEnabled: false });
             const checkPage = await noJsContext.newPage();
             await checkPage.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
-            await checkPage.getByText('SEI MEGLIO DI COME APPARI.').waitFor({ timeout: 15000 });
+            await checkPage.getByText('LE 3 COSE CHE SISTEMEREI').waitFor({ timeout: 15000 });
             await checkPage.getByText('Sistemamelo').waitFor({ timeout: 15000 });
             await noJsContext.close();
 
