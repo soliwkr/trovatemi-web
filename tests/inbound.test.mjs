@@ -41,7 +41,7 @@ test('homepage sends inbound traffic to /trova instead of a check route', () => 
 });
 
 test('/trova is an instant Google visibility snapshot, not a questionnaire', () => {
-  assert.match(inbound, /NON UN TEST\. LA TUA ATTIVITÀ, ADESSO/);
+  assert.match(inbound, /LA TUA ATTIVITÀ\. COME APPARE OGGI/);
   assert.match(inbound, /GUARDA COME APPARI/);
   assert.match(inbound, /CERCA LA TUA ATTIVITÀ/);
   assert.match(inbound, /NELLA STESSA RICERCA/);
