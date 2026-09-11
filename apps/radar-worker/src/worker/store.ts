@@ -1,4 +1,4 @@
-import type { Bindings, CheckStats, PublicCheck, RadarRun } from "./types.ts";
+import type { ActivationDraft, Bindings, CheckStats, PublicCheck, RadarRun } from "./types.ts";
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -105,6 +105,17 @@ export class RadarStore {
       return json(stats);
     }
 
+    if (request.method === "PUT" && parts[0] === "shares" && parts[1] && parts[2] === "activation") {
+      const draft = await request.json() as ActivationDraft;
+      await this.state.storage.put(`activation:${parts[1]}`, draft);
+      return json({ ok: true });
+    }
+
+    if (request.method === "GET" && parts[0] === "shares" && parts[1] && parts[2] === "activation") {
+      const draft = await this.state.storage.get(`activation:${parts[1]}`) as ActivationDraft | undefined;
+      return draft ? json(draft) : json({ error: "activation_not_found" }, 404);
+    }
+
     if (request.method === "POST" && parts[0] === "rate" && parts[1] && parts[2]) {
       const key = `rate:${parts[1]}:${parts[2]}`;
       const current = Number(await this.state.storage.get(key) ?? 0);
@@ -191,4 +202,23 @@ export async function recordCheckEvent(
     new Request(`https://radar-store/shares/${encodeURIComponent(token)}/events/${event}`, { method: "POST" })
   );
   return response.ok ? await response.json() as CheckStats : null;
+}
+
+
+export async function saveActivationDraft(env: Bindings, draft: ActivationDraft) {
+  await storeStub(env).fetch(new Request(
+    `https://radar-store/shares/${encodeURIComponent(draft.token)}/activation`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(draft),
+    },
+  ));
+}
+
+export async function loadActivationDraft(env: Bindings, token: string): Promise<ActivationDraft | null> {
+  const response = await storeStub(env).fetch(
+    new Request(`https://radar-store/shares/${encodeURIComponent(token)}/activation`)
+  );
+  return response.ok ? await response.json() as ActivationDraft : null;
 }
