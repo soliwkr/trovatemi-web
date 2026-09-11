@@ -85,4 +85,46 @@ jobs:
           grep -Fq '"source":"google_places"' "$RUNNER_TEMP/run.json"
           grep -Fq '"prospects":[' "$RUNNER_TEMP/run.json"
 
+          node <<'NODE' > "$RUNNER_TEMP/share-target.env"
+          const fs = require('node:fs');
+          const run = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/run.json', 'utf8'));
+          const prospect = run.prospects.find((item) => item.eligible);
+          if (!prospect) throw new Error('No eligible prospect returned by smoke scan');
+          console.log('RUN_ID=' + run.id);
+          console.log('PROSPECT_ID=' + prospect.id);
+          NODE
+          source "$RUNNER_TEMP/share-target.env"
+
+          curl --fail --silent --show-error \
+            -X POST \
+            "$PREVIEW_URL/api/runs/$RUN_ID/prospects/$PROSPECT_ID/share" \
+            > "$RUNNER_TEMP/share.json"
+
+          node <<'NODE' > "$RUNNER_TEMP/check-target.env"
+          const fs = require('node:fs');
+          const share = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/share.json', 'utf8'));
+          if (!share.shareUrl || !share.outreachMessage) throw new Error('Share pack incomplete');
+          const token = share.shareUrl.split('/').filter(Boolean).at(-1);
+          if (!/^[a-f0-9]{32}$/.test(token)) throw new Error('Invalid share token');
+          console.log('CHECK_TOKEN=' + token);
+          NODE
+          source "$RUNNER_TEMP/check-target.env"
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN" > "$RUNNER_TEMP/check.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const check = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/check.json', 'utf8'));
+          const raw = JSON.stringify(check);
+          if ('score' in check || raw.includes('"score"')) throw new Error('Internal score leaked into public check');
+          if (raw.includes('@')) throw new Error('Email-like value leaked into public check');
+          if (!check.threeThingsToShow?.length) throw new Error('Public check has no evidence');
+          NODE
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
+          grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"
+
           echo "Radar preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Share flow — scan → generate check → privacy gate: OK" >> "$GITHUB_STEP_SUMMARY"
