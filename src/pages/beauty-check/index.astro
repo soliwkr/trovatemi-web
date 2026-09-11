@@ -388,13 +388,15 @@ import '../../styles/beauty-check-v2.css';
         name.textContent = item.name;
         const detail = document.createElement('small');
         detail.textContent = item.category + ' · ' + item.address;
-        copy.appendChild(name);\n        copy.appendChild(detail);
+        copy.appendChild(name);
+        copy.appendChild(detail);
 
         const source = document.createElement('span');
         source.className = 'result-source';
         source.textContent = item.source === 'google_maps' ? 'Google Maps' : 'Demo';
 
-        button.appendChild(copy);\n        button.appendChild(source);
+        button.appendChild(copy);
+        button.appendChild(source);
         button.addEventListener('click', () => void selectBusiness(item));
         root.appendChild(button);
       });
@@ -541,7 +543,8 @@ import '../../styles/beauty-check-v2.css';
           n.textContent = '0' + String(index + 1);
           const p = document.createElement('p');
           p.textContent = action;
-          li.appendChild(n);\n          li.appendChild(p);
+          li.appendChild(n);
+          li.appendChild(p);
           list.appendChild(li);
         });
       }
