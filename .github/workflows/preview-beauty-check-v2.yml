@@ -131,7 +131,7 @@ jobs:
             return 1
           }
 
-          fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "Il cliente ti sta già cercando."             "Il problema è che trova un altro."             "21 giorni per capire se entra davvero nel tuo lavoro."             "€149"
+          fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "TI CERCANO"             "TI SCELGONO"             "IL PASSAPAROLA CHE HAI GIÀ"             "21 GIORNI"             "€149"
 
           fetch_text_with_markers             "$BASE_URL/beauty-check/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi diagnostic"             "Trovatemi | Il passaparola che hai già. Messo al lavoro."             "data-proof-app"             "CERCA LA TUA ATTIVITÀ"             "TRE DOMANDE. FINE."
 
