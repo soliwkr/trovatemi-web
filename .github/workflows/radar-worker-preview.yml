@@ -80,7 +80,7 @@ jobs:
 
           curl --fail --silent --show-error --retry 4 --retry-all-errors --retry-delay 3 \
             -H 'content-type: application/json' \
-            -d '{"category":"parrucchiere","city":"Formia","limit":6}' \
+            -d '{"category":"officina","city":"Formia","limit":6}' \
             "$PREVIEW_URL/api/runs" > "$RUNNER_TEMP/run.json"
           grep -Fq '"source":"google_places"' "$RUNNER_TEMP/run.json"
           grep -Fq '"prospects":[' "$RUNNER_TEMP/run.json"
@@ -107,6 +107,7 @@ jobs:
           const token = share.shareUrl.split('/').filter(Boolean).at(-1);
           if (!/^[a-f0-9]{32}$/.test(token)) throw new Error('Invalid share token');
           console.log('CHECK_TOKEN=' + token);
+          console.log('SHARE_URL=' + share.shareUrl);
           NODE
           source "$RUNNER_TEMP/check-target.env"
 
@@ -131,6 +132,10 @@ jobs:
             "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"
 
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/a/$CHECK_TOKEN" > "$RUNNER_TEMP/activation-page.html"
+          grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/activation-page.html"
+
           curl --fail --silent --show-error -X POST \
             "$PREVIEW_URL/api/checks/$CHECK_TOKEN/events/view" > "$RUNNER_TEMP/view-stats.json"
           grep -Fq '"views":1' "$RUNNER_TEMP/view-stats.json"
@@ -150,4 +155,5 @@ jobs:
           grep -Fq '"activationIntents":1' "$RUNNER_TEMP/final-stats.json"
 
           echo "Radar preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Real automotive check — $SHARE_URL" >> "$GITHUB_STEP_SUMMARY"
           echo "Share flow — scan → narrative check → open → CTA → activation intent: OK" >> "$GITHUB_STEP_SUMMARY"
