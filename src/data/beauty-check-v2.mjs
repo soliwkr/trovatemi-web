@@ -45,53 +45,53 @@ const answerSentences = {
 
 const diagnosisCopy = {
   collection_leak: {
-    shortLabel: "ALL'USCITA",
-    headline: "Si perde all'uscita.",
-    why: (answers, volume) => `Mi hai detto che ${answerSentences.reviewAsk[answers.reviewAsk] ?? 'la richiesta recensione non è ancora stabile'}. Con ${volume.label}, la materia prima non manca: è il passaggio cliente contento → richiesta che oggi si interrompe per primo.`,
+    shortLabel: 'RICHIESTA RECENSIONE',
+    headline: 'Il primo punto debole è la raccolta.',
+    why: (answers, volume) => `Hai indicato che ${answerSentences.reviewAsk[answers.reviewAsk] ?? 'la richiesta recensione non è ancora stabile'}. Con ${volume.label}, il problema principale non è il numero di clienti: è la continuità con cui la soddisfazione diventa una recensione pubblica.`,
     actions: [
-      'Rendi la richiesta recensione un passaggio fisso subito dopo il servizio.',
-      'Usa un gesto semplice e ripetibile — link, QR o NFC — senza dipendere dalla memoria.',
-      'Controlla ogni settimana quante richieste partono e quante recensioni arrivano davvero.',
+      'Rendi la richiesta recensione un passaggio stabile del servizio.',
+      'Usa un metodo semplice e ripetibile — link, QR o NFC — che non dipenda dalla memoria del singolo.',
+      'Verifica ogni settimana quante richieste vengono fatte e quante recensioni vengono effettivamente pubblicate.',
     ],
   },
   reply_leak: {
-    shortLabel: 'DOPO GOOGLE',
-    headline: 'Arriva su Google. Poi si ferma lì.',
-    why: (answers) => `La raccolta regge meglio, ma mi hai detto che ${answerSentences.replies[answers.replies] ?? 'le risposte non sono ancora costanti'}. La prova pubblica esiste: manca il secondo passaggio che la tiene viva e curata.`,
+    shortLabel: 'RISPOSTE',
+    headline: 'Le recensioni arrivano, ma la gestione si interrompe dopo.',
+    why: (answers) => `La raccolta è più solida, ma hai indicato che ${answerSentences.replies[answers.replies] ?? 'le risposte non sono ancora costanti'}. La prova pubblica esiste; ciò che manca è una gestione regolare dopo la pubblicazione.`,
     actions: [
-      'Porta le risposte alle recensioni dentro una routine, non nel tempo che avanza.',
-      'Definisci un tono semplice e coerente per rispondere senza ricominciare ogni volta.',
-      'Dopo la risposta, scegli le recensioni migliori da far riapparire altrove.',
+      'Porta le risposte alle recensioni dentro una routine definita.',
+      'Definisci un tono e una struttura di risposta coerenti, così da non ricominciare ogni volta da zero.',
+      'Individua le recensioni più utili e stabilisci dove riutilizzarle dopo la risposta.',
     ],
   },
   reuse_leak: {
-    shortLabel: 'NEL PROFILO',
-    headline: 'La recensione c’è. Poi sparisce nel profilo.',
-    why: (answers) => `Mi hai detto che ${answerSentences.reuse[answers.reuse] ?? 'le recensioni vengono riutilizzate poco'}. Hai già raccolto una prova vera: il problema è che quasi nessuno la vede una seconda volta.`,
+    shortLabel: 'RIUSO DELLA PROVA',
+    headline: 'La prova esiste, ma resta ferma.',
+    why: (answers) => `Hai indicato che ${answerSentences.reuse[answers.reuse] ?? 'le recensioni vengono riutilizzate poco'}. La prova è già stata raccolta; il punto debole è quanto poco viene rimessa davanti a nuovi potenziali clienti.`,
     actions: [
-      'Scegli le recensioni migliori e trasformale in materiale riutilizzabile.',
-      'Crea un formato fisso per farle diventare post, story o prova sul punto vendita.',
-      'Fai lavorare la stessa recensione più di una volta, senza riscrivere tutto a mano.',
+      'Seleziona le recensioni più utili e trasformale in materiale riutilizzabile.',
+      'Definisci pochi formati standard per riutilizzarle senza dover riprogettare ogni contenuto.',
+      'Fai lavorare la stessa recensione più di una volta, mantenendo una revisione umana prima della pubblicazione.',
     ],
   },
   distribution_leak: {
-    shortLabel: 'NEL GIRO',
-    headline: 'La prova esiste. La vede troppo poca gente.',
-    why: (answers) => `La recensione viene raccolta e riutilizzata meglio, ma mi hai detto che ${answerSentences.channels[answers.channels] ?? 'la distribuzione è ancora stretta'}. Il passaparola non si perde alla nascita: si ferma perché gira poco.`,
+    shortLabel: 'VISIBILITÀ DELLA PROVA',
+    headline: 'La prova viene raccolta, ma circola poco.',
+    why: (answers) => `Raccolta e riuso sono più solidi, ma hai indicato che ${answerSentences.channels[answers.channels] ?? 'la visibilità della prova è ancora limitata'}. Il limite principale è quante volte e in quanti punti quella prova torna visibile.`,
     actions: [
-      'Scegli i canali che usi davvero e pubblica con una cadenza semplice.',
-      'Riusa la stessa prova in più formati invece di inventare contenuti nuovi ogni volta.',
-      'Collega contenuto, punto vendita e profilo Google allo stesso racconto.',
+      'Scegli solo i canali che usi davvero e assegna a ciascuno una cadenza sostenibile.',
+      'Riusa la stessa prova in più formati invece di creare nuovi contenuti da zero ogni volta.',
+      'Mantieni coerenti punto vendita, profilo Google e altri canali in cui mostri la prova dei clienti.',
     ],
   },
   healthy_no_dominant_leak: {
-    shortLabel: 'NESSUN BUCO NETTO',
-    headline: 'Il sistema tiene. Adesso conta la costanza.',
-    why: () => 'Non emerge un punto di rottura dominante dalle cinque risposte. Il lavoro adesso è mantenere raccolta, risposte e riuso abbastanza costanti da non tornare a dipendere dalla memoria.',
+    shortLabel: 'CONTINUITÀ',
+    headline: 'Non emerge un punto debole dominante.',
+    why: () => 'Dalle cinque risposte non emerge un singolo punto di rottura dominante. La priorità è mantenere continuità tra richiesta recensioni, risposte e riuso della prova.',
     actions: [
-      'Mantieni la richiesta recensione come passaggio fisso del servizio.',
-      'Controlla una volta al mese che risposte e riuso non stiano rallentando.',
-      'Misura la continuità prima di aggiungere nuovi canali o nuove automazioni.',
+      'Mantieni la richiesta recensione come passaggio stabile del servizio.',
+      'Controlla periodicamente che risposte e riuso della prova non stiano diventando irregolari.',
+      'Misura la continuità prima di aggiungere nuovi canali, formati o automazioni.',
     ],
   },
 };
@@ -135,7 +135,7 @@ function buildEvidence(business) {
   } else if (reviewGap !== null) {
     note = 'Online oggi la tua attività è sopra la mediana demo del gruppo comparabile per numero di recensioni.';
   } else if (reviews !== null) {
-    note = `${reviews} recensioni sono visibili oggi. Il benchmark verrà mostrato solo quando avremo un gruppo comparabile metodologicamente valido.`;
+    note = `${reviews} recensioni sono visibili oggi. Non aggiungiamo confronti statistici finché non esiste un gruppo comparabile metodologicamente valido.`;
   }
 
   return {
