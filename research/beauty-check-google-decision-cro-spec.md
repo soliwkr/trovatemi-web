@@ -1,5 +1,7 @@
 # Beauty Check — Google Decision CRO Spec
 
+> **SUPERSEDED 2026-09-11.** Founder direction replaced this visual/CRO system with `docs/design-system/trovatemi-public-v2.md`. Keep this file only as historical context; do not use it to drive current public UI or copy.
+
 Status: **S01 frontend acceptance spec**  
 Scope: `/beauty-check/` only  
 Product truth unchanged: one product, Beauty & Wellness first campaign layer, same deterministic Audit Engine, no invented score/benchmark/ranking claim.
