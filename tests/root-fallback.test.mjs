@@ -19,7 +19,7 @@ test('root is one progressive experience instead of the old beauty landing', () 
   assert.match(source, /id="results"/);
   assert.match(source, /id="decision"/);
   assert.match(source, /id="prescription"/);
-  assert.match(source, /\/api\/places\/search/);
+  assert.match(controller, /\/api\/places\/search/);
   assert.doesNotMatch(source, /21 giorni/i);
   assert.doesNotMatch(source, /Beauty &amp; Wellness/);
 });
