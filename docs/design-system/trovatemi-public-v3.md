@@ -1,6 +1,6 @@
 # TROVATEMI PUBLIC EXPERIENCE v3
 
-Status: **CURRENT — founder direction 2026-09-11**
+Status: **SUPERSEDED 2026-09-11 by `trovatemi-public-v4.md`**
 
 This supersedes `trovatemi-public-v2.md`.
 
