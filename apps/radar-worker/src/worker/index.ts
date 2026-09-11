@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import { searchPlaces, validateRadarInput } from "./places.ts";
 import { inspectWebsite } from "./website.ts";
 import { median, scoreProspect } from "./scoring.ts";
-import { loadCache, loadRun, RadarStore, saveCache, saveRun, takeRateToken } from "./store.ts";
+import { loadCache, loadPublicCheck, loadRun, RadarStore, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
 import { csvEscape, mapLimit, sha256 } from "./utils.ts";
+import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import type { Bindings, RadarRun } from "./types.ts";
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -94,6 +95,36 @@ app.get("/api/runs/:id/prospects/:prospectId/check", async (c) => {
   if (!run) return c.json({ error: "run_not_found" }, 404);
   const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
   return prospect ? c.json({ business: prospect.name, evidence: prospect.evidence, checkBrief: prospect.checkBrief }) : c.json({ error: "prospect_not_found" }, 404);
+});
+
+
+app.post("/api/runs/:id/prospects/:prospectId/share", async (c) => {
+  const run = await loadRun(c.env, c.req.param("id"));
+  if (!run) return c.json({ error: "run_not_found" }, 404);
+
+  const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
+  if (!prospect) return c.json({ error: "prospect_not_found" }, 404);
+  if (!prospect.eligible) return c.json({ error: "prospect_not_shareable" }, 409);
+
+  const token = createShareToken();
+  const check = buildPublicCheck(run, prospect, token);
+  await savePublicCheck(c.env, check);
+
+  const origin = new URL(c.req.url).origin;
+  const shareUrl = `${origin}/c/${token}`;
+  return c.json({
+    shareUrl,
+    expiresAt: check.expiresAt,
+    outreachMessage: buildOutreachMessage(check, shareUrl),
+  });
+});
+
+app.get("/api/checks/:token", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
+
+  const check = await loadPublicCheck(c.env, token);
+  return check ? c.json(check) : c.json({ error: "check_not_found" }, 404);
 });
 
 app.get("/api/runs/:id/export.csv", async (c) => {
