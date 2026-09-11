@@ -11,7 +11,7 @@ import {
 } from '../src/data/beauty-check-v2.mjs';
 
 const page = readFileSync(
-  new URL('../src/pages/beauty-check/index.astro', import.meta.url),
+  new URL('../src/pages/trova/index.astro', import.meta.url),
   'utf8',
 );
 
@@ -25,7 +25,7 @@ const styles = readFileSync(
   'utf8',
 );
 
-test('the Trovatemi proof demo asks exactly three operational questions', () => {
+test('the Trovatemi Trovatemi inbound asks exactly three operational questions', () => {
   assert.equal(diagnosticQuestions.length, 3);
   assert.deepEqual(
     diagnosticQuestions.map((question) => question.id),
@@ -130,7 +130,7 @@ test('same-query context is presented as evidence, never as ranking', () => {
   assert.doesNotMatch(page, /competitor ufficiale/i);
 });
 
-test('the proof demo asks for owner-declared monthly evidence instead of inventing review velocity', () => {
+test('the Trovatemi inbound asks for owner-declared monthly evidence instead of inventing review velocity', () => {
   assert.match(page, /Clienti serviti in una settimana normale/);
   assert.match(page, /Nuove recensioni ricevute circa negli ultimi 30 giorni/);
   assert.match(page, /stima da clienti settimanali × 4,33/);
@@ -140,7 +140,7 @@ test('the proof demo asks for owner-declared monthly evidence instead of inventi
 test('three questions are shown together and the old quiz/report framing is gone', () => {
   assert.match(page, /TRE DOMANDE\. FINE\./);
   assert.equal((page.match(/class="question-block"/g) || []).length, 1);
-  assert.doesNotMatch(page, /Beauty Check/);
+  assert.doesNotMatch(page, /Trovatemi Live/);
   assert.doesNotMatch(page, /Apri la sintesi/);
   assert.doesNotMatch(page, /data-capture-form/);
 });
