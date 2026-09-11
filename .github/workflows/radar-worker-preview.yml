@@ -150,11 +150,11 @@ jobs:
             const errors = [];
             page.on('pageerror', (error) => errors.push(String(error)));
 
-            await page.goto(process.env.SHARE_URL, { waitUntil: 'networkidle' });
+            await page.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
             await page.getByText('SEI MEGLIO DI COME APPARI.').waitFor({ timeout: 15000 });
             await page.getByText('Sistemamelo').waitFor({ timeout: 15000 });
 
-            await page.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'networkidle' });
+            await page.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
             await page.getByText('ACCENDI').waitFor({ timeout: 15000 });
             await page.getByText('€197').first().waitFor({ timeout: 15000 });
 
