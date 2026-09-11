@@ -81,3 +81,75 @@ Regole:
 - la CTA pubblica apre il contatto TROVATEMI, senza hardcodare un prezzo non ancora canonico.
 
 La CI esercita il flusso end-to-end: scan live → prospect idoneo → share → fetch check → privacy assertions.
+
+
+## Narrative Check v2
+
+Il check pubblico non mostra più etichette interne come score, gap, confidence o conversion friction.
+
+Percorso cliente:
+
+```text
+Ti cerco
+→ ti confronto
+→ provo a contattarti
+→ verdetto
+→ 3 cose che sistemerei
+→ Sistemamelo
+```
+
+Il Radar interno conserva score e bande di priorità. Il cliente vede solo linguaggio umano e prove osservate.
+
+## Conversion telemetry
+
+Ogni check condiviso mantiene contatori separati:
+
+- aperture;
+- click su `Sistemamelo`;
+- intenti di attivazione.
+
+Questi segnali servono a migliorare il prospecting nel tempo e non vengono esposti nel check pubblico.
+
+## Activation — €197 one-time
+
+La preview espone una pagina `/a/<token>` con:
+
+- identità del titolare (nome + email);
+- `Attivazione Trovatemi — €197 una tantum`;
+- dichiarazione esplicita che eventuali servizi ricorrenti sono separati;
+- redirect a un checkout reale solo se `ACTIVATION_CHECKOUT_URL` è configurato.
+
+Senza checkout configurato, nessun pagamento viene simulato.
+
+## Climbo provisioning gate
+
+Il Worker include un adapter server-side per la creazione cliente Climbo. Non è invocabile dal browser.
+
+Configurazione richiesta:
+
+- `CLIMBO_API_KEY` secret;
+- `CLIMBO_PLAN_ID` secret/config;
+- `PROVISIONING_SECRET` secret.
+
+Endpoint operativo protetto:
+
+```text
+POST /api/activations/<token>/provision
+x-provisioning-secret: ...
+```
+
+Il provisioning è idempotente sullo stato locale: un'attivazione già provisionata non viene ricreata.
+
+Il flusso target diventa:
+
+```text
+Radar
+→ check
+→ apertura
+→ Sistemamelo
+→ €197 checkout
+→ pagamento confermato / human gate
+→ provisioning Climbo
+→ OAuth/consensi cliente
+→ review system attivo
+```
