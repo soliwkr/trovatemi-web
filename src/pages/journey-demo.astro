@@ -1,0 +1,251 @@
+---
+export const prerender = true;
+import '@fontsource-variable/archivo';
+import '@fontsource/anton';
+import '../styles/journey-demo.css';
+---
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111214" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Trovatemi — Simulazione viaggio cliente</title>
+</head>
+<body>
+  <main class="journey">
+    <header class="bar">
+      <a href="/" class="brand">TROVATEMI.IT <b>★</b></a>
+      <span>PROTOTIPO SIMULATO</span>
+      <button id="restart" type="button">Ricomincia</button>
+    </header>
+
+    <section class="hero screen active" data-screen="0">
+      <div class="wrap narrow">
+        <p class="kicker">NON UN AUDIT. UNA DECISIONE.</p>
+        <h1>TI CERCO<br /><em>COME TI CERCA LUI.</em></h1>
+        <p class="lead">
+          Facciamo finta che io abbia bisogno di un parrucchiere a Formia e non conosca nessuno.
+          Seguiamo, passo per passo, ciò che vedo prima di scegliere.
+        </p>
+        <div class="searchbox">
+          <span>⌕</span>
+          <strong>parrucchiere Formia</strong>
+          <button class="go" data-next="1">Inizia il viaggio →</button>
+        </div>
+        <p class="disclaimer">Dati e attività in questa pagina sono simulati. Serve solo a testare l'esperienza Trovatemi.</p>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="1">
+      <div class="wrap">
+        <div class="stephead">
+          <span>01</span>
+          <div><p>GOOGLE</p><h2>CHI INCONTRO PRIMA?</h2></div>
+        </div>
+
+        <div class="google-shell">
+          <div class="g-search">⌕ &nbsp; parrucchiere Formia</div>
+          <div class="g-map">
+            <span class="pin p1">1</span><span class="pin p2">2</span><span class="pin p3">3</span><span class="pin py">6</span>
+            <div class="map-label">MAPPA SIMULATA</div>
+          </div>
+          <div class="g-list">
+            <article><b>#1 Linea 21</b><span>4,8 ★ · 326 recensioni</span></article>
+            <article><b>#2 Atelier 9</b><span>4,7 ★ · 184 recensioni</span></article>
+            <article><b>#3 Nodo Studio</b><span>4,6 ★ · 112 recensioni</span></article>
+            <article class="you"><b>#6 Studio Aurora</b><span>4,3 ★ · 31 recensioni</span><i>TU</i></article>
+          </div>
+        </div>
+
+        <aside class="takeaway danger">
+          <small>COSA CAPISCE IL CLIENTE</small>
+          <strong>Prima di arrivare a te, ha già visto cinque alternative.</strong>
+          <p>Non dice che lavori peggio. Dice soltanto che la decisione è già cominciata prima che tu entri in scena.</p>
+        </aside>
+        <button class="next" data-next="2">Apro la tua scheda →</button>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="2">
+      <div class="wrap">
+        <div class="stephead">
+          <span>02</span>
+          <div><p>RECENSIONI</p><h2>POSSO FIDARMI?</h2></div>
+        </div>
+
+        <div class="compare">
+          <article class="competitor">
+            <div class="avatar">L21</div>
+            <h3>Linea 21</h3>
+            <div class="stars">★★★★★ <b>4,8</b></div>
+            <div class="big">326</div><small>recensioni</small>
+            <div class="review">“Sempre preciso, gentili e puntuali.”</div>
+            <div class="reply">↳ Risposta del proprietario · 2 giorni fa</div>
+          </article>
+          <article class="me">
+            <div class="avatar">SA</div>
+            <h3>Studio Aurora</h3>
+            <div class="stars">★★★★☆ <b>4,3</b></div>
+            <div class="big">31</div><small>recensioni</small>
+            <div class="review">“Bravissimi. Tornerò sicuramente.”</div>
+            <div class="reply muted">Nessuna risposta mostrata nella simulazione</div>
+          </article>
+        </div>
+
+        <aside class="takeaway warning">
+          <small>COSA CAPISCE IL CLIENTE</small>
+          <strong>“Probabilmente sono bravi. Ma quell'altro sembra scelto da molta più gente.”</strong>
+        </aside>
+        <button class="next" data-next="3">Controllo Instagram →</button>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="3">
+      <div class="wrap">
+        <div class="stephead">
+          <span>03</span>
+          <div><p>INSTAGRAM</p><h2>SEMBRA ANCORA VIVO?</h2></div>
+        </div>
+
+        <div class="phones">
+          <article class="phone">
+            <div class="phone-top">Instagram</div>
+            <div class="profile">
+              <div class="profile-pic">L21</div>
+              <div><b>linea21formia</b><span>3.482 follower · 412 post</span></div>
+            </div>
+            <div class="bio">Tagli, colore e cura dei capelli ✂️<br/>Prenota qui ↓</div>
+            <div class="grid">
+              <i class="fresh">OGGI</i><i>3g</i><i>5g</i><i>8g</i><i>12g</i><i>14g</i>
+            </div>
+          </article>
+          <article class="phone muted-phone">
+            <div class="phone-top">Instagram</div>
+            <div class="profile">
+              <div class="profile-pic">SA</div>
+              <div><b>studioaurora</b><span>1.116 follower · 86 post</span></div>
+            </div>
+            <div class="bio">Hair studio · Formia<br/>Per info DM</div>
+            <div class="grid old">
+              <i>93g</i><i>101g</i><i>108g</i><i>121g</i><i>143g</i><i>159g</i>
+            </div>
+          </article>
+        </div>
+
+        <aside class="takeaway danger">
+          <small>COSA CAPISCE IL CLIENTE</small>
+          <strong>“Questi lavorano ancora? Posso prenotare davvero da qui?”</strong>
+          <p>Il problema non sono i follower. È la rassicurazione immediata.</p>
+        </aside>
+        <button class="next" data-next="4">Vado su Facebook →</button>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="4">
+      <div class="wrap">
+        <div class="stephead">
+          <span>04</span>
+          <div><p>FACEBOOK</p><h2>TROVO LE RISPOSTE?</h2></div>
+        </div>
+
+        <div class="signal-board">
+          <div class="signal good"><span>✓</span><b>Pagina trovata</b><small>Studio Aurora</small></div>
+          <div class="signal good"><span>✓</span><b>Telefono presente</b><small>tap per chiamare</small></div>
+          <div class="signal bad"><span>×</span><b>Link prenotazione</b><small>non evidente</small></div>
+          <div class="signal warn"><span>!</span><b>Ultimo aggiornamento</b><small>74 giorni fa</small></div>
+        </div>
+
+        <aside class="takeaway warning">
+          <small>COSA CAPISCE IL CLIENTE</small>
+          <strong>Ogni piccolo dubbio aggiunge un motivo per tornare indietro.</strong>
+        </aside>
+        <button class="next" data-next="5">Apro il sito →</button>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="5">
+      <div class="wrap">
+        <div class="stephead">
+          <span>05</span>
+          <div><p>SITO</p><h2>RIESCO A CONTATTARTI?</h2></div>
+        </div>
+
+        <div class="site-demo">
+          <div class="browser"><i></i><i></i><i></i><span>studioaurora.it</span></div>
+          <div class="site-hero">
+            <small>STUDIO AURORA</small>
+            <h3>IL TUO STILE.<br/>LA NOSTRA PASSIONE.</h3>
+            <p>Benvenuti nel nostro salone a Formia.</p>
+            <div class="fake-nav">Chi siamo &nbsp; Servizi &nbsp; Gallery &nbsp; Contatti</div>
+            <div class="fold">↓ IL TELEFONO È PIÙ SOTTO</div>
+          </div>
+        </div>
+
+        <aside class="takeaway danger">
+          <small>COSA CAPISCE IL CLIENTE</small>
+          <strong>“Bello. Ma io volevo solo sapere se c'è posto oggi.”</strong>
+        </aside>
+        <button class="next" data-next="6">Quindi chi scelgo? →</button>
+      </div>
+    </section>
+
+    <section class="screen finale" data-screen="6">
+      <div class="wrap">
+        <p class="kicker">IL PUNTO NON È INTERNET.</p>
+        <h2>È LA SOMMA<br/><em>DI CINQUE PICCOLE DECISIONI.</em></h2>
+
+        <div class="timeline">
+          <div><span>Google</span><b>Ti vede dopo</b></div>
+          <div><span>Recensioni</span><b>Ti crede meno scelto</b></div>
+          <div><span>Instagram</span><b>Ti sente meno attivo</b></div>
+          <div><span>Facebook</span><b>Trova attrito</b></div>
+          <div><span>Sito</span><b>Non prenota subito</b></div>
+        </div>
+
+        <div class="verdict">
+          <small>VERDETTO SIMULATO</small>
+          <strong>SEI MEGLIO DI COME APPARI.</strong>
+          <p>Trovatemi serve a chiudere il gap fra il valore reale dell'attività e quello che una persona riesce a percepire prima di scegliere.</p>
+        </div>
+
+        <div class="final-cta">
+          <div>
+            <small>SISTEMAZIONE LOCALE</small>
+            <b>€197</b><span>una tantum</span>
+          </div>
+          <button data-next="7">Vediamo cosa sistemare →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen finale" data-screen="7">
+      <div class="wrap">
+        <p class="kicker">LA PRESCRIZIONE</p>
+        <h2>NON RIFARE TUTTO.<br/><em>SISTEMA IL PERCORSO.</em></h2>
+        <div class="fixes">
+          <article><span>01</span><div><b>Fatti trovare</b><p>Query locali, scheda, categorie, prove pubbliche.</p></div></article>
+          <article><span>02</span><div><b>Fatti scegliere</b><p>Recensioni, freschezza, risposte, contenuti che rassicurano.</p></div></article>
+          <article><span>03</span><div><b>Fatti contattare</b><p>Telefono, WhatsApp, prenotazione e CTA senza attrito.</p></div></article>
+        </div>
+        <div class="manifesto">TI HO CERCATO.<br/><em>GUARDA COSA HO TROVATO.</em></div>
+        <button class="next restart-bottom" type="button">Rivedi il viaggio</button>
+      </div>
+    </section>
+
+    <nav class="rail" aria-label="Progresso">
+      <button class="dot active" data-jump="0"><span>Start</span></button>
+      <button class="dot" data-jump="1"><span>Google</span></button>
+      <button class="dot" data-jump="2"><span>Review</span></button>
+      <button class="dot" data-jump="3"><span>IG</span></button>
+      <button class="dot" data-jump="4"><span>FB</span></button>
+      <button class="dot" data-jump="5"><span>Sito</span></button>
+      <button class="dot" data-jump="6"><span>Scelta</span></button>
+      <button class="dot" data-jump="7"><span>Fix</span></button>
+    </nav>
+  </main>
+  <script is:inline type="module" src="/journey-demo.js"></script>
+</body>
+</html>
