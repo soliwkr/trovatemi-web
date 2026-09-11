@@ -29,12 +29,12 @@ function comparisonWidths(a: number | null, b: number | null): [number, number] 
 }
 
 function signalRow(label: string, present: boolean): string {
-  return \`
+  return `
     <div class="signal-row">
-      <span class="signal-label">\${esc(label)}</span>
-      <span class="signal-state \${present ? "yes" : "no"}">\${present ? "✓" : "—"}</span>
+      <span class="signal-label">${esc(label)}</span>
+      <span class="signal-state ${present ? "yes" : "no"}">${present ? "✓" : "—"}</span>
     </div>
-  \`;
+  `;
 }
 
 export function renderPublicCheck(check: PublicCheck): string {
@@ -70,17 +70,17 @@ export function renderPublicCheck(check: PublicCheck): string {
 
   const fixes = check.actions.map((action, index) => {
     const labels = ["PROVE", "PRESENZA", "CONTATTO"];
-    return \`
+    return `
       <article class="fix-card">
-        <div class="fix-num">0\${index + 1}</div>
-        <div class="fix-label">\${labels[index] ?? "AZIONE"}</div>
-        <h3>\${esc(action.title)}</h3>
-        <p>\${esc(action.body)}</p>
+        <div class="fix-num">0${index + 1}</div>
+        <div class="fix-label">${labels[index] ?? "AZIONE"}</div>
+        <h3>${esc(action.title)}</h3>
+        <p>${esc(action.body)}</p>
       </article>
-    \`;
+    `;
   }).join("");
 
-  return \`<!doctype html>
+  return `<!doctype html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -88,7 +88,7 @@ export function renderPublicCheck(check: PublicCheck): string {
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="color-scheme" content="light only">
   <meta name="theme-color" content="#0b0b0b">
-  <title>\${esc(check.business.name)} · Trovatemi</title>
+  <title>${esc(check.business.name)} · Trovatemi</title>
   <style>
     :root{
       --ink:#0b0b0b;
@@ -331,7 +331,7 @@ export function renderPublicCheck(check: PublicCheck): string {
     }
   </style>
 </head>
-<body data-trovatemi-check="\${esc(check.token)}">
+<body data-trovatemi-check="${esc(check.token)}">
   <header class="brand">
     <strong>TROVATEMI.IT <i>★</i></strong>
     <span>CHECK PRIVATO · FATTO SUI TUOI SEGNALI PUBBLICI</span>
@@ -342,8 +342,8 @@ export function renderPublicCheck(check: PublicCheck): string {
       <div class="inner">
         <div class="step"><b>01</b> · TI HO CERCATO</div>
         <p class="kicker">COME FAREBBE UN CLIENTE</p>
-        <h1 class="mega">\${esc(check.searchCategory)}<br><span class="yellow-text">\${esc(check.business.city)}.</span></h1>
-        <div class="query-chip"><span>⌕</span><b>\${esc(check.query)}</b></div>
+        <h1 class="mega">${esc(check.searchCategory)}<br><span class="yellow-text">${esc(check.business.city)}.</span></h1>
+        <div class="query-chip"><span>⌕</span><b>${esc(check.query)}</b></div>
         <p class="subline">Non è un audit SEO. È una fotografia di quello che una persona può vedere prima di scegliere.</p>
         <p class="swipe">SCORRI ↓ · 30 SECONDI</p>
       </div>
@@ -353,12 +353,12 @@ export function renderPublicCheck(check: PublicCheck): string {
       <div class="inner rating-layout">
         <div>
           <div class="step"><b>02</b> · PRIMA IMPRESSIONE</div>
-          <div class="rating-big">\${esc(formatRating(check.business.rating))}<span class="rating-star">★</span></div>
-          <div class="review-count">\${esc(formatNumber(check.business.reviews))} recensioni</div>
+          <div class="rating-big">${esc(formatRating(check.business.rating))}<span class="rating-star">★</span></div>
+          <div class="review-count">${esc(formatNumber(check.business.reviews))} recensioni</div>
         </div>
         <div class="rating-note">
           <h2>IL PROBLEMA NON SEMBRA ESSERE COME LAVORI.</h2>
-          <p>\${check.business.rating !== null && check.business.rating >= 4.4
+          <p>${check.business.rating !== null && check.business.rating >= 4.4
             ? "Chi ti ha già scelto sembra apprezzarti. Questo è un buon segnale."
             : "Ci sono segnali utili, ma un cliente nuovo deve ancora capire velocemente perché scegliere te."}</p>
         </div>
@@ -372,16 +372,16 @@ export function renderPublicCheck(check: PublicCheck): string {
         <div class="compare-grid">
           <div class="bar-card">
             <strong>TU</strong>
-            <div class="bar-track"><div class="bar-fill" style="width:\${mineWidth}%"></div></div>
-            <b>\${esc(formatNumber(reviews))}</b>
+            <div class="bar-track"><div class="bar-fill" style="width:${mineWidth}%"></div></div>
+            <b>${esc(formatNumber(reviews))}</b>
           </div>
           <div class="bar-card peer">
             <strong>QUI</strong>
-            <div class="bar-track"><div class="bar-fill" style="width:\${medianWidth}%"></div></div>
-            <b>~\${esc(formatNumber(medianReviews))}</b>
+            <div class="bar-track"><div class="bar-fill" style="width:${medianWidth}%"></div></div>
+            <b>~${esc(formatNumber(medianReviews))}</b>
           </div>
         </div>
-        <p class="compare-note">\${esc(comparisonCaption)}</p>
+        <p class="compare-note">${esc(comparisonCaption)}</p>
       </div>
     </section>
 
@@ -390,11 +390,11 @@ export function renderPublicCheck(check: PublicCheck): string {
         <div class="step"><b>04</b> · ADESSO VOGLIO MUOVERMI</div>
         <h2 class="contact-head">POI PROVO A <em>CONTATTARTI.</em></h2>
         <div class="signals">
-          \${signalRow("Telefono", check.signals.phonePresent)}
-          \${signalRow("Sito", check.signals.websitePresent)}
-          \${signalRow("Contatto diretto", check.signals.directActionPresent)}
+          ${signalRow("Telefono", check.signals.phonePresent)}
+          ${signalRow("Sito", check.signals.websitePresent)}
+          ${signalRow("Contatto diretto", check.signals.directActionPresent)}
         </div>
-        <div class="contact-punch">\${esc(contactPunch)}</div>
+        <div class="contact-punch">${esc(contactPunch)}</div>
       </div>
     </section>
 
@@ -429,8 +429,8 @@ export function renderPublicCheck(check: PublicCheck): string {
     <section class="story">
       <div class="inner verdict-wrap">
         <div class="step"><b>06</b> · IL VERDETTO</div>
-        <h2 class="verdict-main">\${esc(check.verdict.title)}<br><span class="accent">\${esc(verdictPunch)}</span></h2>
-        <p class="verdict-sub">\${esc(check.verdict.body)}</p>
+        <h2 class="verdict-main">${esc(check.verdict.title)}<br><span class="accent">${esc(verdictPunch)}</span></h2>
+        <p class="verdict-sub">${esc(check.verdict.body)}</p>
       </div>
     </section>
 
@@ -438,7 +438,7 @@ export function renderPublicCheck(check: PublicCheck): string {
       <div class="inner">
         <div class="step"><b>07</b> · COSA SISTEMEREI</div>
         <h2 class="fixes-title">TRE COSE.<br>NON TRENTA.</h2>
-        <div class="fixes-grid">\${fixes}</div>
+        <div class="fixes-grid">${fixes}</div>
       </div>
     </section>
 
@@ -448,12 +448,12 @@ export function renderPublicCheck(check: PublicCheck): string {
           <div class="step"><b>08</b> · SE VUOI CHE LO SISTEMI</div>
           <h2 class="final-title">ACCENDI<br><span style="color:var(--yellow)">TROVATEMI.</span></h2>
           <p class="final-copy">Colleghiamo la tua attività, mettiamo in funzione il sistema iniziale e ti accompagniamo nei passaggi che richiedono il tuo consenso.</p>
-          <a class="cta" href="\${esc(check.cta.href)}"><strong>\${esc(check.cta.label)}</strong><span>→</span></a>
-          <small class="fine">\${esc(check.offer.note)}</small>
+          <a class="cta" href="${esc(check.cta.href)}"><strong>${esc(check.cta.label)}</strong><span>→</span></a>
+          <small class="fine">${esc(check.offer.note)}</small>
         </div>
         <div class="price-block">
-          <div class="price-label">\${esc(check.offer.label)}</div>
-          <span class="price">€\${esc(check.offer.priceEur)}</span>
+          <div class="price-label">${esc(check.offer.label)}</div>
+          <span class="price">€${esc(check.offer.priceEur)}</span>
           <span class="once">UNA TANTUM</span>
         </div>
       </div>
@@ -461,9 +461,9 @@ export function renderPublicCheck(check: PublicCheck): string {
   </main>
 
   <footer>
-    <span>Check generato da segnali pubblici · valido fino al \${esc(expiry)}</span>
-    <span>\${esc(check.claimRule)}</span>
+    <span>Check generato da segnali pubblici · valido fino al ${esc(expiry)}</span>
+    <span>${esc(check.claimRule)}</span>
   </footer>
 </body>
-</html>\`;
+</html>`;
 }
