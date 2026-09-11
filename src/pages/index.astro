@@ -14,153 +14,193 @@ const checkUrl = '/beauty-check/';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trovatemi aiuta le attività locali a trasformare clienti soddisfatti in prova visibile su Google, nel momento in cui una nuova persona deve scegliere."
+      content="Trovatemi trasforma il passaparola che hai già in prova visibile: recensioni, risposte e contenuti che aiutano le persone a sceglierti."
     />
-    <meta name="theme-color" content="#0b0c0d" />
+    <meta name="theme-color" content="#08090a" />
     <link rel="canonical" href="https://trovatemi.it/" />
-    <title>Trovatemi.it — Il cliente ti sta già cercando.</title>
+    <title>Trovatemi.it — Il passaparola che hai già. Messo al lavoro.</title>
   </head>
 
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Trovatemi.it home">
-        TROVATEMI.IT <span>★</span>
-      </a>
+      <a class="brand" href="/" aria-label="Trovatemi.it home">TROVATEMI.IT <span>★</span></a>
       <nav aria-label="Navigazione principale">
+        <a href="#scelta">Perché conta</a>
         <a href="#come-funziona">Come funziona</a>
-        <a href="#offerta">Offerta</a>
-        <a class="header-cta" href={checkUrl}>Guarda il tuo caso</a>
+        <a href="#offerta">21 giorni</a>
+        <a class="nav-cta" href={checkUrl}>CERCA LA TUA ATTIVITÀ →</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="hero-main">
-          <p class="kicker">TROVATEMI.IT · VISIBILITÀ LOCALE CHE SI VEDE</p>
-          <h1>
-            Il cliente ti sta già cercando.
-            <span>Il problema è che trova un altro.</span>
-          </h1>
-          <p class="hero-copy">
-            Trovatemi mette al lavoro una cosa che possiedi già: clienti soddisfatti.
-            Li trasformiamo in prova visibile quando una nuova persona apre Google,
-            confronta le alternative e decide chi chiamare.
+        <div class="hero-photo">
+          <img src="/images/hero-local-business.webp" alt="" fetchpriority="high" />
+          <div class="hero-photo-shade"></div>
+          <div class="human-proof">
+            <span>ESEMPIO DI PASSAPAROLA</span>
+            <p>“Finalmente qualcuno che ha capito cosa volevo.”</p>
+          </div>
+          <div class="yellow-note">PECCATO CHE GOOGLE NON ERA LÌ.</div>
+        </div>
+
+        <div class="hero-copy">
+          <p class="eyebrow">BEAUTY &amp; WELLNESS · PRIMO VERTICALE</p>
+          <h1>TI CERCANO<br />SU GOOGLE.<br /><em>TI SCELGONO</em><br />IN POCHI SECONDI.</h1>
+          <p class="lead">
+            Il passaparola c’è già. Trovatemi lo trasforma in prova visibile
+            quando una nuova persona deve decidere chi chiamare.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href={checkUrl}>Guarda cosa vede chi ti cerca</a>
-            <a class="text-link" href="#come-funziona">Capisci il sistema</a>
+            <a class="button button-yellow" href={checkUrl}>CERCA LA TUA ATTIVITÀ →</a>
+            <a class="text-link" href="#come-funziona">Vedi come funziona</a>
+          </div>
+          <div class="trust-strip">
+            <span><b>01</b> Dati Google reali</span>
+            <span><b>02</b> 3 domande</span>
+            <span><b>03</b> 21 giorni · €0</span>
           </div>
         </div>
-
-        <aside class="hero-aside" aria-label="Principi Trovatemi">
-          <p class="aside-label">NON TI VENDIAMO “VISIBILITÀ”.</p>
-          <div class="principle">
-            <span>01</span>
-            <p>Partiamo da quello che una persona può verificare da sola.</p>
-          </div>
-          <div class="principle">
-            <span>02</span>
-            <p>Non promettiamo posizioni su Google.</p>
-          </div>
-          <div class="principle">
-            <span>03</span>
-            <p>Non filtriamo le recensioni positive da quelle negative.</p>
-          </div>
-          <div class="principle">
-            <span>04</span>
-            <p>Non ti vendiamo un altro cruscotto da guardare.</p>
-          </div>
-        </aside>
       </section>
 
-      <section class="statement">
-        <p>CHI CERCA VALE PIÙ DI CHI SCROLLA.</p>
-        <h2>
-          Non devi sembrare più presente.
-          <span>Devi essere più facile da scegliere.</span>
-        </h2>
-      </section>
-
-      <section class="proof-section">
-        <div class="section-heading">
-          <p class="kicker">PRIMA DI PARLARE DI NOI</p>
-          <h2>Guardiamo il tuo caso.</h2>
+      <section id="scelta" class="choice">
+        <div class="choice-copy">
+          <p class="eyebrow">IL MOMENTO DELLA SCELTA</p>
+          <h2>TI CERCANO.<br />TI CONFRONTANO.<br /><em>SCELGONO QUELLO CHE SEMBRA PIÙ SICURO.</em></h2>
           <p>
-            Cerchiamo la tua attività come farebbe un cliente. Nome, categoria, città,
-            recensioni visibili e contesto reale della stessa ricerca. Poi guardiamo
-            cosa succede dopo che un cliente esce soddisfatto.
+            Prima di telefonarti guardano recensioni, foto, informazioni e quello che
+            gli altri clienti hanno lasciato online. Essere bravi conta. Farlo vedere
+            nel momento giusto conta anche.
+          </p>
+          <a class="button button-black" href={checkUrl}>GUARDA IL TUO CASO →</a>
+        </div>
+
+        <div class="choice-visual">
+          <span class="example-label">ESEMPIO VISIVO · NON È UNA CLASSIFICA</span>
+          <article class="search-card search-card--strong">
+            <div>
+              <small>ALTRO RISULTATO</small>
+              <strong>4,8 ★★★★★</strong>
+            </div>
+            <b>384 recensioni</b>
+          </article>
+          <div class="versus">VS</div>
+          <article class="search-card">
+            <div>
+              <small>LA TUA ATTIVITÀ</small>
+              <strong>4,3 ★★★★☆</strong>
+            </div>
+            <b>41 recensioni</b>
+          </article>
+          <p class="choice-caption">
+            Non devi essere il migliore in assoluto. Devi evitare che, online,
+            sembri più sicuro quello peggiore.
+          </p>
+        </div>
+      </section>
+
+      <section class="lost-proof">
+        <div class="lost-copy">
+          <p class="eyebrow">PASSAPAROLA CHE NON DIVENTA PROVA</p>
+          <h2>50 CLIENTI SERVITI.<br />4 NUOVE RECENSIONI.</h2>
+          <div class="highlight">QUANTA SODDISFAZIONE RESTA INVISIBILE?</div>
+          <p>
+            Non significa che tutti gli altri clienti avrebbero recensito.
+            Significa che il volume di esperienze reali può essere molto più grande
+            della prova che il prossimo cliente trova online.
           </p>
         </div>
 
-        <div class="proof-card">
-          <div class="proof-top">
-            <span>LA DOMANDA È SEMPLICE</span>
-            <span>GOOGLE + IL TUO PROCESSO</span>
-          </div>
-          <blockquote>
-            “Quando qualcuno ti cerca oggi, vede abbastanza prove per scegliere te?”
-          </blockquote>
-          <a href={checkUrl}>Analizza la tua attività →</a>
+        <div class="receipt-board" aria-label="Esempio illustrativo">
+          <article class="receipt">
+            <span>ESEMPIO</span>
+            <h3>Clienti serviti</h3>
+            <strong>50</strong>
+            <p>“Tutto perfetto. Grazie!”</p>
+          </article>
+          <article class="review-paper">
+            <span>NUOVE RECENSIONI</span>
+            <strong>4</strong>
+            <p>★★★★☆</p>
+          </article>
+          <a class="button button-yellow" href={checkUrl}>FAI I CONTI SUL TUO CASO →</a>
         </div>
       </section>
 
-      <section id="come-funziona" class="how">
-        <header class="section-heading">
-          <p class="kicker">COME FUNZIONA</p>
-          <h2>Il passaparola non deve dipendere dalla memoria.</h2>
+      <section id="come-funziona" class="mechanism">
+        <header class="mechanism-head">
+          <p class="eyebrow">DA CLIENTE FELICE A PROVA VISIBILE</p>
+          <h2>LE PERSONE LO DICONO.<br />NOI LO FACCIAMO <em>LAVORARE.</em></h2>
         </header>
 
-        <div class="steps">
+        <div class="mechanism-grid">
           <article>
-            <span>01</span>
-            <h3>Raccogli</h3>
-            <p>
-              La richiesta arriva nel momento giusto, quando il cliente ha ancora in
-              testa l’esperienza appena vissuta.
-            </p>
+            <span class="step-number">01</span>
+            <div class="mechanism-image">
+              <img src="/images/proof-beauty-nfc-v1.webp" alt="Esempio di supporto per richiesta recensione" loading="lazy" />
+            </div>
+            <h3>RACCOGLI</h3>
+            <p>Metti la richiesta recensione nel momento in cui il cliente ha ancora addosso l’esperienza.</p>
           </article>
+
           <article>
-            <span>02</span>
-            <h3>Rispondi</h3>
-            <p>
-              Le recensioni non restano abbandonate. La risposta diventa parte del
-              modo in cui l’attività si presenta pubblicamente.
-            </p>
+            <span class="step-number">02</span>
+            <div class="mechanism-image mechanism-image--dark">
+              <div class="reply-mock">
+                <small>RECENSIONE</small>
+                <strong>★★★★★</strong>
+                <p>“Servizio fantastico. Tornerò sicuramente.”</p>
+                <div>RISPOSTA → Grazie di cuore. A presto.</div>
+              </div>
+            </div>
+            <h3>RISPONDI</h3>
+            <p>La prova non resta un monologo abbandonato. Entra in una routine coerente.</p>
           </article>
+
           <article>
-            <span>03</span>
-            <h3>Riusa</h3>
-            <p>
-              Una buona recensione non lavora una volta sola. Dove il canale è
-              operativo, può diventare prova riutilizzabile senza ricominciare da zero.
-            </p>
+            <span class="step-number">03</span>
+            <div class="mechanism-image">
+              <img src="/images/proof-beauty-social-v1.webp" alt="Esempio di riuso di una recensione come contenuto" loading="lazy" />
+            </div>
+            <h3>RIUSA</h3>
+            <p>Dove il canale è operativo, una recensione forte può diventare prova riutilizzabile.</p>
           </article>
         </div>
       </section>
 
-      <section class="contrast">
-        <div>
-          <p class="kicker">SENZA SISTEMA</p>
-          <h2>Chiedi quando ti ricordi. Rispondi quando hai tempo. Poi ricominci.</h2>
-        </div>
-        <div class="contrast-result">
-          <p class="kicker">CON TROVATEMI</p>
-          <h2>La prova dei clienti entra nel lavoro quotidiano.</h2>
+      <section class="physical">
+        <div class="physical-copy">
+          <p class="eyebrow">ONLINE PARTE DAL MONDO REALE</p>
+          <h2>IL CLIENTE È DAVANTI A TE.<br /><em>È QUELLO IL MOMENTO.</em></h2>
           <p>
-            Meno passaggi affidati alla memoria. Più continuità. Più prove pubbliche
-            che restano visibili anche quando tu stai lavorando.
+            QR, NFC e materiali sul punto vendita non sono gadget: servono a rendere
+            semplice il passaggio da “mi sono trovato benissimo” a una traccia che resta.
           </p>
+        </div>
+        <div class="physical-image">
+          <img src="/images/nfc-review-counter-v7.webp" alt="Supporto Trovatemi per invitare il cliente a lasciare una recensione" loading="lazy" />
+        </div>
+      </section>
+
+      <section class="system">
+        <div class="system-statement">
+          <p class="eyebrow">NON TI MANCA CONTENUTO.</p>
+          <h2>TI MANCA<br /><em>DISTRIBUZIONE.</em></h2>
+        </div>
+        <div class="system-points">
+          <article><span>★</span><div><strong>Più prova visibile</strong><p>Quello che i clienti dicono non muore nel locale.</p></div></article>
+          <article><span>↗</span><div><strong>Più continuità</strong><p>Raccolta, risposta e riuso smettono di dipendere dalla memoria.</p></div></article>
+          <article><span>◎</span><div><strong>Più fiducia al momento della scelta</strong><p>Il prossimo cliente trova più elementi reali per valutarti.</p></div></article>
         </div>
       </section>
 
       <section id="offerta" class="offer">
-        <div class="offer-copy">
-          <p class="kicker">UN PRODOTTO. UNA SEDE. NIENTE PACCHETTI CONFUSI.</p>
-          <h2>21 giorni per capire se entra davvero nel tuo lavoro.</h2>
+        <div class="offer-main">
+          <p class="eyebrow">PROVALO NEL LAVORO VERO</p>
+          <h2>21 GIORNI.<br /><em>ZERO EURO.</em></h2>
           <p>
-            Parti da €0. Attivazione con metodo di pagamento. Se continui dopo il
-            periodo di prova, Trovatemi costa <strong>€149 al mese per sede</strong>.
-            Puoi cancellare prima del rinnovo.
+            Vedi se Trovatemi entra davvero nel tuo lavoro. Se continui dopo il test,
+            costa <strong>€149 al mese per sede</strong>. Puoi cancellare prima del rinnovo.
           </p>
           <ul>
             <li>Richiesta recensioni senza review gating</li>
@@ -169,29 +209,27 @@ const checkUrl = '/beauty-check/';
             <li>Nessun vincolo annuale</li>
           </ul>
         </div>
-
-        <div class="offer-price">
-          <span>DOPO I 21 GIORNI</span>
-          <strong>€149</strong>
-          <small>/ mese · per sede</small>
-          <a class="button button-light" href={checkUrl}>Prima guarda il tuo caso</a>
+        <div class="offer-action">
+          <span>PRIMA DI ATTIVARE</span>
+          <strong>GUARDA<br />IL TUO CASO.</strong>
+          <p>Cerca la tua attività, confronta la prova visibile e scopri dove si spezza il passaparola.</p>
+          <a class="button button-white" href={checkUrl}>CERCA LA TUA ATTIVITÀ →</a>
         </div>
       </section>
 
-      <section class="close">
-        <p class="kicker">SE CHIAMI, RISPONDE CHRIS.</p>
-        <h2>Ti facciamo trovare dove conta.</h2>
-        <p>
-          Prima guardiamo i fatti. Se non c’è un problema reale, non abbiamo niente
-          da venderti.
-        </p>
-        <a class="button button-primary" href={checkUrl}>Guarda cosa vede chi ti cerca</a>
+      <section class="territory">
+        <div>
+          <span>FORMIA · PRIMA FASE LOCALE</span>
+          <h2>LE PERSONE TI CERCANO.<br /><em>FATTI TROVARE.</em></h2>
+          <p>Il passaparola che hai già. Messo al lavoro.</p>
+        </div>
+        <a class="button button-yellow" href={checkUrl}>SCOPRI COME →</a>
       </section>
     </main>
 
     <footer>
-      <a class="brand" href="/">TROVATEMI.IT <span>★</span></a>
-      <p>Il passaparola che hai già. Messo al lavoro.</p>
+      <a class="brand brand--footer" href="/">TROVATEMI.IT <span>★</span></a>
+      <p>IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
       <p>© 2026 Trovatemi.it</p>
     </footer>
   </body>
@@ -199,516 +237,776 @@ const checkUrl = '/beauty-check/';
 
 <style>
   :root {
-    --ink: #0b0c0d;
+    --black: #08090a;
+    --white: #fff;
     --paper: #f5f3ed;
-    --white: #ffffff;
-    --signal: #f2bd18;
-    --muted: #6c6c68;
-    --line: #d7d4ca;
-    --max: 1440px;
+    --yellow: #f2bd18;
+    --yellow-dark: #8b6900;
+    --grey: #6e6e68;
+    --line: #dad6cb;
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; background: var(--ink); }
+  html { scroll-behavior: smooth; background: var(--black); }
   body {
     margin: 0;
-    color: var(--ink);
+    color: var(--black);
     background: var(--paper);
     font-family: "Archivo Variable", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
+  img { display: block; width: 100%; }
   a { color: inherit; }
-  ::selection { color: var(--ink); background: var(--signal); }
+  ::selection { color: var(--black); background: var(--yellow); }
+
+  h1, h2, h3, p { text-wrap: pretty; }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--yellow-dark);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
 
   .site-header {
     position: sticky;
     z-index: 50;
     top: 0;
     display: flex;
-    min-height: 72px;
+    min-height: 70px;
     align-items: center;
     justify-content: space-between;
-    gap: 28px;
+    gap: 2rem;
     border-bottom: 1px solid var(--line);
-    padding: 0 clamp(20px, 4vw, 64px);
-    background: rgba(245, 243, 237, .96);
-    backdrop-filter: blur(14px);
+    padding: 0 clamp(18px, 4vw, 58px);
+    background: rgba(245, 243, 237, .97);
+    backdrop-filter: blur(12px);
   }
 
   .brand {
     display: inline-flex;
+    gap: .4rem;
     align-items: center;
-    gap: .45rem;
-    color: var(--ink);
     font-family: "Anton", "Arial Narrow", sans-serif;
-    font-size: 1.25rem;
-    letter-spacing: .01em;
+    font-size: 1.2rem;
     text-decoration: none;
   }
 
-  .brand span { color: #b98b00; }
+  .brand span { color: var(--yellow-dark); }
 
   nav {
     display: flex;
+    gap: 1.7rem;
     align-items: center;
-    gap: 28px;
-    font-size: .78rem;
-    font-weight: 750;
+    font-size: .72rem;
+    font-weight: 800;
   }
 
   nav a { text-decoration: none; }
 
-  .header-cta {
-    border: 1px solid var(--ink);
-    padding: .7rem 1rem;
+  .nav-cta {
+    border: 1px solid var(--black);
+    padding: .7rem .9rem;
+    background: var(--yellow);
+  }
+
+  .button {
+    display: inline-flex;
+    min-height: 54px;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--black);
+    padding: .95rem 1.2rem;
+    font-size: .78rem;
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .button-yellow { background: var(--yellow); }
+  .button-black { color: var(--white); background: var(--black); }
+  .button-white { color: var(--black); background: var(--white); }
+
+  .text-link {
+    font-size: .78rem;
+    font-weight: 850;
+    text-underline-offset: .25rem;
   }
 
   .hero {
     display: grid;
-    max-width: var(--max);
-    min-height: calc(100svh - 72px);
-    grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
-    gap: clamp(48px, 8vw, 120px);
-    align-items: end;
-    margin: 0 auto;
-    padding: clamp(72px, 9vw, 140px) clamp(20px, 5vw, 78px);
+    min-height: calc(100svh - 70px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    background: var(--white);
   }
 
-  .kicker {
-    margin: 0 0 1rem;
-    color: #7c6200;
-    font-size: .7rem;
-    font-weight: 850;
-    letter-spacing: .12em;
-    text-transform: uppercase;
+  .hero-photo {
+    position: relative;
+    min-height: 720px;
+    overflow: hidden;
+    background: var(--black);
   }
 
-  h1, h2, h3, p { text-wrap: pretty; }
+  .hero-photo > img {
+    height: 100%;
+    object-fit: cover;
+  }
 
-  h1, h2, h3 {
-    margin: 0;
+  .hero-photo-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.8));
+  }
+
+  .human-proof {
+    position: absolute;
+    left: clamp(22px, 4vw, 58px);
+    bottom: 150px;
+    max-width: 460px;
+    color: var(--white);
+  }
+
+  .human-proof span {
+    color: var(--yellow);
+    font-size: .62rem;
+    font-weight: 900;
+    letter-spacing: .1em;
+  }
+
+  .human-proof p {
+    margin: .6rem 0 0;
+    font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+    font-style: italic;
+    line-height: 1.15;
+  }
+
+  .yellow-note {
+    position: absolute;
+    left: clamp(22px, 4vw, 58px);
+    bottom: 48px;
+    max-width: 520px;
+    padding: .75rem 1rem;
+    background: var(--yellow);
     font-family: "Anton", "Arial Narrow", sans-serif;
-    font-weight: 400;
-    letter-spacing: .005em;
-  }
-
-  .hero h1 {
-    max-width: 11ch;
-    font-size: clamp(4.6rem, 9.8vw, 9.7rem);
-    line-height: .9;
-  }
-
-  .hero h1 span {
-    display: block;
-    margin-top: .08em;
-    color: #7a6000;
+    font-size: clamp(1.8rem, 3.6vw, 3.6rem);
+    line-height: .95;
+    transform: rotate(-2deg);
   }
 
   .hero-copy {
-    max-width: 760px;
-    margin: 2.2rem 0 0;
-    color: #383834;
-    font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(60px, 8vw, 120px) clamp(24px, 6vw, 92px);
+  }
+
+  .hero h1,
+  .choice h2,
+  .lost-proof h2,
+  .mechanism h2,
+  .physical h2,
+  .system h2,
+  .offer h2,
+  .territory h2 {
+    margin: 0;
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-weight: 400;
+    line-height: .91;
+  }
+
+  .hero h1 {
+    max-width: 9ch;
+    font-size: clamp(4.4rem, 7.8vw, 8rem);
+  }
+
+  .hero h1 em,
+  .choice h2 em,
+  .mechanism h2 em,
+  .physical h2 em,
+  .system h2 em,
+  .offer h2 em,
+  .territory h2 em {
+    color: var(--yellow-dark);
+    font-style: normal;
+  }
+
+  .lead {
+    max-width: 620px;
+    margin: 1.8rem 0 0;
+    color: #45453f;
+    font-size: clamp(1rem, 1.45vw, 1.2rem);
     line-height: 1.55;
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.3rem 1.8rem;
+    gap: 1rem 1.5rem;
     align-items: center;
-    margin-top: 2.2rem;
+    margin-top: 2rem;
   }
 
-  .button {
-    display: inline-flex;
-    min-height: 54px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--ink);
-    padding: .95rem 1.2rem;
-    font-size: .78rem;
-    font-weight: 850;
-    letter-spacing: .02em;
-    text-decoration: none;
+  .trust-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
-  .button-primary {
-    color: white;
-    background: var(--ink);
+  .trust-strip span {
+    padding: .85rem .8rem .85rem 0;
+    color: var(--grey);
+    font-size: .68rem;
+    font-weight: 750;
   }
 
-  .button-light {
-    color: var(--ink);
-    background: var(--white);
+  .trust-strip b {
+    margin-right: .35rem;
+    color: var(--yellow-dark);
   }
 
-  .text-link {
-    font-size: .82rem;
-    font-weight: 800;
-    text-underline-offset: .25rem;
+  .choice {
+    display: grid;
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    gap: clamp(50px, 8vw, 120px);
+    padding: clamp(80px, 10vw, 150px) clamp(22px, 6vw, 94px);
   }
 
-  .hero-aside {
-    border-top: 2px solid var(--ink);
+  .choice h2 {
+    max-width: 12ch;
+    font-size: clamp(3.6rem, 6.3vw, 6.3rem);
+  }
+
+  .choice-copy > p:not(.eyebrow) {
+    max-width: 560px;
+    margin: 1.6rem 0 2rem;
+    color: var(--grey);
+    line-height: 1.6;
+  }
+
+  .choice-visual {
+    align-self: center;
+    border-top: 3px solid var(--black);
     padding-top: 1rem;
   }
 
-  .aside-label {
-    margin: 0 0 1.8rem;
-    color: var(--muted);
-    font-size: .68rem;
-    font-weight: 850;
-    letter-spacing: .11em;
-  }
-
-  .principle {
-    display: grid;
-    grid-template-columns: 42px 1fr;
-    gap: .8rem;
-    border-top: 1px solid var(--line);
-    padding: 1rem 0;
-  }
-
-  .principle span {
-    color: #8b6d00;
-    font-size: .72rem;
-    font-weight: 850;
-  }
-
-  .principle p {
-    margin: 0;
-    font-size: .9rem;
-    line-height: 1.45;
-  }
-
-  .statement {
-    padding: clamp(70px, 8vw, 120px) clamp(20px, 6vw, 96px);
-    color: white;
-    background: var(--ink);
-  }
-
-  .statement > p {
-    margin: 0 0 1.2rem;
-    color: var(--signal);
-    font-size: .72rem;
-    font-weight: 900;
-    letter-spacing: .13em;
-  }
-
-  .statement h2 {
-    max-width: 1200px;
-    font-size: clamp(3.6rem, 7.5vw, 7.4rem);
-    line-height: .94;
-  }
-
-  .statement h2 span { color: var(--signal); }
-
-  .proof-section,
-  .how,
-  .close {
-    display: grid;
-    max-width: var(--max);
-    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
-    gap: clamp(48px, 8vw, 120px);
-    margin: 0 auto;
-    padding: clamp(80px, 10vw, 150px) clamp(20px, 5vw, 78px);
-  }
-
-  .section-heading h2,
-  .close h2 {
-    max-width: 12ch;
-    font-size: clamp(3.5rem, 6vw, 6.4rem);
-    line-height: .95;
-  }
-
-  .section-heading > p:last-child,
-  .close > p:not(.kicker) {
-    max-width: 620px;
-    margin: 1.8rem 0 0;
-    color: #44443f;
-    font-size: 1.04rem;
-    line-height: 1.6;
-  }
-
-  .proof-card {
-    align-self: start;
-    border: 1px solid var(--ink);
-    padding: clamp(24px, 4vw, 48px);
-    background: white;
-  }
-
-  .proof-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: .8rem;
-    color: var(--muted);
+  .example-label {
+    color: var(--grey);
     font-size: .62rem;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: .08em;
   }
 
-  blockquote {
-    max-width: 18ch;
-    margin: clamp(48px, 7vw, 90px) 0;
+  .search-card {
+    display: flex;
+    min-height: 145px;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1rem;
+    border: 1px solid var(--black);
+    padding: 1.4rem;
+    background: var(--white);
+  }
+
+  .search-card--strong {
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .search-card small {
+    display: block;
+    color: var(--grey);
+    font-size: .6rem;
+    font-weight: 900;
+  }
+
+  .search-card strong {
+    display: block;
+    margin-top: .5rem;
     font-family: "Anton", "Arial Narrow", sans-serif;
-    font-size: clamp(2.6rem, 5vw, 5.2rem);
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
     font-weight: 400;
-    line-height: .98;
   }
 
-  .proof-card > a {
-    display: inline-block;
-    border-bottom: 1px solid var(--ink);
-    padding-bottom: .25rem;
-    font-size: .82rem;
-    font-weight: 850;
-    text-decoration: none;
+  .search-card b {
+    color: var(--yellow-dark);
+    font-size: 1rem;
   }
 
-  .how { grid-template-columns: 1fr; }
+  .search-card--strong b { color: var(--yellow); }
 
-  .steps {
+  .versus {
+    width: 46px;
+    height: 46px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--ink);
+    place-items: center;
+    margin: -8px auto -8px;
+    border-radius: 50%;
+    color: var(--black);
+    background: var(--yellow);
+    font-size: .65rem;
+    font-weight: 900;
   }
 
-  .steps article {
-    min-height: 300px;
-    border-right: 1px solid var(--line);
-    padding: 1.5rem 2rem 1.5rem 0;
+  .choice-caption {
+    max-width: 560px;
+    margin: 1.2rem 0 0;
+    color: var(--grey);
+    font-size: .78rem;
+    line-height: 1.5;
   }
 
-  .steps article + article { padding-left: 2rem; }
-  .steps article:last-child { border-right: 0; }
-
-  .steps span {
-    color: #8b6d00;
-    font-size: .74rem;
-    font-weight: 850;
-  }
-
-  .steps h3 {
-    margin-top: 4rem;
-    font-size: clamp(2.7rem, 4vw, 4.2rem);
-  }
-
-  .steps p {
-    max-width: 34ch;
-    margin: 1rem 0 0;
-    color: #4a4a45;
-    line-height: 1.55;
-  }
-
-  .contrast {
+  .lost-proof {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    color: white;
-    background: var(--ink);
+    gap: clamp(50px, 8vw, 120px);
+    color: var(--white);
+    background: var(--black);
+    padding: clamp(80px, 9vw, 140px) clamp(22px, 6vw, 94px);
   }
 
-  .contrast > div {
-    min-height: 520px;
-    padding: clamp(60px, 7vw, 110px) clamp(20px, 6vw, 96px);
-  }
+  .lost-proof .eyebrow { color: var(--yellow); }
 
-  .contrast > div:first-child {
-    border-right: 1px solid #2d2e30;
-  }
-
-  .contrast h2 {
+  .lost-proof h2 {
     max-width: 11ch;
-    font-size: clamp(3.4rem, 6.5vw, 6.3rem);
-    line-height: .96;
+    font-size: clamp(4rem, 7vw, 7rem);
   }
 
-  .contrast-result {
-    color: var(--ink);
-    background: var(--signal);
+  .highlight {
+    width: fit-content;
+    max-width: 700px;
+    margin-top: 1.2rem;
+    padding: .45rem .7rem;
+    color: var(--black);
+    background: var(--yellow);
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(2rem, 4vw, 4rem);
+    line-height: 1;
+    transform: rotate(-1deg);
   }
 
-  .contrast-result .kicker { color: #4f4000; }
-
-  .contrast-result p:last-child {
-    max-width: 560px;
-    margin: 2rem 0 0;
-    font-size: 1.02rem;
-    line-height: 1.55;
-  }
-
-  .offer {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
-    color: white;
-    background: #171819;
-  }
-
-  .offer-copy,
-  .offer-price {
-    padding: clamp(70px, 9vw, 140px) clamp(20px, 6vw, 96px);
-  }
-
-  .offer-copy {
-    border-right: 1px solid #333436;
-  }
-
-  .offer-copy .kicker,
-  .offer-price > span { color: var(--signal); }
-
-  .offer-copy h2 {
-    max-width: 11ch;
-    font-size: clamp(3.6rem, 6.5vw, 6.5rem);
-    line-height: .94;
-  }
-
-  .offer-copy > p:not(.kicker) {
+  .lost-copy > p:last-child {
     max-width: 620px;
-    margin: 1.7rem 0 0;
-    color: #c5c5bf;
+    margin: 1.8rem 0 0;
+    color: #b5b5b0;
     line-height: 1.6;
   }
 
-  .offer-copy strong { color: white; }
-
-  .offer-copy ul {
-    margin: 2.2rem 0 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid #3b3c3e;
+  .receipt-board {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 1rem;
+    align-items: center;
   }
 
-  .offer-copy li {
-    border-bottom: 1px solid #3b3c3e;
-    padding: .85rem 0;
-    color: #dddcd6;
-    font-size: .9rem;
+  .receipt,
+  .review-paper {
+    min-height: 330px;
+    padding: 1.8rem;
+    color: var(--black);
+    background: #ece5d6;
+    transform: rotate(-2deg);
   }
 
-  .offer-price {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: #0f1011;
+  .review-paper {
+    min-height: 270px;
+    background: var(--white);
+    transform: rotate(2deg);
   }
 
-  .offer-price > span {
-    font-size: .7rem;
-    font-weight: 850;
-    letter-spacing: .1em;
+  .receipt span,
+  .review-paper span {
+    font-size: .62rem;
+    font-weight: 900;
+    letter-spacing: .08em;
   }
 
-  .offer-price > strong {
-    margin-top: .8rem;
-    color: var(--signal);
+  .receipt h3 {
+    margin: 3rem 0 0;
+    font-size: 1rem;
+  }
+
+  .receipt strong,
+  .review-paper strong {
+    display: block;
     font-family: "Anton", "Arial Narrow", sans-serif;
-    font-size: clamp(6.5rem, 11vw, 11rem);
+    font-size: clamp(5rem, 8vw, 8rem);
     font-weight: 400;
     line-height: .9;
   }
 
-  .offer-price > small {
-    margin: .7rem 0 2rem;
-    color: #aaa9a3;
-    font-size: .76rem;
+  .receipt p {
+    margin-top: 2rem;
+    font-style: italic;
+    font-size: 1.3rem;
   }
 
-  .close {
+  .review-paper p {
+    color: var(--yellow-dark);
+    font-size: 1.5rem;
+  }
+
+  .receipt-board .button {
+    grid-column: 1 / -1;
+  }
+
+  .mechanism {
+    padding: clamp(80px, 9vw, 140px) clamp(22px, 6vw, 94px);
+  }
+
+  .mechanism-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, .4fr);
+    gap: 3rem;
     align-items: end;
   }
 
-  .close .button { width: fit-content; }
+  .mechanism h2 {
+    max-width: 14ch;
+    font-size: clamp(4rem, 7vw, 7rem);
+  }
+
+  .mechanism-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: clamp(50px, 7vw, 90px);
+    background: var(--black);
+    border: 1px solid var(--black);
+  }
+
+  .mechanism-grid article {
+    position: relative;
+    padding: 1.2rem;
+    background: var(--paper);
+  }
+
+  .step-number {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: var(--yellow);
+    font-size: .7rem;
+    font-weight: 900;
+  }
+
+  .mechanism-image {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #ddd;
+  }
+
+  .mechanism-image img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mechanism-image--dark {
+    display: grid;
+    place-items: center;
+    padding: 1.4rem;
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .reply-mock {
+    width: 100%;
+    border: 1px solid #3c3d3f;
+    padding: 1rem;
+  }
+
+  .reply-mock small { color: var(--yellow); }
+  .reply-mock strong { display: block; margin-top: .7rem; color: var(--yellow); }
+  .reply-mock p { font-size: .82rem; line-height: 1.45; }
+  .reply-mock div { border-top: 1px solid #3c3d3f; padding-top: .7rem; color: #bbb; font-size: .68rem; }
+
+  .mechanism-grid h3 {
+    margin: 1.2rem 0 .6rem;
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+  }
+
+  .mechanism-grid article > p {
+    margin: 0;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  .physical {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .physical-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(70px, 9vw, 135px) clamp(22px, 6vw, 94px);
+  }
+
+  .physical .eyebrow { color: var(--yellow); }
+  .physical h2 { max-width: 11ch; font-size: clamp(3.7rem, 6.5vw, 6.6rem); }
+  .physical h2 em { color: var(--yellow); }
+
+  .physical-copy > p:last-child {
+    max-width: 560px;
+    margin: 1.6rem 0 0;
+    color: #b3b3ae;
+    line-height: 1.6;
+  }
+
+  .physical-image {
+    min-height: 650px;
+    overflow: hidden;
+  }
+
+  .physical-image img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .system {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(50px, 8vw, 120px);
+    padding: clamp(80px, 9vw, 140px) clamp(22px, 6vw, 94px);
+  }
+
+  .system h2 {
+    max-width: 10ch;
+    font-size: clamp(4.2rem, 7.5vw, 7.5rem);
+  }
+
+  .system-points {
+    border-top: 3px solid var(--black);
+  }
+
+  .system-points article {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid var(--line);
+    padding: 1.3rem 0;
+  }
+
+  .system-points article > span {
+    color: var(--yellow-dark);
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  .system-points strong { font-size: 1rem; }
+  .system-points p { margin: .4rem 0 0; color: var(--grey); font-size: .8rem; line-height: 1.45; }
+
+  .offer {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .offer-main,
+  .offer-action {
+    padding: clamp(75px, 9vw, 140px) clamp(22px, 6vw, 94px);
+  }
+
+  .offer-main { border-right: 1px solid #303133; }
+  .offer .eyebrow { color: var(--yellow); }
+
+  .offer h2 {
+    max-width: 9ch;
+    font-size: clamp(4.5rem, 8vw, 8rem);
+  }
+
+  .offer h2 em { color: var(--yellow); }
+
+  .offer-main > p:not(.eyebrow) {
+    max-width: 620px;
+    margin: 1.5rem 0 0;
+    color: #b7b7b2;
+    line-height: 1.6;
+  }
+
+  .offer-main > p strong { color: var(--white); }
+
+  .offer-main ul {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid #303133;
+  }
+
+  .offer-main li {
+    border-bottom: 1px solid #303133;
+    padding: .8rem 0;
+    color: #d5d5d0;
+    font-size: .82rem;
+  }
+
+  .offer-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: #131415;
+  }
+
+  .offer-action > span {
+    color: var(--yellow);
+    font-size: .65rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .offer-action > strong {
+    margin-top: 1rem;
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 400;
+    line-height: .92;
+  }
+
+  .offer-action > p {
+    max-width: 450px;
+    margin: 1rem 0 1.8rem;
+    color: #a9a9a4;
+    line-height: 1.5;
+  }
+
+  .territory {
+    display: flex;
+    min-height: 560px;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: clamp(70px, 9vw, 130px) clamp(22px, 6vw, 94px);
+    color: var(--white);
+    background:
+      linear-gradient(90deg, rgba(8,9,10,.88), rgba(8,9,10,.28)),
+      url('/images/hero-local-business.webp') center / cover no-repeat;
+  }
+
+  .territory span {
+    color: var(--yellow);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .09em;
+  }
+
+  .territory h2 {
+    max-width: 11ch;
+    margin-top: 1rem;
+    font-size: clamp(4rem, 7vw, 7rem);
+  }
+
+  .territory h2 em { color: var(--yellow); }
+
+  .territory p {
+    margin: 1.2rem 0 0;
+    font-size: 1rem;
+  }
 
   footer {
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 2rem;
     align-items: center;
-    border-top: 1px solid #2b2c2d;
-    padding: 2rem clamp(20px, 5vw, 78px);
-    color: white;
-    background: var(--ink);
+    border-top: 1px solid #292a2c;
+    padding: 2rem clamp(22px, 6vw, 94px);
+    color: var(--white);
+    background: var(--black);
   }
 
-  footer .brand { color: white; }
-  footer p { margin: 0; color: #aaa9a3; font-size: .72rem; }
+  .brand--footer { color: var(--white); }
+  .brand--footer span { color: var(--yellow); }
+  footer p { margin: 0; color: #aaa9a3; font-size: .66rem; letter-spacing: .04em; }
 
-  @media (max-width: 900px) {
-    nav > a:not(.header-cta) { display: none; }
-
+  @media (max-width: 1000px) {
     .hero,
-    .proof-section,
-    .close,
+    .choice,
+    .lost-proof,
+    .physical,
+    .system,
     .offer {
       grid-template-columns: 1fr;
     }
 
-    .hero {
-      min-height: auto;
-      align-items: start;
+    .hero-photo { min-height: 620px; }
+    .hero-copy { min-height: 650px; }
+
+    .mechanism-grid { grid-template-columns: 1fr; }
+
+    .physical-image { min-height: 520px; }
+
+    .offer-main { border-right: 0; border-bottom: 1px solid #303133; }
+
+    .territory {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: flex-end;
     }
-
-    .hero h1 { font-size: clamp(4.1rem, 15vw, 7rem); }
-
-    .steps { grid-template-columns: 1fr; }
-    .steps article,
-    .steps article + article {
-      min-height: 0;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-      padding: 1.4rem 0 2rem;
-    }
-    .steps h3 { margin-top: 2.5rem; }
-
-    .contrast { grid-template-columns: 1fr; }
-    .contrast > div:first-child {
-      border-right: 0;
-      border-bottom: 1px solid #2d2e30;
-    }
-
-    .offer-copy { border-right: 0; border-bottom: 1px solid #333436; }
-
-    footer { grid-template-columns: 1fr; }
   }
 
-  @media (max-width: 560px) {
-    .site-header { min-height: 64px; padding-inline: 16px; }
-    .brand { font-size: 1.05rem; }
-    .header-cta { padding: .62rem .75rem; font-size: .7rem; }
+  @media (max-width: 700px) {
+    .site-header { min-height: 62px; padding-inline: 16px; }
+    nav > a:not(.nav-cta) { display: none; }
+    .nav-cta { font-size: .64rem; padding: .65rem .7rem; }
 
-    .hero,
-    .proof-section,
-    .how,
-    .close {
-      padding-inline: 18px;
+    .hero-photo { min-height: 540px; }
+    .hero-copy { min-height: auto; padding: 55px 18px 70px; }
+
+    .hero h1,
+    .choice h2,
+    .lost-proof h2,
+    .mechanism h2,
+    .physical h2,
+    .system h2,
+    .offer h2,
+    .territory h2 {
+      font-size: clamp(3.4rem, 16vw, 5.4rem);
     }
 
-    .hero { padding-top: 56px; padding-bottom: 72px; }
-    .hero h1 { font-size: clamp(3.85rem, 18vw, 5.8rem); }
-
-    .statement,
-    .offer-copy,
-    .offer-price,
-    .contrast > div {
-      padding-inline: 18px;
-    }
-
-    .statement h2,
-    .section-heading h2,
-    .close h2,
-    .offer-copy h2,
-    .contrast h2 {
-      font-size: clamp(3rem, 15vw, 4.8rem);
-    }
-
-    .proof-top { flex-direction: column; gap: .35rem; }
-    blockquote { font-size: clamp(2.3rem, 12vw, 3.7rem); }
+    .human-proof { left: 18px; right: 18px; bottom: 135px; }
+    .yellow-note { left: 18px; right: 18px; bottom: 38px; }
 
     .hero-actions { align-items: stretch; flex-direction: column; }
     .button { width: 100%; }
     .text-link { width: fit-content; }
+
+    .trust-strip { grid-template-columns: 1fr; }
+
+    .choice,
+    .lost-proof,
+    .mechanism,
+    .system {
+      padding-inline: 18px;
+    }
+
+    .receipt-board { grid-template-columns: 1fr; }
+    .receipt-board .button { grid-column: 1; }
+
+    .physical-copy,
+    .offer-main,
+    .offer-action,
+    .territory {
+      padding-inline: 18px;
+    }
+
+    .mechanism-head { display: block; }
+
+    footer {
+      grid-template-columns: 1fr;
+      padding-inline: 18px;
+    }
   }
 </style>
