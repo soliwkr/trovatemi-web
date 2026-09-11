@@ -1,0 +1,71 @@
+name: Preview Trovatemi MVP
+
+on:
+  push:
+    branches: [feat/beauty-check-passaparola-v2]
+    paths:
+      - ".github/workflows/preview-inbound.yml"
+      - "astro.config.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - "src/pages/index.astro"
+      - "src/pages/trova/index.astro"
+      - "src/pages/beauty-check/index.astro"
+      - "tests/inbound.test.mjs"
+      - "wrangler.inbound-preview.jsonc"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-trovatemi-mvp
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: node --test tests/inbound.test.mjs
+      - run: npm run build
+
+      - name: Deploy preview
+        id: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          command: deploy --config wrangler.inbound-preview.jsonc
+
+      - name: Verify root page
+        env:
+          PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          set -euo pipefail
+          BASE_URL="${PREVIEW_BASE_URL%/}"
+
+          for attempt in $(seq 1 12); do
+            if curl --fail --location --silent --show-error "$BASE_URL/" > "$RUNNER_TEMP/home.html" \
+              && grep -Fq "HAI CLIENTI" "$RUNNER_TEMP/home.html" \
+              && grep -Fq "SCRIVICI SU INSTAGRAM" "$RUNNER_TEMP/home.html" \
+              && grep -Fq "RACCOGLI" "$RUNNER_TEMP/home.html"; then
+              echo "Trovatemi MVP verified on attempt $attempt."
+              echo "Trovatemi MVP — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+
+            echo "Preview not converged yet (attempt $attempt/12)."
+            sleep 3
+          done
+
+          echo "Preview did not converge to the expected root page." >&2
+          exit 1

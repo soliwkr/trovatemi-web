@@ -1,7 +1,10 @@
 ---
 export const prerender = true;
 
-const checkUrl = 'https://trovatemi-beauty-check-v2-preview.soliwkr.workers.dev/beauty-check/';
+import '@fontsource-variable/archivo';
+import '@fontsource/anton';
+
+const instagramUrl = 'https://www.instagram.com/trovatemi.it/';
 ---
 
 <!doctype html>
@@ -9,196 +12,818 @@ const checkUrl = 'https://trovatemi-beauty-check-v2-preview.soliwkr.workers.dev/
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08090a" />
     <meta
       name="description"
-      content="Trovatemi mette al lavoro il passaparola che hai già: recensioni, risposte e prova visibile quando il prossimo cliente deve scegliere."
+      content="Hai clienti felici. Fai in modo che si veda. Trovatemi mette al lavoro il passaparola che hai già."
     />
-    <meta name="theme-color" content="#11110f" />
     <link rel="canonical" href="https://trovatemi.it/" />
-    <title>Trovatemi.it ★ — Il passaparola che hai già, messo al lavoro.</title>
+    <title>Trovatemi.it — Il passaparola che hai già. Messo al lavoro.</title>
   </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="Trovatemi.it home">TROVATEMI.IT <b>★</b></a>
-      <a class="top-cta" href={checkUrl}>Cerca la tua attività →</a>
-    </header>
 
+  <body>
     <main>
       <section class="hero">
+        <header class="topbar">
+          <a class="brand" href="/">TROVATEMI.IT <span>★</span></a>
+          <a class="ig-link" href={instagramUrl} target="_blank" rel="noreferrer">@trovatemi.it ↗</a>
+        </header>
+
         <div class="hero-copy">
-          <p class="eyebrow">IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
-          <h1>Hai già clienti felici.<br /><em>Fai in modo che si veda.</em></h1>
-          <p class="lede">
-            Trovatemi trasforma la soddisfazione che ricevi ogni giorno in recensioni, risposte e prova visibile quando il prossimo cliente deve scegliere.
+          <p class="kicker">IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
+
+          <h1>
+            HAI CLIENTI<br />
+            FELICI.<br />
+            <mark>FAI IN MODO<br />CHE SI VEDA.</mark>
+          </h1>
+
+          <p class="lead">
+            Ogni giorno qualcuno ti fa un complimento, torna, ti consiglia.
+            Il problema è che troppo spesso quella prova finisce lì.
           </p>
-          <div class="actions">
-            <a class="primary" href={checkUrl}>Cerca la tua attività →</a>
-            <span>Beauty &amp; Wellness · circa 2 minuti</span>
-          </div>
+
+          <a class="cta cta-yellow" href={instagramUrl} target="_blank" rel="noreferrer">
+            SCRIVICI SU INSTAGRAM <span>→</span>
+          </a>
+          <small>Mandaci solo il nome della tua attività.</small>
         </div>
 
-        <div class="flow" aria-label="Come funziona Trovatemi">
-          <article><span>01</span><strong>CHIEDE</strong><p>Nel momento giusto, senza affidarsi alla memoria.</p></article>
-          <article><span>02</span><strong>RACCOGLIE</strong><p>Il complimento diventa una recensione visibile.</p></article>
-          <article><span>03</span><strong>RISPONDE</strong><p>La prova non resta ferma: viene seguita e valorizzata.</p></article>
-          <article><span>04</span><strong>RIUTILIZZA</strong><p>Quello che dicono di te continua a lavorare online.</p></article>
+        <div class="hero-visual">
+          <img src="/images/hero-local-business.webp" alt="" fetchpriority="high" />
+          <div class="shade"></div>
+
+          <div class="quote-card">
+            <span>CLIENTE</span>
+            <p>“Mi sono trovata benissimo.”</p>
+          </div>
+
+          <div class="reply-bubble">Grazie ❤️</div>
+
+          <div class="sequence">
+            <span>PAGA.</span>
+            <span>ESCE.</span>
+            <span>FINE.</span>
+          </div>
+
+          <div class="google-note">PECCATO CHE<br />GOOGLE NON ERA LÌ.</div>
         </div>
       </section>
 
-      <section class="problem">
-        <p class="eyebrow dark">PASSAPAROLA PERSO</p>
-        <div class="problem-grid">
-          <div>
-            <p class="big">50 clienti felici.<br /><strong>4 recensioni.</strong></p>
-            <h2>Dove sono finite le altre 46?</h2>
-          </div>
-          <div class="note">
-            <p>Il complimento detto davanti alla cassa vale.</p>
-            <p>Quello che resta online lavora anche domani.</p>
-            <b>Peccato che Google non era lì.</b>
-          </div>
-        </div>
+      <section class="bridge">
+        <p>Quello che i clienti dicono di te</p>
+        <strong>È GIÀ IL TUO MARKETING.</strong>
+        <span>Deve solo smettere di sparire.</span>
       </section>
 
-      <section class="proof">
-        <div>
-          <p class="eyebrow">QUANDO DEVONO SCEGLIERE</p>
-          <h2>Non basta essere bravi.<br /><em>Deve vedersi.</em></h2>
-          <p>
-            Prima di conoscerti, una nuova cliente vede quello che trova online. Trovatemi parte dal tuo caso reale e ti mostra dove il passaparola smette di diventare prova.
-          </p>
-        </div>
-        <div class="comparison" aria-label="Confronto illustrativo">
-          <article>
-            <small>ATTIVITÀ A</small>
-            <b>4,8 ★</b>
-            <strong>384</strong>
-            <span>recensioni</span>
+      <section class="system">
+        <header class="system-head">
+          <p class="kicker">DA CLIENTE FELICE A PROVA VISIBILE.</p>
+          <h2>NON CREIAMO<br />IL PASSAPAROLA.<br /><mark>LO METTIAMO AL LAVORO.</mark></h2>
+        </header>
+
+        <div class="steps">
+          <article class="step step-photo">
+            <div class="step-number">01</div>
+            <div class="step-media">
+              <img src="/images/nfc-review-counter-v7.webp" alt="Supporto Trovatemi per chiedere una recensione" loading="lazy" />
+            </div>
+            <div class="step-copy">
+              <h3>RACCOGLI</h3>
+              <p>Il cliente è contento. Gli rendi semplice lasciare una traccia che resta.</p>
+            </div>
           </article>
-          <article class="you">
-            <small>LA TUA</small>
-            <b>4,8 ★</b>
-            <strong>41</strong>
-            <span>recensioni</span>
+
+          <article class="step step-reply">
+            <div class="step-number">02</div>
+            <div class="step-media reply-scene">
+              <div class="review-card">
+                <small>RECENSIONE</small>
+                <div class="stars">★★★★★</div>
+                <p>“Servizio fantastico. Tornerò sicuramente.”</p>
+              </div>
+              <div class="owner-reply">
+                Grazie di cuore.<br />
+                Ti aspettiamo presto. 💛
+              </div>
+            </div>
+            <div class="step-copy">
+              <h3>RISPONDI</h3>
+              <p>Una recensione non resta un monologo. Diventa relazione, cura e fiducia.</p>
+            </div>
+          </article>
+
+          <article class="step step-social">
+            <div class="step-number">03</div>
+            <div class="step-media social-scene">
+              <div class="social-card">
+                <div class="social-brand">TROVATEMI.IT <span>★</span></div>
+                <blockquote>“Finalmente qualcuno che ascolta davvero.”</blockquote>
+                <div class="yellow-stroke"></div>
+                <small>PROVA REALE. FATTA LAVORARE.</small>
+              </div>
+            </div>
+            <div class="step-copy">
+              <h3>FALLA LAVORARE</h3>
+              <p>Le parole migliori smettono di vivere in un solo posto e diventano prova visibile.</p>
+            </div>
           </article>
         </div>
       </section>
 
-      <section class="check">
-        <div>
-          <p class="eyebrow dark">IL PRIMO CHECK È BEAUTY &amp; WELLNESS</p>
-          <h2>Non un esempio.<br />Il tuo caso.</h2>
-          <p>
-            Cerca la tua attività, conferma ciò che si vede pubblicamente e rispondi a cinque domande che Google non può sapere. Poi vedi dove si perde il tuo passaparola.
-          </p>
+      <section class="close">
+        <div class="close-copy">
+          <p class="kicker">TROVATEMI.IT ★</p>
+          <h2>
+            PIÙ PROVE.<br />
+            PIÙ FIDUCIA.<br />
+            <mark>PIÙ SCELTE.</mark>
+          </h2>
         </div>
-        <a class="check-card" href={checkUrl}>
-          <span>CERCA LA TUA ATTIVITÀ</span>
-          <strong>Beauty Check →</strong>
-          <small>Valore prima dell'email · nessun voto 0–100 inventato</small>
-        </a>
+
+        <div class="close-action">
+          <p>
+            Non ti serve un altro “piano marketing”.<br />
+            Parti da quello che i clienti stanno già dicendo.
+          </p>
+
+          <a class="cta cta-white" href={instagramUrl} target="_blank" rel="noreferrer">
+            SCRIVICI SU INSTAGRAM <span>→</span>
+          </a>
+
+          <small>Mandaci il nome della tua attività. Ti rispondiamo da lì.</small>
+        </div>
       </section>
 
-      <section class="offer">
-        <div>
-          <p class="eyebrow">UN SOLO PRODOTTO</p>
-          <h2>21 giorni.<br /><em>€0 oggi.</em></h2>
-        </div>
-        <div class="price">
-          <strong>€149</strong>
-          <span>/ mese<br />per sede</span>
-          <p>Carta richiesta all’attivazione. Puoi cancellare prima del rinnovo.</p>
-          <a class="primary" href={checkUrl}>Parti dal tuo caso →</a>
-        </div>
-      </section>
+      <footer>
+        <strong>TROVATEMI.IT <span>★</span></strong>
+        <p>IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
+        <small>Non promettiamo posizioni. Non filtriamo recensioni.</small>
+      </footer>
     </main>
-
-    <footer>
-      <a class="brand" href="/">TROVATEMI.IT <b>★</b></a>
-      <p>Il passaparola che hai già. Messo al lavoro.</p>
-    </footer>
   </body>
 </html>
 
 <style>
-  :root { --ink:#11110f; --paper:#fffdf8; --gold:#ffc515; --muted:#69675f; }
-  * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; background:var(--ink); }
-  body { margin:0; font-family:Arial, Helvetica, sans-serif; color:var(--ink); background:var(--paper); }
-  a { color:inherit; }
-  .topbar { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px clamp(20px,4vw,64px); border-bottom:1px solid #dedbd2; position:sticky; top:0; background:rgba(255,253,248,.96); backdrop-filter:blur(10px); z-index:20; }
-  .brand { font-weight:900; letter-spacing:-.04em; text-decoration:none; font-size:20px; }
-  .brand b { color:#d69d00; }
-  .top-cta { font-size:14px; font-weight:800; text-decoration:none; border-bottom:2px solid var(--ink); }
-  .hero { min-height:calc(100vh - 72px); padding:clamp(52px,8vw,110px) clamp(20px,6vw,96px); display:grid; grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr); gap:clamp(40px,8vw,120px); align-items:center; }
-  .eyebrow { margin:0 0 18px; font-size:12px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; color:#8a6a00; }
-  .eyebrow.dark { color:var(--ink); }
-  h1,h2,.big { letter-spacing:-.065em; line-height:.93; margin:0; }
-  h1 { font-size:clamp(58px,8.8vw,132px); max-width:11ch; }
-  h1 em,h2 em { font-style:normal; background:linear-gradient(transparent 58%,var(--gold) 58%); }
-  .lede { max-width:650px; font-size:clamp(19px,2vw,28px); line-height:1.25; margin:32px 0 0; color:#393833; }
-  .actions { display:flex; align-items:center; flex-wrap:wrap; gap:16px 20px; margin-top:36px; }
-  .actions span { font-size:13px; color:var(--muted); }
-  .primary { display:inline-flex; align-items:center; justify-content:center; min-height:54px; padding:0 22px; background:var(--ink); color:white; text-decoration:none; font-weight:900; }
-  .flow { border-top:8px solid var(--gold); background:var(--ink); color:white; padding:8px 28px; }
-  .flow article { padding:22px 0; display:grid; grid-template-columns:44px 120px 1fr; gap:18px; align-items:start; border-bottom:1px solid #34332f; }
-  .flow article:last-child { border-bottom:0; }
-  .flow span { color:var(--gold); font-weight:900; }
-  .flow strong { font-size:15px; }
-  .flow p { margin:0; color:#c9c7bf; line-height:1.4; }
-  .problem { background:var(--gold); padding:clamp(64px,9vw,130px) clamp(20px,6vw,96px); }
-  .problem-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:50px; align-items:end; }
-  .big { font-size:clamp(54px,8vw,122px); font-weight:900; }
-  .big strong { color:white; -webkit-text-stroke:1px var(--ink); text-shadow:3px 3px 0 var(--ink); }
-  .problem h2 { margin-top:28px; font-size:clamp(36px,4.5vw,68px); max-width:12ch; }
-  .note { border-left:3px solid var(--ink); padding-left:24px; font-size:clamp(18px,2vw,25px); line-height:1.3; }
-  .note b { display:block; margin-top:28px; font-size:clamp(24px,3vw,40px); }
-  .proof { padding:clamp(70px,10vw,140px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1fr 1fr; gap:clamp(44px,8vw,120px); align-items:center; }
-  .proof h2,.check h2,.offer h2 { font-size:clamp(52px,7vw,102px); }
-  .proof p:not(.eyebrow),.check p:not(.eyebrow) { max-width:620px; font-size:20px; line-height:1.45; color:#4d4b45; }
-  .comparison { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .comparison article { min-height:320px; background:var(--ink); color:white; padding:28px; display:flex; flex-direction:column; justify-content:flex-end; }
-  .comparison article.you { background:#ece9df; color:var(--ink); transform:translateY(34px); }
-  .comparison small { margin-bottom:auto; font-weight:900; letter-spacing:.1em; }
-  .comparison b { color:#d69d00; font-size:22px; }
-  .comparison strong { font-size:clamp(72px,8vw,120px); line-height:.9; letter-spacing:-.08em; }
-  .comparison span { font-weight:800; }
-  .check { background:#f1eee5; padding:clamp(70px,9vw,120px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(40px,8vw,120px); align-items:center; }
-  .check-card { min-height:300px; background:white; border:2px solid var(--ink); box-shadow:10px 10px 0 var(--ink); padding:28px; text-decoration:none; display:flex; flex-direction:column; justify-content:space-between; transition:transform .15s ease,box-shadow .15s ease; }
-  .check-card:hover { transform:translate(4px,4px); box-shadow:6px 6px 0 var(--ink); }
-  .check-card span,.check-card small { font-size:12px; font-weight:900; letter-spacing:.09em; }
-  .check-card strong { font-size:clamp(40px,5vw,70px); line-height:.95; }
-  .offer { background:var(--ink); color:white; padding:clamp(70px,10vw,130px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:end; }
-  .offer .eyebrow { color:var(--gold); }
-  .offer h2 em { color:var(--gold); background:none; }
-  .price { border-top:8px solid var(--gold); padding-top:28px; }
-  .price > strong { font-size:clamp(76px,9vw,130px); line-height:.8; letter-spacing:-.08em; color:var(--gold); }
-  .price > span { display:inline-block; margin-left:14px; font-weight:900; }
-  .price p { color:#c4c1b8; max-width:460px; line-height:1.5; }
-  .offer .primary { background:white; color:var(--ink); margin-top:12px; }
-  footer { min-height:120px; padding:34px clamp(20px,6vw,96px); background:#090908; color:white; display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #282722; }
-  footer p { color:#aaa79e; }
-  @media (max-width:850px) {
-    .topbar { min-height:64px; }
-    .top-cta { font-size:12px; }
-    .hero,.proof,.check,.offer,.problem-grid { grid-template-columns:1fr; }
-    .hero { min-height:auto; padding-top:70px; }
-    h1 { font-size:clamp(54px,16vw,88px); }
-    .flow article { grid-template-columns:36px 100px 1fr; gap:10px; }
-    .comparison article { min-height:240px; padding:20px; }
-    .comparison article.you { transform:none; }
-    footer { align-items:flex-start; flex-direction:column; }
+  :root {
+    --black: #08090a;
+    --yellow: #f2bd18;
+    --white: #ffffff;
+    --paper: #f4f1e9;
+    --muted: #a3a39d;
+    --ink-muted: #65655f;
+    --line-dark: #2a2b2d;
+    --line-light: #d9d5ca;
   }
-  @media (max-width:560px) {
-    .brand { font-size:17px; }
-    .topbar { padding-inline:16px; }
-    .hero,.problem,.proof,.check,.offer { padding-inline:18px; }
-    .lede { font-size:19px; }
-    .flow { padding-inline:18px; }
-    .flow article { grid-template-columns:32px 1fr; }
-    .flow article p { grid-column:2; }
-    .comparison { gap:8px; }
-    .comparison article { min-height:210px; }
-    .comparison strong { font-size:58px; }
+
+  * { box-sizing: border-box; }
+
+  html {
+    background: var(--black);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    color: var(--black);
+    background: var(--paper);
+    font-family: "Archivo Variable", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; width: 100%; }
+
+  ::selection {
+    color: var(--black);
+    background: var(--yellow);
+  }
+
+  .hero {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    grid-template-columns: minmax(0, 1fr) minmax(420px, .88fr);
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .topbar {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    min-height: 76px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 clamp(20px, 4vw, 60px);
+  }
+
+  .brand,
+  footer strong {
+    color: var(--white);
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(1.35rem, 2vw, 1.85rem);
+    text-decoration: none;
+    letter-spacing: .015em;
+  }
+
+  .brand span,
+  footer strong span {
+    color: var(--yellow);
+  }
+
+  .ig-link {
+    color: #d8d8d3;
+    font-size: .72rem;
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: .03em;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 130px clamp(24px, 5vw, 78px) 72px;
+  }
+
+  .kicker {
+    margin: 0 0 18px;
+    color: var(--yellow);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .12em;
+  }
+
+  h1,
+  .system h2,
+  .close h2,
+  h3 {
+    margin: 0;
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-weight: 400;
+    letter-spacing: .004em;
+  }
+
+  h1 {
+    max-width: 9ch;
+    font-size: clamp(4.8rem, 8.6vw, 9.3rem);
+    line-height: .84;
+  }
+
+  mark {
+    color: var(--black);
+    background: var(--yellow);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 0 .07em .05em;
+  }
+
+  .lead {
+    max-width: 600px;
+    margin: 28px 0 28px;
+    color: #d0d0ca;
+    font-size: clamp(1rem, 1.45vw, 1.18rem);
+    line-height: 1.6;
+  }
+
+  .cta {
+    display: inline-flex;
+    width: fit-content;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 0 22px;
+    font-size: .78rem;
+    font-weight: 950;
+    text-decoration: none;
+    letter-spacing: .015em;
+  }
+
+  .cta span { font-size: 1.4rem; }
+
+  .cta-yellow {
+    color: var(--black);
+    background: var(--yellow);
+  }
+
+  .hero-copy > small,
+  .close-action > small {
+    margin-top: 10px;
+    color: #858580;
+    font-size: .68rem;
+  }
+
+  .hero-visual {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    background: #1b1c1d;
+  }
+
+  .hero-visual > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.62)),
+      linear-gradient(90deg, rgba(0,0,0,.35), transparent 35%);
+  }
+
+  .quote-card {
+    position: absolute;
+    top: 24%;
+    left: 7%;
+    max-width: 340px;
+    border-radius: 18px;
+    padding: 16px 18px;
+    color: var(--black);
+    background: var(--white);
+    box-shadow: 0 18px 50px rgba(0,0,0,.2);
+    transform: rotate(-2deg);
+  }
+
+  .quote-card span {
+    color: #777770;
+    font-size: .58rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .quote-card p {
+    margin: 6px 0 0;
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    font-weight: 750;
+  }
+
+  .reply-bubble {
+    position: absolute;
+    top: 39%;
+    left: 25%;
+    border-radius: 18px;
+    padding: 12px 16px;
+    color: var(--black);
+    background: #c7f3a4;
+    font-size: .9rem;
+    font-weight: 800;
+    transform: rotate(2deg);
+  }
+
+  .sequence {
+    position: absolute;
+    left: 7%;
+    bottom: 24%;
+    display: flex;
+    gap: 12px;
+  }
+
+  .sequence span {
+    border: 1px solid rgba(255,255,255,.65);
+    padding: .5rem .65rem;
+    color: var(--white);
+    font-size: .64rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .google-note {
+    position: absolute;
+    left: 6%;
+    bottom: 7%;
+    max-width: 500px;
+    padding: .5rem .75rem .65rem;
+    color: var(--black);
+    background: var(--yellow);
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(2.7rem, 4.8vw, 5.1rem);
+    line-height: .88;
+    transform: rotate(-2deg);
+    box-shadow: 0 10px 35px rgba(0,0,0,.18);
+  }
+
+  .bridge {
+    display: grid;
+    grid-template-columns: .9fr 1.2fr .8fr;
+    gap: 2rem;
+    align-items: center;
+    min-height: 155px;
+    padding: 28px clamp(20px, 5vw, 78px);
+    background: var(--white);
+  }
+
+  .bridge p,
+  .bridge span {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: .8rem;
+    line-height: 1.4;
+  }
+
+  .bridge strong {
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 400;
+    line-height: .95;
+  }
+
+  .bridge span {
+    justify-self: end;
+    max-width: 22ch;
+  }
+
+  .system {
+    padding: clamp(72px, 9vw, 130px) clamp(20px, 5vw, 78px);
+    background: var(--paper);
+  }
+
+  .system-head {
+    display: grid;
+    grid-template-columns: minmax(0, .55fr) minmax(0, 1.45fr);
+    gap: clamp(34px, 7vw, 110px);
+    align-items: end;
+    margin-bottom: clamp(42px, 6vw, 76px);
+  }
+
+  .system-head .kicker {
+    align-self: start;
+    color: #8b6b00;
+  }
+
+  .system h2 {
+    max-width: 14ch;
+    font-size: clamp(3.8rem, 6.8vw, 7.2rem);
+    line-height: .88;
+  }
+
+  .system h2 mark {
+    display: inline;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid var(--black);
+    background: var(--black);
+  }
+
+  .step {
+    position: relative;
+    min-width: 0;
+    background: var(--white);
+  }
+
+  .step-number {
+    position: absolute;
+    z-index: 5;
+    top: 16px;
+    left: 16px;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--black);
+    background: var(--yellow);
+    font-size: .7rem;
+    font-weight: 950;
+  }
+
+  .step-media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #ddd;
+  }
+
+  .step-media > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .step-copy {
+    min-height: 170px;
+    padding: 22px;
+  }
+
+  h3 {
+    font-size: clamp(2.1rem, 3.2vw, 3.3rem);
+    line-height: .95;
+  }
+
+  .step-copy p {
+    max-width: 31ch;
+    margin: 10px 0 0;
+    color: var(--ink-muted);
+    font-size: .82rem;
+    line-height: 1.5;
+  }
+
+  .reply-scene {
+    display: grid;
+    align-content: center;
+    gap: 12px;
+    padding: 28px;
+    background: #ecebe6;
+  }
+
+  .review-card {
+    border: 1px solid #d5d2c9;
+    border-radius: 13px;
+    padding: 16px;
+    background: var(--white);
+    box-shadow: 0 12px 30px rgba(0,0,0,.08);
+  }
+
+  .review-card small {
+    color: #797972;
+    font-size: .56rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .stars {
+    margin-top: 8px;
+    color: #e6ac00;
+    letter-spacing: .04em;
+  }
+
+  .review-card p {
+    margin: 10px 0 0;
+    font-size: .8rem;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .owner-reply {
+    justify-self: end;
+    width: 82%;
+    border-radius: 13px;
+    padding: 12px 14px;
+    color: var(--black);
+    background: #c7f3a4;
+    font-size: .72rem;
+    font-weight: 750;
+    line-height: 1.4;
+  }
+
+  .social-scene {
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    background: var(--black);
+  }
+
+  .social-card {
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22px;
+    color: var(--white);
+    background:
+      radial-gradient(circle at 80% 15%, rgba(242,189,24,.14), transparent 30%),
+      #111214;
+    border: 1px solid #333436;
+  }
+
+  .social-brand {
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: 1rem;
+  }
+
+  .social-brand span { color: var(--yellow); }
+
+  blockquote {
+    margin: 0;
+    font-family: "Anton", "Arial Narrow", sans-serif;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    line-height: .95;
+  }
+
+  .yellow-stroke {
+    width: 68%;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--yellow);
+    transform: rotate(-3deg);
+  }
+
+  .social-card small {
+    color: #989892;
+    font-size: .55rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .close {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+    gap: clamp(40px, 8vw, 120px);
+    align-items: end;
+    padding: clamp(75px, 10vw, 150px) clamp(20px, 5vw, 78px);
+    color: var(--white);
+    background: var(--black);
+  }
+
+  .close .kicker { color: var(--yellow); }
+
+  .close h2 {
+    max-width: 9ch;
+    font-size: clamp(4.4rem, 8vw, 8.6rem);
+    line-height: .85;
+  }
+
+  .close-action {
+    padding-bottom: .5rem;
+  }
+
+  .close-action > p {
+    max-width: 500px;
+    margin: 0 0 24px;
+    color: #c7c7c2;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .cta-white {
+    color: var(--black);
+    background: var(--white);
+  }
+
+  footer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    min-height: 92px;
+    padding: 20px clamp(20px, 5vw, 78px);
+    color: var(--white);
+    background: var(--black);
+    border-top: 1px solid var(--line-dark);
+  }
+
+  footer p,
+  footer small {
+    margin: 0;
+    color: #858580;
+    font-size: .62rem;
+    line-height: 1.4;
+  }
+
+  footer small {
+    justify-self: end;
+  }
+
+  @media (max-width: 960px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy {
+      min-height: 720px;
+    }
+
+    .hero-visual {
+      min-height: 720px;
+    }
+
+    .bridge,
+    .system-head,
+    .close {
+      grid-template-columns: 1fr;
+    }
+
+    .bridge span {
+      justify-self: start;
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: minmax(260px, .9fr) minmax(0, 1.1fr);
+    }
+
+    .step-media {
+      aspect-ratio: auto;
+      min-height: 360px;
+    }
+
+    .step-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 360px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .topbar {
+      min-height: 64px;
+      padding-inline: 16px;
+    }
+
+    .hero-copy {
+      min-height: auto;
+      padding: 110px 18px 58px;
+    }
+
+    h1 {
+      font-size: clamp(4.1rem, 20vw, 6rem);
+    }
+
+    .hero-visual {
+      min-height: 620px;
+    }
+
+    .quote-card {
+      top: 12%;
+      left: 18px;
+      right: 18px;
+    }
+
+    .reply-bubble {
+      top: 29%;
+      left: 70px;
+    }
+
+    .sequence {
+      left: 18px;
+      bottom: 25%;
+    }
+
+    .google-note {
+      left: 18px;
+      right: 18px;
+      bottom: 6%;
+      font-size: clamp(2.9rem, 14vw, 4.4rem);
+    }
+
+    .bridge,
+    .system,
+    .close,
+    footer {
+      padding-inline: 18px;
+    }
+
+    .bridge {
+      gap: 10px;
+      padding-block: 30px;
+    }
+
+    .system-head {
+      gap: 18px;
+    }
+
+    .system h2,
+    .close h2 {
+      font-size: clamp(3.7rem, 17vw, 5.6rem);
+    }
+
+    .step {
+      grid-template-columns: 1fr;
+    }
+
+    .step-media {
+      min-height: 330px;
+    }
+
+    .step-copy {
+      min-height: 0;
+    }
+
+    .close {
+      gap: 32px;
+    }
+
+    .cta {
+      width: 100%;
+    }
+
+    footer {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-block: 24px;
+    }
+
+    footer small {
+      justify-self: start;
+    }
   }
 </style>
