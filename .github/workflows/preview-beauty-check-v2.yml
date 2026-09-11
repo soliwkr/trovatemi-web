@@ -19,7 +19,7 @@ on:
       - "src/styles/beauty-check-v2.css"
       - "tests/beauty-check-v2.test.mjs"
       - "tests/google-places.test.mjs"
-      - "wrangler.beauty-check-v2-preview.jsonc"
+      - "wrangler.inbound-preview.jsonc"
 
 permissions:
   contents: read
@@ -72,7 +72,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.112.0"
-          command: deploy --config wrangler.beauty-check-v2-preview.jsonc
+          command: deploy --config wrangler.inbound-preview.jsonc
 
       - name: Provision optional Google Places secret
         env:
@@ -84,7 +84,7 @@ jobs:
             echo "GOOGLE_PLACES_API_KEY not configured; preview will use the explicit demo fallback."
             exit 0
           fi
-          printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY --config wrangler.beauty-check-v2-preview.jsonc
+          printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY --config wrangler.inbound-preview.jsonc
           echo "Google Places secret provisioned for isolated preview."
 
       - name: Verify public experience
@@ -131,9 +131,9 @@ jobs:
             return 1
           }
 
-          fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "TI CERCANO"             "TI SCELGONO"             "IL PASSAPAROLA CHE HAI GIÀ"             "21 GIORNI"             "€149"
+          fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "TI CERCANO"             "TI SCELGONO"             "IL PASSAPAROLA CHE HAI GIÀ"             "CERCA LA TUA ATTIVITÀ"             "DA CLIENTE FELICE"
 
-          fetch_text_with_markers             "$BASE_URL/trova/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi live"             "Trovatemi | Il passaparola che hai già. Messo al lavoro."             "data-proof-app"             "CERCA LA TUA ATTIVITÀ"             "TRE DOMANDE. FINE."
+          fetch_text_with_markers             "$BASE_URL/trova/"             "$RUNNER_TEMP/trovatemi-live.html"             "Trovatemi live"             "Trovatemi | Guarda come appari quando ti cercano"             "CERCA LA TUA ATTIVITÀ"             "NELLA STESSA RICERCA"             "LA LETTURA TROVATEMI"
 
           echo "Trovatemi preview — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
           echo "Trova — $BASE_URL/trova/" >> "$GITHUB_STEP_SUMMARY"
@@ -174,4 +174,4 @@ jobs:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
           BASE_URL="${PREVIEW_BASE_URL%/}"
-          gh pr comment 33 --body "✅ Trovatemi inboundnstration deployed and verified: $BASE_URL/ · inbound: $BASE_URL/trova/"
+          gh pr comment 33 --body "✅ Trovatemi inbound deployed and verified: $BASE_URL/ · live lookup: $BASE_URL/trova/"
