@@ -1,6 +1,6 @@
 # TROVATEMI PUBLIC EXPERIENCE v2
 
-Status: **CURRENT — founder direction 2026-09-11**
+Status: **SUPERSEDED 2026-09-11 by `trovatemi-public-v3.md`**
 
 This document supersedes the previous Proof Story / Beauty direct-response visual direction for the public website and diagnostic.
 
