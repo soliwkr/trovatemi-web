@@ -52,8 +52,20 @@ jobs:
         run: |
           set -euo pipefail
           BASE_URL="${PREVIEW_BASE_URL%/}"
-          curl --fail --location --silent --show-error "$BASE_URL/" > "$RUNNER_TEMP/home.html"
-          grep -Fq "HAI CLIENTI" "$RUNNER_TEMP/home.html"
-          grep -Fq "SCRIVICI SU INSTAGRAM" "$RUNNER_TEMP/home.html"
-          grep -Fq "RACCOGLI" "$RUNNER_TEMP/home.html"
-          echo "Trovatemi MVP — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
+
+          for attempt in $(seq 1 12); do
+            if curl --fail --location --silent --show-error "$BASE_URL/" > "$RUNNER_TEMP/home.html" \
+              && grep -Fq "HAI CLIENTI" "$RUNNER_TEMP/home.html" \
+              && grep -Fq "SCRIVICI SU INSTAGRAM" "$RUNNER_TEMP/home.html" \
+              && grep -Fq "RACCOGLI" "$RUNNER_TEMP/home.html"; then
+              echo "Trovatemi MVP verified on attempt $attempt."
+              echo "Trovatemi MVP — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+
+            echo "Preview not converged yet (attempt $attempt/12)."
+            sleep 3
+          done
+
+          echo "Preview did not converge to the expected root page." >&2
+          exit 1
