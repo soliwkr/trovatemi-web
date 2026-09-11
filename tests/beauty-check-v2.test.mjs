@@ -9,20 +9,22 @@ import {
   diagnosisVersion,
 } from '../src/data/beauty-check-v2.mjs';
 
-const directResponseSource = readFileSync(
-  new URL('../public/beauty-direct-response.js', import.meta.url),
-  'utf8',
-);
-const directResponseStyles = readFileSync(
-  new URL('../public/beauty-direct-response.css', import.meta.url),
-  'utf8',
-);
 const beautyCheckPageSource = readFileSync(
   new URL('../src/pages/beauty-check/index.astro', import.meta.url),
   'utf8',
 );
 
-test('Beauty Check v2 preserves exactly five private questions', () => {
+const beautyLayoutSource = readFileSync(
+  new URL('../src/layouts/BeautyLeanLayout.astro', import.meta.url),
+  'utf8',
+);
+
+const beautyStyles = readFileSync(
+  new URL('../src/styles/beauty-check-v2.css', import.meta.url),
+  'utf8',
+);
+
+test('the diagnostic preserves exactly five private questions', () => {
   assert.equal(auditQuestions.length, 5);
   assert.equal(new Set(auditQuestions.map((question) => question.id)).size, 5);
 });
@@ -42,7 +44,7 @@ test('the diagnosis is deterministic and exposes no customer-facing master score
   assert.deepEqual(first, second);
   assert.equal(first.version, diagnosisVersion);
   assert.equal(first.code, 'collection_leak');
-  assert.equal(first.headline, "Si perde all'uscita.");
+  assert.equal(first.headline, 'Il primo punto debole è la raccolta.');
   assert.equal(first.actions.length, 3);
   assert.equal('score' in first, false);
   assert.equal('reputation' in first, false);
@@ -59,10 +61,10 @@ test('reply leak wins when collection is systematic but replies are abandoned', 
   });
 
   assert.equal(diagnosis.code, 'reply_leak');
-  assert.match(diagnosis.headline, /Google/);
+  assert.equal(diagnosis.shortLabel, 'RISPOSTE');
 });
 
-test('reuse leak is explainable from stored private answers', () => {
+test('reuse leak remains explainable from private answers', () => {
   const diagnosis = buildPassaparolaDiagnosis(demoBusinesses[2], {
     reviewAsk: 'systematic',
     replies: 'always',
@@ -72,10 +74,11 @@ test('reuse leak is explainable from stored private answers', () => {
   });
 
   assert.equal(diagnosis.code, 'reuse_leak');
+  assert.equal(diagnosis.shortLabel, 'RIUSO DELLA PROVA');
   assert.match(diagnosis.answerSummary, /restano quasi sempre su Google/);
 });
 
-test('a mature process produces a healthy diagnosis instead of an invented high score', () => {
+test('a mature process produces continuity instead of an invented high score', () => {
   const diagnosis = buildPassaparolaDiagnosis(demoBusinesses[5], {
     reviewAsk: 'systematic',
     replies: 'automated',
@@ -85,11 +88,11 @@ test('a mature process produces a healthy diagnosis instead of an invented high 
   });
 
   assert.equal(diagnosis.code, 'healthy_no_dominant_leak');
-  assert.equal(diagnosis.shortLabel, 'NESSUN BUCO NETTO');
+  assert.equal(diagnosis.shortLabel, 'CONTINUITÀ');
   assert.equal(diagnosis.actions.length, 3);
 });
 
-test('public evidence remains separate from the diagnosis and keeps the transparent demo gap', () => {
+test('public evidence remains separate from the diagnosis and keeps transparent demo context', () => {
   const diagnosis = buildPassaparolaDiagnosis(demoBusinesses[0], {
     reviewAsk: 'sometimes',
     replies: 'sometimes',
@@ -104,7 +107,7 @@ test('public evidence remains separate from the diagnosis and keeps the transpar
   assert.match(diagnosis.evidence.note, /45 recensioni/);
 });
 
-test('real lookup evidence does not invent a cohort when none exists', () => {
+test('real lookup evidence does not invent a cohort', () => {
   const diagnosis = buildPassaparolaDiagnosis({
     id: 'ChIJ12345678_test',
     name: 'Gloss Nails',
@@ -122,51 +125,31 @@ test('real lookup evidence does not invent a cohort when none exists', () => {
   assert.equal(diagnosis.evidence.reviews, 73);
   assert.equal(diagnosis.evidence.cohortMedianReviews, null);
   assert.equal(diagnosis.evidence.reviewGap, null);
-  assert.match(diagnosis.evidence.note, /benchmark verrà mostrato solo/);
+  assert.match(diagnosis.evidence.note, /Non aggiungiamo confronti statistici/);
 });
 
-test('the final proof story shows the three moves as concrete operational scenes', () => {
-  assert.match(directResponseSource, /CLIENTE FELICE/);
-  assert.match(directResponseSource, /GESTO CONCRETO/);
-  assert.match(directResponseSource, /PIÙ PROVA VISIBILE/);
-  assert.match(directResponseSource, /QR NON SCANSIONABILE/);
-  assert.match(directResponseSource, /RECENSIONE RICEVUTA · ESEMPIO/);
-  assert.match(directResponseSource, /RISPOSTA DA RIVEDERE/);
-  assert.match(directResponseSource, /PUBBLICA RISPOSTA/);
-  assert.match(directResponseSource, /\.stage-confirm > blockquote/);
-  assert.match(directResponseSource, /DOVE OPERATIVO E TESTATO/);
-  assert.match(directResponseSource, /PUBBLICAZIONE SOLO DOVE IL CANALE È OPERATIVO E TESTATO/);
-  assert.match(directResponseStyles, /\.proof-scene--collect/);
-  assert.match(directResponseStyles, /\.proof-scene--reply/);
-  assert.match(directResponseStyles, /\.proof-scene--reuse/);
-  assert.match(directResponseSource, /proof-beauty-nfc-v1\.webp/);
-  assert.match(directResponseStyles, /proof-beauty-social-v1\.webp/);
+test('the public diagnostic is self-contained and no longer uses the legacy direct-response overlay', () => {
+  assert.doesNotMatch(beautyLayoutSource, /beauty-direct-response/);
+  assert.doesNotMatch(beautyCheckPageSource, /beauty-direct-response/);
+  assert.match(beautyCheckPageSource, /Guarda la tua attività come la vede chi deve scegliere/);
+  assert.match(beautyCheckPageSource, /Nessun punteggio inventato/);
 });
 
-test('manual cost and Trovatemi reveal preserve the locked direct-response sequence', () => {
-  assert.match(
-    directResponseSource,
-    /CHIEDI → INSEGUI → RISPONDI → COPIA → PUBBLICA → RICOMINCIA/,
-  );
-  assert.match(directResponseSource, /OPPURE LO METTI A SISTEMA/);
-  assert.match(
-    directResponseSource,
-    /TU PENSA ALLE CLIENTI\. IL PASSAPAROLA CONTINUA A LAVORARE\. ★/,
-  );
+test('the same-query evidence is integrated directly into the diagnostic', () => {
+  assert.match(beautyCheckPageSource, /\/api\/places\/context/);
+  assert.match(beautyCheckPageSource, /ALTRI RISULTATI EMERSI DALLA STESSA RICERCA/);
+  assert.match(beautyCheckPageSource, /Contesto reale, non una classifica e non un benchmark/);
 });
 
-test('the social proof scene does not present unverified channel automation as product truth', () => {
-  assert.match(directResponseSource, /BOZZA/);
-  assert.match(directResponseSource, /CONTROLLA PRIMA/);
-  assert.match(directResponseSource, /NESSUN AUTOPILOTA PROMESSO/);
-  assert.match(directResponseSource, /DA CONFIGURARE SUL FLUSSO/);
-  assert.doesNotMatch(directResponseSource, /BASELINE ATTIVA/i);
-  assert.doesNotMatch(
-    directResponseSource,
-    /PUBBLICAZIONE AUTOMATICA|RISPOSTA AUTOMATICA|AUTOPILOTA ATTIVO/i,
-  );
-  assert.doesNotMatch(directResponseSource, /IG STORY|WHATSAPP|TIKTOK|FACEBOOK/i);
-  assert.match(directResponseSource, /mechanism\.remove\(\)/);
+test('S01 does not fake an email capture or a delivery that does not exist yet', () => {
+  assert.doesNotMatch(beautyCheckPageSource, /type="email"/);
+  assert.doesNotMatch(beautyCheckPageSource, /data-capture-form/);
+  assert.doesNotMatch(beautyCheckPageSource, /In questa preview non viene inviato nulla/);
+});
+
+test('the visual system uses restrained black paper and signal yellow instead of the retired beauty palette', () => {
+  assert.match(beautyStyles, /var\(--signal\)/);
+  assert.doesNotMatch(beautyStyles, /--wine|--pink|--acid/);
 });
 
 test('the long report is not injected as a live-region announcement', () => {
@@ -174,4 +157,9 @@ test('the long report is not injected as a live-region announcement', () => {
     beautyCheckPageSource,
     /setAttribute\('aria-live', state\.stage === 'report' \? 'off' : 'polite'\)/,
   );
+});
+
+test('customer-facing product truth explicitly preserves no review gating and no ranking promise', () => {
+  assert.match(beautyCheckPageSource, /Senza review gating/);
+  assert.match(beautyCheckPageSource, /senza promettere posizioni su Google/);
 });
