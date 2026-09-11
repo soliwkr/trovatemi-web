@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "trovatemi-google-like-preview",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-07-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
