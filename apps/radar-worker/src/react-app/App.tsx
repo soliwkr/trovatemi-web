@@ -242,6 +242,8 @@ function PublicCheckPage({ token }: { token: string }) {
 
 function ActivationPage({ token }: { token: string }) {
   const { check, error } = usePublicCheck(token);
+  const [ownerName, setOwnerName] = useState("");
+  const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState("");
 
@@ -260,7 +262,11 @@ function ActivationPage({ token }: { token: string }) {
     setSending(true);
     setStatus("");
     try {
-      const response = await fetch("/api/checks/" + encodeURIComponent(token) + "/activation-intent", { method: "POST" });
+      const response = await fetch("/api/checks/" + encodeURIComponent(token) + "/activation-intent", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ownerName, email }),
+      });
       const body = await response.json() as {
         ok?: boolean;
         checkoutReady?: boolean;
@@ -307,7 +313,34 @@ function ActivationPage({ token }: { token: string }) {
           </ul>
         </section>
 
-        <button className="activation-button" type="button" onClick={activate} disabled={sending}>
+        <section className="activation-form">
+          <label>
+            Il tuo nome
+            <input
+              value={ownerName}
+              onChange={(event) => setOwnerName(event.target.value)}
+              placeholder="Mario Rossi"
+              autoComplete="name"
+            />
+          </label>
+          <label>
+            Email
+            <input
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="mario@officina.it"
+              type="email"
+              autoComplete="email"
+            />
+          </label>
+        </section>
+
+        <button
+          className="activation-button"
+          type="button"
+          onClick={activate}
+          disabled={sending || ownerName.trim().length < 2 || !email.includes("@")}
+        >
           {sending ? "PREPARO…" : "ATTIVA TROVATEMI · €" + check.offer.priceEur + " →"}
         </button>
         {status && <p className="activation-status">{status}</p>}
