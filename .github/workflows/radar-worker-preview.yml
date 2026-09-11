@@ -155,7 +155,7 @@ jobs:
             await page.getByText('Sistemamelo').waitFor({ timeout: 15000 });
 
             await page.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
-            await page.getByText('ACCENDI').waitFor({ timeout: 15000 });
+            await page.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
             await page.getByText('€197').first().waitFor({ timeout: 15000 });
 
             if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
