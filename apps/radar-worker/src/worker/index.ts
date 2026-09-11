@@ -2,10 +2,11 @@ import { Hono } from "hono";
 import { searchPlaces, validateRadarInput } from "./places.ts";
 import { inspectWebsite } from "./website.ts";
 import { median, scoreProspect } from "./scoring.ts";
-import { getCheckStats, loadCache, loadPublicCheck, loadRun, RadarStore, recordCheckEvent, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
+import { getCheckStats, loadActivationDraft, loadCache, loadPublicCheck, loadRun, RadarStore, recordCheckEvent, saveActivationDraft, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
 import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
-import type { Bindings, RadarRun } from "./types.ts";
+import { climboConfigured, createClimboClient, normalizeActivationInput } from "./climbo.ts";
+import type { ActivationDraft, Bindings, RadarRun } from "./types.ts";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -172,10 +173,33 @@ app.post("/api/checks/:token/activation-intent", async (c) => {
   const check = await loadPublicCheck(c.env, token);
   if (!check) return c.json({ error: "check_not_found" }, 404);
 
+  let input: { ownerName: string; email: string };
+  try {
+    input = normalizeActivationInput(await c.req.json());
+  } catch (error) {
+    return c.json({ error: error instanceof Error ? error.message : "invalid_activation_input" }, 400);
+  }
+
+  const existing = await loadActivationDraft(c.env, token);
+  const now = new Date().toISOString();
+  const checkoutReady = Boolean(c.env.ACTIVATION_CHECKOUT_URL);
+  const draft: ActivationDraft = {
+    token,
+    businessName: check.business.name,
+    ownerName: input.ownerName,
+    email: input.email,
+    createdAt: existing?.createdAt ?? now,
+    updatedAt: now,
+    status: existing?.status === "provisioned"
+      ? "provisioned"
+      : checkoutReady ? "checkout_ready" : "intent",
+    providerRef: existing?.providerRef ?? null,
+  };
+
+  await saveActivationDraft(c.env, draft);
   await recordCheckEvent(c.env, token, "activation");
 
-  const configured = Boolean(c.env.ACTIVATION_CHECKOUT_URL);
-  if (!configured) {
+  if (!checkoutReady) {
     return c.json({
       ok: true,
       checkoutReady: false,
@@ -186,6 +210,7 @@ app.post("/api/checks/:token/activation-intent", async (c) => {
 
   const checkout = new URL(c.env.ACTIVATION_CHECKOUT_URL!);
   checkout.searchParams.set("client_reference_id", token);
+  checkout.searchParams.set("prefilled_email", draft.email);
   checkout.searchParams.set("utm_source", "trovatemi-check");
   checkout.searchParams.set("utm_medium", "activation");
   checkout.searchParams.set("utm_campaign", check.business.city.toLowerCase());
@@ -196,6 +221,44 @@ app.post("/api/checks/:token/activation-intent", async (c) => {
     priceEur: check.offer.priceEur,
     checkoutUrl: checkout.toString(),
   });
+});
+
+app.post("/api/activations/:token/provision", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
+
+  const suppliedSecret = c.req.header("x-provisioning-secret") ?? "";
+  if (!c.env.PROVISIONING_SECRET || suppliedSecret !== c.env.PROVISIONING_SECRET) {
+    return c.json({ error: "unauthorized" }, 401);
+  }
+
+  if (!climboConfigured(c.env)) return c.json({ error: "climbo_unconfigured" }, 503);
+
+  const draft = await loadActivationDraft(c.env, token);
+  if (!draft) return c.json({ error: "activation_not_found" }, 404);
+
+  if (draft.status === "provisioned") {
+    return c.json({ ok: true, status: "already_provisioned", providerRef: draft.providerRef });
+  }
+
+  try {
+    const result = await createClimboClient(c.env, draft);
+    const updated: ActivationDraft = {
+      ...draft,
+      status: "provisioned",
+      providerRef: result.providerRef,
+      updatedAt: new Date().toISOString(),
+    };
+    await saveActivationDraft(c.env, updated);
+    return c.json({ ok: true, status: "provisioned", providerRef: result.providerRef });
+  } catch (error) {
+    console.error(JSON.stringify({
+      event: "activation.provision.failed",
+      token,
+      message: error instanceof Error ? error.message : "unknown",
+    }));
+    return c.json({ error: error instanceof Error ? error.message : "provision_failed" }, 502);
+  }
 });
 
 app.get("/api/runs/:id/export.csv", async (c) => {
