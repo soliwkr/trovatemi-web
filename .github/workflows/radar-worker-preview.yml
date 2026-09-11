@@ -160,7 +160,8 @@ jobs:
             const noJsContext = await browser.newContext({ javaScriptEnabled: false });
             const checkPage = await noJsContext.newPage();
             await checkPage.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
-            await checkPage.getByText('Risultati osservati').waitFor({ timeout: 15000 });
+            await checkPage.locator('.search-shell').waitFor({ timeout: 15000 });
+            await checkPage.locator('.mockup-label').first().waitFor({ timeout: 15000 });
             await checkPage.getByText('Sistemamelo').waitFor({ timeout: 15000 });
             await noJsContext.close();
 
