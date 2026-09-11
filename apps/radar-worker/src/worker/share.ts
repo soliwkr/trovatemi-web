@@ -145,6 +145,7 @@ export function buildPublicCheck(
       medianRating: run.medianRating,
     },
     signals: {
+      phonePresent: Boolean(prospect.phone),
       websitePresent: Boolean(prospect.website),
       socialLinked: Boolean(prospect.instagram || prospect.facebook),
       directActionPresent: Boolean(prospect.whatsapp || prospect.bookingUrl),
