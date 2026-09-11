@@ -372,7 +372,7 @@ import '../../styles/beauty-check-v2.css';
         const p = document.createElement('p');
         p.className = 'empty-state';
         p.textContent = 'Nessun risultato. Prova con nome attività + città.';
-        root.append(p);
+        root.appendChild(p);
         return;
       }
 
@@ -388,15 +388,15 @@ import '../../styles/beauty-check-v2.css';
         name.textContent = item.name;
         const detail = document.createElement('small');
         detail.textContent = item.category + ' · ' + item.address;
-        copy.append(name, detail);
+        copy.appendChild(name);\n        copy.appendChild(detail);
 
         const source = document.createElement('span');
         source.className = 'result-source';
         source.textContent = item.source === 'google_maps' ? 'Google Maps' : 'Demo';
 
-        button.append(copy, source);
+        button.appendChild(copy);\n        button.appendChild(source);
         button.addEventListener('click', () => void selectBusiness(item));
-        root.append(button);
+        root.appendChild(button);
       });
     };
 
@@ -541,8 +541,8 @@ import '../../styles/beauty-check-v2.css';
           n.textContent = '0' + String(index + 1);
           const p = document.createElement('p');
           p.textContent = action;
-          li.append(n, p);
-          list.append(li);
+          li.appendChild(n);\n          li.appendChild(p);
+          list.appendChild(li);
         });
       }
     };
