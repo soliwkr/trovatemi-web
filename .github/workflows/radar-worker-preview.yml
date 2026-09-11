@@ -115,6 +115,7 @@ jobs:
           console.log('SHARE_URL=' + share.shareUrl);
           NODE
           source "$RUNNER_TEMP/check-target.env"
+          export CHECK_TOKEN SHARE_URL
 
           curl --fail --silent --show-error \
             "$PREVIEW_URL/api/checks/$CHECK_TOKEN" > "$RUNNER_TEMP/check.json"
