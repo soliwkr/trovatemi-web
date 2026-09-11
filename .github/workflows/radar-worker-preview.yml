@@ -34,6 +34,11 @@ jobs:
       - name: Cloudflare typegen + typecheck
         run: npm run check
 
+      - name: Install browser smoke dependency
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install chromium
+
       - name: Unit tests
         run: npm test
 
@@ -135,6 +140,30 @@ jobs:
           curl --fail --silent --show-error \
             "$PREVIEW_URL/a/$CHECK_TOKEN" > "$RUNNER_TEMP/activation-page.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/activation-page.html"
+
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage();
+            const errors = [];
+            page.on('pageerror', (error) => errors.push(String(error)));
+
+            await page.goto(process.env.SHARE_URL, { waitUntil: 'networkidle' });
+            await page.getByText('SEI MEGLIO DI COME APPARI.').waitFor({ timeout: 15000 });
+            await page.getByText('Sistemamelo').waitFor({ timeout: 15000 });
+
+            await page.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'networkidle' });
+            await page.getByText('ACCENDI').waitFor({ timeout: 15000 });
+            await page.getByText('€197').first().waitFor({ timeout: 15000 });
+
+            if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
+            await browser.close();
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
 
           curl --fail --silent --show-error -X POST \
             "$PREVIEW_URL/api/checks/$CHECK_TOKEN/events/view" > "$RUNNER_TEMP/view-stats.json"
