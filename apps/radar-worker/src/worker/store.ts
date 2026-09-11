@@ -40,13 +40,13 @@ export class RadarStore {
       return json({ ok: true });
     }
 
-    if (request.method === "PUT" && parts[0] === "shares" && parts[1]) {
+    if (request.method === "PUT" && parts[0] === "shares" && parts[1] && parts.length === 2) {
       const check = await request.json() as PublicCheck;
       await this.state.storage.put(`share:${parts[1]}`, check);
       return json({ ok: true });
     }
 
-    if (request.method === "GET" && parts[0] === "shares" && parts[1]) {
+    if (request.method === "GET" && parts[0] === "shares" && parts[1] && parts.length === 2) {
       const check = await this.state.storage.get(`share:${parts[1]}`) as PublicCheck | undefined;
       if (!check) return json({ error: "check_not_found" }, 404);
       if (Date.parse(check.expiresAt) <= Date.now()) {
