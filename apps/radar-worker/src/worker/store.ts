@@ -1,4 +1,4 @@
-import type { Bindings, PublicCheck, RadarRun } from "./types.ts";
+import type { Bindings, CheckStats, PublicCheck, RadarRun } from "./types.ts";
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -54,6 +54,55 @@ export class RadarStore {
         return json({ error: "check_expired" }, 410);
       }
       return json(check);
+    }
+
+
+    if (request.method === "GET" && parts[0] === "shares" && parts[1] && parts[2] === "stats") {
+      const stats = await this.state.storage.get(`share-stats:${parts[1]}`) as CheckStats | undefined;
+      return json(stats ?? {
+        views: 0,
+        ctaClicks: 0,
+        activationIntents: 0,
+        firstOpenedAt: null,
+        lastOpenedAt: null,
+        lastCtaAt: null,
+        lastActivationAt: null,
+      });
+    }
+
+    if (request.method === "POST" && parts[0] === "shares" && parts[1] && parts[2] === "events" && parts[3]) {
+      const check = await this.state.storage.get(`share:${parts[1]}`) as PublicCheck | undefined;
+      if (!check) return json({ error: "check_not_found" }, 404);
+
+      const now = new Date().toISOString();
+      const key = `share-stats:${parts[1]}`;
+      const current = await this.state.storage.get(key) as CheckStats | undefined;
+      const stats: CheckStats = current ?? {
+        views: 0,
+        ctaClicks: 0,
+        activationIntents: 0,
+        firstOpenedAt: null,
+        lastOpenedAt: null,
+        lastCtaAt: null,
+        lastActivationAt: null,
+      };
+
+      if (parts[3] === "view") {
+        stats.views += 1;
+        stats.firstOpenedAt ??= now;
+        stats.lastOpenedAt = now;
+      } else if (parts[3] === "cta") {
+        stats.ctaClicks += 1;
+        stats.lastCtaAt = now;
+      } else if (parts[3] === "activation") {
+        stats.activationIntents += 1;
+        stats.lastActivationAt = now;
+      } else {
+        return json({ error: "unknown_check_event" }, 400);
+      }
+
+      await this.state.storage.put(key, stats);
+      return json(stats);
     }
 
     if (request.method === "POST" && parts[0] === "rate" && parts[1] && parts[2]) {
@@ -123,4 +172,23 @@ export async function loadPublicCheck(env: Bindings, token: string): Promise<Pub
     new Request(`https://radar-store/shares/${encodeURIComponent(token)}`)
   );
   return response.ok ? await response.json() as PublicCheck : null;
+}
+
+
+export async function getCheckStats(env: Bindings, token: string): Promise<CheckStats | null> {
+  const response = await storeStub(env).fetch(
+    new Request(`https://radar-store/shares/${encodeURIComponent(token)}/stats`)
+  );
+  return response.ok ? await response.json() as CheckStats : null;
+}
+
+export async function recordCheckEvent(
+  env: Bindings,
+  token: string,
+  event: "view" | "cta" | "activation",
+): Promise<CheckStats | null> {
+  const response = await storeStub(env).fetch(
+    new Request(`https://radar-store/shares/${encodeURIComponent(token)}/events/${event}`, { method: "POST" })
+  );
+  return response.ok ? await response.json() as CheckStats : null;
 }
