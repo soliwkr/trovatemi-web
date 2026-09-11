@@ -7,7 +7,8 @@
   "workers_dev": true,
   "vars": {
     "APP_ENV": "preview",
-    "RUN_LIMIT": "12"
+    "RUN_LIMIT": "12",
+    "ACTIVATION_PRICE_EUR": "197"
   },
   "durable_objects": {
     "bindings": [
@@ -30,6 +31,6 @@
   "assets": {
     "directory": "./dist/client",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/health"]
+    "run_worker_first": ["/api/*", "/go/*", "/health"]
   }
 }
