@@ -347,11 +347,12 @@ function RadarApp() {
 
   useEffect(() => {
     if (!share) return;
+    const token = share.token;
     let stopped = false;
 
     async function refresh() {
       try {
-        const response = await fetch("/api/checks/" + encodeURIComponent(share.token) + "/stats");
+        const response = await fetch("/api/checks/" + encodeURIComponent(token) + "/stats");
         if (!response.ok) return;
         const body = await response.json() as CheckStats;
         if (!stopped) setStats(body);
