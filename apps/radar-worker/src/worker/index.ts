@@ -6,6 +6,7 @@ import { getCheckStats, loadActivationDraft, loadCache, loadPublicCheck, loadRun
 import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import { climboConfigured, createClimboClient, normalizeActivationInput } from "./climbo.ts";
+import { renderPublicCheck } from "./public-check.ts";
 import type { ActivationDraft, Bindings, RadarRun } from "./types.ts";
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -20,6 +21,22 @@ app.use("*", async (c, next) => {
 });
 
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));
+
+
+app.get("/c/:token", async (c) => {
+  const token = c.req.param("token");
+  if (!/^[a-f0-9]{32}$/.test(token)) return c.html("<!doctype html><html lang=\"it\"><body>Check non valido.</body></html>", 400);
+
+  const check = await loadPublicCheck(c.env, token);
+  if (!check) {
+    return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"robots\" content=\"noindex,nofollow\"></head><body><h1>Questo check non è disponibile.</h1><p>Il link potrebbe essere scaduto.</p></body></html>", 404);
+  }
+
+  await recordCheckEvent(c.env, token, "view");
+  return c.html(renderPublicCheck(check), 200, {
+    "x-trovatemi-render": "server",
+  });
+});
 
 app.post("/api/runs", async (c) => {
   if (!c.env.GOOGLE_PLACES_API_KEY) return c.json({ error: "places_unconfigured" }, 503);
