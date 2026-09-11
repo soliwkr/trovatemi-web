@@ -40,7 +40,7 @@ function buildJourney(run: RadarRun, prospect: ProspectResult): PublicCheckJourn
     ? `Prima di arrivare a te, in questa specifica ricerca osservata, ho incontrato ${earlier} attività.`
     : "Sei comparso molto presto nella specifica ricerca osservata.";
 
-  const action = directActionLabel(prospect.category);
+  const action = directActionLabel(run.category);
   let contactBody: string;
   if (!prospect.website) {
     contactBody = `Quando decido di approfondire, non ho trovato un sito collegato. Per un cliente nuovo significa avere meno spazio per capire servizi, prove e prossimo passo.`;
@@ -99,7 +99,7 @@ function buildActions(run: RadarRun, prospect: ProspectResult): PublicCheckActio
         body: "Una pagina semplice, credibile e utile: servizi, prove, zona servita e un prossimo passo evidente.",
       });
 
-  const action = directActionLabel(prospect.category);
+  const action = directActionLabel(run.category);
   actions.push(prospect.whatsapp || prospect.bookingUrl
     ? {
         title: "Metterei il prossimo passo davanti agli occhi.",
@@ -107,7 +107,7 @@ function buildActions(run: RadarRun, prospect: ProspectResult): PublicCheckActio
       }
     : {
         title: "Toglierei attrito al contatto.",
-        body: `Quando uno decide di sentirti, ${action} deve richiedere un gesto. Non una ricerca.`,
+        body: `Quando uno decide di sentirti, il percorso per ${action} deve richiedere un gesto. Non una ricerca.`,
       });
 
   return actions;
@@ -150,6 +150,7 @@ export function buildPublicCheck(
       directActionPresent: Boolean(prospect.whatsapp || prospect.bookingUrl),
     },
     query: run.query,
+    searchCategory: run.category,
     headline: "Ti ho cercato come ti cercherebbe un cliente.",
     journey: buildJourney(run, prospect),
     actions: buildActions(run, prospect),
@@ -182,7 +183,7 @@ export function buildPublicCheck(
 
 export function buildOutreachMessage(check: PublicCheck, shareUrl: string): string {
   return [
-    `Ciao, ho cercato ${check.business.name} come farebbe una persona che cerca ${check.business.category.toLowerCase()} a ${check.business.city}.`,
+    `Ciao, ho cercato ${check.business.name} come farebbe una persona che cerca ${check.searchCategory.toLowerCase()} a ${check.business.city}.`,
     "La cosa interessante è che online sembri meno forte di quello che i tuoi segnali fanno pensare.",
     `Ti ho fatto vedere il percorso in un minuto: ${shareUrl}`,
   ].join(" ");
