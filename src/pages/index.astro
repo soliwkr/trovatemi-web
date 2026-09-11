@@ -1,204 +1,609 @@
 ---
 export const prerender = true;
 
-const checkUrl = 'https://trovatemi-beauty-check-v2-preview.soliwkr.workers.dev/beauty-check/';
+import '@fontsource-variable/archivo';
+import '@fontsource/anton';
+import '../styles/search-funnel.css';
+
+const instagramUrl = 'https://www.instagram.com/trovatemi.it/';
 ---
 
 <!doctype html>
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
     <meta
       name="description"
-      content="Trovatemi mette al lavoro il passaparola che hai già: recensioni, risposte e prova visibile quando il prossimo cliente deve scegliere."
+      content="Cercati come ti cerca un cliente. Trovatemi ti mostra come appari rispetto alle alternative locali e cosa sistemare prima."
     />
-    <meta name="theme-color" content="#11110f" />
     <link rel="canonical" href="https://trovatemi.it/" />
-    <title>Trovatemi.it ★ — Il passaparola che hai già, messo al lavoro.</title>
+    <title>Trovatemi.it — Ti troveresti?</title>
   </head>
+
   <body>
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="Trovatemi.it home">TROVATEMI.IT <b>★</b></a>
-      <a class="top-cta" href={checkUrl}>Cerca la tua attività →</a>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
-          <h1>Hai già clienti felici.<br /><em>Fai in modo che si veda.</em></h1>
-          <p class="lede">
-            Trovatemi trasforma la soddisfazione che ricevi ogni giorno in recensioni, risposte e prova visibile quando il prossimo cliente deve scegliere.
-          </p>
-          <div class="actions">
-            <a class="primary" href={checkUrl}>Cerca la tua attività →</a>
-            <span>Beauty &amp; Wellness · circa 2 minuti</span>
-          </div>
-        </div>
-
-        <div class="flow" aria-label="Come funziona Trovatemi">
-          <article><span>01</span><strong>CHIEDE</strong><p>Nel momento giusto, senza affidarsi alla memoria.</p></article>
-          <article><span>02</span><strong>RACCOGLIE</strong><p>Il complimento diventa una recensione visibile.</p></article>
-          <article><span>03</span><strong>RISPONDE</strong><p>La prova non resta ferma: viene seguita e valorizzata.</p></article>
-          <article><span>04</span><strong>RIUTILIZZA</strong><p>Quello che dicono di te continua a lavorare online.</p></article>
-        </div>
-      </section>
-
-      <section class="problem">
-        <p class="eyebrow dark">PASSAPAROLA PERSO</p>
-        <div class="problem-grid">
-          <div>
-            <p class="big">50 clienti felici.<br /><strong>4 recensioni.</strong></p>
-            <h2>Dove sono finite le altre 46?</h2>
-          </div>
-          <div class="note">
-            <p>Il complimento detto davanti alla cassa vale.</p>
-            <p>Quello che resta online lavora anche domani.</p>
-            <b>Peccato che Google non era lì.</b>
-          </div>
-        </div>
-      </section>
-
-      <section class="proof">
-        <div>
-          <p class="eyebrow">QUANDO DEVONO SCEGLIERE</p>
-          <h2>Non basta essere bravi.<br /><em>Deve vedersi.</em></h2>
-          <p>
-            Prima di conoscerti, una nuova cliente vede quello che trova online. Trovatemi parte dal tuo caso reale e ti mostra dove il passaparola smette di diventare prova.
-          </p>
-        </div>
-        <div class="comparison" aria-label="Confronto illustrativo">
-          <article>
-            <small>ATTIVITÀ A</small>
-            <b>4,8 ★</b>
-            <strong>384</strong>
-            <span>recensioni</span>
-          </article>
-          <article class="you">
-            <small>LA TUA</small>
-            <b>4,8 ★</b>
-            <strong>41</strong>
-            <span>recensioni</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="check">
-        <div>
-          <p class="eyebrow dark">IL PRIMO CHECK È BEAUTY &amp; WELLNESS</p>
-          <h2>Non un esempio.<br />Il tuo caso.</h2>
-          <p>
-            Cerca la tua attività, conferma ciò che si vede pubblicamente e rispondi a cinque domande che Google non può sapere. Poi vedi dove si perde il tuo passaparola.
-          </p>
-        </div>
-        <a class="check-card" href={checkUrl}>
-          <span>CERCA LA TUA ATTIVITÀ</span>
-          <strong>Beauty Check →</strong>
-          <small>Valore prima dell'email · nessun voto 0–100 inventato</small>
+    <div class="app" data-stage="landing">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Trovatemi.it home">
+          <strong>TROVATEMI.IT</strong><i>★</i>
         </a>
-      </section>
+        <div class="stage-label" id="stageLabel">Cercati come ti cerca un cliente</div>
+        <button class="restart" id="restartTop" type="button" hidden>Ricomincia</button>
+      </header>
+      <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
 
-      <section class="offer">
+      <main>
+        <section class="stage" id="landing">
+          <div class="shell">
+            <div class="hero">
+              <p class="eyebrow">FATTI TROVARE · FATTI SCEGLIERE · FATTI CONTATTARE</p>
+              <h1>TI <em>TROVERESTI?</em></h1>
+              <p class="hero-copy">
+                Cerca la tua attività come farebbe una persona che non ti conosce ancora.
+                Vediamo chi incontra prima di te, cosa vede e quali segnali possono spostare la scelta.
+              </p>
+
+              <form class="search-card" id="searchForm">
+                <div class="search-grid">
+                  <div class="field">
+                    <label for="businessInput">Nome attività</label>
+                    <input id="businessInput" name="business" placeholder="es. Studio Aurora" autocomplete="organization" required />
+                  </div>
+                  <div class="field">
+                    <label for="categoryInput">Cosa fai</label>
+                    <input id="categoryInput" name="category" placeholder="es. parrucchiere" required />
+                  </div>
+                  <div class="field">
+                    <label for="cityInput">Dove</label>
+                    <input id="cityInput" name="city" placeholder="es. Formia" autocomplete="address-level2" required />
+                  </div>
+                  <button class="primary" id="searchButton" type="submit">Cercami</button>
+                </div>
+              </form>
+
+              <p class="micro">
+                <strong>Nessuna registrazione.</strong>
+                La ricerca live usa Google Places quando configurato. Vuoi solo vedere il percorso?
+                <button class="text-button" id="demoButton" type="button">Guarda la demo</button>
+              </p>
+
+              <div class="value-pills" aria-label="Le tre domande del funnel">
+                <span>🔎 Mi trovano?</span>
+                <span>⭐ Mi scelgono?</span>
+                <span>↗ Riescono a passare all'azione?</span>
+              </div>
+
+              <div class="candidates" id="candidatePanel" hidden>
+                <div class="candidates-head">
+                  <strong>Quale di queste sei tu?</strong>
+                  <span>Conferma l'attività corretta prima del confronto locale.</span>
+                </div>
+                <div id="candidateList"></div>
+              </div>
+
+              <div class="search-error" id="searchError" role="alert" hidden>
+                <strong id="searchErrorTitle">Non riesco a completare la ricerca.</strong>
+                <p id="searchErrorText"></p>
+                <button class="secondary" id="errorDemoButton" type="button">Apri comunque la demo</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="loading" hidden>
+          <div class="shell">
+            <div class="loading">
+              <div class="loader-box">
+                <div class="radar" aria-hidden="true"><div class="sweep"></div></div>
+                <h2>Ti sto cercando.</h2>
+                <p id="loadingQuery">Come farebbe una persona che non ti conosce ancora.</p>
+                <div class="loading-list">
+                  <div class="loading-row"><span class="tick">✓</span><span>Confermo la tua attività</span></div>
+                  <div class="loading-row"><span class="tick">✓</span><span>Guardo chi appare nella stessa ricerca locale</span></div>
+                  <div class="loading-row"><span class="tick">✓</span><span>Confronto rating e volume recensioni</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="results" hidden>
+          <div class="shell">
+            <header class="results-head">
+              <p class="step-kicker">1 · FATTI TROVARE <span class="demo-badge" id="demoBadgeResults" hidden>DEMO</span></p>
+              <h2 class="section-title">ECCO CHI INCONTRA PRIMA.</h2>
+              <p>
+                Non è un “voto SEO”. È una fotografia della ricerca che abbiamo appena fatto:
+                stesso bisogno, stessa città, alternative reali quando il motore live è attivo.
+              </p>
+              <div class="query-pill">
+                <span class="glass" aria-hidden="true"></span>
+                <span id="contextQuery">parrucchiere Formia</span>
+              </div>
+              <div class="tabs" aria-hidden="true">
+                <div class="tab active">Risultati locali</div>
+                <div class="tab">Dati attività</div>
+                <div class="tab">Confronto</div>
+              </div>
+            </header>
+
+            <div class="results-layout">
+              <div class="local-card" id="localResults" aria-live="polite"></div>
+
+              <aside class="insight-card">
+                <div class="label">La prima cosa che conta</div>
+                <h3 id="verdict">Ti trovano. Adesso devi farti scegliere.</h3>
+                <p id="verdictDetail"></p>
+                <button class="primary full" id="toDecision" type="button">Ora scegli come un cliente</button>
+                <div class="quote">“Non è SEO. <span>È una decisione.</span>”</div>
+                <p class="source-note">
+                  Dati live: Google Places API. L'ordine mostrato può differire da Google Search o Maps
+                  per posizione, personalizzazione e altri fattori.
+                </p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="decision" hidden>
+          <div class="shell">
+            <div class="decision">
+              <p class="step-kicker">2 · FATTI SCEGLIERE <span class="demo-badge" id="demoBadgeDecision" hidden>DEMO</span></p>
+              <h2 class="decision-title">ADESSO SCEGLI SENZA CONOSCERE NESSUNO.</h2>
+              <p class="decision-sub">
+                Due attività, stesso bisogno. Non stiamo dicendo chi lavora meglio:
+                stiamo guardando quali segnali pubblici rendono la decisione più facile.
+              </p>
+
+              <div class="versus">
+                <article class="vcard leader">
+                  <div class="vhead">
+                    <strong id="leaderName">Alternativa locale</strong>
+                    <span class="badge">Prima alternativa visibile</span>
+                  </div>
+                  <div class="metric"><span>Valutazione</span><b id="leaderRating">—</b></div>
+                  <div class="metric"><span>Recensioni</span><b id="leaderReviews">—</b></div>
+                  <div class="metric"><span>Categoria</span><b id="leaderCategory">—</b></div>
+                </article>
+
+                <article class="vcard">
+                  <div class="vhead">
+                    <strong id="businessNameDecision">La tua attività</strong>
+                    <span class="badge">Tu</span>
+                  </div>
+                  <div class="metric"><span>Valutazione</span><b id="businessRating">—</b></div>
+                  <div class="metric"><span>Recensioni</span><b id="businessReviews">—</b></div>
+                  <div class="metric"><span>Posizione in questa ricerca</span><b id="businessRank">—</b></div>
+                </article>
+              </div>
+
+              <div class="decision-statement">
+                NON DEVI SEMBRARE “PIÙ DIGITALE”.<br />
+                DEVI ESSERE <em>PIÙ FACILE DA SCEGLIERE.</em>
+              </div>
+
+              <div class="action-row">
+                <button class="primary dark" id="toPrescription" type="button">Fammi vedere cosa sistemare</button>
+                <button class="text-button" id="backToResults" type="button">Torna ai risultati</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="prescription" hidden>
+          <div class="shell">
+            <div class="prescription">
+              <div class="prescription-head">
+                <div>
+                  <p class="step-kicker">3 · LA PRESCRIZIONE <span class="demo-badge" id="demoBadgePrescription" hidden>DEMO</span></p>
+                  <h2 class="section-title">LE PRIME 3 COSE CHE GUARDEREI.</h2>
+                </div>
+                <p>
+                  Solo ciò che possiamo sostenere con i dati appena visti.
+                  Foto, risposte, categorie, orari, sito, telefono e WhatsApp vengono poi verificati manualmente nella sistemazione.
+                </p>
+              </div>
+
+              <div class="issue-list" id="issueList"></div>
+
+              <div class="offer">
+                <div class="offer-copy">
+                  <p class="step-kicker">SISTEMAZIONE LOCALE</p>
+                  <h2 class="offer-title">HAI VISTO IL PROBLEMA. ORA LO SISTEMIAMO.</h2>
+                  <p>
+                    Non ti vendo “SEO”. Prendo ciò che una persona vede prima di scegliere
+                    e sistemo le cose che stanno rendendo la tua attività meno trovabile, meno credibile o più difficile da contattare.
+                  </p>
+                  <div class="offer-list">
+                    <div class="offer-row"><span class="ok">✓</span><span>Revisione completa della presenza locale</span></div>
+                    <div class="offer-row"><span class="ok">✓</span><span>Categorie, servizi, descrizione, orari e contatti</span></div>
+                    <div class="offer-row"><span class="ok">✓</span><span>Foto, risposte e segnali di attività da riordinare</span></div>
+                    <div class="offer-row"><span class="ok">✓</span><span>Percorso semplice per raccogliere più recensioni reali</span></div>
+                    <div class="offer-row"><span class="ok">✓</span><span>Verifica chiamata / WhatsApp / sito e attriti evidenti</span></div>
+                    <div class="offer-row"><span class="ok">✓</span><span>Prima / dopo + tre mosse successive</span></div>
+                  </div>
+                </div>
+
+                <aside class="price-box">
+                  <div class="price-cap">Una sola sistemazione. Nessun abbonamento.</div>
+                  <div class="price">€197</div>
+                  <p class="once">una tantum</p>
+                  <a class="primary dark full" href={instagramUrl} target="_blank" rel="noreferrer">
+                    Sistemamelo →
+                  </a>
+                  <button class="secondary full" id="restartBottom" type="button">Rifai il check</button>
+                  <p class="fine">
+                    Non promettiamo una posizione specifica su Google.
+                    Il check serve a rendere visibili differenze concrete prima della scelta.
+                  </p>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div><strong>TROVATEMI.IT ★</strong><br />Cercati come ti cerca un cliente.</div>
         <div>
-          <p class="eyebrow">UN SOLO PRODOTTO</p>
-          <h2>21 giorni.<br /><em>€0 oggi.</em></h2>
+          Trovatemi non è affiliato a Google. Quando il motore live è attivo, usa Google Places API
+          come fonte dati. L'ordine restituito non equivale a una promessa di ranking su Google Search o Maps.
         </div>
-        <div class="price">
-          <strong>€149</strong>
-          <span>/ mese<br />per sede</span>
-          <p>Carta richiesta all’attivazione. Puoi cancellare prima del rinnovo.</p>
-          <a class="primary" href={checkUrl}>Parti dal tuo caso →</a>
-        </div>
-      </section>
-    </main>
+      </footer>
+    </div>
 
-    <footer>
-      <a class="brand" href="/">TROVATEMI.IT <b>★</b></a>
-      <p>Il passaparola che hai già. Messo al lavoro.</p>
-    </footer>
+    <script>
+      import { buildLocalAnalysis } from '../data/funnel-analysis.mjs';
+
+      const stageIds = ['landing', 'loading', 'results', 'decision', 'prescription'];
+      const stageLabels = {
+        landing: 'Cercati come ti cerca un cliente',
+        loading: 'Sto costruendo il confronto',
+        results: '1 · Fatti trovare',
+        decision: '2 · Fatti scegliere',
+        prescription: '3 · Sistemiamolo',
+      };
+      const progress = {
+        landing: '8%',
+        loading: '28%',
+        results: '52%',
+        decision: '76%',
+        prescription: '100%',
+      };
+
+      const state = {
+        businessName: '',
+        category: '',
+        city: '',
+        business: null,
+        places: [],
+        analysis: null,
+        demo: false,
+      };
+
+      const $ = (selector) => document.querySelector(selector);
+      const searchForm = $('#searchForm');
+      const searchButton = $('#searchButton');
+      const candidatePanel = $('#candidatePanel');
+      const candidateList = $('#candidateList');
+      const searchError = $('#searchError');
+
+      function showStage(id) {
+        for (const stageId of stageIds) {
+          const node = document.getElementById(stageId);
+          if (node) node.hidden = stageId !== id;
+        }
+        document.querySelector('.app')?.setAttribute('data-stage', id);
+        $('#stageLabel').textContent = stageLabels[id] || '';
+        $('#progressBar').style.width = progress[id] || '8%';
+        $('#restartTop').hidden = id === 'landing';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function formatRating(value) {
+        return Number.isFinite(value) ? value.toFixed(1).replace('.', ',') + ' ★' : '—';
+      }
+
+      function formatReviews(value) {
+        return Number.isFinite(value) ? new Intl.NumberFormat('it-IT').format(value) : '—';
+      }
+
+      function clearSearchFeedback() {
+        candidatePanel.hidden = true;
+        candidateList.replaceChildren();
+        searchError.hidden = true;
+      }
+
+      function showError(title, message) {
+        $('#searchErrorTitle').textContent = title;
+        $('#searchErrorText').textContent = message;
+        searchError.hidden = false;
+      }
+
+      async function fetchJson(url) {
+        const response = await fetch(url, { headers: { accept: 'application/json' } });
+        let body = {};
+        try { body = await response.json(); } catch {}
+        if (!response.ok) {
+          const error = new Error(body?.error || 'request_failed');
+          error.status = response.status;
+          error.code = body?.error || 'request_failed';
+          throw error;
+        }
+        return body;
+      }
+
+      function businessButton(place) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'candidate';
+
+        const copy = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = place.name;
+        const small = document.createElement('small');
+        small.textContent = [place.category, place.address].filter(Boolean).join(' · ');
+        copy.append(strong, small);
+
+        const choose = document.createElement('b');
+        choose.textContent = 'Sono io →';
+
+        button.append(copy, choose);
+        button.addEventListener('click', () => loadBusiness(place));
+        return button;
+      }
+
+      async function runSearch() {
+        clearSearchFeedback();
+
+        const businessName = String($('#businessInput').value || '').trim();
+        const category = String($('#categoryInput').value || '').trim();
+        const city = String($('#cityInput').value || '').trim();
+
+        if (!businessName || !category || !city) {
+          showError('Manca qualcosa.', 'Inserisci nome attività, categoria e città.');
+          return;
+        }
+
+        state.businessName = businessName;
+        state.category = category;
+        state.city = city;
+        state.demo = false;
+
+        searchButton.disabled = true;
+        searchButton.textContent = 'Cerco…';
+
+        try {
+          const query = businessName + ' ' + city;
+          const data = await fetchJson('/api/places/search?q=' + encodeURIComponent(query));
+          const places = Array.isArray(data.places) ? data.places : [];
+
+          if (!places.length) {
+            showError('Non ti ho trovato con questa ricerca.', 'Prova con il nome esatto mostrato su Google Maps oppure aggiungi una zona più precisa.');
+            return;
+          }
+
+          for (const place of places) candidateList.append(businessButton(place));
+          candidatePanel.hidden = false;
+          candidatePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch (error) {
+          if (error?.code === 'places_unconfigured') {
+            showError('La ricerca live non è ancora collegata su questa preview.', 'Il funnel è pronto; manca solo il secret GOOGLE_PLACES_API_KEY nell’ambiente Cloudflare. Puoi comunque provare il percorso completo con dati demo dichiarati.');
+          } else {
+            showError('La ricerca live non ha risposto.', 'Puoi riprovare oppure aprire la demo per vedere il funnel completo.');
+          }
+        } finally {
+          searchButton.disabled = false;
+          searchButton.textContent = 'Cercami';
+        }
+      }
+
+      async function loadBusiness(place) {
+        state.demo = false;
+        state.business = place;
+        $('#loadingQuery').textContent = 'Cerco “' + state.category + ' ' + state.city + '” e confronto ' + place.name + ' con le alternative restituite.';
+        showStage('loading');
+
+        try {
+          const detailsUrl = '/api/places/details?id=' + encodeURIComponent(place.id);
+          const contextQuery = state.category + ' ' + state.city;
+          const contextUrl = '/api/places/context?q=' + encodeURIComponent(contextQuery);
+
+          const [details, context] = await Promise.all([
+            fetchJson(detailsUrl),
+            fetchJson(contextUrl),
+            new Promise((resolve) => setTimeout(resolve, 520)),
+          ]);
+
+          state.business = details.business || place;
+          state.places = Array.isArray(context.places) ? context.places : [];
+          renderAnalysis();
+          showStage('results');
+        } catch (error) {
+          showStage('landing');
+          if (error?.code === 'places_unconfigured') {
+            showError('La ricerca live non è ancora configurata.', 'Aggiungi GOOGLE_PLACES_API_KEY a Cloudflare per usare dati reali. La demo qui sotto usa dati fittizi e lo dichiara chiaramente.');
+          } else {
+            showError('Non sono riuscito a costruire il confronto.', 'La ricerca iniziale ha funzionato, ma il contesto locale non è arrivato. Riprova o usa la demo.');
+          }
+        }
+      }
+
+      function setDemoBadges() {
+        for (const id of ['demoBadgeResults', 'demoBadgeDecision', 'demoBadgePrescription']) {
+          const node = document.getElementById(id);
+          if (node) node.hidden = !state.demo;
+        }
+      }
+
+      function runDemo() {
+        clearSearchFeedback();
+        state.demo = true;
+        state.businessName = 'Studio Aurora';
+        state.category = 'parrucchiere';
+        state.city = 'Formia';
+        state.business = {
+          id: 'demo-you',
+          name: 'Studio Aurora',
+          address: 'Formia LT',
+          category: 'Parrucchiere',
+          rating: 4.3,
+          reviews: 31,
+        };
+        state.places = [
+          { id: 'demo-1', name: 'Linea 21', address: 'Formia LT', category: 'Parrucchiere', rating: 4.8, reviews: 326 },
+          { id: 'demo-2', name: 'Atelier 9', address: 'Formia LT', category: 'Parrucchiere', rating: 4.7, reviews: 184 },
+          { id: 'demo-3', name: 'Nodo Studio', address: 'Formia LT', category: 'Parrucchiere', rating: 4.6, reviews: 112 },
+          { id: 'demo-4', name: 'Forma Hair', address: 'Formia LT', category: 'Parrucchiere', rating: 4.6, reviews: 96 },
+          { id: 'demo-5', name: 'Spazio 12', address: 'Formia LT', category: 'Parrucchiere', rating: 4.5, reviews: 77 },
+          state.business,
+        ];
+
+        $('#businessInput').value = state.businessName;
+        $('#categoryInput').value = state.category;
+        $('#cityInput').value = state.city;
+        $('#loadingQuery').textContent = 'Demo: cerco “parrucchiere Formia” e confronto Studio Aurora con attività fittizie.';
+        showStage('loading');
+        setTimeout(() => {
+          renderAnalysis();
+          showStage('results');
+        }, 520);
+      }
+
+      function renderLocalResults() {
+        const container = $('#localResults');
+        container.replaceChildren();
+
+        const analysis = state.analysis;
+        const target = state.business;
+        const firstFive = state.places.slice(0, 5);
+        const targetInFirstFive = firstFive.some((place) => place.id === target.id);
+        const shown = targetInFirstFive ? firstFive : [...firstFive, target];
+
+        shown.forEach((place, index) => {
+          const isTarget = place.id === target.id;
+          const actualIndex = state.places.findIndex((item) => item.id === place.id);
+          const rank = actualIndex >= 0 ? actualIndex + 1 : null;
+
+          const item = document.createElement('article');
+          item.className = 'local-item' + (isTarget ? ' you' : '') + (isTarget && !targetInFirstFive ? ' outside' : '');
+
+          const copy = document.createElement('div');
+          const rankNode = document.createElement('div');
+          rankNode.className = 'rank';
+          rankNode.textContent = isTarget
+            ? 'LA TUA ATTIVITÀ · ' + (rank ? 'POSIZIONE ' + rank : 'FUORI DAL GRUPPO RESTITUITO')
+            : 'RISULTATO LOCALE · ' + (rank || index + 1);
+
+          const name = document.createElement('div');
+          name.className = 'business-name';
+          name.textContent = place.name;
+
+          const rating = document.createElement('div');
+          rating.className = 'rating';
+          rating.textContent = formatRating(place.rating) + ' · ' + formatReviews(place.reviews) + ' recensioni';
+
+          const address = document.createElement('div');
+          address.className = 'address';
+          address.textContent = [place.category, place.address].filter(Boolean).join(' · ');
+
+          copy.append(rankNode, name, rating, address);
+
+          const thumb = document.createElement('div');
+          thumb.className = 'thumb';
+          thumb.setAttribute('aria-hidden', 'true');
+
+          item.append(copy, thumb);
+          container.append(item);
+        });
+
+        $('#verdict').textContent = analysis.verdict;
+        $('#verdictDetail').textContent = analysis.verdictDetail;
+        $('#contextQuery').textContent = state.category + ' ' + state.city;
+      }
+
+      function renderDecision() {
+        const leader = state.analysis.leader;
+        const business = state.business;
+
+        $('#businessNameDecision').textContent = business.name;
+        $('#businessRating').textContent = formatRating(business.rating);
+        $('#businessReviews').textContent = formatReviews(business.reviews);
+        $('#businessRank').textContent = state.analysis.rank ? '#' + state.analysis.rank : 'oltre il gruppo';
+
+        if (leader) {
+          $('#leaderName').textContent = leader.name;
+          $('#leaderRating').textContent = formatRating(leader.rating);
+          $('#leaderReviews').textContent = formatReviews(leader.reviews);
+          $('#leaderCategory').textContent = leader.category || 'Attività locale';
+        } else {
+          $('#leaderName').textContent = 'Nessuna alternativa confrontabile';
+          $('#leaderRating').textContent = '—';
+          $('#leaderReviews').textContent = '—';
+          $('#leaderCategory').textContent = '—';
+        }
+      }
+
+      function renderIssues() {
+        const list = $('#issueList');
+        list.replaceChildren();
+
+        state.analysis.issues.forEach((issue, index) => {
+          const row = document.createElement('article');
+          row.className = 'issue ' + issue.tone;
+
+          const number = document.createElement('div');
+          number.className = 'issue-index';
+          number.textContent = String(index + 1);
+
+          const copy = document.createElement('div');
+          const label = document.createElement('small');
+          label.textContent = issue.label;
+          const title = document.createElement('h3');
+          title.textContent = issue.title;
+          const detail = document.createElement('p');
+          detail.textContent = issue.detail;
+          copy.append(label, title, detail);
+
+          const priority = document.createElement('span');
+          priority.className = 'priority';
+          priority.textContent = issue.priority;
+
+          row.append(number, copy, priority);
+          list.append(row);
+        });
+      }
+
+      function renderAnalysis() {
+        state.analysis = buildLocalAnalysis(state.business, state.places);
+        setDemoBadges();
+        renderLocalResults();
+        renderDecision();
+        renderIssues();
+      }
+
+      function restart() {
+        state.business = null;
+        state.places = [];
+        state.analysis = null;
+        state.demo = false;
+        clearSearchFeedback();
+        showStage('landing');
+        $('#businessInput').focus();
+      }
+
+      searchForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        runSearch();
+      });
+      $('#demoButton')?.addEventListener('click', runDemo);
+      $('#errorDemoButton')?.addEventListener('click', runDemo);
+      $('#toDecision')?.addEventListener('click', () => showStage('decision'));
+      $('#backToResults')?.addEventListener('click', () => showStage('results'));
+      $('#toPrescription')?.addEventListener('click', () => showStage('prescription'));
+      $('#restartTop')?.addEventListener('click', restart);
+      $('#restartBottom')?.addEventListener('click', restart);
+    </script>
   </body>
 </html>
-
-<style>
-  :root { --ink:#11110f; --paper:#fffdf8; --gold:#ffc515; --muted:#69675f; }
-  * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; background:var(--ink); }
-  body { margin:0; font-family:Arial, Helvetica, sans-serif; color:var(--ink); background:var(--paper); }
-  a { color:inherit; }
-  .topbar { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px clamp(20px,4vw,64px); border-bottom:1px solid #dedbd2; position:sticky; top:0; background:rgba(255,253,248,.96); backdrop-filter:blur(10px); z-index:20; }
-  .brand { font-weight:900; letter-spacing:-.04em; text-decoration:none; font-size:20px; }
-  .brand b { color:#d69d00; }
-  .top-cta { font-size:14px; font-weight:800; text-decoration:none; border-bottom:2px solid var(--ink); }
-  .hero { min-height:calc(100vh - 72px); padding:clamp(52px,8vw,110px) clamp(20px,6vw,96px); display:grid; grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr); gap:clamp(40px,8vw,120px); align-items:center; }
-  .eyebrow { margin:0 0 18px; font-size:12px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; color:#8a6a00; }
-  .eyebrow.dark { color:var(--ink); }
-  h1,h2,.big { letter-spacing:-.065em; line-height:.93; margin:0; }
-  h1 { font-size:clamp(58px,8.8vw,132px); max-width:11ch; }
-  h1 em,h2 em { font-style:normal; background:linear-gradient(transparent 58%,var(--gold) 58%); }
-  .lede { max-width:650px; font-size:clamp(19px,2vw,28px); line-height:1.25; margin:32px 0 0; color:#393833; }
-  .actions { display:flex; align-items:center; flex-wrap:wrap; gap:16px 20px; margin-top:36px; }
-  .actions span { font-size:13px; color:var(--muted); }
-  .primary { display:inline-flex; align-items:center; justify-content:center; min-height:54px; padding:0 22px; background:var(--ink); color:white; text-decoration:none; font-weight:900; }
-  .flow { border-top:8px solid var(--gold); background:var(--ink); color:white; padding:8px 28px; }
-  .flow article { padding:22px 0; display:grid; grid-template-columns:44px 120px 1fr; gap:18px; align-items:start; border-bottom:1px solid #34332f; }
-  .flow article:last-child { border-bottom:0; }
-  .flow span { color:var(--gold); font-weight:900; }
-  .flow strong { font-size:15px; }
-  .flow p { margin:0; color:#c9c7bf; line-height:1.4; }
-  .problem { background:var(--gold); padding:clamp(64px,9vw,130px) clamp(20px,6vw,96px); }
-  .problem-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:50px; align-items:end; }
-  .big { font-size:clamp(54px,8vw,122px); font-weight:900; }
-  .big strong { color:white; -webkit-text-stroke:1px var(--ink); text-shadow:3px 3px 0 var(--ink); }
-  .problem h2 { margin-top:28px; font-size:clamp(36px,4.5vw,68px); max-width:12ch; }
-  .note { border-left:3px solid var(--ink); padding-left:24px; font-size:clamp(18px,2vw,25px); line-height:1.3; }
-  .note b { display:block; margin-top:28px; font-size:clamp(24px,3vw,40px); }
-  .proof { padding:clamp(70px,10vw,140px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1fr 1fr; gap:clamp(44px,8vw,120px); align-items:center; }
-  .proof h2,.check h2,.offer h2 { font-size:clamp(52px,7vw,102px); }
-  .proof p:not(.eyebrow),.check p:not(.eyebrow) { max-width:620px; font-size:20px; line-height:1.45; color:#4d4b45; }
-  .comparison { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .comparison article { min-height:320px; background:var(--ink); color:white; padding:28px; display:flex; flex-direction:column; justify-content:flex-end; }
-  .comparison article.you { background:#ece9df; color:var(--ink); transform:translateY(34px); }
-  .comparison small { margin-bottom:auto; font-weight:900; letter-spacing:.1em; }
-  .comparison b { color:#d69d00; font-size:22px; }
-  .comparison strong { font-size:clamp(72px,8vw,120px); line-height:.9; letter-spacing:-.08em; }
-  .comparison span { font-weight:800; }
-  .check { background:#f1eee5; padding:clamp(70px,9vw,120px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(40px,8vw,120px); align-items:center; }
-  .check-card { min-height:300px; background:white; border:2px solid var(--ink); box-shadow:10px 10px 0 var(--ink); padding:28px; text-decoration:none; display:flex; flex-direction:column; justify-content:space-between; transition:transform .15s ease,box-shadow .15s ease; }
-  .check-card:hover { transform:translate(4px,4px); box-shadow:6px 6px 0 var(--ink); }
-  .check-card span,.check-card small { font-size:12px; font-weight:900; letter-spacing:.09em; }
-  .check-card strong { font-size:clamp(40px,5vw,70px); line-height:.95; }
-  .offer { background:var(--ink); color:white; padding:clamp(70px,10vw,130px) clamp(20px,6vw,96px); display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:end; }
-  .offer .eyebrow { color:var(--gold); }
-  .offer h2 em { color:var(--gold); background:none; }
-  .price { border-top:8px solid var(--gold); padding-top:28px; }
-  .price > strong { font-size:clamp(76px,9vw,130px); line-height:.8; letter-spacing:-.08em; color:var(--gold); }
-  .price > span { display:inline-block; margin-left:14px; font-weight:900; }
-  .price p { color:#c4c1b8; max-width:460px; line-height:1.5; }
-  .offer .primary { background:white; color:var(--ink); margin-top:12px; }
-  footer { min-height:120px; padding:34px clamp(20px,6vw,96px); background:#090908; color:white; display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #282722; }
-  footer p { color:#aaa79e; }
-  @media (max-width:850px) {
-    .topbar { min-height:64px; }
-    .top-cta { font-size:12px; }
-    .hero,.proof,.check,.offer,.problem-grid { grid-template-columns:1fr; }
-    .hero { min-height:auto; padding-top:70px; }
-    h1 { font-size:clamp(54px,16vw,88px); }
-    .flow article { grid-template-columns:36px 100px 1fr; gap:10px; }
-    .comparison article { min-height:240px; padding:20px; }
-    .comparison article.you { transform:none; }
-    footer { align-items:flex-start; flex-direction:column; }
-  }
-  @media (max-width:560px) {
-    .brand { font-size:17px; }
-    .topbar { padding-inline:16px; }
-    .hero,.problem,.proof,.check,.offer { padding-inline:18px; }
-    .lede { font-size:19px; }
-    .flow { padding-inline:18px; }
-    .flow article { grid-template-columns:32px 1fr; }
-    .flow article p { grid-column:2; }
-    .comparison { gap:8px; }
-    .comparison article { min-height:210px; }
-    .comparison strong { font-size:58px; }
-  }
-</style>
