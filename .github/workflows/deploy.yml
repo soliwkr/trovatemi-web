@@ -80,7 +80,7 @@ jobs:
           curl --fail --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "Hai già clienti felici." "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq 'id="searchForm"' "$RUNNER_TEMP/trovatemi-home.html"
 
       - name: Publish deployment status
         if: always()
