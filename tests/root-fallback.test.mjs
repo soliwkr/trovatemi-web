@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 const source = await fs.readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
+const controller = await fs.readFile(new URL('../public/search-funnel.js', import.meta.url), 'utf8');
 
 test('root exposes the Google-like local choice funnel', () => {
   assert.match(source, /TI <em>TROVERESTI/);
