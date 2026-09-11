@@ -130,3 +130,10 @@
   .activation-button{width:100%}
   .live-stats{grid-template-columns:repeat(3,1fr)}
 }
+
+
+.activation-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.activation-form label{display:grid;gap:7px;padding:14px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--muted);font-size:.62rem;font-weight:950;letter-spacing:.07em;text-transform:uppercase}
+.activation-form input{width:100%;padding:5px 0;border:0;border-bottom:1px solid #d8d8d8;border-radius:0;background:transparent;font-size:1rem;color:var(--ink);text-transform:none;letter-spacing:0}
+.activation-form input:focus{border-bottom-color:var(--ink)}
+@media(max-width:680px){.activation-form{grid-template-columns:1fr}}
