@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildLocalAnalysis } from '../src/data/funnel-analysis.mjs';
+import { buildLocalAnalysis } from '../public/funnel-analysis.js';
 
 const business = {
   id: 'you',
