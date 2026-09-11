@@ -1,46 +1,266 @@
 ---
 import BeautyLeanLayout from '../../layouts/BeautyLeanLayout.astro';
+import { diagnosticQuestions } from '../../data/beauty-check-v2.mjs';
 import '../../styles/beauty-check-v2.css';
 ---
 
 <BeautyLeanLayout
-  title="Trovatemi | Guarda cosa vede chi ti cerca"
-  description="Cerca la tua attività, guarda i dati pubblici visibili e scopri dove il passaparola smette di diventare prova."
+  title="Trovatemi | Il passaparola che hai già. Messo al lavoro."
+  description="Cerca la tua attività. Guarda cosa vede chi deve scegliere. Scopri dove il tuo passaparola smette di diventare prova visibile."
 >
-  <div class="funnel-app" data-funnel-app>
-    <header class="funnel-topbar">
-      <a class="wordmark" href="/" aria-label="Trovatemi home">
-        <span>TROVATEMI.IT</span><b>★</b>
-      </a>
-      <div class="stage-meta" aria-hidden="true">
-        <span data-stage-label>Analisi</span>
-        <b data-stage-count>01 / 07</b>
+  <div class="proof-app" data-proof-app>
+    <header class="proof-topbar">
+      <a class="proof-brand" href="/" aria-label="Trovatemi home">TROVATEMI.IT <span>★</span></a>
+      <div class="proof-progress" aria-label="Avanzamento">
+        <span data-progress-label>Trova</span>
+        <b data-progress-count>01 / 05</b>
       </div>
-      <button class="quiet-button" type="button" data-back hidden>Indietro</button>
+      <button class="proof-back" type="button" data-back hidden>Indietro</button>
     </header>
 
-    <div class="progress-rail" aria-hidden="true"><i data-progress></i></div>
-    <main id="funnel-stage" class="funnel-stage" data-stage tabindex="-1" aria-live="polite"></main>
+    <main>
+      <section class="proof-step proof-search" data-step="search">
+        <div class="proof-hero-copy">
+          <p class="eyebrow">IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
+          <h1>Ti cercano.<br />Ti confrontano.<br /><em>Ti scelgono in pochi secondi.</em></h1>
+          <p class="lead">
+            Cerca la tua attività. Prima di parlare di marketing, guardiamo cosa vede davvero
+            una persona quando deve scegliere.
+          </p>
 
-    <footer class="funnel-foot">
-      <p>Dati pubblici quando disponibili · nessuna classifica inventata</p>
-      <p>Preview diagnostica · nessun dato personale salvato</p>
+          <form class="search-form" data-search-form>
+            <label>
+              <span>Nome attività + città</span>
+              <input
+                type="search"
+                data-search-input
+                placeholder="Es. Nails Formia"
+                autocomplete="organization"
+                minlength="3"
+                maxlength="120"
+                required
+              />
+            </label>
+            <button class="cta" type="submit">CERCA LA TUA ATTIVITÀ →</button>
+          </form>
+          <p class="microcopy" data-search-message>Google Maps · dati pubblici correnti quando disponibili.</p>
+        </div>
+
+        <div class="search-results" data-search-results aria-live="polite">
+          <div class="search-placeholder">
+            <strong>SEI GIÀ BRAVO.</strong>
+            <p>Adesso vediamo se online si capisce.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof-step proof-compare" data-step="compare" hidden>
+        <header class="section-intro">
+          <p class="eyebrow">QUELLO CHE VEDE IL CLIENTE</p>
+          <h2>Sei più bravo?<br /><em>Può darsi.</em></h2>
+          <p>Ma prima di entrare nel tuo locale, il cliente può giudicare solo le prove che trova.</p>
+        </header>
+
+        <div class="comparison-grid">
+          <article class="google-card google-card--you">
+            <span class="card-kicker">TU</span>
+            <h3 data-you-name>La tua attività</h3>
+            <p data-you-category>Attività locale</p>
+            <div class="google-metrics">
+              <strong><span data-you-rating>—</span> ★</strong>
+              <span><b data-you-reviews>—</b> recensioni</span>
+            </div>
+            <small data-you-address></small>
+          </article>
+
+          <div class="comparison-vs">VS</div>
+
+          <article class="google-card google-card--other" data-other-card>
+            <span class="card-kicker">UN ALTRO RISULTATO DELLA STESSA RICERCA</span>
+            <h3 data-other-name>—</h3>
+            <p data-other-category>—</p>
+            <div class="google-metrics">
+              <strong><span data-other-rating>—</span> ★</strong>
+              <span><b data-other-reviews>—</b> recensioni</span>
+            </div>
+            <small data-other-address></small>
+          </article>
+        </div>
+
+        <p class="evidence-note" data-comparison-note>
+          Non è una classifica e non misura chi lavora meglio. È semplicemente ciò che Google
+          mostra nella stessa ricerca.
+        </p>
+
+        <div class="campaign-line">
+          <span>ESSERE PIÙ BRAVO NON BASTA.</span>
+          <strong>DEVI SEMBRARLO QUANDO SCELGONO.</strong>
+        </div>
+
+        <button class="cta" type="button" data-next="numbers">VEDI QUANTO PASSAPAROLA STAI LASCIANDO FERMO →</button>
+      </section>
+
+      <section class="proof-step proof-numbers" data-step="numbers" hidden>
+        <header class="section-intro">
+          <p class="eyebrow">PASSAPAROLA PERSO</p>
+          <h2>Quanti clienti felici<br />diventano <em>prova visibile?</em></h2>
+          <p>Qui non indoviniamo: ci servono due numeri tuoi.</p>
+        </header>
+
+        <form class="numbers-form" data-numbers-form>
+          <label>
+            <span>Clienti serviti in una settimana normale</span>
+            <input type="number" name="weeklyClients" min="1" max="5000" inputmode="numeric" placeholder="50" required />
+          </label>
+          <label>
+            <span>Nuove recensioni ricevute circa negli ultimi 30 giorni</span>
+            <input type="number" name="recentReviews" min="0" max="10000" inputmode="numeric" placeholder="4" required />
+          </label>
+          <button class="cta" type="submit">FAMMI VEDERE →</button>
+        </form>
+
+        <div class="loss-board" data-loss-board hidden>
+          <div>
+            <span>ESPERIENZE CLIENTE / MESE</span>
+            <strong data-monthly-clients>—</strong>
+            <small>stima da clienti settimanali × 4,33</small>
+          </div>
+          <div>
+            <span>NUOVE RECENSIONI / 30 GIORNI</span>
+            <strong data-recent-reviews>—</strong>
+            <small>numero indicato da te</small>
+          </div>
+          <div class="loss-question">
+            <span>IL PUNTO NON È CHE TUTTI DOVREBBERO RECENSIRE.</span>
+            <strong>È quanta soddisfazione resta invisibile.</strong>
+          </div>
+          <p data-math-disclaimer></p>
+          <button class="cta cta--light" type="button" data-next="questions">VEDI DOVE SI SPEZZA →</button>
+        </div>
+      </section>
+
+      <section class="proof-step proof-questions" data-step="questions" hidden>
+        <header class="section-intro">
+          <p class="eyebrow">TRE DOMANDE. FINE.</p>
+          <h2>Dove si ferma<br />il tuo <em>passaparola?</em></h2>
+          <p>Rispondi su quello che succede normalmente, non sul giorno migliore.</p>
+        </header>
+
+        <div class="question-stack">
+          {diagnosticQuestions.map((question, index) => (
+            <article class="question-block" data-question-block={question.id}>
+              <header>
+                <span>0{index + 1} · {question.eyebrow}</span>
+                <h3>{question.title}</h3>
+              </header>
+              <div class="answer-grid">
+                {question.options.map(([value, label]) => (
+                  <button
+                    class="answer-option"
+                    type="button"
+                    data-question={question.id}
+                    data-answer={value}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <button class="cta" type="button" data-diagnose disabled>DIMMI DOVE SI SPEZZA →</button>
+      </section>
+
+      <section class="proof-step proof-diagnosis" data-step="diagnosis" hidden>
+        <div class="diagnosis-hero">
+          <p class="eyebrow">ECCO IL PUNTO</p>
+          <span class="diagnosis-label" data-diagnosis-label>PASSAPAROLA</span>
+          <h2 data-diagnosis-headline>Il tuo passaparola si ferma all’uscita.</h2>
+          <p data-diagnosis-why></p>
+        </div>
+
+        <div class="diagnosis-proof">
+          <article>
+            <span>GOOGLE OGGI</span>
+            <strong><b data-diagnosis-reviews>—</b> recensioni</strong>
+            <small data-diagnosis-rating>—</small>
+          </article>
+          <article>
+            <span>IL TUO VOLUME</span>
+            <strong><b data-diagnosis-monthly>—</b> esperienze / mese</strong>
+            <small>stima orientativa dal volume dichiarato</small>
+          </article>
+        </div>
+
+        <section class="action-plan">
+          <header>
+            <p class="eyebrow">ECCO COSA FAREI AL POSTO TUO</p>
+            <h3>Prima questo.<br />Poi il resto.</h3>
+          </header>
+          <ol data-actions></ol>
+        </section>
+
+        <button class="cta cta--light" type="button" data-next="system">METTILO A SISTEMA →</button>
+      </section>
+
+      <section class="proof-step proof-system" data-step="system" hidden>
+        <header class="system-head">
+          <p class="eyebrow">TROVATEMI</p>
+          <h2>Le persone lo dicono.<br />Noi lo facciamo <em>lavorare.</em></h2>
+          <p>
+            Trovatemi trasforma il passaparola che hai già in un processo: raccolta,
+            risposta e riuso della prova, senza review gating e senza promettere posizioni su Google.
+          </p>
+        </header>
+
+        <div class="system-flow" aria-label="Come lavora Trovatemi">
+          <article><span>01</span><strong>CLIENTE FELICE</strong><p>L’esperienza succede già.</p></article>
+          <i>→</i>
+          <article><span>02</span><strong>RECENSIONE</strong><p>La soddisfazione lascia una traccia.</p></article>
+          <i>→</i>
+          <article><span>03</span><strong>RISPOSTA</strong><p>La prova viene curata.</p></article>
+          <i>→</i>
+          <article><span>04</span><strong>CONTENUTO</strong><p>La prova torna visibile dove è operativo.</p></article>
+          <i>→</i>
+          <article><span>05</span><strong>SCELTA</strong><p>Il prossimo cliente ha più elementi per fidarsi.</p></article>
+        </div>
+
+        <div class="offer-board">
+          <div>
+            <span>PROVALO NEL LAVORO VERO</span>
+            <strong>21 GIORNI · €0</strong>
+            <p>Poi €149/mese per sede. Cancelli prima del rinnovo se non fa per te.</p>
+          </div>
+          <a class="cta cta--light" href="/#offerta">VEDI L’OFFERTA →</a>
+        </div>
+
+        <footer class="proof-close">
+          <strong>TROVATEMI.IT <span>★</span></strong>
+          <p>IL PASSAPAROLA CHE HAI GIÀ. MESSO AL LAVORO.</p>
+          <button class="proof-restart" type="button" data-restart>Rifai la dimostrazione</button>
+        </footer>
+      </section>
+    </main>
+
+    <footer class="proof-legal">
+      <p>Dati Google mostrati come evidenza pubblica. Gli altri risultati sono contesto della stessa ricerca, non una classifica.</p>
+      <p>Questa preview non salva i dati inseriti.</p>
     </footer>
   </div>
 
-  <noscript><div class="no-script">Per eseguire l’analisi serve JavaScript.</div></noscript>
+  <noscript><div class="no-script">Per eseguire la dimostrazione serve JavaScript.</div></noscript>
 
   <script>
     import {
-      auditQuestions,
       buildPassaparolaDiagnosis,
+      buildPassaparolaMath,
       demoBusinesses,
+      diagnosticQuestions,
     } from '../../data/beauty-check-v2.mjs';
 
-    type Stage = 'intro' | 'search' | 'confirm' | 'quiz' | 'flash' | 'capture' | 'report';
     type Source = 'google_maps' | 'demo';
-    type SearchStatus = 'idle' | 'loading' | 'ready' | 'error' | 'demo';
-    type ContextStatus = 'idle' | 'loading' | 'ready' | 'error';
+    type Step = 'search' | 'compare' | 'numbers' | 'questions' | 'diagnosis' | 'system';
 
     type SearchCandidate = {
       id: string;
@@ -52,7 +272,6 @@ import '../../styles/beauty-check-v2.css';
 
     type Business = {
       id: string;
-      externalId?: string;
       placeId?: string;
       name: string;
       address: string;
@@ -74,576 +293,322 @@ import '../../styles/beauty-check-v2.css';
       source: 'google_maps';
     };
 
-    type SearchPayload = { places?: SearchCandidate[] };
-    type DetailsPayload = { business?: Business };
-    type ContextPayload = { places?: ContextPlace[] };
+    const app = document.querySelector<HTMLElement>('[data-proof-app]');
+    const stepEls = Array.from(document.querySelectorAll<HTMLElement>('[data-step]'));
+    const back = document.querySelector<HTMLButtonElement>('[data-back]');
+    const progressLabel = document.querySelector<HTMLElement>('[data-progress-label]');
+    const progressCount = document.querySelector<HTMLElement>('[data-progress-count]');
 
-    const app = document.querySelector<HTMLElement>('[data-funnel-app]');
-    const stageElement = document.querySelector<HTMLElement>('[data-stage]');
-    const backButton = document.querySelector<HTMLButtonElement>('[data-back]');
-    const progressElement = document.querySelector<HTMLElement>('[data-progress]');
-    const stageLabel = document.querySelector<HTMLElement>('[data-stage-label]');
-    const stageCount = document.querySelector<HTMLElement>('[data-stage-count]');
+    let currentStep: Step = 'search';
+    let query = '';
+    let business: Business | null = null;
+    let context: ContextPlace[] = [];
+    let math: ReturnType<typeof buildPassaparolaMath> | null = null;
+    const answers: Record<string, string> = {};
 
-    const state: {
-      stage: Stage;
-      query: string;
-      searchStatus: SearchStatus;
-      searchMessage: string;
-      searchResults: SearchCandidate[];
-      business: Business | null;
-      contextStatus: ContextStatus;
-      contextResults: ContextPlace[];
-      step: number;
-      answers: Record<string, string>;
-    } = {
-      stage: 'intro',
-      query: '',
-      searchStatus: 'idle',
-      searchMessage: '',
-      searchResults: [],
-      business: null,
-      contextStatus: 'idle',
-      contextResults: [],
-      step: 0,
-      answers: {},
+    const stepMeta: Record<Step, [string, string]> = {
+      search: ['Trova', '01 / 05'],
+      compare: ['Confronta', '02 / 05'],
+      numbers: ['Conta', '03 / 05'],
+      questions: ['Capisci', '04 / 05'],
+      diagnosis: ['Diagnosi', '05 / 05'],
+      system: ['Trovatemi', 'TROVATEMI'],
     };
 
-    const meta: Record<Stage, { label: string; count: string }> = {
-      intro: { label: 'Analisi', count: '01 / 07' },
-      search: { label: 'Attività', count: '02 / 07' },
-      confirm: { label: 'Evidenza pubblica', count: '03 / 07' },
-      quiz: { label: 'Processo', count: '04 / 07' },
-      flash: { label: 'Diagnosi', count: '05 / 07' },
-      capture: { label: 'Azioni', count: '06 / 07' },
-      report: { label: 'Sintesi', count: '07 / 07' },
+    const setText = (selector: string, value: string) => {
+      const el = document.querySelector<HTMLElement>(selector);
+      if (el) el.textContent = value;
     };
 
-    const h = (value: unknown) => String(value ?? '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
-
-    const gmpAttribution = '<span class="gmp-attribution" translate="no">Google Maps</span>';
-
-    const progress = () => {
-      if (state.stage === 'intro') return 5;
-      if (state.stage === 'search') return 15;
-      if (state.stage === 'confirm') return 30;
-      if (state.stage === 'quiz') return 35 + ((state.step + 1) / auditQuestions.length) * 35;
-      if (state.stage === 'flash') return 78;
-      if (state.stage === 'capture') return 90;
-      return 100;
+    const setStep = (step: Step) => {
+      currentStep = step;
+      stepEls.forEach((el) => {
+        el.hidden = el.dataset.step !== step;
+      });
+      const meta = stepMeta[step];
+      if (progressLabel) progressLabel.textContent = meta[0];
+      if (progressCount) progressCount.textContent = meta[1];
+      if (back) back.hidden = step === 'search' || step === 'system';
+      if (app) app.dataset.currentStep = step;
+      window.scrollTo({ top: 0, behavior: 'instant' });
     };
 
-    const setStage = (next: Stage) => {
-      state.stage = next;
-      render();
-    };
-
-    const demoAsBusiness = (business: (typeof demoBusinesses)[number]): Business => ({
-      id: business.id,
-      name: business.name,
-      address: business.address,
-      category: business.category,
-      rating: business.rating,
-      reviews: business.reviews,
-      cohortMedianReviews: business.cohortMedianReviews,
-      source: 'demo',
-      sourceLabel: 'Dati demo',
-    });
-
-    const demoCandidates = (query: string): SearchCandidate[] => {
-      const needle = query.trim().toLocaleLowerCase('it');
+    const demoCandidates = (value: string): SearchCandidate[] => {
+      const needle = value.trim().toLocaleLowerCase('it');
       return demoBusinesses
-        .filter((business) => !needle || `${business.name} ${business.city} ${business.category}`.toLocaleLowerCase('it').includes(needle))
+        .filter((item) => !needle || (item.name + ' ' + item.city + ' ' + item.category).toLocaleLowerCase('it').includes(needle))
         .slice(0, 5)
-        .map((business) => ({
-          id: business.id,
-          name: business.name,
-          address: business.address,
-          category: business.category,
-          source: 'demo',
+        .map((item) => ({
+          id: item.id,
+          name: item.name,
+          address: item.address,
+          category: item.category,
+          source: 'demo' as const,
         }));
     };
 
-    const renderIntro = () => `
-      <section class="stage-layout stage-intro" data-state="intro">
-        <div class="intro-copy">
-          <p class="eyebrow">ANALISI TROVATEMI · BEAUTY &amp; WELLNESS</p>
-          <h1>Guarda la tua attività come la vede chi deve scegliere.</h1>
-          <p class="lede">
-            Partiamo dai dati pubblici. Poi ti facciamo cinque domande sul modo in cui gestisci
-            clienti soddisfatti e recensioni. Alla fine ti diciamo qual è il primo punto che oggi
-            disperde più prova.
-          </p>
-          <button class="primary-action" type="button" data-next="search">Analizza la mia attività</button>
-        </div>
-        <aside class="intro-note">
-          <span>COME LAVORIAMO</span>
-          <p>Nessun punteggio inventato. Nessuna promessa di posizione. Solo dati visibili, risposte tue e una conclusione spiegabile.</p>
-        </aside>
-      </section>`;
-
-    const businessRows = (items: SearchCandidate[]) => items.length
-      ? items.map((business) => `
-          <button class="business-row" type="button" data-business-id="${h(business.id)}" data-source="${business.source}">
-            <span class="row-name">
-              <b>${h(business.name)}</b>
-              <small>${h(business.category)} · ${h(business.address)}</small>
-            </span>
-            <span class="row-source">${business.source === 'google_maps' ? 'Google Maps' : 'Demo'}</span>
-          </button>`).join('')
-      : '<p class="empty-state">Nessun risultato. Prova con nome attività + città.</p>';
-
-    const renderSearchResults = () => {
-      if (state.searchStatus === 'idle') return '<p class="lookup-status">Inserisci nome e città.</p>';
-      if (state.searchStatus === 'loading') return '<p class="lookup-status">Ricerca in corso…</p>';
-      if (state.searchStatus === 'error') return `<p class="lookup-status lookup-status--error">${h(state.searchMessage)}</p>`;
-
-      return `
-        ${businessRows(state.searchResults)}
-        <div class="lookup-provenance">
-          ${state.searchStatus === 'ready'
-            ? `${gmpAttribution}<span>Dati pubblici correnti.</span>`
-            : '<span>Ambiente demo: nessun dato Google utilizzato.</span>'}
-        </div>`;
+    const demoAsBusiness = (id: string): Business | null => {
+      const item = demoBusinesses.find((candidate) => candidate.id === id);
+      if (!item) return null;
+      return {
+        id: item.id,
+        name: item.name,
+        address: item.address,
+        category: item.category,
+        rating: item.rating,
+        reviews: item.reviews,
+        cohortMedianReviews: item.cohortMedianReviews,
+        source: 'demo',
+        sourceLabel: 'Dati demo',
+      };
     };
 
-    const renderSearch = () => `
-      <section class="stage-layout stage-search" data-state="search">
-        <div class="stage-copy">
-          <p class="eyebrow">01 · ATTIVITÀ</p>
-          <h1>Cerca la tua attività.</h1>
-          <p class="stage-explainer">Scrivi il nome con la città e seleziona il risultato corretto.</p>
-          <form class="lookup-form" data-search-form>
-            <label class="search-field">
-              <span class="sr-only">Nome attività e città</span>
-              <input data-search-input type="search" autocomplete="organization" placeholder="Es. Nails Formia" minlength="3" maxlength="120" required />
-            </label>
-            <button class="primary-action lookup-submit" type="submit">Cerca</button>
-          </form>
-          ${state.searchStatus === 'demo'
-            ? '<p class="demo-warning">La ricerca live non è disponibile in questo ambiente. I risultati seguenti sono esplicitamente demo.</p>'
-            : ''}
-        </div>
-        <div class="business-list" data-business-list>${renderSearchResults()}</div>
-      </section>`;
+    const renderSearchResults = (items: SearchCandidate[]) => {
+      const root = document.querySelector<HTMLElement>('[data-search-results]');
+      if (!root) return;
+      root.replaceChildren();
 
-    const renderContext = (business: Business) => {
-      if (business.source !== 'google_maps') return '';
-      if (state.contextStatus === 'loading') return '<p class="context-status">Carico il contesto della stessa ricerca…</p>';
-      if (state.contextStatus !== 'ready') return '';
-
-      const rows = state.contextResults
-        .filter((place) => place.id !== business.placeId && place.name !== business.name)
-        .slice(0, 3);
-
-      if (!rows.length) return '';
-
-      return `
-        <section class="same-query">
-          <header>
-            <span>ALTRI RISULTATI EMERSI DALLA STESSA RICERCA</span>
-            <p>Contesto reale, non una classifica e non un benchmark.</p>
-          </header>
-          <div class="same-query-grid">
-            ${rows.map((place) => `
-              <article>
-                <h3>${h(place.name)}</h3>
-                <p>${h(place.category || place.address)}</p>
-                <div>
-                  <strong>${place.rating === null ? '—' : place.rating.toFixed(1)} ★</strong>
-                  <span>${place.reviews === null ? '—' : h(place.reviews)} recensioni</span>
-                </div>
-              </article>`).join('')}
-          </div>
-        </section>`;
-    };
-
-    const renderConfirm = (business: Business) => {
-      const rating = business.rating === null ? '—' : business.rating.toFixed(1);
-      const reviews = business.reviews === null ? '—' : String(business.reviews);
-
-      return `
-        <section class="stage-layout stage-confirm" data-state="confirm">
-          <div class="stage-copy confirm-copy">
-            <p class="eyebrow">02 · EVIDENZA PUBBLICA</p>
-            <h1>Questo è ciò che vede chi ti cerca.</h1>
-
-            <article class="business-confirmation">
-              <div class="business-identity">
-                <span>${h(business.category)}</span>
-                <h2>${h(business.name)}</h2>
-                <p>${h(business.address)}</p>
-              </div>
-              <dl>
-                <div><dt>Valutazione</dt><dd>${rating} ★</dd></div>
-                <div><dt>Recensioni visibili</dt><dd>${reviews}</dd></div>
-              </dl>
-              <footer>${business.source === 'google_maps' ? gmpAttribution : '<span>Dati demo</span>'}</footer>
-            </article>
-
-            ${renderContext(business)}
-
-            <p class="plain-clarifier">
-              Questi numeri non misurano la qualità del tuo lavoro. Misurano solo la prova che una persona può vedere prima di contattarti.
-            </p>
-
-            <div class="action-pair">
-              <button class="primary-action" type="button" data-next="quiz">Continua</button>
-              <button class="text-action" type="button" data-next="search">Non è questa attività</button>
-            </div>
-          </div>
-        </section>`;
-    };
-
-    const renderQuiz = () => {
-      const question = auditQuestions[state.step];
-      const selected = state.answers[question.id];
-
-      return `
-        <section class="stage-layout stage-quiz" data-state="quiz">
-          <div class="quiz-copy">
-            <p class="eyebrow">03 · PROCESSO · ${state.step + 1} DI 5</p>
-            <h1>${question.title}</h1>
-            <p class="private-note">Rispondi in base a quello che succede normalmente, non al caso migliore.</p>
-          </div>
-          <div class="answer-list">
-            ${question.options.map(([value, label]) => `
-              <button class="answer-row${selected === value ? ' is-selected' : ''}" type="button" data-answer="${value}">
-                <b>${label}</b>
-              </button>`).join('')}
-          </div>
-        </section>`;
-    };
-
-    const renderEvidenceCard = (business: Business, diagnosis: ReturnType<typeof buildPassaparolaDiagnosis>) => {
-      const reviews = business.reviews === null ? '—' : String(business.reviews);
-      const rating = business.rating === null ? '—' : business.rating.toFixed(1);
-
-      return `
-        <article class="evidence-card">
-          <header>DATI PUBBLICI</header>
-          <div class="evidence-numbers">
-            <div><strong>${rating} ★</strong><small>valutazione</small></div>
-            <div><strong>${reviews}</strong><small>recensioni</small></div>
-          </div>
-          <p>${h(diagnosis.evidence.note)}</p>
-          ${business.source === 'google_maps' ? `<footer>${gmpAttribution}</footer>` : ''}
-        </article>`;
-    };
-
-    const renderFlash = (business: Business) => {
-      const diagnosis = buildPassaparolaDiagnosis(business, state.answers);
-
-      return `
-        <section class="stage-layout stage-flash" data-state="flash">
-          <div class="flash-copy">
-            <p class="eyebrow">04 · DIAGNOSI</p>
-            <h1>${diagnosis.headline}</h1>
-            <p class="diagnosis-why">${diagnosis.why}</p>
-          </div>
-
-          <div class="diagnosis-board">
-            <span>PRIMO PUNTO DA CORREGGERE</span>
-            <strong>${diagnosis.shortLabel}</strong>
-            <p>${h(diagnosis.answerSummary)}.</p>
-          </div>
-
-          ${renderEvidenceCard(business, diagnosis)}
-
-          <div class="flash-cta">
-            <p>La diagnosi non è un voto. È una priorità operativa basata su ciò che si vede e su ciò che hai dichiarato.</p>
-            <button class="primary-action primary-action--light" type="button" data-next="capture">Vedi cosa fare</button>
-          </div>
-        </section>`;
-    };
-
-    const renderCapture = (business: Business) => {
-      const diagnosis = buildPassaparolaDiagnosis(business, state.answers);
-
-      return `
-        <section class="stage-layout stage-actions" data-state="capture">
-          <div class="actions-copy">
-            <p class="eyebrow">05 · AZIONI</p>
-            <h1>Tre priorità. In quest’ordine.</h1>
-            <p>Non servono altre idee. Serve correggere prima il punto che disperde più prova.</p>
-          </div>
-
-          <ol class="action-list">
-            ${diagnosis.actions.map((action: string, index: number) => `
-              <li>
-                <span>0${index + 1}</span>
-                <p>${h(action)}</p>
-              </li>`).join('')}
-          </ol>
-
-          <div class="actions-next">
-            <p>Ora puoi vedere la sintesi completa dell’analisi di ${h(business.name)}.</p>
-            <button class="primary-action" type="button" data-next="report">Apri la sintesi</button>
-          </div>
-        </section>`;
-    };
-
-    const renderReport = (business: Business) => {
-      const diagnosis = buildPassaparolaDiagnosis(business, state.answers);
-
-      return `
-        <section class="stage-report" data-state="report">
-          <header class="report-hero">
-            <p class="eyebrow">ANALISI TROVATEMI · ${h(business.name)}</p>
-            <h1>${diagnosis.headline}</h1>
-            <p>${diagnosis.why}</p>
-          </header>
-
-          <section class="report-grid">
-            ${renderEvidenceCard(business, diagnosis)}
-
-            <article class="report-private">
-              <header>QUELLO CHE CI HAI DETTO</header>
-              <p>${h(diagnosis.answerSummary)}.</p>
-              <small>Volume indicato: ${h(diagnosis.weeklyVolumeLabel)}.</small>
-            </article>
-          </section>
-
-          <section class="report-actions">
-            <header>
-              <p class="eyebrow">PRIORITÀ OPERATIVE</p>
-              <h2>Prima questo. Poi il resto.</h2>
-            </header>
-            <ol>
-              ${diagnosis.actions.map((action: string, index: number) => `
-                <li><span>0${index + 1}</span><p>${h(action)}</p></li>`).join('')}
-            </ol>
-          </section>
-
-          <section class="report-system">
-            <div>
-              <p class="eyebrow">DOVE ENTRA TROVATEMI</p>
-              <h2>Il problema non è sapere cosa fare. È farlo con continuità.</h2>
-            </div>
-            <div>
-              <p>
-                Trovatemi mette a sistema richiesta recensioni, routine di risposta e riuso della prova
-                dove il canale è operativo. Senza review gating e senza promettere posizioni su Google.
-              </p>
-              <a class="primary-action primary-action--light" href="/#offerta">Vedi l’offerta</a>
-            </div>
-          </section>
-
-          <footer class="report-close">
-            <p>Ti facciamo trovare dove conta.</p>
-            <button class="text-action" type="button" data-restart>Rifai l’analisi</button>
-          </footer>
-        </section>`;
-    };
-
-    const render = () => {
-      if (!stageElement || !app) return;
-      const business = state.business;
-      let markup = renderIntro();
-
-      if (state.stage === 'search') markup = renderSearch();
-      if (state.stage === 'confirm' && business) markup = renderConfirm(business);
-      if (state.stage === 'quiz') markup = renderQuiz();
-      if (state.stage === 'flash' && business) markup = renderFlash(business);
-      if (state.stage === 'capture' && business) markup = renderCapture(business);
-      if (state.stage === 'report' && business) markup = renderReport(business);
-
-      stageElement.setAttribute('aria-live', state.stage === 'report' ? 'off' : 'polite');
-      stageElement.innerHTML = markup;
-      app.dataset.currentStage = state.stage;
-      stageLabel!.textContent = meta[state.stage].label;
-      stageCount!.textContent = meta[state.stage].count;
-      progressElement!.style.width = `${progress()}%`;
-      if (backButton) backButton.hidden = state.stage === 'intro' || state.stage === 'report';
-      bindStage();
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      requestAnimationFrame(() => stageElement.focus({ preventScroll: true }));
-    };
-
-    const loadContext = async () => {
-      if (!state.business || state.business.source !== 'google_maps' || state.query.trim().length < 3) {
-        state.contextStatus = 'idle';
-        state.contextResults = [];
+      if (!items.length) {
+        const p = document.createElement('p');
+        p.className = 'empty-state';
+        p.textContent = 'Nessun risultato. Prova con nome attività + città.';
+        root.append(p);
         return;
       }
 
-      state.contextStatus = 'loading';
-      render();
+      items.forEach((item) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'result-row';
 
-      try {
-        const response = await fetch(`/api/places/context?q=${encodeURIComponent(state.query.trim())}`, {
-          headers: { accept: 'application/json' },
-        });
+        const copy = document.createElement('span');
+        copy.className = 'result-copy';
 
-        if (!response.ok) throw new Error('context_failed');
-        const payload = await response.json() as ContextPayload;
-        state.contextResults = Array.isArray(payload.places) ? payload.places : [];
-        state.contextStatus = 'ready';
-      } catch {
-        state.contextResults = [];
-        state.contextStatus = 'error';
-      }
+        const name = document.createElement('strong');
+        name.textContent = item.name;
+        const detail = document.createElement('small');
+        detail.textContent = item.category + ' · ' + item.address;
+        copy.append(name, detail);
 
-      render();
+        const source = document.createElement('span');
+        source.className = 'result-source';
+        source.textContent = item.source === 'google_maps' ? 'Google Maps' : 'Demo';
+
+        button.append(copy, source);
+        button.addEventListener('click', () => void selectBusiness(item));
+        root.append(button);
+      });
     };
 
     const searchBusinesses = async () => {
-      const query = state.query.trim();
+      const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+      const message = document.querySelector<HTMLElement>('[data-search-message]');
+      query = input?.value.trim() ?? '';
 
-      if (query.length < 3) {
-        state.searchStatus = 'error';
-        state.searchMessage = 'Inserisci almeno 3 caratteri.';
-        return render();
-      }
+      if (query.length < 3) return;
 
-      state.searchStatus = 'loading';
-      state.searchMessage = '';
-      state.searchResults = [];
-      render();
+      if (message) message.textContent = 'Ricerca in corso…';
 
       try {
-        const response = await fetch(`/api/places/search?q=${encodeURIComponent(query)}`, {
+        const response = await fetch('/api/places/search?q=' + encodeURIComponent(query), {
           headers: { accept: 'application/json' },
         });
 
         if (response.status === 503) {
-          state.searchResults = demoCandidates(query);
-          state.searchStatus = 'demo';
-          return render();
+          renderSearchResults(demoCandidates(query));
+          if (message) message.textContent = 'Ambiente demo: Google Places non è configurato.';
+          return;
         }
 
         if (!response.ok) throw new Error('search_failed');
-        const payload = await response.json() as SearchPayload;
-        state.searchResults = Array.isArray(payload.places) ? payload.places : [];
-        state.searchStatus = 'ready';
-        render();
+        const payload = await response.json() as { places?: SearchCandidate[] };
+        renderSearchResults(Array.isArray(payload.places) ? payload.places : []);
+        if (message) message.textContent = 'Seleziona la tua attività.';
       } catch {
-        state.searchStatus = 'error';
-        state.searchMessage = 'La ricerca non è disponibile in questo momento. Riprova.';
-        render();
+        if (message) message.textContent = 'La ricerca non è disponibile in questo momento. Riprova.';
       }
     };
 
-    const selectBusiness = async (id: string, source: Source) => {
-      state.contextStatus = 'idle';
-      state.contextResults = [];
+    const loadContext = async () => {
+      context = [];
+      if (!business || business.source !== 'google_maps' || query.length < 3) return;
 
-      if (source === 'demo') {
-        const demo = demoBusinesses.find((business) => business.id === id);
-        if (demo) {
-          state.business = demoAsBusiness(demo);
-          setStage('confirm');
-        }
+      try {
+        const response = await fetch('/api/places/context?q=' + encodeURIComponent(query), {
+          headers: { accept: 'application/json' },
+        });
+        if (!response.ok) return;
+        const payload = await response.json() as { places?: ContextPlace[] };
+        context = Array.isArray(payload.places) ? payload.places : [];
+      } catch {
+        context = [];
+      }
+    };
+
+    const selectBusiness = async (candidate: SearchCandidate) => {
+      if (candidate.source === 'demo') {
+        business = demoAsBusiness(candidate.id);
+        context = [];
+        renderComparison();
+        setStep('compare');
         return;
       }
 
-      state.searchStatus = 'loading';
-      state.searchMessage = 'Carico i dati pubblici…';
-      render();
-
       try {
-        const response = await fetch(`/api/places/details?id=${encodeURIComponent(id)}`, {
+        const response = await fetch('/api/places/details?id=' + encodeURIComponent(candidate.id), {
           headers: { accept: 'application/json' },
         });
-
         if (!response.ok) throw new Error('details_failed');
-        const payload = await response.json() as DetailsPayload;
-        if (!payload.business) throw new Error('invalid_details');
-
-        state.business = payload.business;
-        state.stage = 'confirm';
-        render();
-        void loadContext();
+        const payload = await response.json() as { business?: Business };
+        if (!payload.business) throw new Error('missing_business');
+        business = payload.business;
+        await loadContext();
+        renderComparison();
+        setStep('compare');
       } catch {
-        state.searchStatus = 'error';
-        state.searchMessage = 'Ho trovato l’attività, ma non riesco a leggere i dettagli. Riprova.';
-        state.stage = 'search';
-        render();
+        const message = document.querySelector<HTMLElement>('[data-search-message]');
+        if (message) message.textContent = 'Ho trovato l’attività, ma non riesco a leggere i dettagli. Riprova.';
       }
     };
 
-    const bindStage = () => {
-      if (!stageElement) return;
-
-      stageElement.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((button) => {
-        button.addEventListener('click', () => setStage(button.dataset.next as Stage));
-      });
-
-      const searchForm = stageElement.querySelector<HTMLFormElement>('[data-search-form]');
-      const searchInput = stageElement.querySelector<HTMLInputElement>('[data-search-input]');
-      if (searchInput) searchInput.value = state.query;
-
-      searchInput?.addEventListener('input', () => {
-        state.query = searchInput.value;
-      });
-
-      searchForm?.addEventListener('submit', (event) => {
-        event.preventDefault();
-        if (!searchForm.reportValidity()) return;
-        state.query = searchInput?.value ?? state.query;
-        void searchBusinesses();
-      });
-
-      stageElement.querySelectorAll<HTMLButtonElement>('[data-business-id]').forEach((button) => {
-        button.addEventListener('click', () => {
-          void selectBusiness(button.dataset.businessId ?? '', (button.dataset.source ?? 'demo') as Source);
-        });
-      });
-
-      stageElement.querySelectorAll<HTMLButtonElement>('[data-answer]').forEach((button) => {
-        button.addEventListener('click', () => {
-          const question = auditQuestions[state.step];
-          state.answers[question.id] = button.dataset.answer ?? '';
-
-          if (state.step < auditQuestions.length - 1) {
-            state.step += 1;
-            render();
-          } else {
-            setStage('flash');
-          }
-        });
-      });
-
-      stageElement.querySelector<HTMLButtonElement>('[data-restart]')?.addEventListener('click', () => {
-        state.stage = 'intro';
-        state.query = '';
-        state.searchStatus = 'idle';
-        state.searchMessage = '';
-        state.searchResults = [];
-        state.business = null;
-        state.contextStatus = 'idle';
-        state.contextResults = [];
-        state.step = 0;
-        state.answers = {};
-        render();
-      });
+    const chooseOther = () => {
+      if (!business) return null;
+      const others = context.filter((item) => item.id !== business?.placeId && item.name !== business?.name);
+      if (!others.length) return null;
+      const stronger = others
+        .filter((item) => Number.isInteger(item.reviews) && Number.isInteger(business?.reviews) && Number(item.reviews) > Number(business?.reviews))
+        .sort((a, b) => Number(b.reviews ?? 0) - Number(a.reviews ?? 0));
+      return stronger[0] ?? others[0];
     };
 
-    backButton?.addEventListener('click', () => {
-      if (state.stage === 'search') return setStage('intro');
-      if (state.stage === 'confirm') return setStage('search');
+    const metric = (value: number | null, decimals = 0) => {
+      if (value === null || Number.isNaN(value)) return '—';
+      return decimals ? value.toFixed(decimals) : String(value);
+    };
 
-      if (state.stage === 'quiz') {
-        if (state.step > 0) {
-          state.step -= 1;
-          return render();
-        }
-        return setStage('confirm');
+    const renderComparison = () => {
+      if (!business) return;
+      setText('[data-you-name]', business.name);
+      setText('[data-you-category]', business.category);
+      setText('[data-you-address]', business.address);
+      setText('[data-you-rating]', metric(business.rating, 1));
+      setText('[data-you-reviews]', metric(business.reviews));
+
+      const other = chooseOther();
+      const card = document.querySelector<HTMLElement>('[data-other-card]');
+      const note = document.querySelector<HTMLElement>('[data-comparison-note]');
+
+      if (!other) {
+        if (card) card.hidden = true;
+        if (note) note.textContent = 'Google non ci ha restituito un secondo risultato abbastanza chiaro da mostrare. Non inventiamo il confronto.';
+        return;
       }
 
-      if (state.stage === 'flash') {
-        state.step = auditQuestions.length - 1;
-        return setStage('quiz');
-      }
+      if (card) card.hidden = false;
+      setText('[data-other-name]', other.name);
+      setText('[data-other-category]', other.category);
+      setText('[data-other-address]', other.address);
+      setText('[data-other-rating]', metric(other.rating, 1));
+      setText('[data-other-reviews]', metric(other.reviews));
+      if (note) note.textContent = 'Questo è uno degli altri risultati emersi dalla stessa ricerca. Non è una classifica e non dice chi lavora meglio.';
+    };
 
-      if (state.stage === 'capture') return setStage('flash');
+    const renderMath = () => {
+      if (!math) return;
+      setText('[data-monthly-clients]', String(math.estimatedMonthlyClients));
+      setText('[data-recent-reviews]', String(math.recentReviews));
+      setText('[data-math-disclaimer]', math.disclaimer);
+      const board = document.querySelector<HTMLElement>('[data-loss-board]');
+      if (board) board.hidden = false;
+    };
+
+    const renderDiagnosis = () => {
+      if (!business || !math) return;
+      const diagnosis = buildPassaparolaDiagnosis(business, answers);
+      setText('[data-diagnosis-label]', diagnosis.shortLabel);
+      setText('[data-diagnosis-headline]', diagnosis.headline);
+      setText('[data-diagnosis-why]', diagnosis.why);
+      setText('[data-diagnosis-reviews]', metric(diagnosis.evidence.reviews));
+      setText('[data-diagnosis-rating]', diagnosis.evidence.rating === null ? 'Valutazione non disponibile' : metric(diagnosis.evidence.rating, 1) + ' ★ su Google');
+      setText('[data-diagnosis-monthly]', String(math.estimatedMonthlyClients));
+
+      const list = document.querySelector<HTMLOListElement>('[data-actions]');
+      if (list) {
+        list.replaceChildren();
+        diagnosis.actions.forEach((action, index) => {
+          const li = document.createElement('li');
+          const n = document.createElement('span');
+          n.textContent = '0' + String(index + 1);
+          const p = document.createElement('p');
+          p.textContent = action;
+          li.append(n, p);
+          list.append(li);
+        });
+      }
+    };
+
+    const updateDiagnoseButton = () => {
+      const button = document.querySelector<HTMLButtonElement>('[data-diagnose]');
+      if (!button) return;
+      button.disabled = !diagnosticQuestions.every((question) => Boolean(answers[question.id]));
+    };
+
+    document.querySelector<HTMLFormElement>('[data-search-form]')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      void searchBusinesses();
     });
 
-    render();
+    document.querySelector<HTMLFormElement>('[data-numbers-form]')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget as HTMLFormElement;
+      const data = new FormData(form);
+      math = buildPassaparolaMath({
+        weeklyClients: data.get('weeklyClients'),
+        recentReviews: data.get('recentReviews'),
+      });
+      renderMath();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const step = button.dataset.next as Step;
+        setStep(step);
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-question][data-answer]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const question = button.dataset.question ?? '';
+        const value = button.dataset.answer ?? '';
+        answers[question] = value;
+
+        document.querySelectorAll<HTMLButtonElement>('[data-question="' + question + '"]').forEach((option) => {
+          option.classList.toggle('is-selected', option === button);
+        });
+        updateDiagnoseButton();
+      });
+    });
+
+    document.querySelector<HTMLButtonElement>('[data-diagnose]')?.addEventListener('click', () => {
+      renderDiagnosis();
+      setStep('diagnosis');
+    });
+
+    document.querySelector<HTMLButtonElement>('[data-restart]')?.addEventListener('click', () => {
+      window.location.reload();
+    });
+
+    back?.addEventListener('click', () => {
+      const previous: Partial<Record<Step, Step>> = {
+        compare: 'search',
+        numbers: 'compare',
+        questions: 'numbers',
+        diagnosis: 'questions',
+      };
+      const target = previous[currentStep];
+      if (target) setStep(target);
+    });
+
+    setStep('search');
   </script>
 </BeautyLeanLayout>
