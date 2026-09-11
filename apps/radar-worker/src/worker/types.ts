@@ -104,6 +104,7 @@ export type PublicCheck = {
     medianRating: number | null;
   };
   signals: {
+    phonePresent: boolean;
     websitePresent: boolean;
     socialLinked: boolean;
     directActionPresent: boolean;
