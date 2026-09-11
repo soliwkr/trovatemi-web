@@ -147,6 +147,8 @@ jobs:
           grep -Fiq '/a/' "$RUNNER_TEMP/cta.headers"
 
           curl --fail --silent --show-error -X POST \
+            -H 'content-type: application/json' \
+            -d '{"ownerName":"Mario Test","email":"mario.test@example.com"}' \
             "$PREVIEW_URL/api/checks/$CHECK_TOKEN/activation-intent" > "$RUNNER_TEMP/activation.json"
           cat "$RUNNER_TEMP/activation.json"
           node -e 'const x=require(process.env.RUNNER_TEMP+"/activation.json"); if(!x.ok || (x.checkoutReady===false && x.status!=="intent_recorded")) process.exit(1)'
