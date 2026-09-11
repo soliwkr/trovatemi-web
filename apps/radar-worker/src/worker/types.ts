@@ -3,6 +3,8 @@ export type Bindings = {
   RADAR_STORE: DurableObjectNamespace;
   APP_ENV?: string;
   RUN_LIMIT?: string;
+  ACTIVATION_CHECKOUT_URL?: string;
+  ACTIVATION_PRICE_EUR?: string;
 };
 
 export type PlaceRecord = {
@@ -66,6 +68,18 @@ export type RadarRun = {
   prospects: ProspectResult[];
 };
 
+export type PublicCheckJourneyStep = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  proof: string | null;
+  tone: "good" | "watch" | "neutral";
+};
+
+export type PublicCheckAction = {
+  title: string;
+  body: string;
+};
 
 export type PublicCheck = {
   token: string;
@@ -81,13 +95,44 @@ export type PublicCheck = {
     positionSignal: number;
     googleMapsUri: string | null;
   };
+  benchmark: {
+    observedBusinesses: number;
+    medianReviews: number | null;
+    medianRating: number | null;
+  };
+  signals: {
+    websitePresent: boolean;
+    socialLinked: boolean;
+    directActionPresent: boolean;
+  };
   query: string;
   headline: string;
-  threeThingsToShow: Array<{ label: string; reason: string }>;
+  journey: PublicCheckJourneyStep[];
+  actions: PublicCheckAction[];
+  verdict: {
+    eyebrow: string;
+    title: string;
+    body: string;
+  };
   evidence: string[];
   claimRule: string;
+  offer: {
+    label: string;
+    priceEur: number;
+    note: string;
+  };
   cta: {
     label: string;
     href: string;
   };
+};
+
+export type CheckStats = {
+  views: number;
+  ctaClicks: number;
+  activationIntents: number;
+  firstOpenedAt: string | null;
+  lastOpenedAt: string | null;
+  lastCtaAt: string | null;
+  lastActivationAt: string | null;
 };
