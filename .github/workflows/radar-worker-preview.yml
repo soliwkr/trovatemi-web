@@ -135,8 +135,16 @@ jobs:
           NODE
 
           curl --fail --silent --show-error \
+            --dump-header "$RUNNER_TEMP/check-page.headers" \
             "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
-          grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"
+          grep -Fiq 'x-trovatemi-render: server' "$RUNNER_TEMP/check-page.headers"
+          grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'SEI MEGLIO DI COME APPARI.' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'Sistemamelo' "$RUNNER_TEMP/check-page.html"
+          if grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"; then
+            echo "Public check unexpectedly fell back to React shell"
+            exit 1
+          fi
 
           curl --fail --silent --show-error \
             "$PREVIEW_URL/a/$CHECK_TOKEN" > "$RUNNER_TEMP/activation-page.html"
@@ -146,19 +154,24 @@ jobs:
           const { chromium } = require('playwright');
           (async () => {
             const browser = await chromium.launch({ headless: true });
-            const page = await browser.newPage();
+
+            const noJsContext = await browser.newContext({ javaScriptEnabled: false });
+            const checkPage = await noJsContext.newPage();
+            await checkPage.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await checkPage.getByText('SEI MEGLIO DI COME APPARI.').waitFor({ timeout: 15000 });
+            await checkPage.getByText('Sistemamelo').waitFor({ timeout: 15000 });
+            await noJsContext.close();
+
+            const appContext = await browser.newContext();
+            const activationPage = await appContext.newPage();
             const errors = [];
-            page.on('pageerror', (error) => errors.push(String(error)));
+            activationPage.on('pageerror', (error) => errors.push(String(error)));
+            await activationPage.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await activationPage.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
+            await activationPage.getByText('€197').first().waitFor({ timeout: 15000 });
+            if (errors.length) throw new Error('Activation page errors: ' + errors.join(' | '));
+            await appContext.close();
 
-            await page.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
-            await page.getByText('SEI MEGLIO DI COME APPARI.').waitFor({ timeout: 15000 });
-            await page.getByText('Sistemamelo').waitFor({ timeout: 15000 });
-
-            await page.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
-            await page.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
-            await page.getByText('€197').first().waitFor({ timeout: 15000 });
-
-            if (errors.length) throw new Error('Browser page errors: ' + errors.join(' | '));
             await browser.close();
           })().catch((error) => {
             console.error(error);
