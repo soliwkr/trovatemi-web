@@ -25,17 +25,83 @@ app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.
 
 app.get("/c/:token", async (c) => {
   const token = c.req.param("token");
-  if (!/^[a-f0-9]{32}$/.test(token)) return c.html("<!doctype html><html lang=\"it\"><body>Check non valido.</body></html>", 400);
-
-  const check = await loadPublicCheck(c.env, token);
-  if (!check) {
-    return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"robots\" content=\"noindex,nofollow\"></head><body><h1>Questo check non è disponibile.</h1><p>Il link potrebbe essere scaduto.</p></body></html>", 404);
+  if (!/^[a-f0-9]{32}$/.test(token)) {
+    return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"robots\" content=\"noindex,nofollow\"></head><body style=\"font-family:Arial,sans-serif;padding:32px\"><h1>Check non valido.</h1></body></html>", 400);
   }
 
-  await recordCheckEvent(c.env, token, "view");
-  return c.html(renderPublicCheck(check), 200, {
-    "x-trovatemi-render": "server",
-  });
+  let check;
+  try {
+    check = await loadPublicCheck(c.env, token);
+  } catch (error) {
+    console.error(JSON.stringify({
+      event: "public_check.load.failed",
+      token,
+      message: error instanceof Error ? error.message : "unknown",
+    }));
+    return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"robots\" content=\"noindex,nofollow\"></head><body style=\"font-family:Arial,sans-serif;padding:32px\"><h1>Il check è temporaneamente indisponibile.</h1><p>Riprova tra poco.</p></body></html>", 503);
+  }
+
+  if (!check) {
+    return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"robots\" content=\"noindex,nofollow\"></head><body style=\"font-family:Arial,sans-serif;padding:32px\"><h1>Questo check non è disponibile.</h1><p>Il link potrebbe essere scaduto.</p></body></html>", 404);
+  }
+
+  try {
+    const html = renderPublicCheck(check);
+
+    try {
+      c.executionCtx.waitUntil(
+        recordCheckEvent(c.env, token, "view").catch((error) => {
+          console.warn(JSON.stringify({
+            event: "public_check.view_tracking.failed",
+            token,
+            message: error instanceof Error ? error.message : "unknown",
+          }));
+        }),
+      );
+    } catch (error) {
+      console.warn(JSON.stringify({
+        event: "public_check.view_tracking.schedule_failed",
+        token,
+        message: error instanceof Error ? error.message : "unknown",
+      }));
+    }
+
+    return c.html(html, 200, {
+      "x-trovatemi-render": "server",
+      "x-trovatemi-tracking": "best-effort",
+    });
+  } catch (error) {
+    console.error(JSON.stringify({
+      event: "public_check.render.failed",
+      token,
+      message: error instanceof Error ? error.message : "unknown",
+    }));
+
+    const safeName = String(check.business?.name ?? "questa attività")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+
+    return c.html(`<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Trovatemi · Check</title>
+</head>
+<body style="margin:0;background:#fffdf8;color:#111214;font-family:Arial,sans-serif;padding:32px">
+  <main style="max-width:760px;margin:0 auto">
+    <p style="font-weight:900">TROVATEMI.IT ★</p>
+    <h1 style="font-size:clamp(42px,10vw,88px);line-height:.9;margin:24px 0">TI HO CERCATO.</h1>
+    <p style="font-size:20px;line-height:1.5">Ho preparato un check per <strong>${safeName}</strong>.</p>
+    <p style="line-height:1.6">La versione completa ha avuto un problema di rendering, ma il link è valido. Riprova tra poco.</p>
+  </main>
+</body>
+</html>`, 200, {
+      "x-trovatemi-render": "fallback",
+    });
+  }
 });
 
 app.post("/api/runs", async (c) => {
