@@ -92,42 +92,64 @@ jobs:
         env:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
+          set -euo pipefail
+
           test -n "$PREVIEW_BASE_URL" || { echo "Missing preview deployment URL"; exit 1; }
           BASE_URL="${PREVIEW_BASE_URL%/}"
           PREVIEW_URL="$BASE_URL/beauty-check/"
-          curl --fail --location --silent --show-error \
-            --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
-            "$PREVIEW_URL" > "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
-          grep -Fq "Beauty Check" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
-          grep -Fq "data-funnel-app" "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"
 
-          curl --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
-            "$BASE_URL/beauty-direct-response.js" > "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Ti cercano." "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "beauty-proof-story" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Le tre mosse del passaparola visibile" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Una cliente vede anche questi." "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "Es. Nails Formia" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "PIÙ PROVA VISIBILE" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "OPPURE LO METTI A SISTEMA" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "PUBBLICAZIONE SOLO DOVE IL CANALE È OPERATIVO E TESTATO" "$RUNNER_TEMP/beauty-direct-response.js"
-          grep -Fq "DA CONFIGURARE SUL FLUSSO" "$RUNNER_TEMP/beauty-direct-response.js"
+          fetch_text_with_markers() {
+            url="$1"
+            file="$2"
+            label="$3"
+            shift 3
+
+            attempt=1
+            while [ "$attempt" -le 12 ]; do
+              if curl --fail --location --silent --show-error --max-time 20 "$url" > "$file"; then
+                missing=""
+                for marker in "$@"; do
+                  if ! grep -Fq "$marker" "$file"; then
+                    missing="$marker"
+                    break
+                  fi
+                done
+
+                if [ -z "$missing" ]; then
+                  echo "$label verified on attempt $attempt."
+                  return 0
+                fi
+
+                echo "$label attempt $attempt returned stale/incomplete content; missing marker: $missing" >&2
+              else
+                echo "$label attempt $attempt could not be fetched." >&2
+              fi
+
+              attempt=$((attempt + 1))
+              sleep 3
+            done
+
+            echo "$label did not converge after 12 attempts: $url" >&2
+            return 1
+          }
+
+          fetch_text_with_markers             "$PREVIEW_URL"             "$RUNNER_TEMP/trovatemi-beauty-check-v2.html"             "Beauty Check HTML"             "Beauty Check"             "data-funnel-app"
+
+          fetch_text_with_markers             "$BASE_URL/beauty-direct-response.js"             "$RUNNER_TEMP/beauty-direct-response.js"             "Direct-response JS"             "Ti cercano."             "beauty-proof-story"             "Le tre mosse del passaparola visibile"             "Una cliente vede anche questi."             "Es. Nails Formia"             "PIÙ PROVA VISIBILE"             "OPPURE LO METTI A SISTEMA"             "PUBBLICAZIONE SOLO DOVE IL CANALE È OPERATIVO E TESTATO"             "DA CONFIGURARE SUL FLUSSO"
+
           if grep -Fq "BASELINE ATTIVA" "$RUNNER_TEMP/beauty-direct-response.js"; then
             echo "Unverified active-reminder claim found in preview JS" >&2
             exit 1
           fi
 
-          curl --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 2 --max-time 20 \
-            "$BASE_URL/beauty-direct-response.css" > "$RUNNER_TEMP/beauty-direct-response.css"
-          grep -Fq ".proof-scene--collect" "$RUNNER_TEMP/beauty-direct-response.css"
-          grep -Fq ".proof-scene--reply" "$RUNNER_TEMP/beauty-direct-response.css"
-          grep -Fq ".proof-scene--reuse" "$RUNNER_TEMP/beauty-direct-response.css"
-          curl --fail --location --silent --show-error --max-time 20 \
-            "$BASE_URL/images/proof-beauty-nfc-v1.webp" > /dev/null
-          curl --fail --location --silent --show-error --max-time 20 \
-            "$BASE_URL/images/proof-beauty-social-v1.webp" > /dev/null
+          fetch_text_with_markers             "$BASE_URL/beauty-direct-response.css"             "$RUNNER_TEMP/beauty-direct-response.css"             "Direct-response CSS"             ".proof-scene--collect"             ".proof-scene--reply"             ".proof-scene--reuse"
+
+          curl --fail --location --silent --show-error             --retry 12 --retry-all-errors --retry-delay 3 --max-time 20             "$BASE_URL/images/proof-beauty-nfc-v1.webp" > /dev/null
+          echo "NFC proof image verified."
+
+          curl --fail --location --silent --show-error             --retry 12 --retry-all-errors --retry-delay 3 --max-time 20             "$BASE_URL/images/proof-beauty-social-v1.webp" > /dev/null
+          echo "Social proof image verified."
+
           echo "Beauty Check direct-response preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live Places search, details and same-query context
