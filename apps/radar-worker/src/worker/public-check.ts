@@ -21,29 +21,29 @@ export function renderPublicCheck(check: PublicCheck): string {
     timeZone: "Europe/Rome",
   }).format(new Date(check.expiresAt));
 
-  const journey = check.journey.map((step, index) => \`
-    <section class="screen journey\${toneClass(step.tone)}">
+  const journey = check.journey.map((step, index) => `
+    <section class="screen journey${toneClass(step.tone)}">
       <div class="inner">
-        <p class="eyebrow">\${esc(step.eyebrow)}</p>
-        <span class="ghost">0\${index + 1}</span>
-        <h2>\${esc(step.title)}</h2>
-        \${step.proof ? \`<div class="proof">\${esc(step.proof)}</div>\` : ""}
-        <p class="copy">\${esc(step.body)}</p>
+        <p class="eyebrow">${esc(step.eyebrow)}</p>
+        <span class="ghost">0${index + 1}</span>
+        <h2>${esc(step.title)}</h2>
+        ${step.proof ? `<div class="proof">${esc(step.proof)}</div>` : ""}
+        <p class="copy">${esc(step.body)}</p>
       </div>
     </section>
-  \`).join("");
+  `).join("");
 
-  const actions = check.actions.map((action, index) => \`
+  const actions = check.actions.map((action, index) => `
     <article class="fix">
-      <span>0\${index + 1}</span>
+      <span>0${index + 1}</span>
       <div>
-        <h3>\${esc(action.title)}</h3>
-        <p>\${esc(action.body)}</p>
+        <h3>${esc(action.title)}</h3>
+        <p>${esc(action.body)}</p>
       </div>
     </article>
-  \`).join("");
+  `).join("");
 
-  return \`<!doctype html>
+  return `<!doctype html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -51,7 +51,7 @@ export function renderPublicCheck(check: PublicCheck): string {
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="color-scheme" content="light only">
   <meta name="theme-color" content="#111214">
-  <title>\${esc(check.business.name)} · Trovatemi</title>
+  <title>${esc(check.business.name)} · Trovatemi</title>
   <style>
     :root{--ink:#111214;--paper:#fffdf8;--line:#e3e3e0;--muted:#666b70;--yellow:#ffd900;--blue:#1a73e8}
     *{box-sizing:border-box}html{background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%}
@@ -85,26 +85,26 @@ export function renderPublicCheck(check: PublicCheck): string {
     }
   </style>
 </head>
-<body data-trovatemi-check="\${esc(check.token)}">
+<body data-trovatemi-check="${esc(check.token)}">
   <header class="brand"><b>TROVATEMI.IT <i>★</i></b><span>CHECK PRIVATO</span></header>
   <main>
     <section class="screen hero">
       <div class="inner">
-        <p class="eyebrow">\${esc(check.headline.toUpperCase())}</p>
-        <h1>\${esc(check.business.name.toUpperCase())}</h1>
-        <p class="lead">Ho fatto una cosa semplice: ho cercato <strong>“\${esc(check.query)}”</strong> e ho seguito lo stesso percorso che potrebbe fare una persona prima di chiamarti.</p>
-        <div class="search"><span>⌕</span><b>\${esc(check.query)}</b></div>
+        <p class="eyebrow">${esc(check.headline.toUpperCase())}</p>
+        <h1>${esc(check.business.name.toUpperCase())}</h1>
+        <p class="lead">Ho fatto una cosa semplice: ho cercato <strong>“${esc(check.query)}”</strong> e ho seguito lo stesso percorso che potrebbe fare una persona prima di chiamarti.</p>
+        <div class="search"><span>⌕</span><b>${esc(check.query)}</b></div>
         <p class="cue">SCORRI · CI METTI MENO DI UN MINUTO ↓</p>
       </div>
     </section>
 
-    \${journey}
+    ${journey}
 
     <section class="screen verdict">
       <div class="inner">
-        <p class="eyebrow">\${esc(check.verdict.eyebrow)}</p>
-        <h2>\${esc(check.verdict.title)}</h2>
-        <p>\${esc(check.verdict.body)}</p>
+        <p class="eyebrow">${esc(check.verdict.eyebrow)}</p>
+        <h2>${esc(check.verdict.title)}</h2>
+        <p>${esc(check.verdict.body)}</p>
       </div>
     </section>
 
@@ -112,7 +112,7 @@ export function renderPublicCheck(check: PublicCheck): string {
       <div class="inner">
         <p class="eyebrow">LE 3 COSE CHE SISTEMEREI</p>
         <h2>NON RIFAREI TUTTO.<br>SISTEMEREI IL PERCORSO.</h2>
-        <div class="fixes-list">\${actions}</div>
+        <div class="fixes-list">${actions}</div>
       </div>
     </section>
 
@@ -121,15 +121,15 @@ export function renderPublicCheck(check: PublicCheck): string {
         <p class="eyebrow">TROVATEMI.IT ★</p>
         <h2>FATTI TROVARE.<br>FATTI SCEGLIERE.<br><em>FATTI CONTATTARE.</em></h2>
         <p class="final-copy">Se vuoi, questo non resta un check. Lo trasformiamo in un sistema acceso sulla tua attività.</p>
-        <a class="cta" href="\${esc(check.cta.href)}">\${esc(check.cta.label)} →</a>
-        <small class="note">\${esc(check.offer.label)} · €\${esc(check.offer.priceEur)} una tantum. \${esc(check.offer.note)}</small>
+        <a class="cta" href="${esc(check.cta.href)}">${esc(check.cta.label)} →</a>
+        <small class="note">${esc(check.offer.label)} · €${esc(check.offer.priceEur)} una tantum. ${esc(check.offer.note)}</small>
       </div>
     </section>
   </main>
   <footer>
-    <span>Check generato da segnali pubblici · valido fino al \${esc(expiry)}</span>
-    <span>\${esc(check.claimRule)}</span>
+    <span>Check generato da segnali pubblici · valido fino al ${esc(expiry)}</span>
+    <span>${esc(check.claimRule)}</span>
   </footer>
 </body>
-</html>\`;
+</html>`;
 }
