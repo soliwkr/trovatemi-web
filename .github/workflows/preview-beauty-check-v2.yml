@@ -1,4 +1,4 @@
-name: Preview Trovatemi public experience
+name: Preview Trovatemi inbound
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "src/pages/index.astro"
-      - "src/pages/beauty-check/**"
+      - "src/pages/trova/**"
       - "src/pages/api/places/**"
       - "src/data/beauty-check-v2.mjs"
       - "src/data/beauty-lean-demo.mjs"
@@ -133,10 +133,10 @@ jobs:
 
           fetch_text_with_markers             "$BASE_URL/"             "$RUNNER_TEMP/trovatemi-home.html"             "Trovatemi homepage"             "TI CERCANO"             "TI SCELGONO"             "IL PASSAPAROLA CHE HAI GIÀ"             "21 GIORNI"             "€149"
 
-          fetch_text_with_markers             "$BASE_URL/beauty-check/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi diagnostic"             "Trovatemi | Il passaparola che hai già. Messo al lavoro."             "data-proof-app"             "CERCA LA TUA ATTIVITÀ"             "TRE DOMANDE. FINE."
+          fetch_text_with_markers             "$BASE_URL/trova/"             "$RUNNER_TEMP/trovatemi-diagnostic.html"             "Trovatemi live"             "Trovatemi | Il passaparola che hai già. Messo al lavoro."             "data-proof-app"             "CERCA LA TUA ATTIVITÀ"             "TRE DOMANDE. FINE."
 
           echo "Trovatemi preview — $BASE_URL/" >> "$GITHUB_STEP_SUMMARY"
-          echo "Diagnostic — $BASE_URL/beauty-check/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Trova — $BASE_URL/trova/" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live Places search, details and same-query context
         env:
@@ -174,4 +174,4 @@ jobs:
           PREVIEW_BASE_URL: ${{ steps.publish.outputs.deployment-url }}
         run: |
           BASE_URL="${PREVIEW_BASE_URL%/}"
-          gh pr comment 33 --body "✅ Trovatemi proof demonstration deployed and verified: $BASE_URL/ · proof demo: $BASE_URL/beauty-check/"
+          gh pr comment 33 --body "✅ Trovatemi inboundnstration deployed and verified: $BASE_URL/ · inbound: $BASE_URL/trova/"
