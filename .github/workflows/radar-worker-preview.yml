@@ -96,21 +96,17 @@ jobs:
           curl --fail --silent --show-error             -H "$AUTH"             "https://api.cloudflare.com/client/v4/zones?name=trovatemi.it"             > "$RUNNER_TEMP/zone.json"
           ZONE_ID="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/zone.json"); if(!x.success || !x.result?.[0]?.id) process.exit(1); process.stdout.write(x.result[0].id)')"
 
-          for HOST in radar.trovatemi.it check.trovatemi.it; do
-            curl --fail --silent --show-error               -H "$AUTH"               "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$HOST"               > "$RUNNER_TEMP/dns-$HOST.json"
-            HOST="$HOST" node <<'NODE'
-            const fs = require('node:fs');
-            const file = process.env.RUNNER_TEMP + '/dns-' + process.env.HOST + '.json';
-            const body = JSON.parse(fs.readFileSync(file, 'utf8'));
-            if (!body.success) throw new Error('DNS API failed for ' + process.env.HOST);
-            console.log(process.env.HOST + ' DNS: ' + JSON.stringify(body.result.map((x) => ({
-              type: x.type,
-              name: x.name,
-              proxied: x.proxied,
-              content: x.content,
-            }))));
-            NODE
-          done
+          curl --fail --silent --show-error \
+            -H "$AUTH" \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=radar.trovatemi.it" \
+            > "$RUNNER_TEMP/dns-radar.json"
+          curl --fail --silent --show-error \
+            -H "$AUTH" \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=check.trovatemi.it" \
+            > "$RUNNER_TEMP/dns-check.json"
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-radar.json"); if(!x.success) process.exit(1); console.log("radar DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-check.json"); if(!x.success) process.exit(1); console.log("check DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
 
       - name: Smoke public preview
         if: github.head_ref == 'feat/radar-cloudflare-hono'
