@@ -126,14 +126,29 @@ jobs:
       - name: Smoke public preview
         if: github.head_ref == 'feat/radar-cloudflare-hono'
         env:
-          PREVIEW_URL: https://radar.trovatemi.it
+          PREVIEW_URL: https://trovatemi-radar-preview.soliwkr.workers.dev
+          RADAR_CANONICAL_URL: https://radar.trovatemi.it
           CHECK_BASE_URL: https://check.trovatemi.it
         run: |
-          echo "Waiting for custom-domain DNS/TLS propagation..."
-          sleep 30
-          curl --fail --silent --show-error --retry 24 --retry-all-errors --retry-delay 5 \
-            --connect-timeout 10 --max-time 30 \
-            "$PREVIEW_URL/health" > "$RUNNER_TEMP/health.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-radar.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-check.json"
+
+          RADAR_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-radar.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          CHECK_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-check.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          export RADAR_IP CHECK_IP
+          echo "Canonical IPs via DoH: radar=$RADAR_IP check=$CHECK_IP"
+
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            "$RADAR_CANONICAL_URL/health" > "$RUNNER_TEMP/radar-canonical-health.json"
+          grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/radar-canonical-health.json"
+
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --silent --show-error \
+            --output /dev/null --dump-header "$RUNNER_TEMP/check-root.headers" "$CHECK_BASE_URL/"
+          grep -Fiq 'location: https://trovatemi.it' "$RUNNER_TEMP/check-root.headers"
+
+          curl --fail --silent --show-error "$PREVIEW_URL/health" > "$RUNNER_TEMP/health.json"
           grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/health.json"
 
           curl --fail --silent --show-error --retry 4 --retry-all-errors --retry-delay 3 \
@@ -204,6 +219,13 @@ jobs:
             exit 1
           fi
 
+
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --fail --silent --show-error \
+            --dump-header "$RUNNER_TEMP/canonical-check.headers" \
+            "$SHARE_URL" > "$RUNNER_TEMP/canonical-check.html"
+          grep -Fiq 'x-trovatemi-render: server' "$RUNNER_TEMP/canonical-check.headers"
+          grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/canonical-check.html"
+
           curl --fail --silent --show-error \
             "$PREVIEW_URL/a/$CHECK_TOKEN" > "$RUNNER_TEMP/activation-page.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/activation-page.html"
@@ -225,7 +247,7 @@ jobs:
             const activationPage = await appContext.newPage();
             const errors = [];
             activationPage.on('pageerror', (error) => errors.push(String(error)));
-            await activationPage.goto(process.env.CHECK_BASE_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await activationPage.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
             await activationPage.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
             await activationPage.getByText('€197').first().waitFor({ timeout: 15000 });
             if (errors.length) throw new Error('Activation page errors: ' + errors.join(' | '));
