@@ -1,9 +1,5 @@
 ---
 export const prerender = true;
-
-const whatsappUrl = import.meta.env.PUBLIC_TROVATEMI_WHATSAPP_URL || '';
-const primaryHref = whatsappUrl || '#come-funziona';
-const primaryLabel = whatsappUrl ? 'Scrivici su WhatsApp →' : 'Guarda come funziona ↓';
 ---
 
 <!doctype html>
@@ -13,220 +9,339 @@ const primaryLabel = whatsappUrl ? 'Scrivici su WhatsApp →' : 'Guarda come fun
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trovatemi ti cerca come ti cercherebbe un cliente, ti mostra dove perdi forza prima della scelta e mette in funzione il percorso per farti trovare, scegliere e contattare."
+      content="Cercati come ti cerca un cliente. Trovatemi ti mostra cosa incontra prima di sceglierti."
     />
-    <meta name="theme-color" content="#111214" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="it_IT" />
-    <meta property="og:site_name" content="Trovatemi.it" />
-    <meta property="og:title" content="Trovatemi.it — Ti troveresti?" />
-    <meta
-      property="og:description"
-      content="Ti cerchiamo come farebbe un cliente. Ti mostriamo cosa vede. Poi sistemiamo il percorso."
-    />
-    <meta property="og:url" content="https://trovatemi.it/" />
+    <meta name="theme-color" content="#fffdf8" />
     <link rel="canonical" href="https://trovatemi.it/" />
     <title>Trovatemi.it ★ — Ti troveresti?</title>
   </head>
+
   <body>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Trovatemi.it home">TROVATEMI.IT <b>★</b></a>
-      <a class="top-cta" href={primaryHref}>{primaryLabel}</a>
+      <a class="brand" href="/">TROVATEMI.IT <b>★</b></a>
+      <span>TI CERCO COME TI CERCA LUI.</span>
     </header>
 
     <main>
       <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">FATTI TROVARE · FATTI SCEGLIERE · FATTI CONTATTARE</p>
-          <h1>TI<br />TROVERESTI?</h1>
-          <p class="lede">
-            Ti cerchiamo come ti cercherebbe un cliente. Ti facciamo vedere cosa incontra prima di chiamarti.
-            Poi sistemiamo il percorso.
-          </p>
+        <p class="eyebrow">VEDIAMO SE TI TROVANO</p>
+        <h1>TI<br />TROVERESTI?</h1>
+        <p class="lede">Cercati come ti cerca un cliente.</p>
 
-          <div class="actions">
-            <a class="primary" href={primaryHref}>{primaryLabel}</a>
-            <span>Il check è sul tuo caso reale. Non su un template.</span>
-          </div>
-        </div>
+        <form id="search-form" class="search-box">
+          <label>
+            <span>COSA FAI?</span>
+            <input id="category" name="category" autocomplete="organization-title" placeholder="es. officina" required />
+          </label>
+          <label>
+            <span>DOVE?</span>
+            <input id="city" name="city" autocomplete="address-level2" placeholder="es. Formia" required />
+          </label>
+          <button id="search-button" type="submit">VEDIAMO →</button>
+        </form>
 
-        <div class="search-demo" aria-label="Esempio illustrativo di ricerca locale">
-          <div class="search-demo-head">
-            <span>⌕</span>
-            <b>officina Formia</b>
-          </div>
-          <small>ESEMPIO ILLUSTRATIVO</small>
-          <article>
-            <div class="pin">•</div>
-            <div><i></i><i class="short"></i></div>
-          </article>
-          <article class="you">
-            <div class="pin">★</div>
-            <div>
-              <strong>LA TUA ATTIVITÀ</strong>
-              <p>4,6 ★ · 26 recensioni</p>
-            </div>
-            <em>TI VEDO</em>
-          </article>
-          <article>
-            <div class="pin">•</div>
-            <div><i></i><i class="short"></i></div>
-          </article>
-          <div class="demo-foot">Non è una copia di Google. È la grammatica del problema: cercare, confrontare, scegliere.</div>
+        <div class="examples">
+          <span>PROVA:</span>
+          <button type="button" data-example-category="officina" data-example-city="Formia">officina Formia</button>
+          <button type="button" data-example-category="serramenti" data-example-city="Formia">serramenti Formia</button>
+          <button type="button" data-example-category="gommista" data-example-city="Gaeta">gommista Gaeta</button>
         </div>
       </section>
 
-      <section class="decision" id="come-funziona">
-        <p class="eyebrow dark">NON È SEO. È UNA DECISIONE.</p>
-        <div class="decision-grid">
-          <div>
-            <h2>Prima di chiamarti, una persona decide se vali il suo tempo.</h2>
-          </div>
-          <div class="three">
-            <article><span>01</span><strong>TI TROVA?</strong><p>Compari nel momento in cui cerca?</p></article>
-            <article><span>02</span><strong>TI SCEGLIE?</strong><p>Le prove che vede bastano per fidarsi?</p></article>
-            <article><span>03</span><strong>TI CONTATTA?</strong><p>Il prossimo passo è immediato o deve cercarlo?</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="check-section" id="check">
-        <div class="check-copy">
-          <p class="eyebrow">IL CHECK TROVATEMI</p>
-          <h2>TI HO CERCATO.<br /><em>GUARDA COSA HO VISTO.</em></h2>
-          <p>
-            Il check parte dai segnali pubblici della tua attività: ricerca osservata, recensioni, confronto locale,
-            sito e percorso di contatto. Nessun punteggio inventato da mostrare al cliente.
-          </p>
-          <div class="rules">
-            <span>✓ caso reale</span>
-            <span>✓ confronto osservato</span>
-            <span>✓ zero gergo</span>
-          </div>
-        </div>
-
-        <div class="phone" aria-label="Mockup illustrativo del check Trovatemi">
-          <div class="screen">
-            <small>CHECK PRIVATO</small>
-            <div class="search-pill">⌕ <b>officina Formia</b></div>
-            <p>LA TUA ATTIVITÀ</p>
-            <strong>4,6 ★</strong>
-            <span>26 recensioni</span>
-            <hr />
-            <p>MEDIANA OSSERVATA</p>
-            <strong>~82</strong>
-            <span>recensioni</span>
-            <div class="verdict">SEI MEGLIO DI<br /><b>COME APPARI.</b></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="brand-break">
-        <p>SEI GIÀ BRAVO.</p>
-        <h2>ADESSO<br /><em>FALLO VEDERE.</em></h2>
-      </section>
-
-      <section class="delivery">
-        <div class="delivery-copy">
-          <p class="eyebrow dark">COSA ACCENDIAMO</p>
-          <h2>Non rifacciamo tutto.<br />Sistemiamo il percorso.</h2>
-          <div class="modules">
-            <article><span>01</span><strong>PROVE</strong><p>Più clienti soddisfatti diventano recensioni e prova visibile.</p></article>
-            <article><span>02</span><strong>PRESENZA</strong><p>Chi arriva capisce subito chi sei, cosa fai e perché fidarsi.</p></article>
-            <article><span>03</span><strong>CONTATTO</strong><p>Chiamata, WhatsApp o preventivo: il prossimo passo deve essere evidente.</p></article>
-          </div>
-        </div>
-
-        <div class="kit" aria-label="Mockup illustrativo del kit recensioni">
-          <div class="desk-card">
-            <small>ESEMPIO ILLUSTRATIVO</small>
-            <h3>TI SEI TROVATO <b>BENE?</b></h3>
-            <div class="qr" aria-hidden="true"></div>
-            <strong>LASCIA UNA RECENSIONE ★</strong>
-          </div>
-          <div class="nfc">
-            <span>⌁</span>
-            <b>AVVICINA IL TELEFONO</b>
-            <small>QR / NFC · mockup</small>
-          </div>
-        </div>
-      </section>
-
-      <section class="offer" id="attivazione">
+      <section id="loading" class="loading" hidden>
+        <div class="spinner"></div>
         <div>
-          <p class="eyebrow">TROVATEMI START</p>
-          <h2>ACCENDI<br /><em>TROVATEMI.</em></h2>
-          <p class="offer-copy">
-            Colleghiamo la tua attività, prepariamo il sistema iniziale e ti accompagniamo nei passaggi che richiedono il tuo consenso.
-          </p>
-        </div>
-
-        <div class="price">
-          <small>ATTIVAZIONE UNA TANTUM</small>
-          <strong>€197</strong>
-          <p>Eventuali servizi ricorrenti sono separati. Nessun abbonamento nascosto dentro l’attivazione.</p>
-          <a class="offer-cta" href={primaryHref}>{whatsappUrl ? 'Parliamone su WhatsApp →' : 'Vedi il percorso ↑'}</a>
+          <strong>TI STO CERCANDO.</strong>
+          <span>Come farebbe un cliente.</span>
         </div>
       </section>
 
-      <section class="closing">
-        <p>Trovatemi non promette “primo su Google”.</p>
-        <h2>Ti fa vedere cosa vede un cliente.<br />E rende più facile sceglierti.</h2>
+      <section id="results-section" class="results-section" hidden>
+        <div class="section-head">
+          <p class="eyebrow">HO CERCATO</p>
+          <h2 id="query-title"></h2>
+          <p>Queste sono alcune attività incontrate nella ricerca osservata.</p>
+        </div>
+
+        <div id="results-list" class="results-list"></div>
+
+        <p class="claim-rule">
+          L'ordine mostrato è quello restituito nella ricerca osservata e non rappresenta un ranking Google assoluto.
+        </p>
+      </section>
+
+      <section id="selected-section" class="selected-section" hidden>
+        <div class="selected-grid">
+          <div>
+            <p class="eyebrow dark">PRIMA DI CHIAMARTI, GUARDO QUESTO.</p>
+            <h2 id="selected-name"></h2>
+            <p id="selected-address" class="address"></p>
+
+            <div class="metrics">
+              <article>
+                <span>COME NE PARLANO</span>
+                <strong id="selected-rating">—</strong>
+              </article>
+              <article>
+                <span>QUANTE PROVE</span>
+                <strong id="selected-reviews">—</strong>
+              </article>
+              <article>
+                <span>QUI, IN MEDIA</span>
+                <strong id="median-reviews">—</strong>
+              </article>
+            </div>
+          </div>
+
+          <div class="signals-card">
+            <p class="signal-title">POI PROVO A MUOVERMI.</p>
+            <div class="signal-row"><span>Telefono</span><b id="signal-phone">—</b></div>
+            <div class="signal-row"><span>Sito</span><b id="signal-site">—</b></div>
+            <div class="signal-row"><span>Contatto diretto</span><b id="signal-direct">—</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="verdict-section" class="verdict-section" hidden>
+        <p class="eyebrow light">QUELLO CHE VEDO</p>
+        <h2 id="verdict-title">SEI MEGLIO<br />DI COME APPARI.</h2>
+        <p id="verdict-copy"></p>
+        <button id="check-button" type="button">FAMMI IL CHECK →</button>
+        <p class="micro">Il Check usa solo segnali pubblici osservati. Nessun punteggio interno viene mostrato.</p>
+      </section>
+
+      <section class="explainer">
+        <p class="eyebrow dark">NON È SEO. È UNA DECISIONE.</p>
+        <div class="explainer-grid">
+          <article><span>01</span><h3>TI TROVA?</h3><p>Compari quando cerca?</p></article>
+          <article><span>02</span><h3>TI SCEGLIE?</h3><p>Le prove che vede bastano?</p></article>
+          <article><span>03</span><h3>TI CONTATTA?</h3><p>Il prossimo passo è ovvio?</p></article>
+        </div>
       </section>
     </main>
 
     <footer>
       <a class="brand inverse" href="/">TROVATEMI.IT <b>★</b></a>
-      <p>Ti cerco come ti cerca lui.</p>
-      <div>
-        <a href="https://check.trovatemi.it/">CHECK</a>
-        <span>·</span>
-        <span>© 2026</span>
-      </div>
+      <span>FATTI TROVARE · FATTI SCEGLIERE · FATTI CONTATTARE</span>
     </footer>
+
+    <script is:inline>
+      (() => {
+        const form = document.getElementById('search-form');
+        const categoryInput = document.getElementById('category');
+        const cityInput = document.getElementById('city');
+        const searchButton = document.getElementById('search-button');
+        const loading = document.getElementById('loading');
+        const resultsSection = document.getElementById('results-section');
+        const selectedSection = document.getElementById('selected-section');
+        const verdictSection = document.getElementById('verdict-section');
+        const resultsList = document.getElementById('results-list');
+        const queryTitle = document.getElementById('query-title');
+        const checkButton = document.getElementById('check-button');
+
+        let currentRun = null;
+        let selected = null;
+
+        const escapeHtml = (value) => String(value ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
+
+        function setLoading(state) {
+          loading.hidden = !state;
+          searchButton.disabled = state;
+          searchButton.textContent = state ? 'CERCO…' : 'VEDIAMO →';
+        }
+
+        function yesNo(value) {
+          return value ? '✓' : '—';
+        }
+
+        function formatRating(value) {
+          if (typeof value !== 'number') return '—';
+          return value.toLocaleString('it-IT', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' ★';
+        }
+
+        function formatNumber(value) {
+          if (typeof value !== 'number') return '—';
+          return value.toLocaleString('it-IT');
+        }
+
+        function renderResults(data) {
+          currentRun = data;
+          selected = null;
+          selectedSection.hidden = true;
+          verdictSection.hidden = true;
+
+          queryTitle.textContent = '“' + data.query + '”';
+
+          resultsList.innerHTML = data.results.map((item, index) => {
+            const rating = formatRating(item.rating);
+            const reviews = typeof item.reviews === 'number' ? item.reviews.toLocaleString('it-IT') + ' recensioni' : 'recensioni non disponibili';
+            return '<article class="result-card">' +
+              '<div class="position">#' + (index + 1) + '</div>' +
+              '<div class="result-main">' +
+                '<strong>' + escapeHtml(item.name) + '</strong>' +
+                '<span>' + escapeHtml(item.address) + '</span>' +
+                '<div class="result-meta"><b>' + escapeHtml(rating) + '</b><i>·</i><b>' + escapeHtml(reviews) + '</b></div>' +
+              '</div>' +
+              '<button type="button" data-select="' + escapeHtml(item.id) + '">QUESTA SONO IO →</button>' +
+            '</article>';
+          }).join('');
+
+          resultsSection.hidden = false;
+          resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function selectBusiness(id) {
+          if (!currentRun) return;
+          selected = currentRun.results.find((item) => item.id === id);
+          if (!selected) return;
+
+          document.getElementById('selected-name').textContent = selected.name;
+          document.getElementById('selected-address').textContent = selected.address;
+          document.getElementById('selected-rating').textContent = formatRating(selected.rating);
+          document.getElementById('selected-reviews').textContent = formatNumber(selected.reviews);
+          document.getElementById('median-reviews').textContent = currentRun.medianReviews == null ? '—' : '~' + formatNumber(Math.round(currentRun.medianReviews));
+          document.getElementById('signal-phone').textContent = yesNo(selected.phonePresent);
+          document.getElementById('signal-site').textContent = yesNo(selected.websitePresent);
+          document.getElementById('signal-direct').textContent = yesNo(selected.directActionPresent);
+
+          const strongRating = typeof selected.rating === 'number' && selected.rating >= 4.4;
+          const reviewGap = typeof selected.reviews === 'number' && typeof currentRun.medianReviews === 'number' && selected.reviews < currentRun.medianReviews;
+
+          const title = document.getElementById('verdict-title');
+          const copy = document.getElementById('verdict-copy');
+
+          if (strongRating && reviewGap) {
+            title.innerHTML = 'SEI MEGLIO<br><em>DI COME APPARI.</em>';
+            copy.textContent = 'Chi ti ha già scelto sembra apprezzarti. Ma, prima della chiamata, altri possono sembrare più scelti.';
+          } else if (strongRating) {
+            title.innerHTML = 'SEI GIÀ CREDIBILE.<br><em>FALLO PESARE.</em>';
+            copy.textContent = 'Le prove ci sono. Il punto è renderle più facili da vedere nel momento della scelta.';
+          } else {
+            title.innerHTML = 'TI HO TROVATO.<br><em>ORA GUARDIAMO MEGLIO.</em>';
+            copy.textContent = 'Ho abbastanza segnali per mostrarti cosa incontra una persona prima di contattarti.';
+          }
+
+          selectedSection.hidden = false;
+          verdictSection.hidden = false;
+          selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function search(category, city) {
+          setLoading(true);
+          resultsSection.hidden = true;
+          selectedSection.hidden = true;
+          verdictSection.hidden = true;
+
+          try {
+            const response = await fetch('/api/public-search', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ category, city }),
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'search_failed');
+            if (!data.results?.length) throw new Error('no_results');
+            renderResults(data);
+          } catch (error) {
+            resultsList.innerHTML = '<div class="empty"><strong>NON HO TROVATO ABBASTANZA.</strong><span>Prova con una categoria più semplice o una città vicina.</span></div>';
+            queryTitle.textContent = 'Nessun risultato utile';
+            resultsSection.hidden = false;
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+          } finally {
+            setLoading(false);
+          }
+        }
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const category = categoryInput.value.trim();
+          const city = cityInput.value.trim();
+          if (category.length < 2 || city.length < 2) return;
+          search(category, city);
+        });
+
+        document.querySelectorAll('[data-example-category]').forEach((button) => {
+          button.addEventListener('click', () => {
+            categoryInput.value = button.dataset.exampleCategory || '';
+            cityInput.value = button.dataset.exampleCity || '';
+            search(categoryInput.value, cityInput.value);
+          });
+        });
+
+        resultsList.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-select]');
+          if (!button) return;
+          selectBusiness(button.dataset.select);
+        });
+
+        checkButton.addEventListener('click', async () => {
+          if (!currentRun || !selected) return;
+          checkButton.disabled = true;
+          checkButton.textContent = 'PREPARO IL CHECK…';
+
+          try {
+            const response = await fetch('/api/public-check', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                runId: currentRun.runId,
+                prospectId: selected.id,
+              }),
+            });
+            const data = await response.json();
+            if (!response.ok || !data.shareUrl) throw new Error(data.error || 'check_failed');
+            window.location.href = data.shareUrl;
+          } catch {
+            checkButton.disabled = false;
+            checkButton.textContent = 'RIPROVA →';
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
 
 <style>
-  :root{--ink:#111214;--paper:#fffdf8;--white:#fff;--yellow:#f5bd16;--muted:#686d72;--line:#dedede;--blue:#1a73e8}
+  :root{--ink:#111214;--paper:#fffdf8;--white:#fff;--yellow:#f5bd16;--muted:#676b70;--line:#dedede}
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;background:var(--ink);width:100%;max-width:100%;overflow-x:hidden}
-  body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--paper)}
-  main{width:100%;max-width:100%;overflow:hidden}
-  a{color:inherit}
-  .hero>*,.decision-grid>*,.check-section>*,.delivery>*,.offer>*{min-width:0}
-  .topbar{position:sticky;top:0;z-index:50;min-height:68px;padding:0 clamp(18px,4vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #dedbd2;background:rgba(255,253,248,.96);backdrop-filter:blur(10px)}
-  .brand{font-size:19px;font-weight:950;letter-spacing:-.035em;text-decoration:none}.brand b{color:#d99f00}.inverse{color:white}
-  .top-cta{font-size:.78rem;font-weight:900;text-decoration:none;border-bottom:2px solid var(--ink)}
-  .eyebrow{margin:0 0 18px;font-size:.65rem;font-weight:950;letter-spacing:.13em;text-transform:uppercase;color:#8a6900}.eyebrow.dark{color:var(--ink)}
-  h1,h2,h3,p{margin-top:0} h1,h2{letter-spacing:-.06em;line-height:.9}
-  .hero{min-height:calc(100svh - 68px);padding:clamp(52px,8vw,110px) clamp(18px,6vw,96px);display:grid;grid-template-columns:1fr .92fr;gap:clamp(36px,7vw,100px);align-items:center}
-  .hero h1{margin:0;max-width:100%;font-size:clamp(5rem,12vw,11rem);line-height:.78;overflow-wrap:anywhere}
-  .lede{max-width:700px;margin:30px 0 0;font-size:clamp(1.15rem,2.4vw,1.65rem);line-height:1.35;color:#3f403e}
-  .actions{display:flex;align-items:center;flex-wrap:wrap;gap:16px 20px;margin-top:32px}.actions span{max-width:320px;color:var(--muted);font-size:.76rem}
-  .primary{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;background:var(--ink);color:white;text-decoration:none;font-weight:950}
-  .search-demo{width:100%;max-width:100%;min-width:0;border:1px solid var(--line);border-radius:20px;background:white;box-shadow:0 22px 65px rgba(60,64,67,.13);overflow:hidden}
-  .search-demo-head{margin:18px;padding:15px 18px;border:1px solid #dfe1e5;border-radius:999px;display:flex;gap:12px;align-items:center;box-shadow:0 1px 5px rgba(32,33,36,.12)}.search-demo-head span{font-size:1.4rem;color:#5f6368}
-  .search-demo>small{display:block;padding:0 18px 10px;color:#8b9095;font-size:.58rem;font-weight:900;letter-spacing:.09em}
-  .search-demo article{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:16px 18px;border-top:1px solid #edf0f2}.search-demo article.you{background:#fff9df;border-left:6px solid var(--yellow)}
-  .pin{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;background:#eef1f4;color:#697078;font-weight:950}.you .pin{background:var(--yellow);color:var(--ink)}
-  .search-demo i{display:block;width:75%;height:9px;margin:5px 0;border-radius:999px;background:#e9ecef}.search-demo i.short{width:48%}.search-demo strong{display:block}.search-demo p{margin:5px 0 0;color:#70757a;font-size:.8rem}.search-demo em{font-size:.62rem;font-style:normal;font-weight:950;color:#806100}.demo-foot{padding:13px 18px;background:#fafafa;border-top:1px solid var(--line);font-size:.66rem;color:#73777c;line-height:1.4}
-  .decision{padding:clamp(70px,9vw,130px) clamp(18px,6vw,96px);background:var(--yellow)}.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,110px);align-items:start}.decision h2{font-size:clamp(3.5rem,7vw,7rem);margin:0;max-width:11ch}.three{display:grid;gap:8px}.three article{display:grid;grid-template-columns:54px 150px 1fr;gap:12px;padding:18px 0;border-bottom:2px solid var(--ink)}.three span{font-weight:950}.three strong{font-size:.9rem}.three p{margin:0;line-height:1.4}
-  .check-section{padding:clamp(72px,10vw,140px) clamp(18px,6vw,96px);display:grid;grid-template-columns:1fr .8fr;gap:clamp(42px,8vw,120px);align-items:center}.check-section h2,.delivery h2,.offer h2{margin:0;font-size:clamp(3.6rem,7vw,7.2rem)}.check-section h2 em,.offer h2 em{font-style:normal;background:linear-gradient(transparent 58%,var(--yellow) 58%)}.check-copy>p:not(.eyebrow){max-width:660px;margin-top:28px;font-size:1.08rem;line-height:1.6;color:#555650}.rules{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.rules span{padding:7px 10px;background:white;border:1px solid var(--line);font-size:.68rem;font-weight:900}
-  .phone{width:min(340px,90vw);margin:auto;padding:12px;border-radius:35px;background:#090909;box-shadow:0 30px 75px rgba(0,0,0,.25)}.screen{min-height:590px;padding:22px 16px;border-radius:25px;background:white;color:#202124;overflow:hidden}.screen>small{font-size:.58rem;font-weight:900;color:#8b9095;letter-spacing:.1em}.search-pill{margin:18px 0 30px;padding:12px 14px;border:1px solid #dfe1e5;border-radius:999px;box-shadow:0 1px 5px rgba(32,33,36,.1)}.screen p{margin:18px 0 5px;color:#777;font-size:.62rem;font-weight:950;letter-spacing:.08em}.screen>strong{display:block;font-size:2.8rem;letter-spacing:-.06em}.screen>span{color:#666}.screen hr{border:0;border-top:1px solid #eee;margin:24px 0}.verdict{margin:34px -16px -22px;padding:26px 18px;background:var(--ink);color:white;font-size:1.7rem;font-weight:950;line-height:.95}.verdict b{color:var(--yellow)}
-  .brand-break{padding:clamp(72px,10vw,140px) clamp(18px,6vw,96px);background:var(--ink);color:white}.brand-break p{font-size:.7rem;font-weight:950;letter-spacing:.13em;color:#999}.brand-break h2{margin:0;font-size:clamp(4.8rem,11vw,10rem);line-height:.8;max-width:10ch}.brand-break em{font-style:normal;color:var(--yellow)}
-  .delivery{padding:clamp(72px,10vw,140px) clamp(18px,6vw,96px);display:grid;grid-template-columns:1fr .9fr;gap:clamp(40px,8vw,110px);align-items:center;background:#f0ede4}.modules{display:grid;gap:8px;margin-top:30px}.modules article{display:grid;grid-template-columns:52px 120px 1fr;gap:12px;padding:18px 0;border-bottom:1px solid #cfcac0}.modules span{font-weight:950;color:#9b7600}.modules strong{font-size:.82rem}.modules p{margin:0;color:#575751;line-height:1.45}
-  .kit{display:grid;grid-template-columns:1fr .62fr;gap:16px;align-items:end;padding:28px;background:linear-gradient(145deg,#252525,#101010);border-radius:22px}.desk-card{min-height:360px;padding:25px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#0b0b0b;border:1px solid #555;color:white;box-shadow:14px 18px 35px rgba(0,0,0,.3)}.desk-card small{font-size:.55rem;color:#aaa;letter-spacing:.08em}.desk-card h3{font-size:2rem;line-height:.95;margin:18px 0 0}.desk-card h3 b{color:var(--yellow)}.qr{width:125px;height:125px;margin:24px 0;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0/24px 24px;border:10px solid white}.desk-card strong{font-size:.72rem}.nfc{aspect-ratio:1;border-radius:50%;padding:18px;display:grid;place-items:center;align-content:center;text-align:center;background:#0b0b0b;border:1px solid #555;color:white}.nfc span{font-size:2.6rem;color:var(--yellow)}.nfc b{font-size:.72rem}.nfc small{margin-top:6px;color:#999;font-size:.56rem}
-  .offer{padding:clamp(72px,10vw,140px) clamp(18px,6vw,96px);display:grid;grid-template-columns:1fr .75fr;gap:60px;align-items:end;background:var(--ink);color:white}.offer .eyebrow{color:var(--yellow)}.offer h2 em{color:var(--yellow);background:none}.offer-copy{max-width:650px;margin-top:28px;color:#bbb;line-height:1.55}.price{border-left:7px solid var(--yellow);padding-left:24px}.price small{font-size:.62rem;font-weight:950;letter-spacing:.11em;color:#999}.price strong{display:block;font-size:clamp(5rem,10vw,8rem);line-height:.9;letter-spacing:-.07em;color:white}.price p{max-width:460px;color:#bbb;line-height:1.5}.offer-cta{display:inline-flex;min-height:54px;margin-top:10px;padding:0 19px;align-items:center;background:var(--yellow);color:var(--ink);font-weight:950;text-decoration:none}
-  .closing{padding:clamp(70px,9vw,120px) clamp(18px,6vw,96px);background:white}.closing p{font-size:.7rem;font-weight:950;letter-spacing:.08em;color:#777}.closing h2{margin:0;max-width:15ch;font-size:clamp(3rem,6vw,6rem)}
-  footer{min-height:120px;padding:30px clamp(18px,6vw,96px);display:flex;align-items:center;justify-content:space-between;gap:24px;background:#080808;color:white;border-top:1px solid #222}footer p{margin:0;color:#999}footer div{display:flex;gap:8px;color:#777;font-size:.7rem}footer div a{color:#aaa}
-  @media(max-width:850px){
-    .topbar{min-height:62px}.hero,.decision-grid,.check-section,.delivery,.offer{grid-template-columns:1fr}.hero{min-height:auto;padding-top:64px}.hero h1{font-size:clamp(4.2rem,15vw,6.6rem)}
-    .three article,.modules article{grid-template-columns:42px 1fr}.three p,.modules p{grid-column:2}.phone{margin-top:10px}.kit{max-width:620px}.price{margin-top:8px}
+  html{scroll-behavior:smooth;background:var(--paper);overflow-x:hidden}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+  button,input{font:inherit}
+  button{cursor:pointer}
+  [hidden]{display:none!important}
+  .topbar{position:sticky;top:0;z-index:40;min-height:64px;padding:0 clamp(16px,5vw,72px);display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #e4e1d9;background:rgba(255,253,248,.96);backdrop-filter:blur(10px)}
+  .brand{font-size:18px;font-weight:950;letter-spacing:-.035em;text-decoration:none;color:var(--ink)}.brand b{color:#d49c00}.inverse{color:white}
+  .topbar>span{font-size:.62rem;font-weight:900;letter-spacing:.1em;color:#888}
+  .hero{min-height:calc(100svh - 64px);display:flex;flex-direction:column;justify-content:center;padding:clamp(56px,8vw,110px) clamp(16px,7vw,110px)}
+  .eyebrow{margin:0 0 18px;font-size:.66rem;font-weight:950;letter-spacing:.13em;color:#8b6900}.eyebrow.dark{color:var(--ink)}.eyebrow.light{color:var(--yellow)}
+  h1,h2,h3,p{margin-top:0}
+  h1,h2{letter-spacing:-.065em;line-height:.86}
+  .hero h1{margin:0;font-size:clamp(5.2rem,15vw,12rem);max-width:10ch}
+  .lede{margin:24px 0 30px;font-size:clamp(1.15rem,2.5vw,1.7rem);color:#474944}
+  .search-box{width:min(980px,100%);display:grid;grid-template-columns:1fr 1fr auto;border:2px solid var(--ink);background:white;box-shadow:10px 10px 0 var(--yellow)}
+  .search-box label{display:grid;gap:6px;padding:13px 16px;border-right:1px solid #d8d8d8}.search-box label span{font-size:.58rem;font-weight:950;letter-spacing:.1em;color:#777}.search-box input{min-width:0;border:0;outline:0;padding:5px 0;font-size:1.05rem;font-weight:800;color:var(--ink);background:transparent}
+  .search-box button{border:0;padding:0 24px;background:var(--ink);color:white;font-weight:950}
+  .examples{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:18px}.examples>span{font-size:.58rem;font-weight:900;color:#999}.examples button{border:1px solid #d8d8d8;background:white;padding:7px 10px;font-size:.7rem;font-weight:800;color:#555}
+  .loading{padding:34px clamp(16px,7vw,110px);display:flex;align-items:center;gap:16px;background:var(--ink);color:white}.spinner{width:28px;height:28px;border:4px solid #444;border-top-color:var(--yellow);border-radius:50%;animation:spin .8s linear infinite}.loading strong,.loading span{display:block}.loading span{margin-top:4px;color:#aaa;font-size:.75rem}@keyframes spin{to{transform:rotate(360deg)}}
+  .results-section{padding:clamp(66px,9vw,120px) clamp(16px,7vw,110px);background:white}.section-head{max-width:760px}.section-head h2{margin:0;font-size:clamp(3rem,7vw,6.5rem);overflow-wrap:anywhere}.section-head>p:last-child{color:var(--muted)}
+  .results-list{margin-top:36px;border-top:1px solid var(--line)}
+  .result-card{display:grid;grid-template-columns:54px 1fr auto;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}.position{font-weight:950;color:#9b9b9b}.result-main{min-width:0}.result-main>strong{display:block;font-size:1.08rem}.result-main>span{display:block;margin-top:5px;color:#777;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-meta{display:flex;gap:7px;margin-top:9px;font-size:.72rem}.result-meta i{font-style:normal;color:#bbb}.result-card button{border:1px solid var(--ink);background:white;padding:10px 12px;font-size:.65rem;font-weight:950}.result-card button:hover{background:var(--ink);color:white}.claim-rule{margin:16px 0 0;color:#929292;font-size:.62rem;line-height:1.45}.empty{padding:30px 0}.empty strong,.empty span{display:block}.empty span{margin-top:8px;color:#777}
+  .selected-section{padding:clamp(68px,9vw,120px) clamp(16px,7vw,110px);background:var(--yellow)}.selected-grid{display:grid;grid-template-columns:1fr .8fr;gap:clamp(38px,8vw,110px);align-items:start}.selected-section h2{margin:0;font-size:clamp(3rem,7vw,6.5rem);max-width:12ch}.address{margin-top:16px;color:#4f430f}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:32px}.metrics article{padding:16px;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.13)}.metrics span{display:block;font-size:.55rem;font-weight:950;letter-spacing:.08em;color:#776719}.metrics strong{display:block;margin-top:8px;font-size:1.7rem}
+  .signals-card{background:var(--ink);color:white;padding:24px}.signal-title{font-size:.65rem;font-weight:950;letter-spacing:.1em;color:var(--yellow)}.signal-row{min-height:54px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #333}.signal-row span{font-weight:800}.signal-row b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#222;color:var(--yellow)}
+  .verdict-section{padding:clamp(72px,10vw,135px) clamp(16px,7vw,110px);background:var(--ink);color:white}.verdict-section h2{margin:0;max-width:12ch;font-size:clamp(4rem,10vw,9rem)}.verdict-section h2 em{font-style:normal;color:var(--yellow)}.verdict-section>p:not(.eyebrow):not(.micro){max-width:650px;margin-top:24px;color:#bbb;font-size:1.08rem;line-height:1.55}.verdict-section button{margin-top:24px;min-height:56px;border:0;padding:0 22px;background:var(--yellow);color:var(--ink);font-weight:950}.micro{margin:12px 0 0;color:#777;font-size:.62rem}
+  .explainer{padding:clamp(68px,9vw,120px) clamp(16px,7vw,110px)}.explainer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.explainer article{padding:22px;border:1px solid var(--line);background:white}.explainer span{font-size:.62rem;font-weight:950;color:#a67a00}.explainer h3{margin:16px 0 8px;font-size:1.6rem}.explainer p{margin:0;color:#666}
+  footer{min-height:120px;padding:30px clamp(16px,7vw,110px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:#080808;color:white}footer>span{font-size:.58rem;letter-spacing:.1em;color:#777}
+  @media(max-width:760px){
+    .topbar>span{display:none}.hero{min-height:auto;padding-top:70px;padding-bottom:70px}.hero h1{font-size:clamp(5rem,22vw,7.4rem)}
+    .search-box{grid-template-columns:1fr;box-shadow:7px 7px 0 var(--yellow)}.search-box label{border-right:0;border-bottom:1px solid #ddd}.search-box button{min-height:54px}
+    .result-card{grid-template-columns:40px 1fr}.result-card button{grid-column:2;justify-self:start}.selected-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.explainer-grid{grid-template-columns:1fr}.verdict-section h2{font-size:clamp(3.8rem,17vw,6.4rem)}footer{align-items:flex-start;flex-direction:column}
   }
-  @media(max-width:560px){
-    .topbar{width:100%;max-width:100%;padding-inline:15px}.top-cta{font-size:.68rem;white-space:nowrap}.brand{font-size:16px;white-space:nowrap}.hero,.decision,.check-section,.brand-break,.delivery,.offer,.closing{width:100%;max-width:100%;padding-inline:16px}
-    .hero{display:block}.hero-copy,.search-demo{width:100%;max-width:100%;min-width:0}.search-demo{margin-top:38px}.search-demo article{grid-template-columns:42px minmax(0,1fr)}.search-demo article em{grid-column:2}.decision h2,.check-section h2,.delivery h2,.offer h2{font-size:clamp(3.2rem,15vw,5rem)}
-    .kit{grid-template-columns:1fr;padding:18px}.nfc{width:150px;margin:auto}.desk-card{min-height:300px}footer{align-items:flex-start;flex-direction:column}
+  @media(max-width:420px){
+    .hero,.results-section,.selected-section,.verdict-section,.explainer{padding-inline:14px}.hero h1{font-size:clamp(4.8rem,21vw,6rem)}.metrics{grid-template-columns:1fr}.result-main>span{white-space:normal}
   }
 </style>
