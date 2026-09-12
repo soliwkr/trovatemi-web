@@ -17,7 +17,7 @@ app.use("*", async (c, next) => {
   c.header("x-frame-options", "DENY");
   c.header("referrer-policy", "no-referrer");
   c.header("cache-control", "no-store");
-  c.header("content-security-policy", "default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'");
+  c.header("content-security-policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'");
 });
 
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));

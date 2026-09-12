@@ -32,3 +32,13 @@ jobs:
 
       - name: Validate Cloudflare bundle
         run: npx wrangler deploy --dry-run
+
+      - name: Guard mobile homepage and Radar CSP regressions
+        run: |
+          grep -Fq 'overflow-x:hidden' src/pages/index.astro
+          if grep -Fq '24vw' src/pages/index.astro; then
+            echo 'Mobile hero regression: 24vw title can overflow the viewport'
+            exit 1
+          fi
+          grep -Fq "style-src 'self' 'unsafe-inline'" apps/radar-worker/src/worker/index.ts
+          grep -Fq "script-src 'self' 'unsafe-inline'" apps/radar-worker/src/worker/index.ts

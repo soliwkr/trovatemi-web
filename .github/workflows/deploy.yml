@@ -119,8 +119,11 @@ jobs:
           grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/radar-health.json"
 
           curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            --dump-header "$RUNNER_TEMP/radar-home.headers" \
             https://radar.trovatemi.it/ > "$RUNNER_TEMP/radar-home.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/radar-home.html"
+          grep -Fiq "script-src 'self' 'unsafe-inline'" "$RUNNER_TEMP/radar-home.headers"
+          grep -Fiq "style-src 'self' 'unsafe-inline'" "$RUNNER_TEMP/radar-home.headers"
 
           curl --resolve "check.trovatemi.it:443:$CHECK_IP" --silent --show-error \
             --output /dev/null --dump-header "$RUNNER_TEMP/check-root.headers" \
