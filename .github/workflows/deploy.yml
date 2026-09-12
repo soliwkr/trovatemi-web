@@ -106,14 +106,26 @@ jobs:
         id: verify_radar
         if: steps.deploy.outcome == 'success'
         run: |
-          curl --fail --silent --show-error             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20             https://radar.trovatemi.it/health > "$RUNNER_TEMP/radar-health.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-radar.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-check.json"
+
+          RADAR_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-radar.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          CHECK_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-check.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            https://radar.trovatemi.it/health > "$RUNNER_TEMP/radar-health.json"
           grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/radar-health.json"
 
-          curl --fail --silent --show-error             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20             https://radar.trovatemi.it/ > "$RUNNER_TEMP/radar-home.html"
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            https://radar.trovatemi.it/ > "$RUNNER_TEMP/radar-home.html"
           grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/radar-home.html"
 
-          CHECK_ROOT_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 https://check.trovatemi.it/)"
-          test "$CHECK_ROOT_STATUS" = "302" || test "$CHECK_ROOT_STATUS" = "301"
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --silent --show-error \
+            --output /dev/null --dump-header "$RUNNER_TEMP/check-root.headers" \
+            https://check.trovatemi.it/
+          grep -Fiq 'location: https://trovatemi.it' "$RUNNER_TEMP/check-root.headers"
 
       - name: Verify production homepage
         id: verify
