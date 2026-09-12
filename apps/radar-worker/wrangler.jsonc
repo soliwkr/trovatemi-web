@@ -3,12 +3,16 @@
   "name": "trovatemi-radar-preview",
   "main": "./src/worker/index.ts",
   "compatibility_date": "2026-09-11",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": true,
   "vars": {
     "APP_ENV": "preview",
     "RUN_LIMIT": "12",
-    "ACTIVATION_PRICE_EUR": "197"
+    "ACTIVATION_PRICE_EUR": "197",
+    "PUBLIC_CHECK_BASE_URL": "https://check.trovatemi.it",
+    "PUBLIC_HOME_URL": "https://trovatemi.it"
   },
   "durable_objects": {
     "bindings": [
@@ -21,7 +25,9 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["RadarStore"]
+      "new_sqlite_classes": [
+        "RadarStore"
+      ]
     }
   ],
   "observability": {
@@ -31,6 +37,21 @@
   "assets": {
     "directory": "./dist/client",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/c/*", "/go/*", "/health"]
-  }
+    "run_worker_first": [
+      "/api/*",
+      "/c/*",
+      "/go/*",
+      "/health"
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "radar.trovatemi.it",
+      "custom_domain": true
+    },
+    {
+      "pattern": "check.trovatemi.it",
+      "custom_domain": true
+    }
+  ]
 }
