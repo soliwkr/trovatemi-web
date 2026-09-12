@@ -140,7 +140,7 @@ app.post("/api/runs", async (c) => {
   const cached = await loadCache(c.env, cacheKey);
   if (cached) return c.json(cached);
 
-  const clientIp = c.req.header("cf-connecting-ip") ?? "unknown";
+  const clientIp = c.req.header("x-trovatemi-client-ip") ?? c.req.header("cf-connecting-ip") ?? "unknown";
   const hashedIp = (await sha256(clientIp)).slice(0, 20);
   if (!(await takeRateToken(c.env, hashedIp))) return c.json({ error: "rate_limited" }, 429);
 
@@ -221,6 +221,26 @@ app.post("/api/runs/:id/prospects/:prospectId/share", async (c) => {
       ctaClicks: 0,
       activationIntents: 0,
     },
+  });
+});
+
+
+app.post("/api/public/runs/:id/prospects/:prospectId/share", async (c) => {
+  const run = await loadRun(c.env, c.req.param("id"));
+  if (!run) return c.json({ error: "run_not_found" }, 404);
+
+  const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
+  if (!prospect) return c.json({ error: "prospect_not_found" }, 404);
+
+  const token = createShareToken();
+  const priceEur = Math.max(0, Number(c.env.ACTIVATION_PRICE_EUR) || 197);
+  const check = buildPublicCheck(run, prospect, token, priceEur);
+  await savePublicCheck(c.env, check);
+
+  const baseUrl = (c.env.PUBLIC_CHECK_BASE_URL ?? new URL(c.req.url).origin).replace(/\/$/, "");
+  return c.json({
+    shareUrl: `${baseUrl}/c/${token}`,
+    expiresAt: check.expiresAt,
   });
 });
 
