@@ -137,9 +137,32 @@ jobs:
           curl --fail --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "TI" "$RUNNER_TEMP/trovatemi-home.html"
           grep -Fq "TROVERESTI?" "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "€197" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq 'id="search-form"' "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "Cercati come ti cerca un cliente." "$RUNNER_TEMP/trovatemi-home.html"
+
+          curl --fail --silent --show-error \
+            -H 'content-type: application/json' \
+            -d '{"category":"officina","city":"Formia"}' \
+            https://trovatemi.it/api/public-search > "$RUNNER_TEMP/public-search.json"
+
+          node <<'NODE' > "$RUNNER_TEMP/public-target.env"
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/public-search.json', 'utf8'));
+          if (!data.runId || !Array.isArray(data.results) || !data.results.length) throw new Error('Public search incomplete');
+          const item = data.results[0];
+          if ('score' in item || 'band' in item) throw new Error('Internal scoring leaked into public search');
+          console.log('PUBLIC_RUN_ID=' + data.runId);
+          console.log('PUBLIC_PROSPECT_ID=' + item.id);
+          NODE
+          source "$RUNNER_TEMP/public-target.env"
+
+          curl --fail --silent --show-error \
+            -H 'content-type: application/json' \
+            -d "{\"runId\":\"$PUBLIC_RUN_ID\",\"prospectId\":\"$PUBLIC_PROSPECT_ID\"}" \
+            https://trovatemi.it/api/public-check > "$RUNNER_TEMP/public-check.json"
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/public-check.json"); if(!x.shareUrl?.startsWith("https://check.trovatemi.it/c/")) process.exit(1)'
 
       - name: Publish deployment status
         if: always()
