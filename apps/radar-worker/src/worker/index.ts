@@ -23,12 +23,12 @@ app.use("*", async (c, next) => {
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));
 
 
-app.get("/", (c, next) => {
+app.get("/", (c) => {
   const host = new URL(c.req.url).hostname;
   if (host === "check.trovatemi.it") {
     return c.redirect(c.env.PUBLIC_HOME_URL ?? "https://trovatemi.it", 302);
   }
-  return next();
+  return c.env.ASSETS.fetch(c.req.raw);
 });
 
 
