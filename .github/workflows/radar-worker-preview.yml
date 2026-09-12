@@ -1,0 +1,304 @@
+name: Radar Worker Preview
+
+on:
+  pull_request:
+    paths:
+      - "apps/radar-worker/**"
+      - ".github/workflows/radar-worker-preview.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: radar-worker-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-preview:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/radar-worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Cloudflare typegen + typecheck
+        run: npm run check
+
+      - name: Install browser smoke dependency
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install chromium
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build official Vite + Hono starter
+        run: npm run build
+
+      - name: Dry-run Worker
+        run: npx wrangler deploy --dry-run
+
+      - name: Verify deploy secrets
+        if: github.head_ref == 'feat/radar-cloudflare-hono'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test -n "$GOOGLE_PLACES_API_KEY" || { echo "Missing GOOGLE_PLACES_API_KEY"; exit 1; }
+
+      - name: Deploy isolated Radar Worker
+        if: github.head_ref == 'feat/radar-cloudflare-hono'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy
+
+      - name: Diagnose custom domains
+        if: github.head_ref == 'feat/radar-cloudflare-hono'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          AUTH="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+
+          curl --fail --silent --show-error             -H "$AUTH"             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains?zone_name=trovatemi.it"             > "$RUNNER_TEMP/worker-domains.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const body = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/worker-domains.json', 'utf8'));
+          if (!body.success) throw new Error('Workers domains API failed');
+          const wanted = new Set(['radar.trovatemi.it', 'check.trovatemi.it']);
+          const rows = body.result.filter((x) => wanted.has(x.hostname));
+          console.log(JSON.stringify(rows.map((x) => ({
+            hostname: x.hostname,
+            service: x.service,
+            zone_name: x.zone_name,
+            has_certificate: Boolean(x.cert_id),
+          }))));
+          for (const host of wanted) {
+            if (!rows.some((x) => x.hostname === host)) throw new Error('Missing Workers Custom Domain: ' + host);
+          }
+          NODE
+
+          curl --fail --silent --show-error             -H "$AUTH"             "https://api.cloudflare.com/client/v4/zones?name=trovatemi.it"             > "$RUNNER_TEMP/zone.json"
+          ZONE_ID="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/zone.json"); if(!x.success || !x.result?.[0]?.id) process.exit(1); process.stdout.write(x.result[0].id)')"
+
+          curl --fail --silent --show-error \
+            -H "$AUTH" \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=radar.trovatemi.it" \
+            > "$RUNNER_TEMP/dns-radar.json"
+          curl --fail --silent --show-error \
+            -H "$AUTH" \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=check.trovatemi.it" \
+            > "$RUNNER_TEMP/dns-check.json"
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-radar.json"); if(!x.success) process.exit(1); console.log("radar DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-check.json"); if(!x.success) process.exit(1); console.log("check DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
+
+          echo "Cloudflare DoH radar A:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' || true
+          echo
+          echo "Cloudflare DoH radar AAAA:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=AAAA' || true
+          echo
+          echo "Cloudflare DoH check A:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' || true
+          echo
+          echo "Cloudflare DoH check AAAA:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=AAAA' || true
+          echo
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/zone.json"); const z=x.result?.[0]; console.log("zone:", JSON.stringify({status:z?.status,paused:z?.paused,name_servers:z?.name_servers}))'
+
+      - name: Smoke public preview
+        if: github.head_ref == 'feat/radar-cloudflare-hono'
+        env:
+          PREVIEW_URL: https://trovatemi-radar-preview.soliwkr.workers.dev
+          RADAR_CANONICAL_URL: https://radar.trovatemi.it
+          CHECK_BASE_URL: https://check.trovatemi.it
+        run: |
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-radar.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-check.json"
+
+          RADAR_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-radar.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          CHECK_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-check.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          export RADAR_IP CHECK_IP
+          echo "Canonical IPs via DoH: radar=$RADAR_IP check=$CHECK_IP"
+
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            "$RADAR_CANONICAL_URL/health" > "$RUNNER_TEMP/radar-canonical-health.json"
+          grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/radar-canonical-health.json"
+
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --silent --show-error \
+            --output /dev/null --dump-header "$RUNNER_TEMP/check-root.headers" "$CHECK_BASE_URL/"
+          grep -Fiq 'location: https://trovatemi.it' "$RUNNER_TEMP/check-root.headers"
+
+          curl --fail --silent --show-error "$PREVIEW_URL/health" > "$RUNNER_TEMP/health.json"
+          grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/health.json"
+
+          curl --fail --silent --show-error --retry 4 --retry-all-errors --retry-delay 3 \
+            -H 'content-type: application/json' \
+            -d '{"category":"officina","city":"Formia","limit":6}' \
+            "$PREVIEW_URL/api/runs" > "$RUNNER_TEMP/run.json"
+          grep -Fq '"source":"google_places"' "$RUNNER_TEMP/run.json"
+          grep -Fq '"prospects":[' "$RUNNER_TEMP/run.json"
+
+          node <<'NODE' > "$RUNNER_TEMP/share-target.env"
+          const fs = require('node:fs');
+          const run = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/run.json', 'utf8'));
+          const prospect = run.prospects.find((item) => item.eligible);
+          if (!prospect) throw new Error('No eligible prospect returned by smoke scan');
+          console.log('RUN_ID=' + run.id);
+          console.log('PROSPECT_ID=' + prospect.id);
+          NODE
+          source "$RUNNER_TEMP/share-target.env"
+
+          curl --fail --silent --show-error \
+            -X POST \
+            "$PREVIEW_URL/api/runs/$RUN_ID/prospects/$PROSPECT_ID/share" \
+            > "$RUNNER_TEMP/share.json"
+
+          node <<'NODE' > "$RUNNER_TEMP/check-target.env"
+          const fs = require('node:fs');
+          const share = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/share.json', 'utf8'));
+          if (!share.shareUrl || !share.outreachMessage) throw new Error('Share pack incomplete');
+          if (!share.shareUrl.startsWith(process.env.CHECK_BASE_URL + '/c/')) {
+            throw new Error('Share URL is not on check.trovatemi.it: ' + share.shareUrl);
+          }
+          const token = share.shareUrl.split('/').filter(Boolean).at(-1);
+          if (!/^[a-f0-9]{32}$/.test(token)) throw new Error('Invalid share token');
+          console.log('CHECK_TOKEN=' + token);
+          console.log('SHARE_URL=' + share.shareUrl);
+          NODE
+          source "$RUNNER_TEMP/check-target.env"
+          export CHECK_TOKEN SHARE_URL
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN" > "$RUNNER_TEMP/check.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const check = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/check.json', 'utf8'));
+          const raw = JSON.stringify(check);
+          if ('score' in check || raw.includes('"score"')) throw new Error('Internal score leaked into public check');
+          if (raw.includes('@')) throw new Error('Email-like value leaked into public check');
+          if (!check.journey?.length) throw new Error('Public check has no customer journey');
+          if (!check.actions?.length) throw new Error('Public check has no actions');
+          const copy = JSON.stringify({journey: check.journey, actions: check.actions}).toLowerCase();
+          if (copy.includes('gap recensioni') || copy.includes('conversion friction') || copy.includes('opportunity score')) {
+            throw new Error('Internal jargon leaked into customer check');
+          }
+          NODE
+
+          curl --fail --silent --show-error \
+            --dump-header "$RUNNER_TEMP/check-page.headers" \
+            "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page.html"
+          grep -Fiq 'x-trovatemi-render: server' "$RUNNER_TEMP/check-page.headers"
+          grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'Risultati osservati' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'ESEMPIO ILLUSTRATIVO' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'TRE MODULI' "$RUNNER_TEMP/check-page.html"
+          grep -Fq 'Sistemamelo' "$RUNNER_TEMP/check-page.html"
+          if grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/check-page.html"; then
+            echo "Public check unexpectedly fell back to React shell"
+            exit 1
+          fi
+
+
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --fail --silent --show-error \
+            --dump-header "$RUNNER_TEMP/canonical-check.headers" \
+            "$SHARE_URL" > "$RUNNER_TEMP/canonical-check.html"
+          grep -Fiq 'x-trovatemi-render: server' "$RUNNER_TEMP/canonical-check.headers"
+          grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/canonical-check.html"
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/a/$CHECK_TOKEN" > "$RUNNER_TEMP/activation-page.html"
+          grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/activation-page.html"
+
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+
+            const noJsContext = await browser.newContext({ javaScriptEnabled: false });
+            const checkPage = await noJsContext.newPage();
+            await checkPage.goto(process.env.SHARE_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await checkPage.locator('.search-shell').waitFor({ timeout: 15000 });
+            await checkPage.locator('.mockup-label').first().waitFor({ timeout: 15000 });
+            await checkPage.getByText('Sistemamelo').waitFor({ timeout: 15000 });
+            await noJsContext.close();
+
+            const appContext = await browser.newContext();
+            const activationPage = await appContext.newPage();
+            const errors = [];
+            activationPage.on('pageerror', (error) => errors.push(String(error)));
+            await activationPage.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await activationPage.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
+            await activationPage.getByText('€197').first().waitFor({ timeout: 15000 });
+            if (errors.length) throw new Error('Activation page errors: ' + errors.join(' | '));
+            await appContext.close();
+
+            await browser.close();
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
+
+          curl --fail --silent --show-error -X POST \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/events/view" > "$RUNNER_TEMP/view-stats.json"
+          cat "$RUNNER_TEMP/view-stats.json"
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/view-stats.json"); if(x.views < 1) process.exit(1)'
+
+          curl --silent --show-error --output /dev/null --dump-header "$RUNNER_TEMP/cta.headers" \
+            "$PREVIEW_URL/go/$CHECK_TOKEN"
+          cat "$RUNNER_TEMP/cta.headers"
+          grep -Fiq '/a/' "$RUNNER_TEMP/cta.headers"
+
+          curl --fail --silent --show-error -X POST \
+            -H 'content-type: application/json' \
+            -d '{"ownerName":"Mario Test","email":"mario.test@example.com"}' \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/activation-intent" > "$RUNNER_TEMP/activation.json"
+          cat "$RUNNER_TEMP/activation.json"
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/activation.json"); if(!x.ok || (x.checkoutReady===false && x.status!=="intent_recorded")) process.exit(1)'
+
+          # Regression gate: activation must never overwrite/corrupt the public check.
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN" > "$RUNNER_TEMP/check-after-activation.json"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const check = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/check-after-activation.json', 'utf8'));
+          if (!Array.isArray(check.journey) || check.journey.length < 3) throw new Error('Public check corrupted after activation');
+          if (!Array.isArray(check.actions) || check.actions.length < 3) throw new Error('Public check actions missing after activation');
+          if (!check.cta?.href) throw new Error('Public check CTA missing after activation');
+          NODE
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/c/$CHECK_TOKEN" > "$RUNNER_TEMP/check-page-after-activation.html"
+          grep -Fq 'data-trovatemi-check=' "$RUNNER_TEMP/check-page-after-activation.html"
+          grep -Fq 'Risultati osservati' "$RUNNER_TEMP/check-page-after-activation.html"
+
+          curl --fail --silent --show-error \
+            "$PREVIEW_URL/api/checks/$CHECK_TOKEN/stats" > "$RUNNER_TEMP/final-stats.json"
+          cat "$RUNNER_TEMP/final-stats.json"
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/final-stats.json"); if(x.views < 1 || x.ctaClicks < 1 || x.activationIntents < 1) process.exit(1)'
+
+          echo "Radar — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Check — $CHECK_BASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Real automotive check — $SHARE_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Share flow — scan → narrative check → open → CTA → activation intent: OK" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,32 @@
+{
+  "name": "@trovatemi/radar-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run cf-typegen && tsc -b && vite build",
+    "check": "npm run cf-typegen && tsc -b",
+    "test": "node --test tests/*.test.ts",
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "hono": "4.11.1",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.52.1",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.1",
+    "typescript": "5.9.3",
+    "vite": "^7.0.0",
+    "wrangler": "4.127.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

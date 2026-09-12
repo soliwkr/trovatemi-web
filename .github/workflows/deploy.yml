@@ -54,9 +54,11 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
         run: |
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test -n "$GOOGLE_PLACES_API_KEY" || { echo "Missing GOOGLE_PLACES_API_KEY"; exit 1; }
 
       - name: Deploy Worker
         id: deploy
@@ -73,6 +75,58 @@ jobs:
           DEPLOYMENT_URL: https://trovatemi.it/
         run: echo "Production URL — $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Install Radar dependencies
+        if: steps.deploy.outcome == 'success'
+        working-directory: apps/radar-worker
+        run: npm install --no-audit --no-fund
+
+      - name: Validate Radar Worker
+        if: steps.deploy.outcome == 'success'
+        working-directory: apps/radar-worker
+        run: npm run check && npm test && npm run build
+
+      - name: Deploy Radar + Check custom domains
+        if: steps.deploy.outcome == 'success'
+        working-directory: apps/radar-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy
+
+      - name: Sync Radar Places secret
+        if: steps.deploy.outcome == 'success'
+        working-directory: apps/radar-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY
+
+      - name: Verify Radar and Check domains
+        id: verify_radar
+        if: steps.deploy.outcome == 'success'
+        run: |
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-radar.json"
+          curl --fail --silent --show-error -H 'accept: application/dns-json' \
+            'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' > "$RUNNER_TEMP/doh-check.json"
+
+          RADAR_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-radar.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+          CHECK_IP="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/doh-check.json"); const a=x.Answer?.find(v=>v.type===1)?.data; if(!a) process.exit(1); process.stdout.write(a)')"
+
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            https://radar.trovatemi.it/health > "$RUNNER_TEMP/radar-health.json"
+          grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/radar-health.json"
+
+          curl --resolve "radar.trovatemi.it:443:$RADAR_IP" --fail --silent --show-error \
+            https://radar.trovatemi.it/ > "$RUNNER_TEMP/radar-home.html"
+          grep -Fq '<div id="root"></div>' "$RUNNER_TEMP/radar-home.html"
+
+          curl --resolve "check.trovatemi.it:443:$CHECK_IP" --silent --show-error \
+            --output /dev/null --dump-header "$RUNNER_TEMP/check-root.headers" \
+            https://check.trovatemi.it/
+          grep -Fiq 'location: https://trovatemi.it' "$RUNNER_TEMP/check-root.headers"
+
       - name: Verify production homepage
         id: verify
         if: steps.deploy.outcome == 'success'
@@ -80,7 +134,9 @@ jobs:
           curl --fail --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "Hai già clienti felici." "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "TI" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "TROVERESTI?" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "€197" "$RUNNER_TEMP/trovatemi-home.html"
 
       - name: Publish deployment status
         if: always()
@@ -89,8 +145,9 @@ jobs:
           DEPLOYMENT_URL: https://trovatemi.it/
           DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
           VERIFY_OUTCOME: ${{ steps.verify.outcome }}
+          RADAR_VERIFY_OUTCOME: ${{ steps.verify_radar.outcome }}
         run: |
-          if [ "$DEPLOY_OUTCOME" = "success" ] && [ "$VERIFY_OUTCOME" = "success" ]; then
+          if [ "$DEPLOY_OUTCOME" = "success" ] && [ "$VERIFY_OUTCOME" = "success" ] && [ "$RADAR_VERIFY_OUTCOME" = "success" ]; then
             gh api --method POST \
               "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
               -f state=success \
