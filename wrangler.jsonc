@@ -3,7 +3,9 @@
   "name": "trovatemi-web",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-07-18",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "routes": [
     {
       "pattern": "trovatemi.it",
@@ -21,5 +23,11 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  }
+  },
+  "services": [
+    {
+      "binding": "RADAR",
+      "service": "trovatemi-radar-preview"
+    }
+  ]
 }
