@@ -88,7 +88,7 @@ async function proxyPublicCheck(request: Request, env: Env) {
   const prospectId = cleanPart(body.prospectId, 240);
   if (!runId || !prospectId) return Response.json({ error: 'invalid_input' }, { status: 400 });
 
-  const path = '/api/runs/' + encodeURIComponent(runId) + '/prospects/' + encodeURIComponent(prospectId) + '/share';
+  const path = '/api/public/runs/' + encodeURIComponent(runId) + '/prospects/' + encodeURIComponent(prospectId) + '/share';
   const upstream = await env.RADAR.fetch(new Request('https://radar.internal' + path, { method: 'POST' }));
 
   const payload = await upstream.json() as { shareUrl?: string; error?: string };
