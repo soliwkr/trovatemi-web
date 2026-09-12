@@ -66,13 +66,51 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy
 
-      - name: Sync Places secret
+      - name: Diagnose custom domains
         if: github.head_ref == 'feat/radar-cloudflare-hono'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
-        run: printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY
+        run: |
+          AUTH="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+
+          curl --fail --silent --show-error             -H "$AUTH"             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains?zone_name=trovatemi.it"             > "$RUNNER_TEMP/worker-domains.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const body = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/worker-domains.json', 'utf8'));
+          if (!body.success) throw new Error('Workers domains API failed');
+          const wanted = new Set(['radar.trovatemi.it', 'check.trovatemi.it']);
+          const rows = body.result.filter((x) => wanted.has(x.hostname));
+          console.log(JSON.stringify(rows.map((x) => ({
+            hostname: x.hostname,
+            service: x.service,
+            zone_name: x.zone_name,
+            has_certificate: Boolean(x.cert_id),
+          }))));
+          for (const host of wanted) {
+            if (!rows.some((x) => x.hostname === host)) throw new Error('Missing Workers Custom Domain: ' + host);
+          }
+          NODE
+
+          curl --fail --silent --show-error             -H "$AUTH"             "https://api.cloudflare.com/client/v4/zones?name=trovatemi.it"             > "$RUNNER_TEMP/zone.json"
+          ZONE_ID="$(node -e 'const x=require(process.env.RUNNER_TEMP+"/zone.json"); if(!x.success || !x.result?.[0]?.id) process.exit(1); process.stdout.write(x.result[0].id)')"
+
+          for HOST in radar.trovatemi.it check.trovatemi.it; do
+            curl --fail --silent --show-error               -H "$AUTH"               "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$HOST"               > "$RUNNER_TEMP/dns-$HOST.json"
+            HOST="$HOST" node <<'NODE'
+            const fs = require('node:fs');
+            const file = process.env.RUNNER_TEMP + '/dns-' + process.env.HOST + '.json';
+            const body = JSON.parse(fs.readFileSync(file, 'utf8'));
+            if (!body.success) throw new Error('DNS API failed for ' + process.env.HOST);
+            console.log(process.env.HOST + ' DNS: ' + JSON.stringify(body.result.map((x) => ({
+              type: x.type,
+              name: x.name,
+              proxied: x.proxied,
+              content: x.content,
+            }))));
+            NODE
+          done
 
       - name: Smoke public preview
         if: github.head_ref == 'feat/radar-cloudflare-hono'
