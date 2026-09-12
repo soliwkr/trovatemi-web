@@ -108,6 +108,21 @@ jobs:
           node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-radar.json"); if(!x.success) process.exit(1); console.log("radar DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
           node -e 'const x=require(process.env.RUNNER_TEMP+"/dns-check.json"); if(!x.success) process.exit(1); console.log("check DNS: "+JSON.stringify(x.result.map(r=>({type:r.type,name:r.name,proxied:r.proxied,content:r.content}))))'
 
+          echo "Cloudflare DoH radar A:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=A' || true
+          echo
+          echo "Cloudflare DoH radar AAAA:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=radar.trovatemi.it&type=AAAA' || true
+          echo
+          echo "Cloudflare DoH check A:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=A' || true
+          echo
+          echo "Cloudflare DoH check AAAA:"
+          curl --silent --show-error             -H 'accept: application/dns-json'             'https://cloudflare-dns.com/dns-query?name=check.trovatemi.it&type=AAAA' || true
+          echo
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/zone.json"); const z=x.result?.[0]; console.log("zone:", JSON.stringify({status:z?.status,paused:z?.paused,name_servers:z?.name_servers}))'
+
       - name: Smoke public preview
         if: github.head_ref == 'feat/radar-cloudflare-hono'
         env:
