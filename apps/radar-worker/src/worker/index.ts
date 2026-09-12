@@ -140,7 +140,7 @@ app.post("/api/runs", async (c) => {
   const cached = await loadCache(c.env, cacheKey);
   if (cached) return c.json(cached);
 
-  const clientIp = c.req.header("cf-connecting-ip") ?? "unknown";
+  const clientIp = c.req.header("x-trovatemi-client-ip") ?? c.req.header("cf-connecting-ip") ?? "unknown";
   const hashedIp = (await sha256(clientIp)).slice(0, 20);
   if (!(await takeRateToken(c.env, hashedIp))) return c.json({ error: "rate_limited" }, 429);
 
