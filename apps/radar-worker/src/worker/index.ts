@@ -224,6 +224,26 @@ app.post("/api/runs/:id/prospects/:prospectId/share", async (c) => {
   });
 });
 
+
+app.post("/api/public/runs/:id/prospects/:prospectId/share", async (c) => {
+  const run = await loadRun(c.env, c.req.param("id"));
+  if (!run) return c.json({ error: "run_not_found" }, 404);
+
+  const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
+  if (!prospect) return c.json({ error: "prospect_not_found" }, 404);
+
+  const token = createShareToken();
+  const priceEur = Math.max(0, Number(c.env.ACTIVATION_PRICE_EUR) || 197);
+  const check = buildPublicCheck(run, prospect, token, priceEur);
+  await savePublicCheck(c.env, check);
+
+  const baseUrl = (c.env.PUBLIC_CHECK_BASE_URL ?? new URL(c.req.url).origin).replace(/\/$/, "");
+  return c.json({
+    shareUrl: `${baseUrl}/c/${token}`,
+    expiresAt: check.expiresAt,
+  });
+});
+
 app.get("/api/checks/:token", async (c) => {
   const token = c.req.param("token");
   if (!/^[a-f0-9]{32}$/.test(token)) return c.json({ error: "invalid_check_token" }, 400);
