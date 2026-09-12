@@ -23,8 +23,22 @@ app.use("*", async (c, next) => {
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));
 
 
+app.get("/", (c, next) => {
+  const host = new URL(c.req.url).hostname;
+  if (host === "check.trovatemi.it") {
+    return c.redirect(c.env.PUBLIC_HOME_URL ?? "https://trovatemi.it", 302);
+  }
+  return next();
+});
+
+
 app.get("/c/:token", async (c) => {
   const token = c.req.param("token");
+  const requestUrl = new URL(c.req.url);
+  const publicBase = (c.env.PUBLIC_CHECK_BASE_URL ?? "").replace(/\/$/, "");
+  if (requestUrl.hostname === "radar.trovatemi.it" && publicBase) {
+    return c.redirect(`${publicBase}/c/${token}`, 302);
+  }
   if (!/^[a-f0-9]{32}$/.test(token)) {
     return c.html("<!doctype html><html lang=\"it\"><head><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"robots\" content=\"noindex,nofollow\"></head><body style=\"font-family:Arial,sans-serif;padding:32px\"><h1>Check non valido.</h1></body></html>", 400);
   }
@@ -195,8 +209,8 @@ app.post("/api/runs/:id/prospects/:prospectId/share", async (c) => {
   const check = buildPublicCheck(run, prospect, token, priceEur);
   await savePublicCheck(c.env, check);
 
-  const origin = new URL(c.req.url).origin;
-  const shareUrl = `${origin}/c/${token}`;
+  const baseUrl = (c.env.PUBLIC_CHECK_BASE_URL ?? new URL(c.req.url).origin).replace(/\/$/, "");
+  const shareUrl = `${baseUrl}/c/${token}`;
   return c.json({
     token,
     shareUrl,
