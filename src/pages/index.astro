@@ -190,20 +190,22 @@ const primaryLabel = whatsappUrl ? 'Scrivici su WhatsApp →' : 'Guarda come fun
 <style>
   :root{--ink:#111214;--paper:#fffdf8;--white:#fff;--yellow:#f5bd16;--muted:#686d72;--line:#dedede;--blue:#1a73e8}
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;background:var(--ink)}
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--paper)}
+  html{scroll-behavior:smooth;background:var(--ink);width:100%;max-width:100%;overflow-x:hidden}
+  body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--paper)}
+  main{width:100%;max-width:100%;overflow:hidden}
   a{color:inherit}
+  .hero>*,.decision-grid>*,.check-section>*,.delivery>*,.offer>*{min-width:0}
   .topbar{position:sticky;top:0;z-index:50;min-height:68px;padding:0 clamp(18px,4vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #dedbd2;background:rgba(255,253,248,.96);backdrop-filter:blur(10px)}
   .brand{font-size:19px;font-weight:950;letter-spacing:-.035em;text-decoration:none}.brand b{color:#d99f00}.inverse{color:white}
   .top-cta{font-size:.78rem;font-weight:900;text-decoration:none;border-bottom:2px solid var(--ink)}
   .eyebrow{margin:0 0 18px;font-size:.65rem;font-weight:950;letter-spacing:.13em;text-transform:uppercase;color:#8a6900}.eyebrow.dark{color:var(--ink)}
   h1,h2,h3,p{margin-top:0} h1,h2{letter-spacing:-.06em;line-height:.9}
   .hero{min-height:calc(100svh - 68px);padding:clamp(52px,8vw,110px) clamp(18px,6vw,96px);display:grid;grid-template-columns:1fr .92fr;gap:clamp(36px,7vw,100px);align-items:center}
-  .hero h1{margin:0;font-size:clamp(5rem,12vw,11rem);line-height:.78}
+  .hero h1{margin:0;max-width:100%;font-size:clamp(5rem,12vw,11rem);line-height:.78;overflow-wrap:anywhere}
   .lede{max-width:700px;margin:30px 0 0;font-size:clamp(1.15rem,2.4vw,1.65rem);line-height:1.35;color:#3f403e}
   .actions{display:flex;align-items:center;flex-wrap:wrap;gap:16px 20px;margin-top:32px}.actions span{max-width:320px;color:var(--muted);font-size:.76rem}
   .primary{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;background:var(--ink);color:white;text-decoration:none;font-weight:950}
-  .search-demo{border:1px solid var(--line);border-radius:20px;background:white;box-shadow:0 22px 65px rgba(60,64,67,.13);overflow:hidden}
+  .search-demo{width:100%;max-width:100%;min-width:0;border:1px solid var(--line);border-radius:20px;background:white;box-shadow:0 22px 65px rgba(60,64,67,.13);overflow:hidden}
   .search-demo-head{margin:18px;padding:15px 18px;border:1px solid #dfe1e5;border-radius:999px;display:flex;gap:12px;align-items:center;box-shadow:0 1px 5px rgba(32,33,36,.12)}.search-demo-head span{font-size:1.4rem;color:#5f6368}
   .search-demo>small{display:block;padding:0 18px 10px;color:#8b9095;font-size:.58rem;font-weight:900;letter-spacing:.09em}
   .search-demo article{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:16px 18px;border-top:1px solid #edf0f2}.search-demo article.you{background:#fff9df;border-left:6px solid var(--yellow)}
@@ -219,12 +221,12 @@ const primaryLabel = whatsappUrl ? 'Scrivici su WhatsApp →' : 'Guarda come fun
   .closing{padding:clamp(70px,9vw,120px) clamp(18px,6vw,96px);background:white}.closing p{font-size:.7rem;font-weight:950;letter-spacing:.08em;color:#777}.closing h2{margin:0;max-width:15ch;font-size:clamp(3rem,6vw,6rem)}
   footer{min-height:120px;padding:30px clamp(18px,6vw,96px);display:flex;align-items:center;justify-content:space-between;gap:24px;background:#080808;color:white;border-top:1px solid #222}footer p{margin:0;color:#999}footer div{display:flex;gap:8px;color:#777;font-size:.7rem}footer div a{color:#aaa}
   @media(max-width:850px){
-    .topbar{min-height:62px}.hero,.decision-grid,.check-section,.delivery,.offer{grid-template-columns:1fr}.hero{min-height:auto;padding-top:64px}.hero h1{font-size:clamp(5rem,24vw,9rem)}
+    .topbar{min-height:62px}.hero,.decision-grid,.check-section,.delivery,.offer{grid-template-columns:1fr}.hero{min-height:auto;padding-top:64px}.hero h1{font-size:clamp(4.2rem,15vw,6.6rem)}
     .three article,.modules article{grid-template-columns:42px 1fr}.three p,.modules p{grid-column:2}.phone{margin-top:10px}.kit{max-width:620px}.price{margin-top:8px}
   }
   @media(max-width:560px){
-    .topbar{padding-inline:15px}.top-cta{font-size:.68rem}.brand{font-size:16px}.hero,.decision,.check-section,.brand-break,.delivery,.offer,.closing{padding-inline:16px}
-    .search-demo article{grid-template-columns:42px 1fr}.search-demo article em{grid-column:2}.decision h2,.check-section h2,.delivery h2,.offer h2{font-size:clamp(3.2rem,15vw,5rem)}
+    .topbar{width:100%;max-width:100%;padding-inline:15px}.top-cta{font-size:.68rem;white-space:nowrap}.brand{font-size:16px;white-space:nowrap}.hero,.decision,.check-section,.brand-break,.delivery,.offer,.closing{width:100%;max-width:100%;padding-inline:16px}
+    .hero{display:block}.hero-copy,.search-demo{width:100%;max-width:100%;min-width:0}.search-demo{margin-top:38px}.search-demo article{grid-template-columns:42px minmax(0,1fr)}.search-demo article em{grid-column:2}.decision h2,.check-section h2,.delivery h2,.offer h2{font-size:clamp(3.2rem,15vw,5rem)}
     .kit{grid-template-columns:1fr;padding:18px}.nfc{width:150px;margin:auto}.desk-card{min-height:300px}footer{align-items:flex-start;flex-direction:column}
   }
 </style>
