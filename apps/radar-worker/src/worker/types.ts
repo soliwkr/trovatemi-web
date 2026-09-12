@@ -1,4 +1,5 @@
 export type Bindings = {
+  ASSETS: Fetcher;
   GOOGLE_PLACES_API_KEY?: string;
   RADAR_STORE: DurableObjectNamespace;
   APP_ENV?: string;
