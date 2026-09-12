@@ -5,6 +5,8 @@ export type Bindings = {
   RUN_LIMIT?: string;
   ACTIVATION_CHECKOUT_URL?: string;
   ACTIVATION_PRICE_EUR?: string;
+  PUBLIC_CHECK_BASE_URL?: string;
+  PUBLIC_HOME_URL?: string;
   CLIMBO_API_KEY?: string;
   CLIMBO_PLAN_ID?: string;
   PROVISIONING_SECRET?: string;
