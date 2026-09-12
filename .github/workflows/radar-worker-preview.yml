@@ -77,7 +77,8 @@ jobs:
       - name: Smoke public preview
         if: github.head_ref == 'feat/radar-cloudflare-hono'
         env:
-          PREVIEW_URL: https://trovatemi-radar-preview.soliwkr.workers.dev
+          PREVIEW_URL: https://radar.trovatemi.it
+          CHECK_BASE_URL: https://check.trovatemi.it
         run: |
           curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 \
             "$PREVIEW_URL/health" > "$RUNNER_TEMP/health.json"
@@ -109,6 +110,9 @@ jobs:
           const fs = require('node:fs');
           const share = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/share.json', 'utf8'));
           if (!share.shareUrl || !share.outreachMessage) throw new Error('Share pack incomplete');
+          if (!share.shareUrl.startsWith(process.env.CHECK_BASE_URL + '/c/')) {
+            throw new Error('Share URL is not on check.trovatemi.it: ' + share.shareUrl);
+          }
           const token = share.shareUrl.split('/').filter(Boolean).at(-1);
           if (!/^[a-f0-9]{32}$/.test(token)) throw new Error('Invalid share token');
           console.log('CHECK_TOKEN=' + token);
@@ -169,7 +173,7 @@ jobs:
             const activationPage = await appContext.newPage();
             const errors = [];
             activationPage.on('pageerror', (error) => errors.push(String(error)));
-            await activationPage.goto(process.env.PREVIEW_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await activationPage.goto(process.env.CHECK_BASE_URL + '/a/' + process.env.CHECK_TOKEN, { waitUntil: 'domcontentloaded', timeout: 15000 });
             await activationPage.getByRole('heading', { name: 'ACCENDI TROVATEMI.' }).waitFor({ timeout: 15000 });
             await activationPage.getByText('€197').first().waitFor({ timeout: 15000 });
             if (errors.length) throw new Error('Activation page errors: ' + errors.join(' | '));
@@ -220,6 +224,7 @@ jobs:
           cat "$RUNNER_TEMP/final-stats.json"
           node -e 'const x=require(process.env.RUNNER_TEMP+"/final-stats.json"); if(x.views < 1 || x.ctaClicks < 1 || x.activationIntents < 1) process.exit(1)'
 
-          echo "Radar preview — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Radar — $PREVIEW_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "Check — $CHECK_BASE_URL" >> "$GITHUB_STEP_SUMMARY"
           echo "Real automotive check — $SHARE_URL" >> "$GITHUB_STEP_SUMMARY"
           echo "Share flow — scan → narrative check → open → CTA → activation intent: OK" >> "$GITHUB_STEP_SUMMARY"
