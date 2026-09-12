@@ -80,7 +80,10 @@ jobs:
           PREVIEW_URL: https://radar.trovatemi.it
           CHECK_BASE_URL: https://check.trovatemi.it
         run: |
-          curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 \
+          echo "Waiting for custom-domain DNS/TLS propagation..."
+          sleep 30
+          curl --fail --silent --show-error --retry 24 --retry-all-errors --retry-delay 5 \
+            --connect-timeout 10 --max-time 30 \
             "$PREVIEW_URL/health" > "$RUNNER_TEMP/health.json"
           grep -Fq '"service":"trovatemi-radar"' "$RUNNER_TEMP/health.json"
 
