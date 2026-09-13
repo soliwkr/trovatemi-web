@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { searchPlaces, validateRadarInput } from "./places.ts";
 import { inspectWebsite } from "./website.ts";
 import { median, scoreProspect } from "./scoring.ts";
-import { getCheckStats, loadActivationDraft, loadCache, loadPublicCheck, loadRun, RadarStore, recordCheckEvent, saveActivationDraft, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
+import { getCheckStats, getFunnelStats, loadActivationDraft, loadCache, loadPublicCheck, loadRun, RadarStore, recordCheckEvent, recordFunnelEvent, saveActivationDraft, saveCache, savePublicCheck, saveRun, takeRateToken } from "./store.ts";
 import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import { climboConfigured, createClimboClient, normalizeActivationInput } from "./climbo.ts";
@@ -21,6 +21,17 @@ app.use("*", async (c, next) => {
 });
 
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));
+
+app.get("/api/funnel/stats", async (c) => c.json(await getFunnelStats(c.env)));
+
+app.post("/api/funnel/events/:event", async (c) => {
+  const event = c.req.param("event");
+  if (!["search", "results", "selection", "check_request", "check_created"].includes(event)) {
+    return c.json({ error: "invalid_funnel_event" }, 400);
+  }
+  await recordFunnelEvent(c.env, event as "search" | "results" | "selection" | "check_request" | "check_created");
+  return c.json({ ok: true });
+});
 
 
 app.get("/", (c) => {

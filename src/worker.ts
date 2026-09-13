@@ -25,6 +25,16 @@ function cleanPart(value: unknown, max = 80) {
   return String(value ?? '').trim().replace(/\s+/g, ' ').slice(0, max);
 }
 
+
+async function recordPublicFunnelEvent(env: Env, event: string) {
+  if (!['search', 'results', 'selection', 'check_request', 'check_created'].includes(event)) return;
+  try {
+    await env.RADAR.fetch(new Request('https://radar.internal/api/funnel/events/' + event, { method: 'POST' }));
+  } catch {
+    // CRO telemetry must never block the public funnel.
+  }
+}
+
 async function proxyPublicSearch(request: Request, env: Env) {
   const body = await readJson(request);
   if (!body) return Response.json({ error: 'invalid_json' }, { status: 400 });
@@ -34,6 +44,8 @@ async function proxyPublicSearch(request: Request, env: Env) {
   if (category.length < 2 || city.length < 2) {
     return Response.json({ error: 'invalid_input' }, { status: 400 });
   }
+
+  await recordPublicFunnelEvent(env, 'search');
 
   const clientIp = request.headers.get('cf-connecting-ip') ?? 'unknown';
   const upstream = await env.RADAR.fetch(new Request('https://radar.internal/api/runs', {
@@ -71,6 +83,8 @@ async function proxyPublicSearch(request: Request, env: Env) {
     shareable: Boolean(item.eligible),
   })).filter((item) => item.id && item.name);
 
+  await recordPublicFunnelEvent(env, 'results');
+
   return Response.json({
     runId: payload.id,
     query: payload.query ?? (category + ' ' + city),
@@ -88,6 +102,8 @@ async function proxyPublicCheck(request: Request, env: Env) {
   const prospectId = cleanPart(body.prospectId, 240);
   if (!runId || !prospectId) return Response.json({ error: 'invalid_input' }, { status: 400 });
 
+  await recordPublicFunnelEvent(env, 'check_request');
+
   const path = '/api/public/runs/' + encodeURIComponent(runId) + '/prospects/' + encodeURIComponent(prospectId) + '/share';
   const upstream = await env.RADAR.fetch(new Request('https://radar.internal' + path, { method: 'POST' }));
 
@@ -96,6 +112,7 @@ async function proxyPublicCheck(request: Request, env: Env) {
     return Response.json({ error: payload.error ?? 'check_failed' }, { status: upstream.status || 502 });
   }
 
+  await recordPublicFunnelEvent(env, 'check_created');
   return Response.json({ shareUrl: payload.shareUrl }, { headers: { 'cache-control': 'no-store' } });
 }
 
@@ -124,6 +141,17 @@ export default {
 
     if (request.method === 'POST' && url.pathname === '/api/public-check') {
       return proxyPublicCheck(request, env);
+    }
+
+
+    if (request.method === 'POST' && url.pathname === '/api/public-event') {
+      const body = await readJson(request);
+      const event = cleanPart(body?.event, 40);
+      if (!['selection'].includes(event)) {
+        return Response.json({ error: 'invalid_event' }, { status: 400 });
+      }
+      await recordPublicFunnelEvent(env, event);
+      return Response.json({ ok: true });
     }
 
     const response = await handle(request, env, ctx);

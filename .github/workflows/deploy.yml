@@ -139,7 +139,8 @@ jobs:
             https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
           grep -Fq "TROVERESTI?" "$RUNNER_TEMP/trovatemi-home.html"
           grep -Fq 'id="search-form"' "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "Cercati come ti cerca un cliente." "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "Cerca la mia attività" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "Fammi vedere il Check" "$RUNNER_TEMP/trovatemi-home.html"
 
           curl --fail --silent --show-error \
             -H 'content-type: application/json' \

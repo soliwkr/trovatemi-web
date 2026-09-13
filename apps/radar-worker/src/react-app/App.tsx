@@ -46,6 +46,15 @@ type SharePack = {
   stats: Pick<CheckStats, "views" | "ctaClicks" | "activationIntents">;
 };
 
+
+type FunnelStats = {
+  searches: number;
+  resultViews: number;
+  selections: number;
+  checkRequests: number;
+  checksCreated: number;
+};
+
 type PublicCheck = {
   token: string;
   createdAt: string;
@@ -251,7 +260,11 @@ function ActivationPage({ token }: { token: string }) {
     return (
       <div className="activation-shell">
         <BrandBar suffix="ATTIVAZIONE" />
-        <main className="activation-wrap"><h1>LINK NON DISPONIBILE.</h1><p>{error}</p></main>
+        <main className="activation-error">
+          <span>LINK NON DISPONIBILE</span>
+          <h1>Questo check non è più attivo.</h1>
+          <p>{error}</p>
+        </main>
       </div>
     );
   }
@@ -280,7 +293,7 @@ function ActivationPage({ token }: { token: string }) {
         return;
       }
 
-      setStatus("Richiesta registrata. Il checkout automatico non è ancora collegato in questa preview.");
+      setStatus("Richiesta registrata. Ti portiamo al pagamento appena il checkout è collegato.");
     } catch {
       setStatus("Non sono riuscito ad avviare l'attivazione. Riprova.");
     } finally {
@@ -288,66 +301,103 @@ function ActivationPage({ token }: { token: string }) {
     }
   }
 
+  const validIdentity = ownerName.trim().length >= 2 && email.includes("@");
+
   return (
     <div className="activation-shell">
-      <BrandBar suffix="ATTIVAZIONE" />
-      <main className="activation-wrap">
-        <p className="eyebrow">PER {check.business.name.toUpperCase()}</p>
-        <h1>ACCENDI<br />TROVATEMI.</h1>
-        <p className="activation-lead">
-          Il check ti ha fatto vedere dove il percorso si indebolisce. L'attivazione mette in funzione il sistema iniziale.
-        </p>
+      <header className="activation-header">
+        <strong>TROVATEMI.IT <i>★</i></strong>
+        <span>ATTIVAZIONE SICURA</span>
+      </header>
 
-        <section className="price-card">
-          <div>
-            <small>{check.offer.label.toUpperCase()}</small>
-            <strong>€{check.offer.priceEur}</strong>
-            <span>UNA TANTUM</span>
+      <main className="activation-page">
+        <section className="activation-intro">
+          <div className="activation-kicker">PER {check.business.name.toUpperCase()}</div>
+          <h1>HAI VISTO IL PROBLEMA.<br /><em>ORA LO SISTEMIAMO.</em></h1>
+          <p>
+            L'attivazione mette in funzione il primo sistema Trovatemi sulla tua attività.
+            Niente rifacimenti inutili: partiamo da prove, presenza e contatto.
+          </p>
+
+          <div className="activation-trust">
+            <span>✓ Una tantum</span>
+            <span>✓ Nessun abbonamento nascosto</span>
+            <span>✓ Setup guidato</span>
           </div>
-          <ul>
-            <li>Colleghiamo la tua presenza Google e salviamo il punto di partenza.</li>
-            <li>Accendiamo il sistema per raccogliere recensioni reali.</li>
-            <li>Prepariamo link, QR e messaggi di richiesta.</li>
-            <li>Ti accompagniamo nei passaggi che richiedono il tuo consenso.</li>
-            <li>Eventuali servizi ricorrenti sono separati: niente abbonamenti nascosti.</li>
-          </ul>
         </section>
 
-        <section className="activation-form">
-          <label>
-            Il tuo nome
-            <input
-              value={ownerName}
-              onChange={(event) => setOwnerName(event.target.value)}
-              placeholder="Mario Rossi"
-              autoComplete="name"
-            />
-          </label>
-          <label>
-            Email
-            <input
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="mario@officina.it"
-              type="email"
-              autoComplete="email"
-            />
-          </label>
+        <section className="activation-grid">
+          <aside className="order-card">
+            <div className="order-head">
+              <div>
+                <small>{check.offer.label.toUpperCase()}</small>
+                <h2>Accendi Trovatemi</h2>
+              </div>
+              <div className="order-price">
+                <strong>€{check.offer.priceEur}</strong>
+                <span>una tantum</span>
+              </div>
+            </div>
+
+            <div className="order-list">
+              <article><b>01</b><div><strong>Presenza collegata</strong><span>Partiamo dalla tua situazione reale e salviamo il punto zero.</span></div></article>
+              <article><b>02</b><div><strong>Sistema recensioni</strong><span>Link, QR e messaggi pronti per trasformare clienti soddisfatti in prove.</span></div></article>
+              <article><b>03</b><div><strong>Percorso di contatto</strong><span>Rendiamo più chiaro il prossimo passo per chi ti sta scegliendo.</span></div></article>
+              <article><b>04</b><div><strong>Setup accompagnato</strong><span>Tu fai solo i passaggi che richiedono il tuo consenso.</span></div></article>
+            </div>
+
+            <div className="order-note">
+              Eventuali servizi ricorrenti vengono proposti separatamente. Questo importo non nasconde un abbonamento.
+            </div>
+          </aside>
+
+          <section className="activation-form-card">
+            <div className="form-head">
+              <small>ULTIMO PASSO</small>
+              <h2>Dove ti mandiamo l'accesso?</h2>
+              <p>Ci servono solo i dati minimi per preparare l'attivazione.</p>
+            </div>
+
+            <div className="activation-form">
+              <label>
+                <span>IL TUO NOME</span>
+                <input
+                  value={ownerName}
+                  onChange={(event) => setOwnerName(event.target.value)}
+                  placeholder="Mario Rossi"
+                  autoComplete="name"
+                />
+              </label>
+
+              <label>
+                <span>EMAIL DI LAVORO</span>
+                <input
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="mario@officina.it"
+                  type="email"
+                  autoComplete="email"
+                />
+              </label>
+            </div>
+
+            <button
+              className="activation-button"
+              type="button"
+              onClick={activate}
+              disabled={sending || !validIdentity}
+            >
+              <span>{sending ? "PREPARO L'ATTIVAZIONE…" : "ATTIVA TROVATEMI · €" + check.offer.priceEur}</span>
+              <b>→</b>
+            </button>
+
+            <p className="activation-fineprint">
+              Pagamento e provisioning partono solo dal checkout reale. Nessun addebito viene simulato.
+            </p>
+
+            {status && <div className="activation-status">{status}</div>}
+          </section>
         </section>
-
-        <button
-          className="activation-button"
-          type="button"
-          onClick={activate}
-          disabled={sending || ownerName.trim().length < 2 || !email.includes("@")}
-        >
-          {sending ? "PREPARO…" : "ATTIVA TROVATEMI · €" + check.offer.priceEur + " →"}
-        </button>
-        {status && <p className="activation-status">{status}</p>}
-
-        <p className="activation-fineprint">
-          In questa preview il pagamento parte solo quando è configurato un checkout reale. Nessun addebito viene simulato.
-        </p>
       </main>
     </div>
   );
@@ -368,6 +418,7 @@ function RadarApp() {
   const [selected, setSelected] = useState<Prospect | null>(null);
   const [share, setShare] = useState<SharePack | null>(null);
   const [stats, setStats] = useState<CheckStats | null>(null);
+  const [funnel, setFunnel] = useState<FunnelStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [sharingId, setSharingId] = useState<string | null>(null);
   const [copied, setCopied] = useState<"link" | "message" | null>(null);
@@ -377,6 +428,39 @@ function RadarApp() {
     () => run?.prospects.filter((p) => p.band === "hot" || p.band === "priority").length ?? 0,
     [run],
   );
+
+
+  const funnelRates = useMemo(() => {
+    if (!funnel) return null;
+    const pct = (num: number, den: number) => den > 0 ? Math.round((num / den) * 100) : 0;
+    return {
+      selected: pct(funnel.selections, funnel.resultViews),
+      checkRequested: pct(funnel.checkRequests, funnel.selections),
+      checkCreated: pct(funnel.checksCreated, funnel.checkRequests),
+    };
+  }, [funnel]);
+
+  useEffect(() => {
+    let stopped = false;
+
+    async function refreshFunnel() {
+      try {
+        const response = await fetch("/api/funnel/stats");
+        if (!response.ok) return;
+        const body = await response.json() as FunnelStats;
+        if (!stopped) setFunnel(body);
+      } catch {
+        // CRO telemetry is informative, never blocking.
+      }
+    }
+
+    void refreshFunnel();
+    const timer = window.setInterval(refreshFunnel, 20000);
+    return () => {
+      stopped = true;
+      window.clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     if (!share) return;
@@ -390,7 +474,7 @@ function RadarApp() {
         const body = await response.json() as CheckStats;
         if (!stopped) setStats(body);
       } catch {
-        // Stats are helpful, never blocking.
+        // Non-blocking telemetry.
       }
     }
 
@@ -409,6 +493,7 @@ function RadarApp() {
     setShare(null);
     setStats(null);
     setLoading(true);
+
     try {
       const response = await fetch("/api/runs", {
         method: "POST",
@@ -431,6 +516,7 @@ function RadarApp() {
     if (!run || !prospect.eligible) return;
     setSharingId(prospect.id);
     setError("");
+
     try {
       const response = await fetch(
         "/api/runs/" + encodeURIComponent(run.id) + "/prospects/" + encodeURIComponent(prospect.id) + "/share",
@@ -467,66 +553,176 @@ function RadarApp() {
   }
 
   return (
-    <div className="app">
-      <header className="topbar">
-        <strong>TROVATEMI RADAR <i>★</i></strong>
-        <span>INTERNO · TROVA CHI VALE LA PENA CHIAMARE</span>
+    <div className="ops-app">
+      <header className="ops-header">
+        <div className="ops-brand">
+          <strong>TROVATEMI</strong><i>★</i>
+          <span>RADAR</span>
+        </div>
+        <div className="ops-header-right">
+          <span className="live-dot"></span>
+          <span>Google Places live</span>
+          <b>INTERNO</b>
+        </div>
       </header>
 
-      <main className="wrap">
-        <p className="kicker">CERCA → CAPIRE → MOSTRARE → CHIAMARE</p>
-        <h1>CHI CHIAMERESTI<br />PER PRIMO?</h1>
-        <p className="lead">
-          Trovo attività che sembrano valide nella realtà ma lasciano valore per strada prima che il cliente scelga.
-        </p>
+      <main className="ops-main">
+        <section className="ops-hero">
+          <div>
+            <div className="ops-kicker">PROSPECTING CONTROL ROOM</div>
+            <h1>Chi vale la pena<br />chiamare <em>oggi?</em></h1>
+            <p>
+              Trova attività che sembrano solide nella realtà ma lasciano valore per strada
+              prima che il cliente scelga.
+            </p>
+          </div>
 
-        <form className="search" onSubmit={scan}>
-          <label>Cosa cerchiamo<input value={category} onChange={(e) => setCategory(e.target.value)} required /></label>
-          <label>Dove<input value={city} onChange={(e) => setCity(e.target.value)} required /></label>
-          <button disabled={loading}>{loading ? "Cerco…" : "Trova attività →"}</button>
+          <div className="ops-principle">
+            <small>REGOLA</small>
+            <strong>Non cerchiamo “aziende brutte”.</strong>
+            <span>Cerchiamo aziende migliori di come appaiono.</span>
+          </div>
+        </section>
+
+        <form className="ops-search" onSubmit={scan}>
+          <label>
+            <span>COSA CERCHIAMO</span>
+            <input value={category} onChange={(e) => setCategory(e.target.value)} required />
+          </label>
+          <label>
+            <span>DOVE</span>
+            <input value={city} onChange={(e) => setCity(e.target.value)} required />
+          </label>
+          <button disabled={loading}>
+            <span>{loading ? "SCANSIONE…" : "SCANSIONA MERCATO"}</span>
+            <b>→</b>
+          </button>
         </form>
-        <p className="meta">Google Places + homepage pubblica · il punteggio è solo interno · nessun messaggio parte da solo.</p>
 
-        {error && <div className="error">{error}</div>}
+        <div className="ops-meta">
+          <span>Google Places + homepage pubblica</span>
+          <span>Score solo interno</span>
+          <span>Nessun outreach automatico</span>
+        </div>
+
+
+        {funnel && funnelRates && (
+          <section className="cro-panel">
+            <div className="cro-panel-head">
+              <div>
+                <small>PUBLIC FUNNEL · AGGREGATO</small>
+                <strong>CRO live</strong>
+              </div>
+              <span>Nessun dato personale</span>
+            </div>
+
+            <div className="cro-grid">
+              <article>
+                <small>RICERCHE</small>
+                <strong>{funnel.searches}</strong>
+                <span>ingressi nel motore</span>
+              </article>
+              <article>
+                <small>SI RICONOSCONO</small>
+                <strong>{funnel.selections}</strong>
+                <span>{funnelRates.selected}% dei risultati</span>
+              </article>
+              <article>
+                <small>CHIEDONO IL CHECK</small>
+                <strong>{funnel.checkRequests}</strong>
+                <span>{funnelRates.checkRequested}% delle selezioni</span>
+              </article>
+              <article>
+                <small>CHECK CREATI</small>
+                <strong>{funnel.checksCreated}</strong>
+                <span>{funnelRates.checkCreated}% delle richieste</span>
+              </article>
+            </div>
+          </section>
+        )}
+
+        {error && <div className="ops-error"><b>ATTENZIONE</b><span>{error}</span></div>}
 
         {run && (
           <>
-            <section className="summary">
-              <div><small>ATTIVITÀ VISTE</small><b>{run.prospects.length}</b></div>
-              <div><small>DA CHIAMARE PRIMA</small><b>{priorityCount}</b></div>
-              <div><small>RECENSIONI MEDIANE</small><b>{run.medianReviews === null ? "—" : Math.round(run.medianReviews)}</b></div>
-              <div><small>RICERCA</small><b className="source">{run.query}</b></div>
+            <section className="kpi-grid">
+              <article>
+                <div className="kpi-icon">◎</div>
+                <div><small>ATTIVITÀ OSSERVATE</small><strong>{run.prospects.length}</strong></div>
+              </article>
+              <article>
+                <div className="kpi-icon yellow">↗</div>
+                <div><small>DA CHIAMARE PRIMA</small><strong>{priorityCount}</strong></div>
+              </article>
+              <article>
+                <div className="kpi-icon">★</div>
+                <div><small>RECENSIONI MEDIANE</small><strong>{run.medianReviews === null ? "—" : Math.round(run.medianReviews)}</strong></div>
+              </article>
+              <article className="query-kpi">
+                <div className="kpi-icon">⌕</div>
+                <div><small>RICERCA</small><strong>{run.query}</strong></div>
+              </article>
             </section>
 
-            <div className="toolbar">
-              <h2>{run.cached ? "Risultati salvati · " : ""}{run.query}</h2>
-              <a href={"/api/runs/" + encodeURIComponent(run.id) + "/export.csv"}>Esporta CSV ↓</a>
-            </div>
+            <section className="results-panel">
+              <div className="results-panel-head">
+                <div>
+                  <small>{run.cached ? "CACHE ATTIVA" : "SCANSIONE LIVE"}</small>
+                  <h2>{run.query}</h2>
+                </div>
+                <a href={"/api/runs/" + encodeURIComponent(run.id) + "/export.csv"}>Esporta CSV ↓</a>
+              </div>
 
-            <section className="table">
-              {run.prospects.map((p) => (
-                <article className={"prospect " + p.band} key={p.id}>
-                  <div className="score"><span>{p.score}</span><small>priorità</small></div>
-                  <div className="name">
-                    <b>{p.name}</b>
-                    <small>{p.address}</small>
-                    <span className="band">{bandLabel(p.band)}</span>
-                  </div>
-                  <div className="cell"><b>{p.rating ?? "—"}{p.rating !== null ? " ★" : ""}</b><small>come ne parlano</small></div>
-                  <div className="cell"><b>{p.reviews ?? "—"}</b><small>quante prove</small></div>
-                  <div className="cell">
-                    <b>{[p.website && "SITO", p.whatsapp && "WA", (p.instagram || p.facebook) && "SOCIAL"].filter(Boolean).join(" · ") || "—"}</b>
-                    <small>cosa ho trovato</small>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={!p.eligible || sharingId === p.id}
-                    onClick={() => generateCheck(p)}
-                  >
-                    {sharingId === p.id ? "Creo…" : p.eligible ? "Fammi vedere →" : "Passa oltre"}
-                  </button>
-                </article>
-              ))}
+              <div className="prospect-table-head">
+                <span>PRIORITÀ</span>
+                <span>ATTIVITÀ</span>
+                <span>RATING</span>
+                <span>RECENSIONI</span>
+                <span>SEGNALI</span>
+                <span></span>
+              </div>
+
+              <div className="prospect-list">
+                {run.prospects.map((p) => (
+                  <article className={"prospect-row " + p.band} key={p.id}>
+                    <div className="priority-cell">
+                      <div className="score-pill"><strong>{p.score}</strong><span>/100</span></div>
+                      <span className={"band-chip " + p.band}>{bandLabel(p.band)}</span>
+                    </div>
+
+                    <div className="business-cell">
+                      <strong>{p.name}</strong>
+                      <span>{p.address}</span>
+                    </div>
+
+                    <div className="data-cell">
+                      <strong>{p.rating ?? "—"}{p.rating !== null ? " ★" : ""}</strong>
+                      <span>rating</span>
+                    </div>
+
+                    <div className="data-cell">
+                      <strong>{p.reviews ?? "—"}</strong>
+                      <span>prove</span>
+                    </div>
+
+                    <div className="signals-cell">
+                      {p.website && <span>SITO</span>}
+                      {p.whatsapp && <span>WA</span>}
+                      {(p.instagram || p.facebook) && <span>SOCIAL</span>}
+                      {!p.website && !p.whatsapp && !p.instagram && !p.facebook && <span className="empty-signal">—</span>}
+                    </div>
+
+                    <button
+                      className="row-action"
+                      type="button"
+                      disabled={!p.eligible || sharingId === p.id}
+                      onClick={() => generateCheck(p)}
+                    >
+                      {sharingId === p.id ? "Creo…" : p.eligible ? "Genera check →" : "Passa"}
+                    </button>
+                  </article>
+                ))}
+              </div>
             </section>
           </>
         )}
@@ -534,50 +730,53 @@ function RadarApp() {
 
       {selected && share && (
         <div className="backdrop" role="presentation" onClick={closeShare}>
-          <section className="modal share-modal" role="dialog" aria-modal="true" aria-label="Check condivisibile" onClick={(e) => e.stopPropagation()}>
-            <small>PRONTO DA MANDARE</small>
-            <h3>{selected.name}</h3>
-            <p>Il check pubblico racconta il percorso come lo vivrebbe un cliente. Nessuno score interno esce da qui.</p>
-
-            <div className="live-stats">
-              <div><small>APERTO</small><b>{stats?.views ?? 0}</b></div>
-              <div><small>SISTEMAMELO</small><b>{stats?.ctaClicks ?? 0}</b></div>
-              <div><small>ATTIVAZIONE</small><b>{stats?.activationIntents ?? 0}</b></div>
+          <section className="share-drawer" role="dialog" aria-modal="true" aria-label="Check condivisibile" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-head">
+              <div>
+                <small>CHECK PRONTO</small>
+                <h3>{selected.name}</h3>
+                <p>Il prospect vede la storia. Tu vedi il comportamento.</p>
+              </div>
+              <button className="icon-close" type="button" onClick={closeShare}>×</button>
             </div>
 
-            <div className="share-box">
-              <small>LINK PRIVATO · 30 GIORNI</small>
-              <a href={share.shareUrl} target="_blank" rel="noreferrer">{share.shareUrl}</a>
-              <div className="share-actions">
+            <div className="live-stats modern">
+              <article><small>APERTO</small><strong>{stats?.views ?? 0}</strong><span>view</span></article>
+              <article><small>SISTEMAMELO</small><strong>{stats?.ctaClicks ?? 0}</strong><span>click</span></article>
+              <article><small>ATTIVAZIONE</small><strong>{stats?.activationIntents ?? 0}</strong><span>intent</span></article>
+            </div>
+
+            <section className="drawer-block">
+              <div className="drawer-block-head">
+                <span>LINK PRIVATO</span>
+                <small>30 giorni</small>
+              </div>
+              <a className="share-url" href={share.shareUrl} target="_blank" rel="noreferrer">{share.shareUrl}</a>
+              <div className="drawer-actions">
                 <button type="button" onClick={() => copy(share.shareUrl, "link")}>
                   {copied === "link" ? "Copiato ✓" : "Copia link"}
                 </button>
-                <a className="open-check" href={share.shareUrl} target="_blank" rel="noreferrer">Vedi come lo vede lui ↗</a>
+                <a href={share.shareUrl} target="_blank" rel="noreferrer">Apri check ↗</a>
               </div>
-            </div>
+            </section>
 
-            <div className="message-box">
-              <small>MESSAGGIO PRONTO</small>
+            <section className="drawer-block message">
+              <div className="drawer-block-head">
+                <span>MESSAGGIO PRONTO</span>
+                <small>WhatsApp</small>
+              </div>
               <p>{share.outreachMessage}</p>
-              <div className="share-actions">
+              <div className="drawer-actions">
                 <button type="button" onClick={() => copy(share.outreachMessage, "message")}>
                   {copied === "message" ? "Copiato ✓" : "Copia messaggio"}
                 </button>
-                <a
-                  className="open-check"
-                  href={"https://wa.me/?text=" + encodeURIComponent(share.outreachMessage)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Apri WhatsApp ↗
-                </a>
+                <a href={"https://wa.me/?text=" + encodeURIComponent(share.outreachMessage)} target="_blank" rel="noreferrer">Apri WhatsApp ↗</a>
               </div>
-            </div>
+            </section>
 
-            <p className="rule">
-              Link valido fino al {new Date(share.expiresAt).toLocaleDateString("it-IT")}. Aperture e CTA si aggiornano automaticamente.
-            </p>
-            <button className="close-button" type="button" onClick={closeShare}>Chiudi</button>
+            <div className="drawer-foot">
+              Link valido fino al {new Date(share.expiresAt).toLocaleDateString("it-IT")} · telemetria aggiornata ogni 5 secondi.
+            </div>
           </section>
         </div>
       )}
