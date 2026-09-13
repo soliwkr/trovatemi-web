@@ -116,6 +116,40 @@ export class RadarStore {
       return draft ? json(draft) : json({ error: "activation_not_found" }, 404);
     }
 
+    if (request.method === "GET" && parts[0] === "funnel" && parts[1] === "stats") {
+      const stats = await this.state.storage.get("funnel:stats") as Record<string, number> | undefined;
+      return json(stats ?? {
+        searches: 0,
+        resultViews: 0,
+        selections: 0,
+        checkRequests: 0,
+        checksCreated: 0,
+      });
+    }
+
+    if (request.method === "POST" && parts[0] === "funnel" && parts[1] === "events" && parts[2]) {
+      const map: Record<string, string> = {
+        search: "searches",
+        results: "resultViews",
+        selection: "selections",
+        check_request: "checkRequests",
+        check_created: "checksCreated",
+      };
+      const key = map[parts[2]];
+      if (!key) return json({ error: "unknown_funnel_event" }, 400);
+
+      const stats = await this.state.storage.get("funnel:stats") as Record<string, number> | undefined ?? {
+        searches: 0,
+        resultViews: 0,
+        selections: 0,
+        checkRequests: 0,
+        checksCreated: 0,
+      };
+      stats[key] = Number(stats[key] ?? 0) + 1;
+      await this.state.storage.put("funnel:stats", stats);
+      return json(stats);
+    }
+
     if (request.method === "POST" && parts[0] === "rate" && parts[1] && parts[2]) {
       const key = `rate:${parts[1]}:${parts[2]}`;
       const current = Number(await this.state.storage.get(key) ?? 0);
@@ -221,4 +255,26 @@ export async function loadActivationDraft(env: Bindings, token: string): Promise
     new Request(`https://radar-store/shares/${encodeURIComponent(token)}/activation`)
   );
   return response.ok ? await response.json() as ActivationDraft : null;
+}
+
+
+export async function recordFunnelEvent(
+  env: Bindings,
+  event: "search" | "results" | "selection" | "check_request" | "check_created",
+) {
+  await storeStub(env).fetch(new Request(
+    `https://radar-store/funnel/events/${event}`,
+    { method: "POST" },
+  ));
+}
+
+export async function getFunnelStats(env: Bindings): Promise<{
+  searches: number;
+  resultViews: number;
+  selections: number;
+  checkRequests: number;
+  checksCreated: number;
+}> {
+  const response = await storeStub(env).fetch(new Request("https://radar-store/funnel/stats"));
+  return await response.json();
 }
