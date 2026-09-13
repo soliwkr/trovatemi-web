@@ -46,6 +46,15 @@ type SharePack = {
   stats: Pick<CheckStats, "views" | "ctaClicks" | "activationIntents">;
 };
 
+
+type FunnelStats = {
+  searches: number;
+  resultViews: number;
+  selections: number;
+  checkRequests: number;
+  checksCreated: number;
+};
+
 type PublicCheck = {
   token: string;
   createdAt: string;
@@ -409,6 +418,7 @@ function RadarApp() {
   const [selected, setSelected] = useState<Prospect | null>(null);
   const [share, setShare] = useState<SharePack | null>(null);
   const [stats, setStats] = useState<CheckStats | null>(null);
+  const [funnel, setFunnel] = useState<FunnelStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [sharingId, setSharingId] = useState<string | null>(null);
   const [copied, setCopied] = useState<"link" | "message" | null>(null);
@@ -418,6 +428,39 @@ function RadarApp() {
     () => run?.prospects.filter((p) => p.band === "hot" || p.band === "priority").length ?? 0,
     [run],
   );
+
+
+  const funnelRates = useMemo(() => {
+    if (!funnel) return null;
+    const pct = (num: number, den: number) => den > 0 ? Math.round((num / den) * 100) : 0;
+    return {
+      selected: pct(funnel.selections, funnel.resultViews),
+      checkRequested: pct(funnel.checkRequests, funnel.selections),
+      checkCreated: pct(funnel.checksCreated, funnel.checkRequests),
+    };
+  }, [funnel]);
+
+  useEffect(() => {
+    let stopped = false;
+
+    async function refreshFunnel() {
+      try {
+        const response = await fetch("/api/funnel/stats");
+        if (!response.ok) return;
+        const body = await response.json() as FunnelStats;
+        if (!stopped) setFunnel(body);
+      } catch {
+        // CRO telemetry is informative, never blocking.
+      }
+    }
+
+    void refreshFunnel();
+    const timer = window.setInterval(refreshFunnel, 20000);
+    return () => {
+      stopped = true;
+      window.clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     if (!share) return;
@@ -561,6 +604,42 @@ function RadarApp() {
           <span>Score solo interno</span>
           <span>Nessun outreach automatico</span>
         </div>
+
+
+        {funnel && funnelRates && (
+          <section className="cro-panel">
+            <div className="cro-panel-head">
+              <div>
+                <small>PUBLIC FUNNEL · AGGREGATO</small>
+                <strong>CRO live</strong>
+              </div>
+              <span>Nessun dato personale</span>
+            </div>
+
+            <div className="cro-grid">
+              <article>
+                <small>RICERCHE</small>
+                <strong>{funnel.searches}</strong>
+                <span>ingressi nel motore</span>
+              </article>
+              <article>
+                <small>SI RICONOSCONO</small>
+                <strong>{funnel.selections}</strong>
+                <span>{funnelRates.selected}% dei risultati</span>
+              </article>
+              <article>
+                <small>CHIEDONO IL CHECK</small>
+                <strong>{funnel.checkRequests}</strong>
+                <span>{funnelRates.checkRequested}% delle selezioni</span>
+              </article>
+              <article>
+                <small>CHECK CREATI</small>
+                <strong>{funnel.checksCreated}</strong>
+                <span>{funnelRates.checkCreated}% delle richieste</span>
+              </article>
+            </div>
+          </section>
+        )}
 
         {error && <div className="ops-error"><b>ATTENZIONE</b><span>{error}</span></div>}
 
