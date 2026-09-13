@@ -101,6 +101,25 @@ button,input{font:inherit}
 .ops-error{margin-top:18px;padding:14px 16px;display:flex;gap:12px;border:1px solid #f0c9c5;border-radius:14px;background:#fff0ef;color:#80231b}
 .ops-error b{font-size:.68rem}.ops-error span{font-size:.82rem}
 
+.cro-panel{
+  margin-top:20px;
+  padding:18px;
+  border:1px solid #dedfd9;
+  border-radius:20px;
+  background:#111318;
+  color:#fff;
+  box-shadow:0 18px 50px rgba(17,20,24,.13);
+}
+.cro-panel-head{display:flex;align-items:end;justify-content:space-between;gap:16px}
+.cro-panel-head small{display:block;color:#848a90;font-size:.52rem;font-weight:900;letter-spacing:.1em}
+.cro-panel-head strong{display:block;margin-top:5px;font-size:1.05rem}
+.cro-panel-head>span{color:#72787e;font-size:.58rem}
+.cro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.cro-grid article{padding:13px;border:1px solid #2a2e34;border-radius:13px;background:#181b20}
+.cro-grid small{display:block;color:#7f858b;font-size:.49rem;font-weight:900;letter-spacing:.08em}
+.cro-grid strong{display:block;margin-top:6px;font-size:1.45rem;letter-spacing:-.04em}
+.cro-grid span{display:block;margin-top:3px;color:#8f959a;font-size:.57rem}
+
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
 .kpi-grid article{
   min-height:110px;padding:17px;
@@ -289,6 +308,7 @@ button,input{font:inherit}
   .ops-search{grid-template-columns:1fr;padding:10px}
   .ops-search button{min-height:50px}
   .kpi-grid{grid-template-columns:1fr 1fr}
+  .cro-grid{grid-template-columns:1fr 1fr}
   .query-kpi{grid-column:1/-1}
   .prospect-row{grid-template-columns:96px minmax(0,1fr) auto;padding:14px}
   .prospect-row .data-cell,.prospect-row .signals-cell{display:none}
@@ -301,6 +321,7 @@ button,input{font:inherit}
 
 @media(max-width:460px){
   .kpi-grid{grid-template-columns:1fr}
+  .cro-grid{grid-template-columns:1fr 1fr}
   .query-kpi{grid-column:auto}
   .live-stats.modern{grid-template-columns:1fr 1fr 1fr}
   .drawer-actions{grid-template-columns:1fr}
