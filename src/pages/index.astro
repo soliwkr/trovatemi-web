@@ -346,6 +346,14 @@ export const prerender = true;
           selected = currentRun.results.find((item) => item.id === id);
           if (!selected) return;
 
+
+          fetch('/api/public-event', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ event: 'selection' }),
+            keepalive: true,
+          }).catch(() => {});
+
           document.getElementById('selected-name').textContent = selected.name;
           document.getElementById('selected-address').textContent = selected.address;
           document.getElementById('selected-rating').textContent = formatRating(selected.rating);
