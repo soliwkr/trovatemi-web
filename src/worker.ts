@@ -26,6 +26,94 @@ function cleanPart(value: unknown, max = 80) {
 }
 
 
+
+type EventExtraction = {
+  title: string;
+  date: string;
+  time: string;
+  venue: string;
+  city: string;
+  confidence: number;
+  notes: string;
+};
+
+function parseModelJson(value: unknown): EventExtraction | null {
+  const text = typeof value === 'string'
+    ? value
+    : typeof (value as { response?: unknown })?.response === 'string'
+      ? String((value as { response: string }).response)
+      : '';
+
+  if (!text) return null;
+
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start < 0 || end <= start) return null;
+
+  try {
+    const raw = JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
+    const confidence = Number(raw.confidence);
+    return {
+      title: cleanPart(raw.title, 180),
+      date: cleanPart(raw.date, 20),
+      time: cleanPart(raw.time, 30),
+      venue: cleanPart(raw.venue, 180),
+      city: cleanPart(raw.city, 100),
+      confidence: Number.isFinite(confidence) ? Math.min(1, Math.max(0, confidence)) : 0,
+      notes: cleanPart(raw.notes, 280),
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function extractEventFromImage(request: Request, env: Env) {
+  const body = await readJson(request);
+  const image = typeof body?.image === 'string' ? body.image : '';
+
+  if (!image.startsWith('data:image/') || image.length > 6_000_000) {
+    return Response.json({ error: 'invalid_image' }, { status: 400 });
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const prompt = [
+    'Estrai i dati di UN evento principale dalla locandina o screenshot fornito.',
+    'Non inventare mai informazioni non visibili.',
+    'Se un campo non è leggibile o non è presente, usa stringa vuota.',
+    'Se la fonte usa parole relative come oggi, domani, venerdì o sabato, usa la data corrente solo quando la conversione è inequivocabile.',
+    'Data corrente UTC: ' + today + '.',
+    'Rispondi ESCLUSIVAMENTE con JSON valido, senza markdown, con queste chiavi:',
+    '{"title":"","date":"YYYY-MM-DD oppure stringa vuota","time":"HH:MM oppure intervallo o stringa vuota","venue":"","city":"","confidence":0.0,"notes":""}',
+    'confidence deve essere tra 0 e 1. notes deve segnalare conflitti o ambiguità.',
+  ].join('\n');
+
+  try {
+    const result = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
+      messages: [
+        { role: 'system', content: 'Sei un estrattore prudente di dati evento da immagini italiane.' },
+        { role: 'user', content: prompt },
+      ],
+      image,
+    });
+
+    const event = parseModelJson(result);
+    if (!event) {
+      return Response.json({ error: 'extraction_failed' }, { status: 502 });
+    }
+
+    return Response.json(
+      { event },
+      { headers: { 'cache-control': 'no-store' } },
+    );
+  } catch (error) {
+    console.error(JSON.stringify({
+      event: 'event.extract.error',
+      message: error instanceof Error ? error.message : String(error),
+    }));
+    return Response.json({ error: 'extraction_unavailable' }, { status: 502 });
+  }
+}
+
 async function recordPublicFunnelEvent(env: Env, event: string) {
   if (!['search', 'results', 'selection', 'check_request', 'check_created'].includes(event)) return;
   try {
@@ -133,6 +221,10 @@ export default {
         durationMs: Date.now() - startedAt,
       }));
       return response;
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/event-extract') {
+      return extractEventFromImage(request, env);
     }
 
     if (request.method === 'POST' && url.pathname === '/api/public-search') {
