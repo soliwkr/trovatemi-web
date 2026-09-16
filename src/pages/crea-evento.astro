@@ -148,6 +148,7 @@ const title = 'Crea evento — Trovatemi';
       type ExtractionPayload = {
         event?: ExtractedEvent;
         error?: string;
+        detail?: string;
       };
 
       function qs<T extends Element>(selector: string): T {
@@ -215,7 +216,10 @@ const title = 'Crea evento — Trovatemi';
 
           const payload = await response.json() as ExtractionPayload;
           if (!response.ok || !payload.event) {
-            throw new Error(payload.error || 'extraction_failed');
+            const message = payload.detail
+              ? (payload.error || 'extraction_failed') + ': ' + payload.detail
+              : (payload.error || 'extraction_failed');
+            throw new Error(message);
           }
 
           const event = payload.event;
@@ -235,7 +239,12 @@ const title = 'Crea evento — Trovatemi';
           result.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } catch (error) {
           working.hidden = true;
-          status.textContent = 'Non sono riuscito a leggere questa immagine. Prova con uno screenshot più nitido.';
+          const message = error instanceof Error ? error.message : String(error);
+          status.textContent = message.includes('model_license_required')
+            ? 'Sto attivando il modello Vision. Riprova tra un attimo.'
+            : message.includes('vision_image_error')
+              ? 'Il modello Vision ha rifiutato questa immagine. Riprova: se succede ancora, il codice errore qui sotto ci dice perché.'
+              : 'Estrazione non riuscita. Dettaglio: ' + message.slice(0, 180);
           status.className = 'status error';
           console.error(error);
         }
