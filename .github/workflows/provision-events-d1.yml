@@ -1,0 +1,70 @@
+name: Provision Events D1
+
+on:
+  push:
+    branches:
+      - feat/event-persistence-gate-2
+    paths:
+      - .github/workflows/provision-events-d1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+
+      - name: Create or reuse D1 database
+        id: d1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          npx wrangler d1 list --json > "$RUNNER_TEMP/d1-list.json"
+          DB_ID="$(node -e 'const fs=require("node:fs"); const xs=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/d1-list.json","utf8")); const x=xs.find(v=>v.name==="trovatemi-events"); if(x?.uuid) process.stdout.write(x.uuid)')"
+
+          if [ -z "$DB_ID" ]; then
+            npx wrangler d1 create trovatemi-events --location weur
+            npx wrangler d1 list --json > "$RUNNER_TEMP/d1-list.json"
+            DB_ID="$(node -e 'const fs=require("node:fs"); const xs=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/d1-list.json","utf8")); const x=xs.find(v=>v.name==="trovatemi-events"); if(!x?.uuid) process.exit(1); process.stdout.write(x.uuid)')"
+          fi
+
+          echo "database_id=$DB_ID" >> "$GITHUB_OUTPUT"
+          echo "### trovatemi-events" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`database_id: $DB_ID\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply Gate 2 schema
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler d1 execute trovatemi-events --remote --file=migrations/0001_create_events.sql --yes
+
+      - name: Verify events table
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler d1 execute trovatemi-events --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name='events';" --json > "$RUNNER_TEMP/events-table.json"
+          node -e 'const fs=require("node:fs"); const x=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/events-table.json","utf8")); const s=JSON.stringify(x); if(!s.includes("events")) process.exit(1)'
