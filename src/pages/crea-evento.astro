@@ -135,27 +135,48 @@ const title = 'Crea evento — Trovatemi';
     </main>
 
     <script>
-      const camera = document.querySelector('#camera');
-      const gallery = document.querySelector('#gallery');
-      const status = document.querySelector('#status');
-      const preview = document.querySelector('#preview');
-      const photo = document.querySelector('#photo');
-      const working = document.querySelector('#working');
-      const result = document.querySelector('#result');
-      const reset = document.querySelector('#reset');
-
-      const fields = {
-        title: document.querySelector('#title'),
-        date: document.querySelector('#date'),
-        time: document.querySelector('#time'),
-        venue: document.querySelector('#venue'),
-        city: document.querySelector('#city'),
+      type ExtractedEvent = {
+        title: string;
+        date: string;
+        time: string;
+        venue: string;
+        city: string;
+        confidence: number;
+        notes: string;
       };
 
-      const confidence = document.querySelector('#confidence');
-      const notes = document.querySelector('#notes');
+      type ExtractionPayload = {
+        event?: ExtractedEvent;
+        error?: string;
+      };
 
-      async function resizeImage(file) {
+      function qs<T extends Element>(selector: string): T {
+        const element = document.querySelector<T>(selector);
+        if (!element) throw new Error('Missing element: ' + selector);
+        return element;
+      }
+
+      const camera = qs<HTMLInputElement>('#camera');
+      const gallery = qs<HTMLInputElement>('#gallery');
+      const status = qs<HTMLDivElement>('#status');
+      const preview = qs<HTMLElement>('#preview');
+      const photo = qs<HTMLImageElement>('#photo');
+      const working = qs<HTMLDivElement>('#working');
+      const result = qs<HTMLElement>('#result');
+      const reset = qs<HTMLButtonElement>('#reset');
+
+      const fields: Record<'title' | 'date' | 'time' | 'venue' | 'city', HTMLInputElement> = {
+        title: qs<HTMLInputElement>('#title'),
+        date: qs<HTMLInputElement>('#date'),
+        time: qs<HTMLInputElement>('#time'),
+        venue: qs<HTMLInputElement>('#venue'),
+        city: qs<HTMLInputElement>('#city'),
+      };
+
+      const confidence = qs<HTMLDivElement>('#confidence');
+      const notes = qs<HTMLDivElement>('#notes');
+
+      async function resizeImage(file: File) {
         const source = await createImageBitmap(file);
         const max = 1600;
         const scale = Math.min(1, max / Math.max(source.width, source.height));
@@ -166,13 +187,14 @@ const title = 'Crea evento — Trovatemi';
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d', { alpha: false });
+        if (!ctx) throw new Error('canvas_context_unavailable');
         ctx.drawImage(source, 0, 0, width, height);
         source.close();
 
         return canvas.toDataURL('image/jpeg', .82);
       }
 
-      async function handleFile(file) {
+      async function handleFile(file?: File) {
         if (!file || !file.type.startsWith('image/')) return;
 
         status.textContent = '';
@@ -191,7 +213,7 @@ const title = 'Crea evento — Trovatemi';
             body: JSON.stringify({ image: dataUrl }),
           });
 
-          const payload = await response.json();
+          const payload = await response.json() as ExtractionPayload;
           if (!response.ok || !payload.event) {
             throw new Error(payload.error || 'extraction_failed');
           }
