@@ -32,5 +32,13 @@
   ],
   "ai": {
     "binding": "AI"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "EVENTS_DB",
+      "database_name": "trovatemi-events",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
 }
