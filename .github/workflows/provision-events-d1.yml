@@ -1,4 +1,5 @@
 name: Provision Events D1
+# Gate 2 production binding ready
 
 on:
   push:
