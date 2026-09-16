@@ -87,14 +87,28 @@ async function extractEventFromImage(request: Request, env: Env) {
     'confidence deve essere tra 0 e 1. notes deve segnalare conflitti o ambiguità.',
   ].join('\n');
 
+  const model = '@cf/meta/llama-3.2-11b-vision-instruct';
+
+  const runVision = () => env.AI.run(model, {
+    messages: [
+      { role: 'system', content: 'Sei un estrattore prudente di dati evento da immagini italiane.' },
+      { role: 'user', content: prompt },
+    ],
+    image,
+  });
+
   try {
-    const result = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
-      messages: [
-        { role: 'system', content: 'Sei un estrattore prudente di dati evento da immagini italiane.' },
-        { role: 'user', content: prompt },
-      ],
-      image,
-    });
+    let result;
+    try {
+      result = await runVision();
+    } catch (firstError) {
+      const message = firstError instanceof Error ? firstError.message : String(firstError);
+      if (!/5016|agree|license|acceptable use/i.test(message)) throw firstError;
+
+      // Cloudflare requires a one-time Meta license acceptance for this model.
+      await env.AI.run(model, { prompt: 'agree' });
+      result = await runVision();
+    }
 
     const event = parseModelJson(result);
     if (!event) {
@@ -110,7 +124,13 @@ async function extractEventFromImage(request: Request, env: Env) {
       event: 'event.extract.error',
       message: error instanceof Error ? error.message : String(error),
     }));
-    return Response.json({ error: 'extraction_unavailable' }, { status: 502 });
+    const message = error instanceof Error ? error.message : String(error);
+    const code = /5016|agree|license|acceptable use/i.test(message)
+      ? 'model_license_required'
+      : /too small|minimum|image/i.test(message)
+        ? 'vision_image_error'
+        : 'extraction_unavailable';
+    return Response.json({ error: code, detail: message.slice(0, 240) }, { status: 502 });
   }
 }
 
