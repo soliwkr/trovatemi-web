@@ -35,6 +35,8 @@ type EventExtraction = {
   city: string;
   confidence: number;
   notes: string;
+  venue_role: 'physical_place' | 'business_host' | 'address' | 'non_venue' | 'unknown';
+  venue_evidence: string;
 };
 
 function parseModelJson(value: unknown): EventExtraction | null {
@@ -53,6 +55,11 @@ function parseModelJson(value: unknown): EventExtraction | null {
   try {
     const raw = JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
     const confidence = Number(raw.confidence);
+    const rawRole = cleanPart(raw.venue_role, 40);
+    const venueRole = ['physical_place', 'business_host', 'address', 'non_venue', 'unknown'].includes(rawRole)
+      ? rawRole as EventExtraction['venue_role']
+      : 'unknown';
+
     return {
       title: cleanPart(raw.title, 180),
       date: cleanPart(raw.date, 20),
@@ -61,6 +68,8 @@ function parseModelJson(value: unknown): EventExtraction | null {
       city: cleanPart(raw.city, 100),
       confidence: Number.isFinite(confidence) ? Math.min(1, Math.max(0, confidence)) : 0,
       notes: cleanPart(raw.notes, 280),
+      venue_role: venueRole,
+      venue_evidence: cleanPart(raw.venue_evidence, 220),
     };
   } catch {
     return null;
@@ -165,8 +174,17 @@ function moveVenueLocalityIntoCity(event: EventExtraction) {
 function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtraction {
   let date = event.date;
   let venue = event.venue;
+  let venueRole = event.venue_role;
+  let venueEvidence = event.venue_evidence;
   let confidence = event.confidence;
   const notes: string[] = event.notes ? [event.notes] : [];
+
+  if (venue && !['physical_place', 'business_host', 'address'].includes(venueRole)) {
+    venue = '';
+    venueEvidence = '';
+    notes.push('Il candidato luogo non era provato come sede fisica dell evento ed è stato rimosso.');
+    confidence = Math.min(confidence, 0.65);
+  }
 
   if (pureItalianDatePhrase(venue)) {
     const inferred = inferUpcomingItalianDate(venue, todayIso);
@@ -192,6 +210,8 @@ function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtr
     venue,
     confidence,
     notes: cleanPart(notes.join(' '), 500),
+    venue_role: venue ? venueRole : 'unknown',
+    venue_evidence: venue ? venueEvidence : '',
   });
 }
 
@@ -210,10 +230,15 @@ async function extractEventFromImage(request: Request, env: Env) {
     'Se un campo non è leggibile o non è presente, usa stringa vuota.',
     'La data corrente a Formia/Roma è ' + today + '.',
     'Se sulla locandina giorno e mese sono visibili ma l anno NON è visibile, non inventare mai un anno passato. Usa l anno corrente o successivo soltanto se coerente con giorno, mese ed eventuale giorno della settimana; altrimenti lascia date vuota.',
-    'venue deve essere SOLO una struttura, attività, sala, palestra, locale o indirizzo specifico. Se vedi soltanto il nome del comune/località (es. Formia, Gaeta, Fondi), mettilo in city e lascia venue vuoto.',
+    'venue deve rispondere alla domanda: DOVE SUCCEDE FISICAMENTE L EVENTO?',
+    'Sono venue valide: palestra/teatro/bar/locale/centro commerciale/sala/struttura che ospita, oppure un indirizzo specifico.',
+    'NON sono venue: prodotto, tecnologia, sistema audio, cuffie, format, slogan, metodo, servizio, sponsor o nome dell esperienza.',
+    'Se vedi soltanto il nome del comune/località (es. Formia, Gaeta, Fondi), mettilo in city e lascia venue vuoto.',
+    'venue_role deve essere uno tra: physical_place, business_host, address, non_venue, unknown.',
+    'venue_evidence deve contenere il testo VISIBILE nella locandina che prova che quel venue è davvero host/luogo fisico. Se non c è prova visibile, venue deve essere vuoto e venue_role unknown.',
     'confidence NON è una certezza matematica: non usare 1.0 se hai inferito qualcosa o se almeno un campo è ambiguo.',
     'Rispondi ESCLUSIVAMENTE con JSON valido, senza markdown, con queste chiavi:',
-    '{"title":"","date":"YYYY-MM-DD oppure stringa vuota","time":"HH:MM oppure intervallo o stringa vuota","venue":"","city":"","confidence":0.0,"notes":""}',
+    '{"title":"","date":"YYYY-MM-DD oppure stringa vuota","time":"HH:MM oppure intervallo o stringa vuota","venue":"","city":"","confidence":0.0,"notes":"","venue_role":"unknown","venue_evidence":""}',
     'confidence deve essere tra 0 e 1. notes deve segnalare conflitti o ambiguità.',
   ].join('\n');
 
