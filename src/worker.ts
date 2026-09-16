@@ -135,6 +135,33 @@ function inferUpcomingItalianDate(value: string, todayIso: string) {
   return '';
 }
 
+
+const CORE_LOCALITIES = new Set([
+  'formia','gaeta','fondi','itri','minturno','sperlonga','terracina',
+  'ponza','ventotene','spigno saturnia','castelforte','santi cosma e damiano',
+  'lenola','campodimele','monte san biagio','san felice circeo','priverno'
+]);
+
+function moveVenueLocalityIntoCity(event: EventExtraction) {
+  if (event.city) return event;
+
+  const venue = normalizeItalianText(event.venue);
+  if (!venue || !CORE_LOCALITIES.has(venue)) return event;
+
+  return {
+    ...event,
+    city: event.venue,
+    venue: '',
+    confidence: Math.min(event.confidence, 0.85),
+    notes: cleanPart(
+      [event.notes, 'La località rilevata nel campo luogo è stata riclassificata come città.']
+        .filter(Boolean)
+        .join(' '),
+      500,
+    ),
+  };
+}
+
 function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtraction {
   let date = event.date;
   let venue = event.venue;
@@ -159,13 +186,13 @@ function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtr
     confidence = Math.min(confidence, 0.4);
   }
 
-  return {
+  return moveVenueLocalityIntoCity({
     ...event,
     date,
     venue,
     confidence,
     notes: cleanPart(notes.join(' '), 500),
-  };
+  });
 }
 
 async function extractEventFromImage(request: Request, env: Env) {
@@ -183,7 +210,7 @@ async function extractEventFromImage(request: Request, env: Env) {
     'Se un campo non è leggibile o non è presente, usa stringa vuota.',
     'La data corrente a Formia/Roma è ' + today + '.',
     'Se sulla locandina giorno e mese sono visibili ma l anno NON è visibile, non inventare mai un anno passato. Usa l anno corrente o successivo soltanto se coerente con giorno, mese ed eventuale giorno della settimana; altrimenti lascia date vuota.',
-    'venue deve essere SOLO un luogo reale, struttura, attività o indirizzo. Non mettere mai in venue un giorno della settimana, una data, un orario o un titolo grafico.',
+    'venue deve essere SOLO una struttura, attività, sala, palestra, locale o indirizzo specifico. Se vedi soltanto il nome del comune/località (es. Formia, Gaeta, Fondi), mettilo in city e lascia venue vuoto.',
     'confidence NON è una certezza matematica: non usare 1.0 se hai inferito qualcosa o se almeno un campo è ambiguo.',
     'Rispondi ESCLUSIVAMENTE con JSON valido, senza markdown, con queste chiavi:',
     '{"title":"","date":"YYYY-MM-DD oppure stringa vuota","time":"HH:MM oppure intervallo o stringa vuota","venue":"","city":"","confidence":0.0,"notes":""}',
