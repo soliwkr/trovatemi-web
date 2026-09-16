@@ -59,8 +59,20 @@ const title = 'Crea evento — Trovatemi';
       .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
       .confidence { margin-top: 16px; font-size: .83rem; color: var(--muted); }
       .notes { margin-top: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.55); font-size: .9rem; line-height: 1.4; }
+      .confirm {
+        margin-top: 22px; width: 100%; min-height: 58px; border: 0; border-radius: 14px;
+        background: var(--ink); color: white; font-weight: 900; cursor: pointer;
+      }
+      .confirm:disabled { opacity: .55; cursor: wait; }
+      .saved {
+        display: none; margin-top: 16px; padding: 16px; border-radius: 16px;
+        background: #e8f7ec; border: 1px solid #b7dfc1; line-height: 1.45;
+      }
+      .saved.visible { display: block; }
+      .saved strong { display: block; margin-bottom: 4px; }
+      .saved code { font-size: .78rem; word-break: break-all; }
       .reset {
-        margin-top: 22px; width: 100%; min-height: 52px; border: 1px solid var(--line);
+        margin-top: 12px; width: 100%; min-height: 52px; border: 1px solid var(--line);
         border-radius: 14px; background: transparent; font-weight: 800; cursor: pointer;
       }
       .gate { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 18px; font-size: .82rem; color: var(--muted); }
@@ -128,6 +140,8 @@ const title = 'Crea evento — Trovatemi';
 
         <div id="confidence" class="confidence"></div>
         <div id="notes" class="notes" hidden></div>
+        <button id="confirm" class="confirm" type="button">Conferma evento</button>
+        <div id="saved" class="saved" aria-live="polite"></div>
         <button id="reset" class="reset" type="button">Usa un'altra immagine</button>
       </section>
 
@@ -151,6 +165,23 @@ const title = 'Crea evento — Trovatemi';
         detail?: string;
       };
 
+      type StoredEvent = {
+        id: string;
+        slug: string;
+        title: string;
+        event_date: string;
+        event_time: string;
+        venue: string;
+        city: string;
+        lifecycle_status: 'draft';
+      };
+
+      type StoredEventPayload = {
+        event?: StoredEvent;
+        error?: string;
+        detail?: string;
+      };
+
       function qs<T extends Element>(selector: string): T {
         const element = document.querySelector<T>(selector);
         if (!element) throw new Error('Missing element: ' + selector);
@@ -164,6 +195,8 @@ const title = 'Crea evento — Trovatemi';
       const photo = qs<HTMLImageElement>('#photo');
       const working = qs<HTMLDivElement>('#working');
       const result = qs<HTMLElement>('#result');
+      const confirm = qs<HTMLButtonElement>('#confirm');
+      const saved = qs<HTMLDivElement>('#saved');
       const reset = qs<HTMLButtonElement>('#reset');
 
       const fields: Record<'title' | 'date' | 'time' | 'venue' | 'city', HTMLInputElement> = {
@@ -176,6 +209,15 @@ const title = 'Crea evento — Trovatemi';
 
       const confidence = qs<HTMLDivElement>('#confidence');
       const notes = qs<HTMLDivElement>('#notes');
+      let currentSourceDigest = '';
+
+      async function sha256Hex(value: string) {
+        const bytes = new TextEncoder().encode(value);
+        const digest = await crypto.subtle.digest('SHA-256', bytes);
+        return Array.from(new Uint8Array(digest))
+          .map((byte) => byte.toString(16).padStart(2, '0'))
+          .join('');
+      }
 
       async function resizeImage(file: File) {
         const source = await createImageBitmap(file);
@@ -204,6 +246,9 @@ const title = 'Crea evento — Trovatemi';
 
         try {
           const dataUrl = await resizeImage(file);
+          currentSourceDigest = await sha256Hex(dataUrl);
+          saved.classList.remove('visible');
+          saved.textContent = '';
           photo.src = dataUrl;
           preview.classList.add('visible');
           working.hidden = false;
@@ -250,6 +295,73 @@ const title = 'Crea evento — Trovatemi';
         }
       }
 
+      confirm.addEventListener('click', async () => {
+        saved.classList.remove('visible');
+        saved.textContent = '';
+
+        const payload = {
+          title: fields.title.value.trim(),
+          date: fields.date.value.trim(),
+          time: fields.time.value.trim(),
+          venue: fields.venue.value.trim(),
+          city: fields.city.value.trim(),
+          sourceDigest: currentSourceDigest,
+        };
+
+        if (!payload.title || !payload.date || !payload.city) {
+          status.textContent = 'Per salvare servono almeno titolo, data e città.';
+          status.className = 'status error';
+          return;
+        }
+
+        confirm.disabled = true;
+        confirm.textContent = 'Sto salvando…';
+        status.textContent = '';
+        status.className = 'status';
+
+        try {
+          const createResponse = await fetch('/api/events', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const created = await createResponse.json() as StoredEventPayload;
+          if (!createResponse.ok || !created.event) {
+            throw new Error(created.detail || created.error || 'event_persistence_failed');
+          }
+
+          const verifyResponse = await fetch('/api/events/' + encodeURIComponent(created.event.id), {
+            headers: { accept: 'application/json' },
+          });
+          const verified = await verifyResponse.json() as StoredEventPayload;
+          if (!verifyResponse.ok || !verified.event) {
+            throw new Error(verified.detail || verified.error || 'event_read_failed');
+          }
+
+          if (
+            verified.event.title !== payload.title ||
+            verified.event.event_date !== payload.date ||
+            verified.event.city !== payload.city
+          ) {
+            throw new Error('persistence_verification_mismatch');
+          }
+
+          saved.innerHTML =
+            '<strong>Evento salvato e riletto dal database ✓</strong>' +
+            '<div>Stato: draft</div>' +
+            '<div><code>' + verified.event.id + '</code></div>';
+          saved.classList.add('visible');
+          confirm.textContent = 'Evento confermato';
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          status.textContent = 'Salvataggio non riuscito: ' + message.slice(0, 180);
+          status.className = 'status error';
+          confirm.textContent = 'Riprova conferma';
+        } finally {
+          confirm.disabled = false;
+        }
+      });
+
       camera.addEventListener('change', () => handleFile(camera.files?.[0]));
       gallery.addEventListener('change', () => handleFile(gallery.files?.[0]));
 
@@ -259,6 +371,11 @@ const title = 'Crea evento — Trovatemi';
         preview.classList.remove('visible');
         result.classList.remove('visible');
         status.textContent = '';
+        currentSourceDigest = '';
+        saved.classList.remove('visible');
+        saved.textContent = '';
+        confirm.disabled = false;
+        confirm.textContent = 'Conferma evento';
         photo.removeAttribute('src');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });

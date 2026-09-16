@@ -134,6 +134,132 @@ async function extractEventFromImage(request: Request, env: Env) {
   }
 }
 
+
+type StoredEvent = {
+  id: string;
+  slug: string;
+  title: string;
+  event_date: string;
+  event_time: string;
+  venue: string;
+  city: string;
+  lifecycle_status: 'draft';
+  source_kind: 'upload';
+  source_digest: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+function eventSlug(title: string, id: string) {
+  const base = title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 64) || 'evento';
+  return base + '-' + id.slice(0, 8);
+}
+
+async function createStoredEvent(request: Request, env: Env) {
+  const body = await readJson(request);
+  if (!body) return Response.json({ error: 'invalid_json' }, { status: 400 });
+
+  const title = cleanPart(body.title, 180);
+  const eventDate = cleanPart(body.date, 20);
+  const eventTime = cleanPart(body.time, 30);
+  const venue = cleanPart(body.venue, 180);
+  const city = cleanPart(body.city, 100);
+  const sourceDigest = cleanPart(body.sourceDigest, 128) || null;
+
+  if (title.length < 2 || !/^\d{4}-\d{2}-\d{2}$/.test(eventDate) || city.length < 2) {
+    return Response.json({ error: 'invalid_event_fields' }, { status: 400 });
+  }
+
+  const id = crypto.randomUUID();
+  const slug = eventSlug(title, id);
+  const now = new Date().toISOString();
+
+  const event: StoredEvent = {
+    id,
+    slug,
+    title,
+    event_date: eventDate,
+    event_time: eventTime,
+    venue,
+    city,
+    lifecycle_status: 'draft',
+    source_kind: 'upload',
+    source_digest: sourceDigest,
+    created_at: now,
+    updated_at: now,
+  };
+
+  try {
+    await env.EVENTS_DB.prepare(
+      `INSERT INTO events (
+        id, slug, title, event_date, event_time, venue, city,
+        lifecycle_status, source_kind, source_digest, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      event.id,
+      event.slug,
+      event.title,
+      event.event_date,
+      event.event_time,
+      event.venue,
+      event.city,
+      event.lifecycle_status,
+      event.source_kind,
+      event.source_digest,
+      event.created_at,
+      event.updated_at,
+    ).run();
+
+    return Response.json({ event }, {
+      status: 201,
+      headers: { 'cache-control': 'no-store' },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: 'event.persist.error', message }));
+    return Response.json({
+      error: 'event_persistence_failed',
+      detail: message.slice(0, 240),
+    }, { status: 500 });
+  }
+}
+
+async function readStoredEvent(id: string, env: Env) {
+  if (!/^[0-9a-f-]{36}$/i.test(id)) {
+    return Response.json({ error: 'invalid_event_id' }, { status: 400 });
+  }
+
+  try {
+    const event = await env.EVENTS_DB.prepare(
+      `SELECT
+        id, slug, title, event_date, event_time, venue, city,
+        lifecycle_status, source_kind, source_digest, created_at, updated_at
+       FROM events
+       WHERE id = ?
+       LIMIT 1`
+    ).bind(id).first<StoredEvent>();
+
+    if (!event) return Response.json({ error: 'event_not_found' }, { status: 404 });
+
+    return Response.json({ event }, {
+      headers: { 'cache-control': 'no-store' },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: 'event.read.error', message }));
+    return Response.json({
+      error: 'event_read_failed',
+      detail: message.slice(0, 240),
+    }, { status: 500 });
+  }
+}
+
 async function recordPublicFunnelEvent(env: Env, event: string) {
   if (!['search', 'results', 'selection', 'check_request', 'check_created'].includes(event)) return;
   try {
@@ -245,6 +371,17 @@ export default {
 
     if (request.method === 'POST' && url.pathname === '/api/event-extract') {
       return extractEventFromImage(request, env);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/events') {
+      return createStoredEvent(request, env);
+    }
+
+    const eventReadMatch = request.method === 'GET'
+      ? url.pathname.match(/^\/api\/events\/([0-9a-f-]{36})$/i)
+      : null;
+    if (eventReadMatch) {
+      return readStoredEvent(eventReadMatch[1], env);
     }
 
     if (request.method === 'POST' && url.pathname === '/api/public-search') {
