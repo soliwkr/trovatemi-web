@@ -145,7 +145,7 @@ const title = 'Crea evento — Trovatemi';
         <button id="reset" class="reset" type="button">Usa un'altra immagine</button>
       </section>
 
-      <p class="gate">Gate 1 · Nessun evento viene ancora pubblicato o salvato.</p>
+      <p class="gate">Gate 2 · L'evento viene salvato come bozza. Controlla sempre i dati prima di confermare.</p>
     </main>
 
     <script>
@@ -272,9 +272,9 @@ const title = 'Crea evento — Trovatemi';
             fields[key].value = event[key] || '';
           }
 
-          confidence.textContent = event.confidence
-            ? 'Confidenza estrazione: ' + Math.round(event.confidence * 100) + '%'
-            : 'Controlla con attenzione i dati estratti.';
+          confidence.textContent = event.notes
+            ? 'Estrazione automatica: alcuni campi richiedono verifica.'
+            : 'Estrazione automatica: controlla sempre i dati prima di confermare.';
 
           notes.textContent = event.notes || '';
           notes.hidden = !event.notes;
@@ -327,6 +327,9 @@ const title = 'Crea evento — Trovatemi';
           });
           const created = await createResponse.json() as StoredEventPayload;
           if (!createResponse.ok || !created.event) {
+            if (created.error === 'event_date_in_past') {
+              throw new Error('La data è nel passato: correggila prima di confermare.');
+            }
             throw new Error(created.detail || created.error || 'event_persistence_failed');
           }
 
