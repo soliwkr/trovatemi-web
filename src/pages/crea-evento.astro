@@ -219,8 +219,8 @@ const title = 'Crea evento — Trovatemi';
           }
 
           const event = payload.event;
-          for (const [key, input] of Object.entries(fields)) {
-            input.value = event[key] || '';
+          for (const key of ['title', 'date', 'time', 'venue', 'city'] as const) {
+            fields[key].value = event[key] || '';
           }
 
           confidence.textContent = event.confidence
