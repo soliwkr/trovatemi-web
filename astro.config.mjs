@@ -7,6 +7,7 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: 'compile',
     inspectorPort: 9229,
+    remoteBindings: false,
   }),
   vite: {
     plugins: [tailwindcss()],
