@@ -67,6 +67,107 @@ function parseModelJson(value: unknown): EventExtraction | null {
   }
 }
 
+
+function normalizeItalianText(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function romeTodayIso() {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Rome',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return values.year + '-' + values.month + '-' + values.day;
+}
+
+const IT_MONTHS: Record<string, number> = {
+  gennaio: 1, febbraio: 2, marzo: 3, aprile: 4, maggio: 5, giugno: 6,
+  luglio: 7, agosto: 8, settembre: 9, ottobre: 10, novembre: 11, dicembre: 12,
+};
+
+const IT_WEEKDAYS: Record<string, number> = {
+  domenica: 0, lunedi: 1, martedi: 2, mercoledi: 3,
+  giovedi: 4, venerdi: 5, sabato: 6,
+};
+
+function pureItalianDatePhrase(value: string) {
+  const normalized = normalizeItalianText(value).replace(/[.,]/g, '');
+  return /^(?:(?:lunedi|martedi|mercoledi|giovedi|venerdi|sabato|domenica)\s+)?\d{1,2}\s+(?:gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)(?:\s+\d{4})?$/.test(normalized);
+}
+
+function inferUpcomingItalianDate(value: string, todayIso: string) {
+  const normalized = normalizeItalianText(value).replace(/[.,]/g, '');
+  const match = normalized.match(/^(?:(lunedi|martedi|mercoledi|giovedi|venerdi|sabato|domenica)\s+)?(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)(?:\s+(\d{4}))?$/);
+  if (!match) return '';
+
+  const [, weekdayName, dayRaw, monthName, explicitYear] = match;
+  const day = Number(dayRaw);
+  const month = IT_MONTHS[monthName];
+  const todayYear = Number(todayIso.slice(0, 4));
+  const years = explicitYear ? [Number(explicitYear)] : [todayYear, todayYear + 1];
+
+  for (const year of years) {
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (
+      date.getUTCFullYear() !== year ||
+      date.getUTCMonth() !== month - 1 ||
+      date.getUTCDate() !== day
+    ) continue;
+
+    if (weekdayName && date.getUTCDay() !== IT_WEEKDAYS[weekdayName]) continue;
+
+    const iso = year.toString().padStart(4, '0') + '-' +
+      month.toString().padStart(2, '0') + '-' +
+      day.toString().padStart(2, '0');
+
+    if (explicitYear || iso >= todayIso) return iso;
+  }
+
+  return '';
+}
+
+function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtraction {
+  let date = event.date;
+  let venue = event.venue;
+  let confidence = event.confidence;
+  const notes: string[] = event.notes ? [event.notes] : [];
+
+  if (pureItalianDatePhrase(venue)) {
+    const inferred = inferUpcomingItalianDate(venue, todayIso);
+    if (inferred && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date < todayIso)) {
+      date = inferred;
+      notes.push('Data ricostruita dal giorno/mese visibile nella locandina: verifica prima di confermare.');
+      confidence = Math.min(confidence, 0.75);
+    }
+    venue = '';
+    notes.push('Il testo rilevato come luogo era in realtà una data, quindi il campo luogo è stato svuotato.');
+    confidence = Math.min(confidence, 0.7);
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date) && date < todayIso) {
+    date = '';
+    notes.push('La data estratta risultava nel passato ed è stata rimossa invece di inventare un anno.');
+    confidence = Math.min(confidence, 0.4);
+  }
+
+  return {
+    ...event,
+    date,
+    venue,
+    confidence,
+    notes: cleanPart(notes.join(' '), 500),
+  };
+}
+
 async function extractEventFromImage(request: Request, env: Env) {
   const body = await readJson(request);
   const image = typeof body?.image === 'string' ? body.image : '';
@@ -75,13 +176,15 @@ async function extractEventFromImage(request: Request, env: Env) {
     return Response.json({ error: 'invalid_image' }, { status: 400 });
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = romeTodayIso();
   const prompt = [
     'Estrai i dati di UN evento principale dalla locandina o screenshot fornito.',
     'Non inventare mai informazioni non visibili.',
     'Se un campo non è leggibile o non è presente, usa stringa vuota.',
-    'Se la fonte usa parole relative come oggi, domani, venerdì o sabato, usa la data corrente solo quando la conversione è inequivocabile.',
-    'Data corrente UTC: ' + today + '.',
+    'La data corrente a Formia/Roma è ' + today + '.',
+    'Se sulla locandina giorno e mese sono visibili ma l anno NON è visibile, non inventare mai un anno passato. Usa l anno corrente o successivo soltanto se coerente con giorno, mese ed eventuale giorno della settimana; altrimenti lascia date vuota.',
+    'venue deve essere SOLO un luogo reale, struttura, attività o indirizzo. Non mettere mai in venue un giorno della settimana, una data, un orario o un titolo grafico.',
+    'confidence NON è una certezza matematica: non usare 1.0 se hai inferito qualcosa o se almeno un campo è ambiguo.',
     'Rispondi ESCLUSIVAMENTE con JSON valido, senza markdown, con queste chiavi:',
     '{"title":"","date":"YYYY-MM-DD oppure stringa vuota","time":"HH:MM oppure intervallo o stringa vuota","venue":"","city":"","confidence":0.0,"notes":""}',
     'confidence deve essere tra 0 e 1. notes deve segnalare conflitti o ambiguità.',
@@ -110,10 +213,12 @@ async function extractEventFromImage(request: Request, env: Env) {
       result = await runVision();
     }
 
-    const event = parseModelJson(result);
-    if (!event) {
+    const parsed = parseModelJson(result);
+    if (!parsed) {
       return Response.json({ error: 'extraction_failed' }, { status: 502 });
     }
+
+    const event = sanitizeExtraction(parsed, today);
 
     return Response.json(
       { event },
@@ -174,6 +279,10 @@ async function createStoredEvent(request: Request, env: Env) {
 
   if (title.length < 2 || !/^\d{4}-\d{2}-\d{2}$/.test(eventDate) || city.length < 2) {
     return Response.json({ error: 'invalid_event_fields' }, { status: 400 });
+  }
+
+  if (eventDate < romeTodayIso()) {
+    return Response.json({ error: 'event_date_in_past' }, { status: 400 });
   }
 
   const id = crypto.randomUUID();
