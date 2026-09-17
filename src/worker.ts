@@ -39,6 +39,42 @@ type EventExtraction = {
   venue_evidence: string;
 };
 
+type VenueValidation = {
+  venue: string;
+  valid: boolean;
+  role: 'physical_place' | 'business_host' | 'address' | 'non_venue' | 'unknown';
+  evidence: string;
+  notes: string;
+};
+
+function parseVenueValidation(value: unknown): VenueValidation | null {
+  const text = typeof value === 'string'
+    ? value
+    : typeof (value as { response?: unknown })?.response === 'string'
+      ? String((value as { response: string }).response)
+      : '';
+  if (!text) return null;
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start < 0 || end <= start) return null;
+  try {
+    const raw = JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
+    const roleRaw = cleanPart(raw.role, 40);
+    const role = ['physical_place', 'business_host', 'address', 'non_venue', 'unknown'].includes(roleRaw)
+      ? roleRaw as VenueValidation['role']
+      : 'unknown';
+    return {
+      venue: cleanPart(raw.venue, 180),
+      valid: raw.valid === true,
+      role,
+      evidence: cleanPart(raw.evidence, 220),
+      notes: cleanPart(raw.notes, 280),
+    };
+  } catch {
+    return null;
+  }
+}
+
 function parseModelJson(value: unknown): EventExtraction | null {
   const text = typeof value === 'string'
     ? value
@@ -215,6 +251,63 @@ function sanitizeExtraction(event: EventExtraction, todayIso: string): EventExtr
   });
 }
 
+async function validateVenueFromImage(image: string, event: EventExtraction, env: Env): Promise<EventExtraction> {
+  const candidate = event.venue || '(nessun candidato)';
+  const prompt = [
+    'Valida ESCLUSIVAMENTE il luogo fisico dell evento mostrato nell immagine.',
+    'Candidato del primo passaggio: ' + candidate + '.',
+    'Citta gia estratta: ' + (event.city || '(vuota)') + '.',
+    'La domanda e: DOVE SI SVOLGE FISICAMENTE L EVENTO?',
+    'Un venue valido e una struttura, palestra, teatro, locale, sala, attivita ospitante o indirizzo.',
+    'NON accettare come venue: prova gratuita, ingresso gratuito/libero, open day, novita, offerta, promozione, CTA, slogan, prodotto, cuffie, tecnologia, sistema, metodo, format, servizio, sponsor o nome dell esperienza.',
+    'Se il candidato non e un luogo, cerca nell immagine un host fisico chiaramente visibile. Non inventare.',
+    'Se non puoi provare dall immagine un luogo fisico, restituisci venue vuoto, valid false e role unknown.',
+    'evidence deve essere testo visibile nell immagine che dimostra il luogo/host, non una tua inferenza.',
+    'Rispondi SOLO JSON valido:',
+    '{"venue":"","valid":false,"role":"unknown","evidence":"","notes":""}',
+  ].join('\n');
+
+  try {
+    const result = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
+      messages: [
+        { role: 'system', content: 'Sei un verificatore conservativo di venue per eventi italiani.' },
+        { role: 'user', content: prompt },
+      ],
+      image,
+    });
+    const validation = parseVenueValidation(result);
+    if (!validation) return { ...event, venue: '', venue_role: 'unknown', venue_evidence: '' };
+
+    const accepted = validation.valid &&
+      Boolean(validation.venue) &&
+      ['physical_place', 'business_host', 'address'].includes(validation.role) &&
+      Boolean(validation.evidence);
+
+    return {
+      ...event,
+      venue: accepted ? validation.venue : '',
+      venue_role: accepted ? validation.role : 'unknown',
+      venue_evidence: accepted ? validation.evidence : '',
+      confidence: accepted ? Math.min(event.confidence, 0.9) : Math.min(event.confidence, 0.65),
+      notes: cleanPart(
+        [event.notes, validation.notes, accepted ? '' : 'Venue non verificato nel secondo passaggio: lasciato vuoto.']
+          .filter(Boolean)
+          .join(' '),
+        500,
+      ),
+    };
+  } catch {
+    return {
+      ...event,
+      venue: '',
+      venue_role: 'unknown',
+      venue_evidence: '',
+      confidence: Math.min(event.confidence, 0.6),
+      notes: cleanPart([event.notes, 'Verifica venue non riuscita: campo luogo lasciato vuoto.'].filter(Boolean).join(' '), 500),
+    };
+  }
+}
+
 async function extractEventFromImage(request: Request, env: Env) {
   const body = await readJson(request);
   const image = typeof body?.image === 'string' ? body.image : '';
@@ -270,7 +363,8 @@ async function extractEventFromImage(request: Request, env: Env) {
       return Response.json({ error: 'extraction_failed' }, { status: 502 });
     }
 
-    const event = sanitizeExtraction(parsed, today);
+    const sanitized = sanitizeExtraction(parsed, today);
+    const event = await validateVenueFromImage(image, sanitized, env);
 
     return Response.json(
       { event },
