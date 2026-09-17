@@ -1,0 +1,184 @@
+name: Patch venue second pass
+
+on:
+  push:
+    branches:
+      - fix/event-venue-second-pass
+    paths:
+      - .github/workflows/patch-venue-second-pass.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/event-venue-second-pass
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Patch venue validation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('src/worker.ts')
+          s=p.read_text()
+
+          anchor="""type EventExtraction = {
+            title: string;
+            date: string;
+            time: string;
+            venue: string;
+            city: string;
+            confidence: number;
+            notes: string;
+            venue_role: 'physical_place' | 'business_host' | 'address' | 'non_venue' | 'unknown';
+            venue_evidence: string;
+          };
+          """
+          insert=anchor+"""
+          type VenueValidation = {
+            venue: string;
+            valid: boolean;
+            role: 'physical_place' | 'business_host' | 'address' | 'non_venue' | 'unknown';
+            evidence: string;
+            notes: string;
+          };
+          """
+          if anchor not in s: raise SystemExit('EventExtraction anchor missing')
+          s=s.replace(anchor, insert, 1)
+
+          anchor2="""function parseModelJson(value: unknown): EventExtraction | null {
+          """
+          helper="""function parseVenueValidation(value: unknown): VenueValidation | null {
+            const text = typeof value === 'string'
+              ? value
+              : typeof (value as { response?: unknown })?.response === 'string'
+                ? String((value as { response: string }).response)
+                : '';
+            if (!text) return null;
+            const start = text.indexOf('{');
+            const end = text.lastIndexOf('}');
+            if (start < 0 || end <= start) return null;
+            try {
+              const raw = JSON.parse(text.slice(start, end + 1)) as Record<string, unknown>;
+              const roleRaw = cleanPart(raw.role, 40);
+              const role = ['physical_place', 'business_host', 'address', 'non_venue', 'unknown'].includes(roleRaw)
+                ? roleRaw as VenueValidation['role']
+                : 'unknown';
+              return {
+                venue: cleanPart(raw.venue, 180),
+                valid: raw.valid === true,
+                role,
+                evidence: cleanPart(raw.evidence, 220),
+                notes: cleanPart(raw.notes, 280),
+              };
+            } catch {
+              return null;
+            }
+          }
+
+          """+anchor2
+          if anchor2 not in s: raise SystemExit('parseModelJson anchor missing')
+          s=s.replace(anchor2, helper, 1)
+
+          anchor3="""async function extractEventFromImage(request: Request, env: Env) {
+          """
+          validator="""async function validateVenueFromImage(image: string, event: EventExtraction, env: Env): Promise<EventExtraction> {
+            const candidate = event.venue || '(nessun candidato)';
+            const prompt = [
+              'Valida ESCLUSIVAMENTE il luogo fisico dell evento mostrato nell immagine.',
+              'Candidato del primo passaggio: ' + candidate + '.',
+              'Citta gia estratta: ' + (event.city || '(vuota)') + '.',
+              'La domanda e: DOVE SI SVOLGE FISICAMENTE L EVENTO?',
+              'Un venue valido e una struttura, palestra, teatro, locale, sala, attivita ospitante o indirizzo.',
+              'NON accettare come venue: prova gratuita, ingresso gratuito/libero, open day, novita, offerta, promozione, CTA, slogan, prodotto, cuffie, tecnologia, sistema, metodo, format, servizio, sponsor o nome dell esperienza.',
+              'Se il candidato non e un luogo, cerca nell immagine un host fisico chiaramente visibile. Non inventare.',
+              'Se non puoi provare dall immagine un luogo fisico, restituisci venue vuoto, valid false e role unknown.',
+              'evidence deve essere testo visibile nell immagine che dimostra il luogo/host, non una tua inferenza.',
+              'Rispondi SOLO JSON valido:',
+              '{"venue":"","valid":false,"role":"unknown","evidence":"","notes":""}',
+            ].join('\\n');
+
+            try {
+              const result = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
+                messages: [
+                  { role: 'system', content: 'Sei un verificatore conservativo di venue per eventi italiani.' },
+                  { role: 'user', content: prompt },
+                ],
+                image,
+              });
+              const validation = parseVenueValidation(result);
+              if (!validation) return { ...event, venue: '', venue_role: 'unknown', venue_evidence: '' };
+
+              const accepted = validation.valid &&
+                Boolean(validation.venue) &&
+                ['physical_place', 'business_host', 'address'].includes(validation.role) &&
+                Boolean(validation.evidence);
+
+              return {
+                ...event,
+                venue: accepted ? validation.venue : '',
+                venue_role: accepted ? validation.role : 'unknown',
+                venue_evidence: accepted ? validation.evidence : '',
+                confidence: accepted ? Math.min(event.confidence, 0.9) : Math.min(event.confidence, 0.65),
+                notes: cleanPart(
+                  [event.notes, validation.notes, accepted ? '' : 'Venue non verificato nel secondo passaggio: lasciato vuoto.']
+                    .filter(Boolean)
+                    .join(' '),
+                  500,
+                ),
+              };
+            } catch {
+              return {
+                ...event,
+                venue: '',
+                venue_role: 'unknown',
+                venue_evidence: '',
+                confidence: Math.min(event.confidence, 0.6),
+                notes: cleanPart([event.notes, 'Verifica venue non riuscita: campo luogo lasciato vuoto.'].filter(Boolean).join(' '), 500),
+              };
+            }
+          }
+
+          """+anchor3
+          if anchor3 not in s: raise SystemExit('extract anchor missing')
+          s=s.replace(anchor3, validator, 1)
+
+          old="""    const event = sanitizeExtraction(parsed, today);
+
+              return Response.json(
+                { event },
+          """
+          new="""    const sanitized = sanitizeExtraction(parsed, today);
+              const event = await validateVenueFromImage(image, sanitized, env);
+
+              return Response.json(
+                { event },
+          """
+          if old not in s: raise SystemExit('event sanitize anchor missing')
+          s=s.replace(old,new,1)
+
+          p.write_text(s)
+          PY
+
+      - name: Validate patch
+        run: |
+          npm run check
+          npm run build
+
+      - name: Commit patch
+        run: |
+          git config user.name "trovatemi-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/worker.ts
+          git commit -m "fix(event): verify physical venue in second vision pass"
+          git push origin HEAD:fix/event-venue-second-pass
