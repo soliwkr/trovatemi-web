@@ -1,0 +1,127 @@
+---
+import { env } from 'cloudflare:workers';
+import PilotLayout from '../../layouts/PilotLayout.astro';
+import {
+  buildCheckoutUrl,
+  resolveFounderOffer,
+  resolvePilotPreview,
+} from '../../domain/pilot-preview';
+
+export const prerender = false;
+
+type PilotRuntimeEnv = Cloudflare.Env & {
+  PILOT_PREVIEWS_JSON?: string;
+  FOUNDERS_OFFER_JSON?: string;
+  FOUNDERS_CHECKOUT_URL?: string;
+};
+
+const token = Astro.params.token ?? '';
+const runtimeEnv = env as PilotRuntimeEnv;
+const previewResolution = resolvePilotPreview(runtimeEnv.PILOT_PREVIEWS_JSON, token);
+const offerResolution = resolveFounderOffer(runtimeEnv.FOUNDERS_OFFER_JSON);
+const preview = previewResolution.status === 'found' ? previewResolution.preview : null;
+const offer = offerResolution.status === 'ready' ? offerResolution.offer : null;
+const checkoutResolution = preview
+  ? buildCheckoutUrl(runtimeEnv.FOUNDERS_CHECKOUT_URL, preview.reference)
+  : { status: 'unconfigured' } as const;
+const checkoutUrl = checkoutResolution.status === 'ready' ? checkoutResolution.url : null;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+
+if (!preview) Astro.response.status = 404;
+if (previewResolution.status === 'configuration_error' || offerResolution.status === 'configuration_error' || checkoutResolution.status === 'configuration_error') {
+  console.error(JSON.stringify({ event: 'pilot_activation.configuration_error' }));
+}
+---
+
+<PilotLayout
+  title={preview ? `Attiva ${preview.business.name} · Trovatemi` : 'Attivazione non disponibile · Trovatemi'}
+  description={preview ? `Condizioni dell’Attivazione Fondatori per ${preview.business.name}.` : 'L’attivazione richiesta non è disponibile.'}
+  stage="02 / 02"
+>
+  {preview ? (
+    <section class="bg-paper py-14 sm:py-20">
+      <div class="brand-wrap grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+        <div>
+          <a class="type-micro inline-flex items-center gap-2 text-ink/60 hover:text-ink" href={`/preview/${encodeURIComponent(token)}`}>← Torna alla preview</a>
+          <span class="section-kicker mt-9">Una sola attivazione · {preview.business.name}</span>
+          <h1 class="display-title--hero mt-7">Mettiamo al lavoro<br /><em class="display-mark">il passaparola che hai già.</em></h1>
+          <p class="type-body-lg mt-7 max-w-[58ch]">Non acquisti una dashboard da imparare. Configuriamo il percorso insieme e lo portiamo fino alla prima richiesta autentica inviata.</p>
+
+          <div class="mt-10 border-y-2 border-ink">
+            <div class="grid gap-2 border-b border-ink/25 py-5 sm:grid-cols-[10rem_1fr]"><span class="type-micro text-ink/55">Attività</span><strong>{preview.business.name} · {preview.business.city}</strong></div>
+            <div class="grid gap-2 border-b border-ink/25 py-5 sm:grid-cols-[10rem_1fr]"><span class="type-micro text-ink/55">Consegna</span><strong>Entro 48 ore dall’onboarding completo e dalle autorizzazioni necessarie.</strong></div>
+            <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr]"><span class="type-micro text-ink/55">Primo valore</span><strong>Prima richiesta autentica, neutrale e autorizzata inviata con successo.</strong></div>
+          </div>
+
+          <div class="mt-10">
+            <span class="type-micro">Cosa ricevi</span>
+            <ul class="type-body-lg mt-5 grid gap-4 sm:grid-cols-2">
+              {preview.after.services.map((service) => (
+                <li class="flex items-start gap-3 border border-ink/20 bg-white p-4"><i class="mt-0.5 grid size-6 shrink-0 place-items-center bg-primary text-xs font-bold not-italic">✓</i><span>{service}</span></li>
+              ))}
+            </ul>
+          </div>
+
+          <aside class="mt-10 border-l-4 border-primary bg-base-200 p-6">
+            <span class="type-micro">Confini chiari</span>
+            <p class="type-body-sm mt-3">Nessuna posizione, recensione, chiamata o nuovo cliente è garantito. Non compriamo recensioni, non filtriamo le opinioni e non utilizziamo incentivi.</p>
+          </aside>
+        </div>
+
+        <aside class="hard-shadow border-2 border-ink bg-white lg:sticky lg:top-8">
+          <div class="border-b-2 border-ink bg-primary p-6 sm:p-8">
+            <span class="type-micro">Attivazione Fondatori</span>
+            {offer ? (
+              <>
+                <div class="mt-5 flex items-end gap-3"><strong class="font-display text-[5rem] leading-none font-normal">{offer.formattedPrice}</strong><span class="type-body-sm pb-2 font-bold">una volta</span></div>
+                <p class="type-micro mt-3">{offer.taxLabel} · {offer.durationDays} giorni · {offer.renewalLabel}</p>
+              </>
+            ) : (
+              <p class="type-card-title mt-5">Condizioni in validazione.</p>
+            )}
+          </div>
+
+          <div class="p-6 sm:p-8">
+            {offer ? (
+              <>
+                <dl class="type-body-sm divide-y divide-ink/20 border-y border-ink/20">
+                  <div class="py-4"><dt class="type-micro text-ink/55">Al giorno 91</dt><dd class="mt-2 font-semibold">{offer.day91}</dd></div>
+                  <div class="py-4"><dt class="type-micro text-ink/55">Rimborso</dt><dd class="mt-2 font-semibold">{offer.refundPolicy}</dd></div>
+                  <div class="py-4"><dt class="type-micro text-ink/55">Venditore</dt><dd class="mt-2 font-semibold">{offer.seller.legalName} · P.IVA {offer.seller.vatId}</dd></div>
+                </dl>
+
+                {checkoutUrl ? (
+                  <>
+                    <a class="btn btn-neutral brand-btn mt-7 w-full" href={checkoutUrl} rel="noreferrer">Vai al pagamento sicuro <span aria-hidden="true">↗</span></a>
+                    <p class="mt-4 text-center text-xs leading-relaxed text-ink/60">Pagamento ospitato da Stripe. Proseguendo dichiari di aver letto le <a class="underline" href={offer.termsUrl} target="_blank" rel="noreferrer">condizioni</a> e la <a class="underline" href={offer.privacyUrl} target="_blank" rel="noreferrer">privacy policy</a>.</p>
+                  </>
+                ) : (
+                  <div class="mt-7 border-2 border-ink bg-base-200 p-5 text-center">
+                    <strong class="type-card-title">Checkout non ancora attivo.</strong>
+                    <p class="type-body-sm mt-2 text-ink/65">L’offerta resta visibile, ma non accettiamo pagamenti finché il link Stripe non è configurato.</p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div class="border-2 border-ink bg-base-200 p-5">
+                <strong class="type-card-title">Pagamento bloccato in sicurezza.</strong>
+                <p class="type-body-sm mt-2 text-ink/65">Prima servono identità del venditore, trattamento IVA, regola al giorno 91, rimborso e documenti applicabili.</p>
+              </div>
+            )}
+          </div>
+        </aside>
+      </div>
+    </section>
+  ) : (
+    <section class="min-h-[62dvh] bg-paper py-20">
+      <div class="brand-wrap max-w-3xl">
+        <span class="section-kicker">Link privato</span>
+        <h1 class="display-title mt-7">Questa attivazione non è disponibile.</h1>
+        <p class="type-body-lg mt-7">Il link potrebbe essere incompleto o la preview potrebbe non essere ancora pronta.</p>
+        <a class="btn btn-neutral brand-btn mt-8" href="/">Torna a Trovatemi.it</a>
+      </div>
+    </section>
+  )}
+</PilotLayout>

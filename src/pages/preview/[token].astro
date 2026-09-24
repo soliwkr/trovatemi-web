@@ -1,0 +1,145 @@
+---
+import { env } from 'cloudflare:workers';
+import PilotLayout from '../../layouts/PilotLayout.astro';
+import { resolvePilotPreview } from '../../domain/pilot-preview';
+
+export const prerender = false;
+
+type PilotRuntimeEnv = Cloudflare.Env & {
+  PILOT_PREVIEWS_JSON?: string;
+};
+
+const token = Astro.params.token ?? '';
+const runtimeEnv = env as PilotRuntimeEnv;
+const resolution = resolvePilotPreview(runtimeEnv.PILOT_PREVIEWS_JSON, token);
+const preview = resolution.status === 'found' ? resolution.preview : null;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+
+if (!preview) {
+  Astro.response.status = 404;
+  if (resolution.status === 'configuration_error') {
+    console.error(JSON.stringify({ event: 'pilot_preview.configuration_error' }));
+  }
+}
+
+const observedLabel = preview
+  ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'long', timeZone: 'Europe/Rome' }).format(new Date(preview.observedAt))
+  : '';
+---
+
+<PilotLayout
+  title={preview ? `${preview.business.name} · Preview Trovatemi` : 'Preview non disponibile · Trovatemi'}
+  description={preview ? `Preview privata preparata per ${preview.business.name}.` : 'La preview richiesta non è disponibile.'}
+  stage="01 / 02"
+>
+  {preview ? (
+    <>
+      <section class="border-b-2 border-ink bg-paper py-14 sm:py-20">
+        <div class="brand-wrap grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
+          <div>
+            <span class="section-kicker">Preparata per {preview.business.name}</span>
+            <h1 class="display-title--hero mt-7">Il lavoro c’è già.<br /><em class="display-mark">Facciamolo vedere.</em></h1>
+            <p class="type-body-lg mt-7 max-w-[58ch]">{preview.diagnosis.headline}</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a class="btn btn-primary brand-btn" href={preview.activationPath}>Attiva questa attività <span aria-hidden="true">↗</span></a>
+              <a class="btn btn-ghost brand-btn" href="#lettura">Guarda prima la lettura</a>
+            </div>
+            <p class="type-micro mt-6 text-ink/55">Rilevazione del {observedLabel} · i dati vanno confermati dal titolare prima della pubblicazione.</p>
+          </div>
+
+          <article class="hard-shadow border-2 border-ink bg-white">
+            <div class="flex items-center justify-between border-b-2 border-ink bg-ink px-5 py-4 text-paper">
+              <span class="type-micro text-primary">Quello che si vede oggi</span>
+              <span aria-hidden="true">●</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <p class="type-micro text-ink/55">{preview.business.category} · {preview.business.city}</p>
+              <h2 class="type-card-title mt-4 text-[2rem]">{preview.business.name}</h2>
+              <p class="type-body-sm mt-2 text-ink/60">{preview.business.address}</p>
+              {(preview.business.rating !== undefined || preview.business.reviewCount !== undefined) && (
+                <div class="mt-7 grid grid-cols-2 border-y-2 border-ink">
+                  <div class="p-5">
+                    <span class="type-micro text-ink/55">Valutazione</span>
+                    <strong class="mt-2 block font-metric text-3xl">{preview.business.rating?.toLocaleString('it-IT') ?? '—'}</strong>
+                  </div>
+                  <div class="border-l-2 border-ink p-5">
+                    <span class="type-micro text-ink/55">Recensioni</span>
+                    <strong class="mt-2 block font-metric text-3xl">{preview.business.reviewCount?.toLocaleString('it-IT') ?? '—'}</strong>
+                  </div>
+                </div>
+              )}
+              <p class="type-body-sm mt-6 bg-base-200 p-4 font-semibold">Snapshot diagnostico, non una promessa di risultato.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+
+      <section id="lettura" class="border-b-2 border-ink bg-base-200 py-16 sm:py-24">
+        <div class="brand-wrap grid gap-12 lg:grid-cols-[0.78fr_1.22fr]">
+          <header>
+            <span class="section-kicker">01 · La lettura</span>
+            <h2 class="display-title mt-7">Partiamo dai fatti,<br /><em class="display-mark">non da un voto.</em></h2>
+          </header>
+          <div class="grid gap-5">
+            {preview.diagnosis.evidence.map((fact, index) => (
+              <article class="grid grid-cols-[auto_1fr] gap-5 border-2 border-ink bg-paper p-6 sm:p-7">
+                <span class="font-metric text-2xl font-bold">0{index + 1}</span>
+                <p class="type-card-title">{fact}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="border-b-2 border-ink bg-ink py-16 text-paper sm:py-24">
+        <div class="brand-wrap grid gap-12 lg:grid-cols-[0.78fr_1.22fr]">
+          <header>
+            <span class="section-kicker text-primary">02 · Prima mossa</span>
+            <h2 class="display-title mt-7">Non sistemiamo tutto.<br /><em class="text-primary">Sblocchiamo il percorso.</em></h2>
+          </header>
+          <ol class="grid gap-4">
+            {preview.diagnosis.priorities.map((priority, index) => (
+              <li class="grid grid-cols-[auto_1fr] items-start gap-5 border border-paper/35 p-6 sm:p-7">
+                <span class="grid size-10 place-items-center bg-primary font-metric font-bold text-ink">{index + 1}</span>
+                <p class="type-card-title">{priority}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="bg-primary py-16 sm:py-24">
+        <div class="brand-wrap">
+          <span class="section-kicker">03 · Con Trovatemi</span>
+          <div class="mt-7 grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+            <div>
+              <h2 class="display-title">{preview.after.promise}</h2>
+              <p class="type-body-lg mt-7 max-w-[58ch]">Questa è una preview: diventa pubblica solo dopo il tuo via libera su identità, dati, immagini e contatti.</p>
+            </div>
+            <div class="border-2 border-ink bg-paper p-6 shadow-[7px_7px_0_#12161B] sm:p-8">
+              <span class="type-micro">I primi output</span>
+              <ul class="type-body-lg mt-6 space-y-4">
+                {preview.after.services.map((service) => (
+                  <li class="flex items-start gap-3"><i class="mt-1 grid size-6 shrink-0 place-items-center bg-ink text-xs font-bold text-primary not-italic">✓</i><span>{service}</span></li>
+                ))}
+              </ul>
+              <a class="btn btn-neutral brand-btn mt-8 w-full" href={preview.activationPath}>Vedi condizioni e attiva <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  ) : (
+    <section class="min-h-[62dvh] bg-paper py-20">
+      <div class="brand-wrap max-w-3xl">
+        <span class="section-kicker">Link privato</span>
+        <h1 class="display-title mt-7">Questa preview non è disponibile.</h1>
+        <p class="type-body-lg mt-7">Il link potrebbe essere incompleto o la preview potrebbe non essere ancora pronta. Chiedi a chi te l’ha inviata di rigenerarlo.</p>
+        <a class="btn btn-neutral brand-btn mt-8" href="/">Torna a Trovatemi.it</a>
+      </div>
+    </section>
+  )}
+</PilotLayout>

@@ -1,0 +1,56 @@
+---
+import '@fontsource/anton/latin.css';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/space-grotesk';
+import Wordmark from '../components/v72/Wordmark.astro';
+import '../styles/v72.css';
+
+type Props = {
+  title: string;
+  description: string;
+  stage: string;
+};
+
+const { title, description, stage } = Astro.props;
+---
+
+<!doctype html>
+<html lang="it" data-theme="trovatemi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#12161b" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-primary focus:px-4 focus:py-3 focus:font-bold" href="#contenuto">Vai al contenuto</a>
+
+    <div class="border-b-2 border-ink bg-primary text-ink">
+      <div class="brand-wrap type-micro flex min-h-9 items-center justify-between gap-4 py-2">
+        <span>Attivazione Fondatori</span>
+        <span>Preview privata · {stage}</span>
+      </div>
+    </div>
+
+    <header class="border-b-2 border-ink bg-paper">
+      <div class="brand-wrap flex min-h-20 items-center justify-between gap-5">
+        <Wordmark />
+        <span class="type-micro hidden text-ink/60 sm:inline">Una sede · 90 giorni · attivazione assistita</span>
+      </div>
+    </header>
+
+    <main id="contenuto"><slot /></main>
+
+    <footer class="border-t-2 border-paper/20 bg-ink py-10 text-paper">
+      <div class="brand-wrap flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <Wordmark class="text-paper" />
+          <p class="type-body-sm mt-4 max-w-[48ch] text-paper/65">Un percorso assistito per rendere visibile il valore che la tua attività ha già.</p>
+        </div>
+        <p class="type-micro text-primary">Niente ranking o nuovi clienti garantiti.</p>
+      </div>
+    </footer>
+  </body>
+</html>

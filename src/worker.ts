@@ -1,4 +1,5 @@
 import { handle } from '@astrojs/cloudflare/handler';
+import { safeLogPath } from './domain/request-log';
 
 type PublicSearchResult = {
   id: string;
@@ -523,7 +524,7 @@ export default {
       console.log(JSON.stringify({
         event: 'request.redirect',
         method: request.method,
-        path: url.pathname,
+        path: safeLogPath(url.pathname),
         status: response.status,
         durationMs: Date.now() - startedAt,
       }));
@@ -569,7 +570,7 @@ export default {
     console.log(JSON.stringify({
       event: 'request.complete',
       method: request.method,
-      path: url.pathname,
+      path: safeLogPath(url.pathname),
       status: response.status,
       durationMs: Date.now() - startedAt,
     }));
