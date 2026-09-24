@@ -1,0 +1,34 @@
+---
+import PilotLayout from '../layouts/PilotLayout.astro';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+---
+
+<PilotLayout
+  title="Richiesta ricevuta · Trovatemi"
+  description="Passaggi successivi dell’Attivazione Fondatori Trovatemi."
+  stage="Richiesta ricevuta"
+>
+  <section class="min-h-[68dvh] bg-primary py-16 sm:py-24">
+    <div class="brand-wrap grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
+      <div>
+        <span class="section-kicker">Il checkout è terminato</span>
+        <h1 class="display-title--hero mt-7">Adesso tocca<br /><em>davvero a noi.</em></h1>
+        <p class="type-body-lg mt-7 max-w-[58ch]">Verifichiamo separatamente lo stato effettivo del pagamento. Appena confermato, ti contattiamo per raccogliere solo i dati e le autorizzazioni che mancano.</p>
+        <aside class="mt-8 border-l-4 border-ink bg-paper/65 p-5">
+          <strong>Questa pagina non è una ricevuta.</strong>
+          <p class="type-body-sm mt-2">Per metodi di pagamento asincroni, il checkout può concludersi prima della conferma dei fondi.</p>
+        </aside>
+      </div>
+
+      <ol class="border-2 border-ink bg-paper shadow-[8px_8px_0_#12161B]">
+        <li class="grid grid-cols-[auto_1fr] gap-5 border-b-2 border-ink p-6 sm:p-7"><span class="grid size-10 place-items-center bg-ink font-metric font-bold text-primary">1</span><div><strong class="type-card-title">Conferma</strong><p class="type-body-sm mt-2 text-ink/65">Controlliamo pagamento e riferimenti dell’attività.</p></div></li>
+        <li class="grid grid-cols-[auto_1fr] gap-5 border-b-2 border-ink p-6 sm:p-7"><span class="grid size-10 place-items-center bg-ink font-metric font-bold text-primary">2</span><div><strong class="type-card-title">Onboarding breve</strong><p class="type-body-sm mt-2 text-ink/65">Confermi contatti, servizi, immagini, accessi e consensi.</p></div></li>
+        <li class="grid grid-cols-[auto_1fr] gap-5 p-6 sm:p-7"><span class="grid size-10 place-items-center bg-ink font-metric font-bold text-primary">3</span><div><strong class="type-card-title">Prima richiesta</strong><p class="type-body-sm mt-2 text-ink/65">Test singolo, tua approvazione, poi il primo piccolo invio reale.</p></div></li>
+      </ol>
+    </div>
+  </section>
+</PilotLayout>
