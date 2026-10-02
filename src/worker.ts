@@ -489,6 +489,35 @@ async function proxyPublicSearch(request: Request, env: Env) {
   }, { headers: { 'cache-control': 'no-store' } });
 }
 
+async function proxyPublicOpportunities(request: Request, env: Env) {
+  const body = await readJson(request);
+  if (!body) return Response.json({ error: 'invalid_json' }, { status: 400 });
+
+  const runId = cleanPart(body.runId, 120);
+  const prospectId = cleanPart(body.prospectId, 240);
+  if (!runId || !prospectId) return Response.json({ error: 'invalid_input' }, { status: 400 });
+
+  const path = '/api/public/runs/' + encodeURIComponent(runId) + '/prospects/' + encodeURIComponent(prospectId) + '/opportunities';
+  const upstream = await env.RADAR.fetch(new Request('https://radar.internal' + path, { method: 'GET' }));
+
+  const payload = await upstream.json() as {
+    decisionMode?: 'rules' | 'jev';
+    business?: Record<string, unknown>;
+    opportunities?: Array<Record<string, unknown>>;
+    error?: string;
+  };
+
+  if (!upstream.ok || !Array.isArray(payload.opportunities)) {
+    return Response.json({ error: payload.error ?? 'opportunities_failed' }, { status: upstream.status || 502 });
+  }
+
+  return Response.json({
+    decisionMode: payload.decisionMode ?? 'rules',
+    business: payload.business ?? null,
+    opportunities: payload.opportunities.slice(0, 3),
+  }, { headers: { 'cache-control': 'no-store' } });
+}
+
 async function proxyPublicCheck(request: Request, env: Env) {
   const body = await readJson(request);
   if (!body) return Response.json({ error: 'invalid_json' }, { status: 400 });
@@ -547,6 +576,10 @@ export default {
 
     if (request.method === 'POST' && url.pathname === '/api/public-search') {
       return proxyPublicSearch(request, env);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/public-opportunities') {
+      return proxyPublicOpportunities(request, env);
     }
 
     if (request.method === 'POST' && url.pathname === '/api/public-check') {
