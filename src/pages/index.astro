@@ -9,13 +9,13 @@ export const prerender = true;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Cerca la tua attività e guarda cosa vede un cliente prima di chiamarti. Gratis, in pochi secondi, con dati pubblici osservati."
+      content="Trovatemi osserva la tua presenza locale, la confronta con il mercato e trova le opportunità che vale la pena sistemare."
     />
     <meta name="theme-color" content="#f5f5ef" />
-    <meta property="og:title" content="Trovatemi.it — Ti troveresti?" />
-    <meta property="og:description" content="Cercati come ti cerca un cliente. Guarda cosa vede prima di sceglierti." />
+    <meta property="og:title" content="Trovatemi Radar — Dove stai perdendo clienti locali?" />
+    <meta property="og:description" content="Segnali locali, confronto e 3 opportunità concrete da sistemare." />
     <link rel="canonical" href="https://trovatemi.it/" />
-    <title>Trovatemi.it — Ti troveresti?</title>
+    <title>Trovatemi Radar — Opportunità locali</title>
   </head>
 
   <body>
@@ -32,16 +32,16 @@ export const prerender = true;
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <div class="hero-kicker">COME TI VEDE UN CLIENTE?</div>
-          <h1>TI TROVERESTI?<br /><em>E TI SCEGLIERESTI?</em></h1>
+          <div class="hero-kicker">TROVATEMI RADAR · SEGNALI LOCALI</div>
+          <h1>DOVE STAI PERDENDO<br /><em>CLIENTI LOCALI?</em></h1>
           <p class="hero-lede">
-            Cerca la tua attività e guarda cosa incontra una persona <strong>prima di chiamarti</strong>.
-            Niente audit finto. Niente account. Solo segnali pubblici osservati.
+            Trovatemi osserva ciò che vede un cliente, ti confronta con attività simili e trova
+            <strong>le poche opportunità che vale davvero la pena sistemare</strong>.
           </p>
 
           <div class="trust-row">
-            <span>✓ Gratis</span>
-            <span>✓ 30 secondi</span>
+            <span>✓ Dati pubblici</span>
+            <span>✓ 3 opportunità</span>
             <span>✓ Nessun account</span>
           </div>
         </div>
@@ -57,8 +57,8 @@ export const prerender = true;
 
           <div class="panel-copy">
             <small>PASSO 1 DI 3</small>
-            <h2>Cercati come ti cerca lui.</h2>
-            <p>Dimmi cosa fai e dove lavori.</p>
+            <h2>Parti da una ricerca reale.</h2>
+            <p>Dimmi cosa fai e dove lavori. Poi riconosci la tua attività.</p>
           </div>
 
           <form id="search-form" class="search-form">
@@ -96,7 +96,7 @@ export const prerender = true;
       <section class="proof-strip">
         <div>
           <strong>Non ti stiamo dando un voto.</strong>
-          <span>Ti mostriamo il contesto in cui vieni scelto.</span>
+          <span>Troviamo segnali osservabili e li trasformiamo in prossime azioni.</span>
         </div>
         <div class="proof-strip-note">Google-like nella logica, non affiliato a Google.</div>
       </section>
@@ -147,7 +147,7 @@ export const prerender = true;
               <span>3</span>
               <div>
                 <small>PASSO 3 DI 3</small>
-                <b>Guarda cosa vede.</b>
+                <b>Trova le opportunità.</b>
               </div>
             </div>
             <h2 id="selected-name"></h2>
@@ -198,6 +198,20 @@ export const prerender = true;
               <p class="card-foot">Ogni passaggio in più è lavoro che chiedi al cliente.</p>
             </article>
           </div>
+
+          <div class="opportunity-radar" aria-live="polite">
+            <div class="radar-heading">
+              <div>
+                <small>TROVATEMI RADAR</small>
+                <h3>Le opportunità che meritano attenzione.</h3>
+                <p>Prima osserviamo. Poi decidiamo cosa vale la pena fare. Solo dopo passiamo all'azione.</p>
+              </div>
+              <span id="decision-mode" class="decision-mode">Analisi in corso…</span>
+            </div>
+            <div id="opportunity-list" class="opportunity-list">
+              <article class="opportunity-card loading-card"><span></span><b>Sto leggendo i segnali…</b></article>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -211,10 +225,10 @@ export const prerender = true;
 
           <div class="cta-card">
             <small>IL PASSO SUCCESSIVO</small>
-            <h3>Vuoi vedere il percorso completo?</h3>
-            <p>Ti preparo un Check privato con confronto, frizioni e le 3 cose che sistemerei per prime.</p>
+            <h3>Vuoi sistemare la priorità?</h3>
+            <p>Ti preparo il Check privato con prove, confronto e il primo intervento da mettere in moto.</p>
             <button id="check-button" class="cta-button" type="button">
-              <span>Fammi vedere il Check</span>
+              <span>Sistemami la priorità</span>
               <b>→</b>
             </button>
             <div class="cta-proof">Gratis · link privato · niente account</div>
@@ -267,6 +281,8 @@ export const prerender = true;
         const resultsList = document.getElementById('results-list');
         const queryTitle = document.getElementById('query-title');
         const checkButton = document.getElementById('check-button');
+        const opportunityList = document.getElementById('opportunity-list');
+        const decisionMode = document.getElementById('decision-mode');
 
         let currentRun = null;
         let selected = null;
@@ -341,6 +357,51 @@ export const prerender = true;
           document.getElementById('median-review-bar').style.width = Math.max(8, Math.round((medianValue / max) * 100)) + '%';
         }
 
+        function severityLabel(value) {
+          if (value === 'high') return 'ALTA PRIORITÀ';
+          if (value === 'medium') return 'DA SISTEMARE';
+          return 'MONITORA';
+        }
+
+        function renderOpportunities(data) {
+          const opportunities = Array.isArray(data?.opportunities) ? data.opportunities : [];
+          decisionMode.textContent = data?.decisionMode === 'jev' ? 'Decision layer · Jev' : 'Decision layer · regole';
+          if (!opportunities.length) {
+            opportunityList.innerHTML = '<article class="opportunity-card"><span class="opp-severity monitor">MONITORA</span><h4>Nessuna opportunità forte rilevata.</h4><p>Servono più segnali prima di consigliare un intervento.</p></article>';
+            return;
+          }
+
+          opportunityList.innerHTML = opportunities.map((item, index) => {
+            const severity = item.severity === 'high' ? 'high' : item.severity === 'medium' ? 'medium' : 'monitor';
+            return '<article class="opportunity-card ' + severity + '">' +
+              '<div class="opp-top"><span class="opp-index">0' + (index + 1) + '</span><span class="opp-severity ' + severity + '">' + escapeHtml(severityLabel(severity)) + '</span></div>' +
+              '<h4>' + escapeHtml(item.title) + '</h4>' +
+              '<p>' + escapeHtml(item.reason) + '</p>' +
+              '<div class="opp-action"><span>' + escapeHtml(item.action) + '</span>' +
+              (item.actionType !== 'monitor' ? '<button type="button" data-fix-opportunity="' + escapeHtml(item.id) + '">Sistemalo →</button>' : '') +
+              '</div>' +
+            '</article>';
+          }).join('');
+        }
+
+        async function loadOpportunities(runId, prospectId) {
+          opportunityList.innerHTML = '<article class="opportunity-card loading-card"><span></span><b>Sto leggendo i segnali…</b></article>';
+          decisionMode.textContent = 'Analisi in corso…';
+          try {
+            const response = await fetch('/api/public-opportunities', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ runId, prospectId }),
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'opportunities_failed');
+            renderOpportunities(data);
+          } catch {
+            decisionMode.textContent = 'Decision layer · non disponibile';
+            opportunityList.innerHTML = '<article class="opportunity-card"><span class="opp-severity monitor">MONITORA</span><h4>Il Radar non è disponibile in questo momento.</h4><p>I dati osservati restano visibili sopra. Riprova tra poco per le priorità.</p></article>';
+          }
+        }
+
         function selectBusiness(id) {
           if (!currentRun) return;
           selected = currentRun.results.find((item) => item.id === id);
@@ -389,6 +450,7 @@ export const prerender = true;
 
           selectedSection.hidden = false;
           verdictSection.hidden = false;
+          loadOpportunities(currentRun.runId, selected.id);
           selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -443,6 +505,12 @@ export const prerender = true;
           const button = event.target.closest('[data-select]');
           if (!button) return;
           selectBusiness(button.dataset.select);
+        });
+
+        opportunityList.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-fix-opportunity]');
+          if (!button) return;
+          checkButton.click();
         });
 
         checkButton.addEventListener('click', async () => {
@@ -683,6 +751,30 @@ export const prerender = true;
   .bar.muted i{background:#1a1d22}
   .card-foot{margin:18px 0 0;color:#7c8186;font-size:.72rem;line-height:1.5}
 
+  .opportunity-radar{margin-top:22px;padding:24px;border-radius:24px;background:#111318;color:#fff;box-shadow:0 18px 50px rgba(80,61,0,.14)}
+  .radar-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+  .radar-heading small{display:block;color:#8f9499;font-size:.58rem;font-weight:900;letter-spacing:.12em}
+  .radar-heading h3{margin:8px 0 0;font-size:clamp(1.7rem,4vw,2.8rem);letter-spacing:-.05em}
+  .radar-heading p{max-width:650px;margin:9px 0 0;color:#aeb3b8;line-height:1.55}
+  .decision-mode{flex:0 0 auto;padding:8px 11px;border:1px solid #30343a;border-radius:999px;color:#9ea4aa;font-size:.62rem;font-weight:850}
+  .opportunity-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .opportunity-card{min-height:245px;padding:18px;border:1px solid #2a2e34;border-radius:18px;background:#191c21;display:flex;flex-direction:column}
+  .opportunity-card.high{border-color:#5c4434;background:#211b18}
+  .opportunity-card.medium{border-color:#4c4632;background:#211f18}
+  .opp-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .opp-index{font-size:.65rem;font-weight:900;color:#737980}
+  .opp-severity{padding:6px 8px;border-radius:999px;background:#2a2e34;color:#afb4b9;font-size:.54rem;font-weight:900;letter-spacing:.08em}
+  .opp-severity.high{background:#47271d;color:#ffb395}
+  .opp-severity.medium{background:#443b18;color:#f5d766}
+  .opp-severity.monitor{background:#24302c;color:#8ed7b8}
+  .opportunity-card h4{margin:30px 0 10px;font-size:1.2rem;line-height:1.12;letter-spacing:-.035em}
+  .opportunity-card>p{margin:0;color:#a9aeb3;font-size:.78rem;line-height:1.55}
+  .opp-action{margin-top:auto;padding-top:20px;display:grid;gap:12px;border-top:1px solid #2a2e34;color:#d4d7da;font-size:.72rem;line-height:1.45}
+  .opp-action button{min-height:39px;padding:0 12px;border:0;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:.7rem;font-weight:900;text-align:left}
+  .loading-card{min-height:120px;align-items:center;justify-content:center;gap:10px;color:#aeb3b8;text-align:center}
+  .loading-card>span{width:22px;height:22px;border:2px solid #42474d;border-top-color:var(--yellow);border-radius:50%;animation:radarspin .7s linear infinite}
+  @keyframes radarspin{to{transform:rotate(360deg)}}
+
   .contact-card h3{margin:18px 0 20px;font-size:1.5rem;line-height:1.15;letter-spacing:-.035em}
   .signal-list{display:grid;border-top:1px solid #eceee9}
   .signal-row{min-height:58px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eceee9}
@@ -725,6 +817,7 @@ export const prerender = true;
     .hero{grid-template-columns:1fr;min-height:auto}
     .search-panel{max-width:720px}
     .diagnostic-grid,.verdict-shell{grid-template-columns:1fr}
+    .opportunity-list{grid-template-columns:1fr}
     .verdict-copy h2{max-width:12ch}
   }
 
@@ -743,6 +836,8 @@ export const prerender = true;
     .result-card button{grid-column:2;justify-self:start}
     .metric-head{grid-template-columns:1fr 1fr}
     .diagnostic-card{padding:19px;border-radius:20px}
+    .opportunity-radar{padding:19px;border-radius:20px}
+    .radar-heading{flex-direction:column}
     .verdict-copy h2{font-size:clamp(3.6rem,16vw,6rem)}
     .cta-card{padding:21px}
     .how-grid{grid-template-columns:1fr}
