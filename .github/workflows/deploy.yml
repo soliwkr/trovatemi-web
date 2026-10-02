@@ -137,10 +137,10 @@ jobs:
           curl --fail --silent --show-error \
             --retry 12 --retry-all-errors --retry-delay 5 --max-time 20 \
             https://trovatemi.it/ > "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "TROVERESTI?" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "DOVE STAI PERDENDO" "$RUNNER_TEMP/trovatemi-home.html"
           grep -Fq 'id="search-form"' "$RUNNER_TEMP/trovatemi-home.html"
           grep -Fq "Cerca la mia attività" "$RUNNER_TEMP/trovatemi-home.html"
-          grep -Fq "Fammi vedere il Check" "$RUNNER_TEMP/trovatemi-home.html"
+          grep -Fq "Sistemami la priorità" "$RUNNER_TEMP/trovatemi-home.html"
 
           curl --fail --silent --show-error \
             -H 'content-type: application/json' \
@@ -157,6 +157,13 @@ jobs:
           console.log('PUBLIC_PROSPECT_ID=' + item.id);
           NODE
           source "$RUNNER_TEMP/public-target.env"
+
+          curl --fail --silent --show-error \
+            -H 'content-type: application/json' \
+            -d "{\"runId\":\"$PUBLIC_RUN_ID\",\"prospectId\":\"$PUBLIC_PROSPECT_ID\"}" \
+            https://trovatemi.it/api/public-opportunities > "$RUNNER_TEMP/public-opportunities.json"
+
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/public-opportunities.json"); if(!Array.isArray(x.opportunities) || !x.opportunities.length) process.exit(1)'
 
           curl --fail --silent --show-error \
             -H 'content-type: application/json' \
