@@ -18,3 +18,11 @@ test('root connects selection to the opportunity decision endpoint and action fu
   assert.match(source, /Sistemami la priorità/);
   assert.match(source, /\/api\/public-check/);
 });
+
+test('root exposes product-grade recovery and navigation states', () => {
+  assert.match(source, /Modifica ricerca/);
+  assert.match(source, /Cambia attività/);
+  assert.match(source, /data-retry-search/);
+  assert.match(source, /data-retry-opportunities/);
+  assert.match(source, /check-feedback/);
+});
