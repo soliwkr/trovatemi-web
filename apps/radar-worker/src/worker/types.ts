@@ -11,6 +11,8 @@ export type Bindings = {
   CLIMBO_API_KEY?: string;
   CLIMBO_PLAN_ID?: string;
   PROVISIONING_SECRET?: string;
+  JEV_API_KEY?: string;
+  JEV_MODEL?: string;
 };
 
 export type PlaceRecord = {
