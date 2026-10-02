@@ -7,6 +7,7 @@ import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import { climboConfigured, createClimboClient, normalizeActivationInput } from "./climbo.ts";
 import { renderPublicCheck } from "./public-check.ts";
+import { decideOpportunities } from "./opportunities.ts";
 import type { ActivationDraft, Bindings, RadarRun } from "./types.ts";
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -204,6 +205,16 @@ app.get("/api/runs/:id/prospects/:prospectId/check", async (c) => {
   if (!run) return c.json({ error: "run_not_found" }, 404);
   const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
   return prospect ? c.json({ business: prospect.name, evidence: prospect.evidence, checkBrief: prospect.checkBrief }) : c.json({ error: "prospect_not_found" }, 404);
+});
+
+app.get("/api/public/runs/:id/prospects/:prospectId/opportunities", async (c) => {
+  const run = await loadRun(c.env, c.req.param("id"));
+  if (!run) return c.json({ error: "run_not_found" }, 404);
+
+  const prospect = run.prospects.find((item) => item.id === c.req.param("prospectId"));
+  if (!prospect) return c.json({ error: "prospect_not_found" }, 404);
+
+  return c.json(await decideOpportunities(c.env, run, prospect));
 });
 
 

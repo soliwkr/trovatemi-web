@@ -465,7 +465,13 @@ async function proxyPublicSearch(request: Request, env: Env) {
     return Response.json({ error: payload.error ?? 'search_failed' }, { status: upstream.status || 502 });
   }
 
-  const results: PublicSearchResult[] = payload.prospects.slice(0, 8).map((item) => ({
+  const observedProspects = [...payload.prospects].sort((a, b) => {
+    const aPosition = typeof a.positionSignal === 'number' ? a.positionSignal : Number.MAX_SAFE_INTEGER;
+    const bPosition = typeof b.positionSignal === 'number' ? b.positionSignal : Number.MAX_SAFE_INTEGER;
+    return aPosition - bPosition;
+  });
+
+  const results: PublicSearchResult[] = observedProspects.slice(0, 8).map((item) => ({
     id: String(item.id ?? ''),
     name: String(item.name ?? ''),
     address: String(item.address ?? ''),
@@ -486,6 +492,35 @@ async function proxyPublicSearch(request: Request, env: Env) {
     medianReviews: payload.medianReviews ?? null,
     medianRating: payload.medianRating ?? null,
     results,
+  }, { headers: { 'cache-control': 'no-store' } });
+}
+
+async function proxyPublicOpportunities(request: Request, env: Env) {
+  const body = await readJson(request);
+  if (!body) return Response.json({ error: 'invalid_json' }, { status: 400 });
+
+  const runId = cleanPart(body.runId, 120);
+  const prospectId = cleanPart(body.prospectId, 240);
+  if (!runId || !prospectId) return Response.json({ error: 'invalid_input' }, { status: 400 });
+
+  const path = '/api/public/runs/' + encodeURIComponent(runId) + '/prospects/' + encodeURIComponent(prospectId) + '/opportunities';
+  const upstream = await env.RADAR.fetch(new Request('https://radar.internal' + path, { method: 'GET' }));
+
+  const payload = await upstream.json() as {
+    decisionMode?: 'rules' | 'jev';
+    business?: Record<string, unknown>;
+    opportunities?: Array<Record<string, unknown>>;
+    error?: string;
+  };
+
+  if (!upstream.ok || !Array.isArray(payload.opportunities)) {
+    return Response.json({ error: payload.error ?? 'opportunities_failed' }, { status: upstream.status || 502 });
+  }
+
+  return Response.json({
+    decisionMode: payload.decisionMode ?? 'rules',
+    business: payload.business ?? null,
+    opportunities: payload.opportunities.slice(0, 3),
   }, { headers: { 'cache-control': 'no-store' } });
 }
 
@@ -547,6 +582,10 @@ export default {
 
     if (request.method === 'POST' && url.pathname === '/api/public-search') {
       return proxyPublicSearch(request, env);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/public-opportunities') {
+      return proxyPublicOpportunities(request, env);
     }
 
     if (request.method === 'POST' && url.pathname === '/api/public-check') {
