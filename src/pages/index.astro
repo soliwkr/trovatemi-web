@@ -241,20 +241,27 @@ export const prerender = true;
           </div>
         </section>
 
-        <section id="loading" class="loading-state" hidden>
+        <section id="loading" class="loading-state" hidden aria-live="polite">
           <div class="loading-inner">
-            <div class="pulse-ring"><span></span></div>
-            <div>
-              <small>RICERCA IN CORSO</small>
-              <strong>Ti sto cercando come farebbe un cliente.</strong>
-              <p>Sto confrontando presenza, recensioni e percorso di contatto.</p>
+            <div class="loading-copy">
+              <div class="pulse-ring"><span></span></div>
+              <div>
+                <small>RADAR IN ESECUZIONE</small>
+                <strong>Sto osservando il tuo mercato locale.</strong>
+                <p>Ricerca, confronto e segnali: niente report finto mentre aspetti.</p>
+              </div>
+            </div>
+            <div class="loading-steps" aria-hidden="true">
+              <span class="is-active"><i>01</i> Ricerca locale</span>
+              <span><i>02</i> Confronto</span>
+              <span><i>03</i> Priorità</span>
             </div>
           </div>
         </section>
 
         <section id="results-section" class="results-section" hidden>
           <div class="section-shell">
-            <div class="section-intro">
+            <div class="section-intro results-intro">
               <div class="section-step">
                 <span>2</span>
                 <div>
@@ -262,14 +269,19 @@ export const prerender = true;
                   <b>Riconosciti.</b>
                 </div>
               </div>
-              <h2 id="query-title"></h2>
-              <p>Queste sono alcune attività incontrate nella ricerca osservata. Qual è la tua?</p>
+              <div class="results-title-row">
+                <div>
+                  <h2 id="query-title"></h2>
+                  <p>Trova la tua attività. Il Radar userà solo i segnali osservati per costruire la priorità.</p>
+                </div>
+                <button id="new-search-button" class="text-action" type="button">Modifica ricerca ↗</button>
+              </div>
             </div>
 
             <div class="results-frame">
               <div class="results-toolbar">
-                <span>RISULTATI OSSERVATI</span>
-                <span>rating · recensioni · presenza</span>
+                <span>RISULTATI OSSERVATI <b id="results-count"></b></span>
+                <span>rating · recensioni · contatto</span>
               </div>
               <div id="results-list" class="results-list"></div>
             </div>
@@ -294,7 +306,10 @@ export const prerender = true;
                 <h2 id="selected-name"></h2>
                 <p id="selected-address" class="address"></p>
               </div>
-              <span class="selected-badge">RADAR ATTIVO</span>
+              <div class="selected-actions">
+                <span class="selected-badge">RADAR ATTIVO</span>
+                <button id="change-business-button" class="text-action dark" type="button">Cambia attività ↗</button>
+              </div>
             </div>
 
             <div class="diagnostic-grid">
@@ -375,6 +390,7 @@ export const prerender = true;
                 <b>→</b>
               </button>
               <div class="cta-proof">Gratis · link privato · niente account</div>
+              <div id="check-feedback" class="check-feedback" role="status" aria-live="polite"></div>
             </div>
           </div>
         </section>
@@ -498,7 +514,11 @@ export const prerender = true;
         const verdictSection = document.getElementById('verdict-section');
         const resultsList = document.getElementById('results-list');
         const queryTitle = document.getElementById('query-title');
+        const resultsCount = document.getElementById('results-count');
+        const newSearchButton = document.getElementById('new-search-button');
+        const changeBusinessButton = document.getElementById('change-business-button');
         const checkButton = document.getElementById('check-button');
+        const checkFeedback = document.getElementById('check-feedback');
         const opportunityList = document.getElementById('opportunity-list');
         const decisionMode = document.getElementById('decision-mode');
 
@@ -537,27 +557,37 @@ export const prerender = true;
           selected = null;
           selectedSection.hidden = true;
           verdictSection.hidden = true;
+          checkFeedback.textContent = '';
 
-          queryTitle.textContent = '“' + data.query + '”';
+          queryTitle.textContent = data.query;
+          resultsCount.textContent = '· ' + data.results.length;
 
           resultsList.innerHTML = data.results.map((item, index) => {
             const rating = formatRating(item.rating);
             const reviews = typeof item.reviews === 'number'
               ? item.reviews.toLocaleString('it-IT') + ' recensioni'
-              : 'recensioni non disponibili';
+              : 'recensioni n/d';
+            const position = String(index + 1).padStart(2, '0');
+            const phoneClass = item.phonePresent ? 'on' : 'off';
+            const siteClass = item.websitePresent ? 'on' : 'off';
+            const directClass = item.directActionPresent ? 'on' : 'off';
 
             return '<article class="result-card">' +
-              '<div class="position-chip">#' + (index + 1) + '</div>' +
+              '<div class="position-chip"><small>RIS.</small><b>' + position + '</b></div>' +
               '<div class="result-main">' +
-                '<strong>' + escapeHtml(item.name) + '</strong>' +
-                '<span>' + escapeHtml(item.address) + '</span>' +
+                '<div class="result-name-row"><strong>' + escapeHtml(item.name) + '</strong><span class="observed-dot">OSSERVATO</span></div>' +
+                '<span class="result-address">' + escapeHtml(item.address) + '</span>' +
                 '<div class="result-meta">' +
-                  '<b>' + escapeHtml(rating) + '</b>' +
-                  '<i>•</i>' +
+                  '<b class="rating-pill">' + escapeHtml(rating) + '</b>' +
                   '<b>' + escapeHtml(reviews) + '</b>' +
                 '</div>' +
+                '<div class="result-signals" aria-label="Segnali pubblici osservati">' +
+                  '<span class="' + phoneClass + '"><i></i>Telefono</span>' +
+                  '<span class="' + siteClass + '"><i></i>Sito</span>' +
+                  '<span class="' + directClass + '"><i></i>Contatto diretto</span>' +
+                '</div>' +
               '</div>' +
-              '<button type="button" data-select="' + escapeHtml(item.id) + '">Questa è la mia attività <span>→</span></button>' +
+              '<button type="button" data-select="' + escapeHtml(item.id) + '" aria-label="Seleziona ' + escapeHtml(item.name) + '">Sono io <span>→</span></button>' +
             '</article>';
           }).join('');
 
@@ -581,11 +611,53 @@ export const prerender = true;
           return 'MONITORA';
         }
 
+        function applyVerdict(primary) {
+          const title = document.getElementById('verdict-title');
+          const copy = document.getElementById('verdict-copy');
+          if (!primary) return;
+
+          const views = {
+            review_acquisition: {
+              title: 'LA QUALITÀ C\'È.<br><em>FALLA PESARE.</em>',
+              copy: 'Il problema non sembra essere quanto lavori bene. È quanto facilmente un nuovo cliente riesce a vedere quella prova prima di scegliere.'
+            },
+            contact_friction: {
+              title: 'TI TROVANO.<br><em>POI LI FAI LAVORARE.</em>',
+              copy: 'L’interesse c’è, ma il percorso verso il contatto può chiedere troppi passaggi. Qui si vince togliendo attrito.'
+            },
+            local_visibility: {
+              title: 'CI SEI.<br><em>ORA MISURIAMO DOVE.</em>',
+              copy: 'Il segnale osservato merita attenzione, ma non lo trasformiamo in una promessa di ranking. Prima verifichiamo e poi interveniamo.'
+            },
+            profile_proof: {
+              title: 'SEI GIÀ CREDIBILE.<br><em>FALLO PESARE.</em>',
+              copy: 'Hai già elementi forti. L’opportunità è presentarli meglio nel momento esatto in cui una persona confronta le alternative.'
+            },
+            monitor: {
+              title: 'NESSUNA URGENZA.<br><em>CONTINUA A OSSERVARE.</em>',
+              copy: 'Non è emersa una priorità abbastanza forte da giustificare un intervento. Meglio aspettare un segnale vero che inventare lavoro.'
+            }
+          };
+
+          const view = views[primary.type] || views.monitor;
+          title.innerHTML = view.title;
+          copy.textContent = view.copy;
+        }
+
         function renderOpportunities(data) {
           const opportunities = Array.isArray(data?.opportunities) ? data.opportunities : [];
-          decisionMode.textContent = data?.decisionMode === 'jev' ? 'Decision layer · Jev' : 'Decision layer · regole';
+          decisionMode.textContent = opportunities.length
+            ? 'Analisi completata · ' + opportunities.length + (opportunities.length === 1 ? ' priorità' : ' priorità')
+            : 'Analisi completata';
+
           if (!opportunities.length) {
-            opportunityList.innerHTML = '<article class="opportunity-card"><span class="opp-severity monitor">MONITORA</span><h4>Nessuna opportunità forte rilevata.</h4><p>Servono più segnali prima di consigliare un intervento.</p></article>';
+            opportunityList.innerHTML =
+              '<article class="opportunity-card empty-opportunity">' +
+                '<div class="opp-top"><span class="opp-index">01</span><span class="opp-severity monitor">MONITORA</span></div>' +
+                '<h4>Nessuna criticità forte nei segnali disponibili.</h4>' +
+                '<p>Non forziamo un problema per venderti qualcosa. Continua a monitorare finché emerge un segnale abbastanza forte.</p>' +
+              '</article>';
+            verdictSection.hidden = false;
             return;
           }
 
@@ -594,17 +666,28 @@ export const prerender = true;
             return '<article class="opportunity-card ' + severity + '">' +
               '<div class="opp-top"><span class="opp-index">0' + (index + 1) + '</span><span class="opp-severity ' + severity + '">' + escapeHtml(severityLabel(severity)) + '</span></div>' +
               '<h4>' + escapeHtml(item.title) + '</h4>' +
-              '<p>' + escapeHtml(item.reason) + '</p>' +
-              '<div class="opp-action"><span>' + escapeHtml(item.action) + '</span>' +
-              (item.actionType !== 'monitor' ? '<button type="button" data-fix-opportunity="' + escapeHtml(item.id) + '">Sistemalo →</button>' : '') +
+              '<div class="opp-reason"><small>PERCHÉ CONTA</small><p>' + escapeHtml(item.reason) + '</p></div>' +
+              '<div class="opp-action"><small>PROSSIMA MOSSA</small><span>' + escapeHtml(item.action) + '</span>' +
+              (item.actionType !== 'monitor'
+                ? '<button type="button" data-fix-opportunity="' + escapeHtml(item.id) + '">Apri il piano <b>→</b></button>'
+                : '') +
               '</div>' +
             '</article>';
           }).join('');
+
+          applyVerdict(opportunities[0]);
+          verdictSection.hidden = false;
         }
 
         async function loadOpportunities(runId, prospectId) {
-          opportunityList.innerHTML = '<article class="opportunity-card loading-card"><span></span><b>Sto leggendo i segnali…</b></article>';
+          opportunityList.innerHTML =
+            '<article class="opportunity-card loading-card">' +
+              '<div class="radar-loader"><span></span><i></i><b></b></div>' +
+              '<strong>Sto trasformando i segnali in priorità.</strong>' +
+              '<small>Prima evidenza. Poi decisione.</small>' +
+            '</article>';
           decisionMode.textContent = 'Analisi in corso…';
+
           try {
             const response = await fetch('/api/public-opportunities', {
               method: 'POST',
@@ -615,8 +698,15 @@ export const prerender = true;
             if (!response.ok) throw new Error(data.error || 'opportunities_failed');
             renderOpportunities(data);
           } catch {
-            decisionMode.textContent = 'Decision layer · non disponibile';
-            opportunityList.innerHTML = '<article class="opportunity-card"><span class="opp-severity monitor">MONITORA</span><h4>Il Radar non è disponibile in questo momento.</h4><p>I dati osservati restano visibili sopra. Riprova tra poco per le priorità.</p></article>';
+            decisionMode.textContent = 'Analisi non completata';
+            verdictSection.hidden = true;
+            opportunityList.innerHTML =
+              '<article class="opportunity-card opportunity-error">' +
+                '<div class="opp-top"><span class="opp-index">!</span><span class="opp-severity monitor">RIPROVA</span></div>' +
+                '<h4>Il Radar non ha completato la lettura.</h4>' +
+                '<p>I dati osservati sopra restano validi. Puoi riprovare senza rifare la ricerca.</p>' +
+                '<div class="opp-action"><button type="button" data-retry-opportunities>Riprova analisi <b>↻</b></button></div>' +
+              '</article>';
           }
         }
 
@@ -667,7 +757,8 @@ export const prerender = true;
           }
 
           selectedSection.hidden = false;
-          verdictSection.hidden = false;
+          verdictSection.hidden = true;
+          checkFeedback.textContent = '';
           loadOpportunities(currentRun.runId, selected.id);
           selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -689,15 +780,19 @@ export const prerender = true;
             if (!data.results?.length) throw new Error('no_results');
             renderResults(data);
           } catch {
+            currentRun = null;
+            resultsCount.textContent = '';
             resultsList.innerHTML =
               '<div class="empty-state">' +
                 '<div class="empty-icon">⌕</div>' +
-                '<strong>Non ho trovato abbastanza.</strong>' +
-                '<span>Prova una categoria più semplice o una città vicina.</span>' +
+                '<small>RICERCA NON CONCLUSA</small>' +
+                '<strong>Non ho abbastanza segnali per mostrarti attività affidabili.</strong>' +
+                '<span>Prova una categoria più semplice, correggi la città oppure riparti dalla ricerca.</span>' +
+                '<button type="button" data-retry-search>Torna alla ricerca <b>↗</b></button>' +
               '</div>';
-            queryTitle.textContent = 'Nessun risultato utile';
+            queryTitle.textContent = 'Riproviamo meglio.';
             resultsSection.hidden = false;
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
           } finally {
             setLoading(false);
           }
@@ -719,13 +814,35 @@ export const prerender = true;
           });
         });
 
+        function backToSearch() {
+          document.getElementById('analizza')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          requestAnimationFrame(() => categoryInput.focus({ preventScroll: true }));
+        }
+
+        newSearchButton.addEventListener('click', backToSearch);
+        changeBusinessButton.addEventListener('click', () => {
+          resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
         resultsList.addEventListener('click', (event) => {
+          const retry = event.target.closest('[data-retry-search]');
+          if (retry) {
+            backToSearch();
+            return;
+          }
+
           const button = event.target.closest('[data-select]');
           if (!button) return;
           selectBusiness(button.dataset.select);
         });
 
         opportunityList.addEventListener('click', (event) => {
+          const retry = event.target.closest('[data-retry-opportunities]');
+          if (retry && currentRun && selected) {
+            loadOpportunities(currentRun.runId, selected.id);
+            return;
+          }
+
           const button = event.target.closest('[data-fix-opportunity]');
           if (!button) return;
           checkButton.click();
@@ -734,7 +851,9 @@ export const prerender = true;
         checkButton.addEventListener('click', async () => {
           if (!currentRun || !selected) return;
           checkButton.disabled = true;
-          checkButton.querySelector('span').textContent = 'Preparo il Check…';
+          checkFeedback.textContent = '';
+          checkButton.classList.add('is-loading');
+          checkButton.querySelector('span').textContent = 'Preparo il piano…';
 
           try {
             const response = await fetch('/api/public-check', {
@@ -750,7 +869,9 @@ export const prerender = true;
             window.location.href = data.shareUrl;
           } catch {
             checkButton.disabled = false;
-            checkButton.querySelector('span').textContent = 'Riprova';
+            checkButton.classList.remove('is-loading');
+            checkButton.querySelector('span').textContent = 'Sistemami la priorità';
+            checkFeedback.textContent = 'Non sono riuscito ad aprire il piano. I dati non sono persi: riprova.';
           }
         });
       })();
@@ -924,12 +1045,24 @@ export const prerender = true;
   .examples{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:16px}.examples>span{font:760 .5rem/1 var(--display);letter-spacing:.1em;color:#a3a29d}.examples button{padding:7px 9px;border:1px solid #dfddd4;border-radius:999px;background:#fff;color:#6d6d69;font-size:.62rem;font-weight:700}
   .search-explainer{padding:28px;border-radius:24px;background:var(--ink);color:#fff;display:flex;flex-direction:column;justify-content:flex-end}.explainer-number{color:#5f646b;font:650 clamp(4rem,7vw,7rem)/.8 var(--display);letter-spacing:-.06em}.search-explainer p{margin:32px 0 0;color:#8f959c;font-size:.82rem;line-height:1.55}.search-explainer strong{display:block;margin-top:8px;font:630 1.3rem/1.2 var(--display);letter-spacing:-.03em}
 
-  .loading-state{padding:32px 20px;background:#fff;border-bottom:1px solid #eceae3}.loading-inner{width:min(1120px,100%);margin:auto;display:flex;align-items:center;gap:17px}.pulse-ring{position:relative;width:44px;height:44px;border-radius:50%;border:1px solid #ddd9cf;display:grid;place-items:center}.pulse-ring::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--yellow);animation:pulse 1s ease-in-out infinite}.loading-inner small,.loading-inner strong,.loading-inner p{display:block}.loading-inner small{color:#a19f98;font:760 .52rem/1 var(--display);letter-spacing:.1em}.loading-inner strong{margin-top:5px;font-size:.92rem}.loading-inner p{margin:4px 0 0;color:#85847f;font-size:.72rem}@keyframes pulse{50%{transform:scale(.72);opacity:.5}}
+  .loading-state{padding:28px 20px;background:#fff;border-bottom:1px solid #eceae3}.loading-inner{width:min(1120px,100%);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:34px}.loading-copy{display:flex;align-items:center;gap:17px}.pulse-ring{position:relative;flex:0 0 auto;width:46px;height:46px;border-radius:50%;border:1px solid #ddd9cf;display:grid;place-items:center}.pulse-ring::before{content:"";position:absolute;inset:-5px;border:1px solid rgba(243,197,75,.18);border-radius:50%;animation:radarpulse 1.6s ease-out infinite}.pulse-ring::after{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--yellow);animation:pulse 1s ease-in-out infinite}.loading-inner small,.loading-inner strong,.loading-inner p{display:block}.loading-inner small{color:#a19f98;font:760 .52rem/1 var(--display);letter-spacing:.1em}.loading-inner strong{margin-top:5px;font:650 1rem/1.2 var(--display);letter-spacing:-.02em}.loading-inner p{margin:5px 0 0;color:#85847f;font-size:.72rem}.loading-steps{display:flex;align-items:center;gap:7px}.loading-steps span{padding:8px 10px;border:1px solid #e7e4dc;border-radius:999px;color:#aaa8a2;font:700 .56rem/1 var(--display)}.loading-steps span.is-active{background:#16181c;border-color:#16181c;color:#fff}.loading-steps i{margin-right:5px;color:#c69c31;font-style:normal}@keyframes pulse{50%{transform:scale(.72);opacity:.5}}@keyframes radarpulse{to{transform:scale(1.28);opacity:0}}
+
+  .results-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:28px}.results-title-row>div{min-width:0}.results-title-row p{max-width:640px;margin:15px 0 0;color:#7d7c77;line-height:1.55}.text-action{flex:0 0 auto;padding:0;border:0;background:transparent;color:#77756f;font:760 .64rem/1 var(--display);letter-spacing:.03em;text-decoration:underline;text-decoration-color:#cac6ba;text-underline-offset:5px}.text-action:hover{color:var(--ink);text-decoration-color:var(--ink)}.text-action.dark{color:#4f4318;text-decoration-color:rgba(16,18,22,.22)}
+  .results-toolbar b{font-weight:800;color:#595a56}
+
+  .result-name-row{display:flex;align-items:center;gap:10px;min-width:0}.result-name-row>strong{min-width:0}.observed-dot{flex:0 0 auto;padding:5px 7px;border-radius:999px;background:#edf7f1;color:#3f8d67;font:760 .47rem/1 var(--display);letter-spacing:.08em}.result-address{display:block;margin-top:5px;color:#8b8a85;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rating-pill{color:#6f5719!important;background:#fff8df!important}.result-signals{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.result-signals span{display:inline-flex;align-items:center;gap:5px;color:#777771;font-size:.58rem;font-weight:700}.result-signals i{width:6px;height:6px;border-radius:50%;background:#cbc8bf}.result-signals span.on i{background:#49b77e}.result-signals span.off{color:#aaa8a2}.result-card button{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .position-chip{font-family:var(--display)}.position-chip small,.position-chip b{display:block;text-align:center}.position-chip small{font-size:.42rem;letter-spacing:.08em}.position-chip b{margin-top:3px;font-size:.72rem}
+
+  .selected-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.check-feedback{min-height:18px;margin-top:10px;color:#ffb09a;font-size:.66rem;line-height:1.45}.cta-button.is-loading{position:relative;overflow:hidden}.cta-button.is-loading::after{content:"";position:absolute;left:0;bottom:0;width:40%;height:2px;background:#111;animation:checkload 1.15s ease-in-out infinite}@keyframes checkload{0%{transform:translateX(-110%)}100%{transform:translateX(350%)}}
+
+  .opp-reason{margin-top:18px}.opp-reason small,.opp-action small{display:block;color:#666c73;font:760 .48rem/1 var(--display);letter-spacing:.1em}.opp-reason p{margin:8px 0 0;color:#a1a6ac;font-size:.72rem;line-height:1.56}.opp-action>span{display:block}.opp-action button{display:flex;align-items:center;justify-content:space-between;gap:12px}.opp-action button b{font-size:.85rem}.empty-opportunity{grid-column:1/-1;min-height:190px}.opportunity-error{grid-column:1/-1;min-height:210px;max-width:560px}.radar-loader{position:relative;width:58px;height:58px;margin-bottom:4px}.radar-loader span,.radar-loader i,.radar-loader b{position:absolute;border-radius:50%;border:1px solid rgba(243,197,75,.18);inset:0;animation:radarwave 1.8s ease-out infinite}.radar-loader i{inset:10px;animation-delay:.22s}.radar-loader b{inset:20px;background:var(--yellow);border:0;animation:radarcore 1s ease-in-out infinite}.loading-card strong{font:640 1rem/1.2 var(--display)}.loading-card small{color:#747a81;font-size:.6rem}@keyframes radarwave{70%,100%{transform:scale(1.3);opacity:0}}@keyframes radarcore{50%{transform:scale(.72);opacity:.7}}
+
+  .empty-state{padding:64px 28px}.empty-state small{margin-top:15px;color:#a19f98;font:760 .5rem/1 var(--display);letter-spacing:.1em}.empty-state strong{max-width:24ch;font:650 1.35rem/1.15 var(--display);letter-spacing:-.03em}.empty-state span{max-width:45ch;line-height:1.5}.empty-state button{margin-top:22px;min-height:44px;padding:0 14px;border:0;border-radius:11px;background:var(--ink);color:#fff;font-size:.7rem;font-weight:800}.empty-state button b{margin-left:20px;color:var(--yellow)}
 
   .results-section{padding:105px 0;background:#fff}
   .section-intro{max-width:800px}.section-step{display:flex;align-items:center;gap:12px;margin-bottom:18px}.section-step>span{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--ink);color:#fff;font:760 .62rem/1 var(--display)}.section-step b{display:block;margin-top:4px;font-size:.82rem}.section-intro h2{margin:0;font:700 clamp(3rem,6vw,5.4rem)/.92 var(--display);letter-spacing:-.06em;overflow-wrap:anywhere}.section-intro>p{margin:16px 0 0;color:#7d7c77;line-height:1.55}
   .results-frame{margin-top:34px;border:1px solid #e1dfd7;border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 22px 60px rgba(16,18,22,.06)}.results-toolbar{min-height:48px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#f7f6f1;border-bottom:1px solid #e8e6df;color:#92918b;font:760 .52rem/1 var(--display);letter-spacing:.1em}.results-list{display:grid}
-  .result-card{min-height:106px;padding:17px;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:16px;align-items:center;border-bottom:1px solid #eceae4;transition:.16s}.result-card:last-child{border-bottom:0}.result-card:hover{background:#faf9f5}.position-chip{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#f1f0ea;color:#777773;font:760 .62rem/1 var(--display)}.result-main{min-width:0}.result-main>strong{display:block;font:640 .98rem/1.2 var(--display)}.result-main>span{display:block;margin-top:4px;color:#8b8a85;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-meta{display:flex;align-items:center;gap:7px;margin-top:9px;color:#555652;font-size:.68rem}.result-meta i{font-style:normal;color:#c8c6bf}.result-card button{min-height:41px;padding:0 12px;border:1px solid #dcd9d1;border-radius:10px;background:#fff;color:#353633;font-size:.67rem;font-weight:820}.result-card button:hover{background:var(--ink);border-color:var(--ink);color:#fff}.claim-rule{margin:13px 0 0;color:#9b9993;font-size:.59rem;line-height:1.5}.empty-state{padding:52px 24px;display:grid;justify-items:center;text-align:center}.empty-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#f1f0eb;color:#777;font-size:1.3rem}.empty-state strong{margin-top:13px}.empty-state span{margin-top:6px;color:#8a8984;font-size:.78rem}
+  .result-card{min-height:118px;padding:18px;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:16px;align-items:center;border-bottom:1px solid #eceae4;transition:background .16s ease,transform .16s ease}.result-card:last-child{border-bottom:0}.result-card:hover{background:#faf9f5}.position-chip{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#f1f0ea;color:#777773;font:760 .62rem/1 var(--display)}.result-main{min-width:0}.result-main>strong{display:block;font:640 .98rem/1.2 var(--display)}.result-main>span{display:block;margin-top:4px;color:#8b8a85;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-meta{display:flex;align-items:center;gap:7px;margin-top:9px;color:#555652;font-size:.68rem}.result-meta b{padding:5px 7px;border-radius:999px;background:#f2f0ea}.result-meta i{font-style:normal;color:#c8c6bf}.result-card button{min-height:43px;padding:0 13px;border:1px solid #dcd9d1;border-radius:10px;background:#fff;color:#353633;font-size:.67rem;font-weight:820}.result-card button:hover{background:var(--ink);border-color:var(--ink);color:#fff}.claim-rule{margin:13px 0 0;color:#9b9993;font-size:.59rem;line-height:1.5}.empty-state{padding:52px 24px;display:grid;justify-items:center;text-align:center}.empty-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#f1f0eb;color:#777;font-size:1.3rem}.empty-state strong{margin-top:13px}.empty-state span{margin-top:6px;color:#8a8984;font-size:.78rem}
 
   .selected-section{padding:105px 0;background:var(--yellow)}
   .selected-top{display:flex;justify-content:space-between;align-items:flex-start;gap:28px}.section-step.inverse>span{background:var(--ink);color:#fff}.selected-section .section-step small{color:#78651f}.selected-section .section-intro>p{color:#64551d}.selected-badge{flex:0 0 auto;padding:8px 10px;border:1px solid rgba(16,18,22,.19);border-radius:999px;font:780 .53rem/1 var(--display);letter-spacing:.11em}
@@ -970,9 +1103,11 @@ export const prerender = true;
     .section-shell,.verdict-shell{width:calc(100% - 28px)}.principles,.analyze-section,.results-section,.selected-section,.verdict-section,.coverage-section,.manifesto{padding-block:82px}
     .principles-copy h2,.coverage-head h2,.manifesto h2{font-size:clamp(3rem,13vw,4.7rem)}
     .analyze-head{align-items:flex-start;flex-direction:column;gap:18px}.search-panel{padding:20px;border-radius:18px}.search-form{grid-template-columns:1fr}
+    .loading-inner{align-items:flex-start;flex-direction:column}.loading-steps{width:100%;overflow-x:auto;padding-bottom:2px}.loading-steps span{white-space:nowrap}
     .results-section{padding-block:68px}
     .section-intro h2{font-size:clamp(2.65rem,12vw,4.15rem);line-height:.94;letter-spacing:-.055em}
     .section-intro>p{max-width:34ch;font-size:.92rem;line-height:1.58}
+    .results-title-row{align-items:flex-start;flex-direction:column;gap:16px}.results-title-row p{font-size:.9rem}.text-action{font-size:.64rem}
     .results-frame{margin-top:26px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
     .results-toolbar{min-height:auto;padding:0 2px 12px;background:transparent;border:0;color:#a09e97}
     .results-toolbar span:last-child{display:none}
@@ -990,9 +1125,11 @@ export const prerender = true;
     }
     .result-card:last-child{border-bottom:1px solid #e1ded5}
     .position-chip{width:40px;height:40px;border-radius:11px;background:#f0eee7;color:#6d6d68}
+    .result-name-row{align-items:flex-start;flex-direction:column;gap:7px}.observed-dot{font-size:.44rem}
     .result-main>strong{font-size:1.05rem;line-height:1.18;letter-spacing:-.02em}
-    .result-main>span{margin-top:6px;white-space:normal;overflow:visible;color:#8b8982;font-size:.76rem;line-height:1.35}
-    .result-meta{margin-top:11px;gap:6px;font-size:.74rem}
+    .result-address{margin-top:6px;white-space:normal;overflow:visible;color:#8b8982;font-size:.76rem;line-height:1.35}
+    .result-meta{margin-top:11px;gap:6px;font-size:.74rem;flex-wrap:wrap}
+    .result-signals{margin-top:12px;gap:8px 12px}.result-signals span{font-size:.62rem}
     .result-meta b{padding:5px 7px;border-radius:999px;background:#f5f3ed;font-weight:760}
     .result-meta i{display:none}
     .result-card button{
