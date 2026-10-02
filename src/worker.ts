@@ -465,7 +465,13 @@ async function proxyPublicSearch(request: Request, env: Env) {
     return Response.json({ error: payload.error ?? 'search_failed' }, { status: upstream.status || 502 });
   }
 
-  const results: PublicSearchResult[] = payload.prospects.slice(0, 8).map((item) => ({
+  const observedProspects = [...payload.prospects].sort((a, b) => {
+    const aPosition = typeof a.positionSignal === 'number' ? a.positionSignal : Number.MAX_SAFE_INTEGER;
+    const bPosition = typeof b.positionSignal === 'number' ? b.positionSignal : Number.MAX_SAFE_INTEGER;
+    return aPosition - bPosition;
+  });
+
+  const results: PublicSearchResult[] = observedProspects.slice(0, 8).map((item) => ({
     id: String(item.id ?? ''),
     name: String(item.name ?? ''),
     address: String(item.address ?? ''),
