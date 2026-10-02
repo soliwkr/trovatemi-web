@@ -1050,7 +1050,7 @@ export const prerender = true;
   .results-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:28px}.results-title-row>div{min-width:0}.results-title-row p{max-width:640px;margin:15px 0 0;color:#7d7c77;line-height:1.55}.text-action{flex:0 0 auto;padding:0;border:0;background:transparent;color:#77756f;font:760 .64rem/1 var(--display);letter-spacing:.03em;text-decoration:underline;text-decoration-color:#cac6ba;text-underline-offset:5px}.text-action:hover{color:var(--ink);text-decoration-color:var(--ink)}.text-action.dark{color:#4f4318;text-decoration-color:rgba(16,18,22,.22)}
   .results-toolbar b{font-weight:800;color:#595a56}
 
-  .result-name-row{display:flex;align-items:center;gap:10px;min-width:0}.result-name-row>strong{min-width:0}.observed-dot{flex:0 0 auto;padding:5px 7px;border-radius:999px;background:#edf7f1;color:#3f8d67;font:760 .47rem/1 var(--display);letter-spacing:.08em}.result-address{display:block;margin-top:5px;color:#8b8a85;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rating-pill{color:#6f5719!important;background:#fff8df!important}.result-signals{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.result-signals span{display:inline-flex;align-items:center;gap:5px;color:#777771;font-size:.58rem;font-weight:700}.result-signals i{width:6px;height:6px;border-radius:50%;background:#cbc8bf}.result-signals span.on i{background:#49b77e}.result-signals span.off{color:#aaa8a2}.result-card button{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .result-name-row{display:flex;align-items:center;gap:10px;min-width:0}.result-name-row>strong{display:block;min-width:0;font:640 .98rem/1.2 var(--display);letter-spacing:-.018em}.observed-dot{flex:0 0 auto;padding:5px 7px;border-radius:999px;background:#edf7f1;color:#3f8d67;font:760 .47rem/1 var(--display);letter-spacing:.08em}.result-address{display:block;margin-top:5px;color:#8b8a85;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rating-pill{color:#6f5719!important;background:#fff8df!important}.result-signals{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.result-signals span{display:inline-flex;align-items:center;gap:5px;color:#777771;font-size:.58rem;font-weight:700}.result-signals i{width:6px;height:6px;border-radius:50%;background:#cbc8bf}.result-signals span.on i{background:#49b77e}.result-signals span.off{color:#aaa8a2}.result-card button{display:flex;align-items:center;justify-content:space-between;gap:14px}
   .position-chip{font-family:var(--display)}.position-chip small,.position-chip b{display:block;text-align:center}.position-chip small{font-size:.42rem;letter-spacing:.08em}.position-chip b{margin-top:3px;font-size:.72rem}
 
   .selected-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.check-feedback{min-height:18px;margin-top:10px;color:#ffb09a;font-size:.66rem;line-height:1.45}.cta-button.is-loading{position:relative;overflow:hidden}.cta-button.is-loading::after{content:"";position:absolute;left:0;bottom:0;width:40%;height:2px;background:#111;animation:checkload 1.15s ease-in-out infinite}@keyframes checkload{0%{transform:translateX(-110%)}100%{transform:translateX(350%)}}
@@ -1125,8 +1125,7 @@ export const prerender = true;
     }
     .result-card:last-child{border-bottom:1px solid #e1ded5}
     .position-chip{width:40px;height:40px;border-radius:11px;background:#f0eee7;color:#6d6d68}
-    .result-name-row{align-items:flex-start;flex-direction:column;gap:7px}.observed-dot{font-size:.44rem}
-    .result-main>strong{font-size:1.05rem;line-height:1.18;letter-spacing:-.02em}
+    .result-name-row{align-items:flex-start;flex-direction:column;gap:7px}.result-name-row>strong{font-size:1.05rem;line-height:1.18;letter-spacing:-.02em}.observed-dot{font-size:.44rem}
     .result-address{margin-top:6px;white-space:normal;overflow:visible;color:#8b8982;font-size:.76rem;line-height:1.35}
     .result-meta{margin-top:11px;gap:6px;font-size:.74rem;flex-wrap:wrap}
     .result-signals{margin-top:12px;gap:8px 12px}.result-signals span{font-size:.62rem}
@@ -1157,7 +1156,7 @@ export const prerender = true;
 
   @media(max-width:390px){
     .hero h1{font-size:3.5rem}.hero-trust{grid-template-columns:1fr}.hero-trust>div{padding-top:14px}
-    .metric-head{grid-template-columns:1fr}.result-card{padding:14px}.result-main>strong{font-size:1rem}.result-meta{flex-wrap:wrap}
+    .metric-head{grid-template-columns:1fr}.result-card{padding:14px}.result-name-row>strong{font-size:1rem}.result-meta{flex-wrap:wrap}
   }
 
   @media(prefers-reduced-motion:reduce){
