@@ -45,6 +45,37 @@ type CountRow = { n: number };
 
 type FetchLike = typeof fetch;
 
+function findNestedReason(value: unknown, depth = 0): string | undefined {
+  if (depth > 5 || value == null) return undefined;
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const found = findNestedReason(item, depth + 1);
+      if (found) return found;
+    }
+    return undefined;
+  }
+  if (typeof value === "object") {
+    for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
+      if (key === "reason" && typeof nested === "string" && nested.trim()) return nested.trim();
+      const found = findNestedReason(nested, depth + 1);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+function classifyGooglePermissionMessage(message: unknown): string {
+  const text = typeof message === "string" ? message.toLowerCase() : "";
+  if (!text) return "UNKNOWN";
+  if (text.includes("api key not valid")) return "INVALID_KEY";
+  if (text.includes("billing")) return "BILLING";
+  if (text.includes("referer") || text.includes("referrer")) return "REFERRER_RESTRICTION";
+  if (text.includes("ip address") || text.includes("ip restriction")) return "IP_RESTRICTION";
+  if (text.includes("not authorized") || text.includes("not enabled") || text.includes("has not been used")) return "API_NOT_AUTHORIZED";
+  if (text.includes("blocked")) return "REQUEST_BLOCKED";
+  return "OTHER";
+}
+
 export async function searchPlaceIds(
   apiKey: string,
   textQuery: string,
@@ -74,16 +105,19 @@ export async function searchPlaceIds(
       const errorPayload = await response.clone().json() as {
         error?: {
           status?: unknown;
-          details?: Array<{ reason?: unknown }>;
+          message?: unknown;
+          details?: unknown;
         };
       };
       if (typeof errorPayload.error?.status === "string") status = errorPayload.error.status.slice(0, 80);
-      const foundReason = Array.isArray(errorPayload.error?.details)
-        ? errorPayload.error.details.find((item) => typeof item?.reason === "string")?.reason
-        : undefined;
+      const foundReason = findNestedReason(errorPayload.error?.details);
       if (typeof foundReason === "string") reason = foundReason.slice(0, 100);
-    } catch {}
-    throw new Error(`places_ids_only_${response.status}_${status}_${reason}`);
+      const messageClass = classifyGooglePermissionMessage(errorPayload.error?.message);
+      throw new Error(`places_ids_only_${response.status}_${status}_${reason}_${messageClass}`);
+    } catch (error) {
+      if (error instanceof Error && error.message.startsWith("places_ids_only_")) throw error;
+    }
+    throw new Error(`places_ids_only_${response.status}_${status}_${reason}_UNKNOWN`);
   }
 
   const payload = await response.json() as { places?: Array<{ id?: unknown }> };
