@@ -1,7 +1,6 @@
 import type { Bindings } from "./types.ts";
 
 const SCOPE = "formia-v0";
-const GOOGLE_PROVIDER = "google_places";
 const OSM_PROVIDER = "openstreetmap";
 const IDS_ONLY_CAP = 50_000;
 const LOCK_MINUTES = 5;
