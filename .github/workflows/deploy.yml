@@ -102,6 +102,41 @@ jobs:
           GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
         run: printf '%s' "$GOOGLE_PLACES_API_KEY" | npx wrangler secret put GOOGLE_PLACES_API_KEY
 
+      - name: Seed bounded Business Registry discovery
+        if: steps.deploy.outcome == 'success'
+        env:
+          REGISTRY_URL: https://trovatemi-radar-preview.soliwkr.workers.dev
+        run: |
+          curl --fail --silent --show-error -X POST             "$REGISTRY_URL/api/registry/discovery/run"             > "$RUNNER_TEMP/registry-run-1.json"
+          cat "$RUNNER_TEMP/registry-run-1.json"
+
+          curl --fail --silent --show-error             "$REGISTRY_URL/api/registry/discovery/status"             > "$RUNNER_TEMP/registry-status.json"
+          cat "$RUNNER_TEMP/registry-status.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const run = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/registry-run-1.json', 'utf8'));
+          const status = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/registry-status.json', 'utf8'));
+          if (run.provider !== 'openstreetmap') throw new Error('registry discovery must use openstreetmap');
+          if (status.scope !== 'formia-v0') throw new Error('wrong discovery scope');
+          if (status.targetTotal !== 50) throw new Error('registry target drifted from 50');
+          if (status.currentTotal < 1 || status.currentTotal > 50) throw new Error('candidate count outside bounded range');
+          if (status.paidOverageAllowed !== false) throw new Error('Places paid overage must remain disabled');
+          NODE
+
+          curl --fail --silent --show-error -X POST             "$REGISTRY_URL/api/registry/discovery/run"             > "$RUNNER_TEMP/registry-run-2.json"
+          cat "$RUNNER_TEMP/registry-run-2.json"
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const first = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/registry-run-1.json', 'utf8'));
+          const second = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/registry-run-2.json', 'utf8'));
+          if (first.currentTotal === 50) {
+            if (second.status !== 'target_reached') throw new Error('second run did not stop at target');
+            if (second.externalRequests !== 0) throw new Error('second run called a provider after target');
+          }
+          NODE
+
       - name: Verify Radar and Check domains
         id: verify_radar
         if: steps.deploy.outcome == 'success'
