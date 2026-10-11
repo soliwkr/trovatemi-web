@@ -1,10 +1,12 @@
 import type { Bindings } from "./types.ts";
 
 const SCOPE = "formia-v0";
-const PROVIDER = "google_places";
+const OSM_PROVIDER = "openstreetmap";
 const IDS_ONLY_CAP = 50_000;
 const LOCK_MINUTES = 5;
-const MAX_QUERIES_PER_RUN = 15;
+const OSM_LICENSE = "ODbL-1.0 © OpenStreetMap contributors";
+const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+const OSM_DISCOVERY_QUERY_KEY = "overpass:formia:businesses:v0";
 
 export const FORMIA_DISCOVERY_QUERIES = [
   "bar Formia",
@@ -24,9 +26,23 @@ export const FORMIA_DISCOVERY_QUERIES = [
   "fisioterapista Formia",
 ] as const;
 
+export const FORMIA_OVERPASS_QUERY = `
+[out:json][timeout:20];
+area["boundary"="administrative"]["admin_level"="8"]["name"="Formia"]->.formia;
+(
+  nwr(area.formia)["name"]["amenity"];
+  nwr(area.formia)["name"]["shop"];
+  nwr(area.formia)["name"]["tourism"];
+  nwr(area.formia)["name"]["craft"];
+  nwr(area.formia)["name"]["office"];
+);
+out center 120;
+`.trim();
+
 type DiscoveryResult = {
   ok: boolean;
   status: "completed" | "target_reached" | "disabled" | "locked" | "blocked";
+  provider: "openstreetmap";
   targetTotal: number;
   currentTotal: number;
   queriesAttempted: number;
@@ -42,8 +58,17 @@ type StateRow = {
 };
 
 type CountRow = { n: number };
-
 type FetchLike = typeof fetch;
+
+export type OsmCandidate = {
+  identity: string;
+  name: string;
+  category: string | null;
+  lat: number | null;
+  lon: number | null;
+  sourceUrl: string;
+  licenseRef: string;
+};
 
 function findNestedReason(value: unknown, depth = 0): string | undefined {
   if (depth > 5 || value == null) return undefined;
@@ -67,7 +92,7 @@ function findNestedReason(value: unknown, depth = 0): string | undefined {
 function classifyGooglePermissionMessage(message: unknown): string {
   const text = typeof message === "string" ? message.toLowerCase() : "";
   if (!text) return "UNKNOWN";
-  if (text.includes("api key not valid")) return "INVALID_KEY";
+  if (text.includes("api key not valid") || text.includes("api key is invalid") || text.includes("provided api key")) return "INVALID_KEY";
   if (text.includes("billing")) return "BILLING";
   if (text.includes("referer") || text.includes("referrer")) return "REFERRER_RESTRICTION";
   if (text.includes("ip address") || text.includes("ip restriction")) return "IP_RESTRICTION";
@@ -128,22 +153,76 @@ export async function searchPlaceIds(
   return [...new Set(ids)];
 }
 
+function osmCategory(tags: Record<string, unknown>): string | null {
+  for (const key of ["amenity", "shop", "tourism", "craft", "office"]) {
+    const value = tags[key];
+    if (typeof value === "string" && value.trim()) return `${key}:${value.trim()}`;
+  }
+  return null;
+}
+
+export async function searchOsmCandidates(fetcher: FetchLike = fetch): Promise<OsmCandidate[]> {
+  const response = await fetcher(OVERPASS_URL, {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "accept": "application/json",
+    },
+    body: "data=" + encodeURIComponent(FORMIA_OVERPASS_QUERY),
+  });
+
+  if (!response.ok) throw new Error(`overpass_${response.status}`);
+
+  const payload = await response.json() as {
+    elements?: Array<{
+      type?: unknown;
+      id?: unknown;
+      lat?: unknown;
+      lon?: unknown;
+      center?: { lat?: unknown; lon?: unknown };
+      tags?: Record<string, unknown>;
+    }>;
+  };
+
+  const seen = new Set<string>();
+  const rows: OsmCandidate[] = [];
+
+  for (const element of Array.isArray(payload.elements) ? payload.elements : []) {
+    const type = typeof element.type === "string" ? element.type : "";
+    const id = typeof element.id === "number" || typeof element.id === "string" ? String(element.id) : "";
+    const tags = element.tags && typeof element.tags === "object" ? element.tags : {};
+    const name = typeof tags.name === "string" ? tags.name.trim() : "";
+    if (!["node", "way", "relation"].includes(type) || !id || !name) continue;
+
+    const identity = `${type}/${id}`;
+    if (seen.has(identity)) continue;
+    seen.add(identity);
+
+    const rawLat = typeof element.lat === "number" ? element.lat : element.center?.lat;
+    const rawLon = typeof element.lon === "number" ? element.lon : element.center?.lon;
+    const lat = typeof rawLat === "number" && Number.isFinite(rawLat) ? rawLat : null;
+    const lon = typeof rawLon === "number" && Number.isFinite(rawLon) ? rawLon : null;
+
+    rows.push({
+      identity,
+      name,
+      category: osmCategory(tags),
+      lat,
+      lon,
+      sourceUrl: `https://www.openstreetmap.org/${identity}`,
+      licenseRef: OSM_LICENSE,
+    });
+  }
+
+  return rows;
+}
+
 async function ensureMonthlyIdsOnlyLedger(db: D1Database, month: string): Promise<void> {
   await db.prepare(`
     INSERT OR IGNORE INTO places_usage_monthly
       (month,sku_class,request_count,internal_cap,paid_overage_allowed,estimated_cost_micros)
     VALUES (?, 'ids_only', 0, ?, 0, 0)
   `).bind(month, IDS_ONLY_CAP).run();
-}
-
-async function reserveIdsOnlyRequest(db: D1Database, month: string): Promise<boolean> {
-  await ensureMonthlyIdsOnlyLedger(db, month);
-  const result = await db.prepare(`
-    UPDATE places_usage_monthly
-    SET request_count=request_count+1, updated_at=CURRENT_TIMESTAMP
-    WHERE month=? AND sku_class='ids_only' AND request_count < internal_cap
-  `).bind(month).run();
-  return Number(result.meta.changes || 0) === 1;
 }
 
 async function releaseLock(db: D1Database): Promise<void> {
@@ -160,6 +239,8 @@ export async function registryDiscoveryStatus(env: Bindings): Promise<{
   targetTotal: number;
   currentTotal: number;
   remaining: number;
+  osmCandidates: number;
+  googleCandidates: number;
   idsOnlyRequestsThisMonth: number;
   idsOnlyInternalCap: number;
   paidOverageAllowed: boolean;
@@ -169,7 +250,6 @@ export async function registryDiscoveryStatus(env: Bindings): Promise<{
     FROM business_discovery_state
     WHERE scope=?
   `).bind(SCOPE).first<StateRow>();
-
   if (!state) throw new Error("discovery_state_missing");
 
   const municipality = await env.SUDPONTINO_DB.prepare(
@@ -177,11 +257,14 @@ export async function registryDiscoveryStatus(env: Bindings): Promise<{
   ).first<{ id: number }>();
   if (!municipality) throw new Error("formia_missing");
 
-  const count = await env.SUDPONTINO_DB.prepare(`
-    SELECT COUNT(*) AS n
+  const counts = await env.SUDPONTINO_DB.prepare(`
+    SELECT
+      COUNT(*) AS n,
+      SUM(CASE WHEN provider='openstreetmap' THEN 1 ELSE 0 END) AS osm_n,
+      SUM(CASE WHEN provider='google_places' THEN 1 ELSE 0 END) AS google_n
     FROM business_discovery_candidates
-    WHERE provider=? AND municipality_id=?
-  `).bind(PROVIDER, municipality.id).first<CountRow>();
+    WHERE municipality_id=?
+  `).bind(municipality.id).first<{ n: number; osm_n: number | null; google_n: number | null }>();
 
   const month = new Date().toISOString().slice(0, 7);
   await ensureMonthlyIdsOnlyLedger(env.SUDPONTINO_DB, month);
@@ -191,13 +274,15 @@ export async function registryDiscoveryStatus(env: Bindings): Promise<{
     WHERE month=? AND sku_class='ids_only'
   `).bind(month).first<{ request_count: number; internal_cap: number; paid_overage_allowed: number }>();
 
-  const currentTotal = Number(count?.n || 0);
+  const currentTotal = Number(counts?.n || 0);
   return {
     scope: SCOPE,
     enabled: state.enabled === 1,
     targetTotal: state.target_total,
     currentTotal,
     remaining: Math.max(0, state.target_total - currentTotal),
+    osmCandidates: Number(counts?.osm_n || 0),
+    googleCandidates: Number(counts?.google_n || 0),
     idsOnlyRequestsThisMonth: usage?.request_count ?? 0,
     idsOnlyInternalCap: usage?.internal_cap ?? IDS_ONLY_CAP,
     paidOverageAllowed: usage?.paid_overage_allowed === 1,
@@ -205,7 +290,6 @@ export async function registryDiscoveryStatus(env: Bindings): Promise<{
 }
 
 export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResult> {
-  if (!env.GOOGLE_PLACES_API_KEY) throw new Error("places_unconfigured");
   if (!env.SUDPONTINO_DB) throw new Error("sudpontino_db_unconfigured");
 
   const lock = await env.SUDPONTINO_DB.prepare(`
@@ -220,6 +304,7 @@ export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResu
     return {
       ok: true,
       status: status.enabled ? "locked" : "disabled",
+      provider: "openstreetmap",
       targetTotal: status.targetTotal,
       currentTotal: status.currentTotal,
       queriesAttempted: 0,
@@ -249,8 +334,8 @@ export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResu
 
     const before = await env.SUDPONTINO_DB.prepare(`
       SELECT COUNT(*) AS n FROM business_discovery_candidates
-      WHERE provider=? AND municipality_id=?
-    `).bind(PROVIDER, municipality.id).first<CountRow>();
+      WHERE municipality_id=?
+    `).bind(municipality.id).first<CountRow>();
 
     const currentTotal = Number(before?.n || 0);
     if (currentTotal >= state.target_total) {
@@ -258,6 +343,7 @@ export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResu
       return {
         ok: true,
         status: "target_reached",
+        provider: "openstreetmap",
         targetTotal: state.target_total,
         currentTotal,
         queriesAttempted,
@@ -267,80 +353,72 @@ export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResu
       };
     }
 
-    const desiredNew = Math.min(
-      state.max_new_per_run,
-      state.target_total - currentTotal,
-    );
+    const desiredNew = Math.min(state.max_new_per_run, state.target_total - currentTotal);
 
     await env.SUDPONTINO_DB.prepare(`
       INSERT INTO business_discovery_runs (
         run_id,provider,municipality_id,mode,status,target_total,max_queries
-      ) VALUES (?, ?, ?, 'ids_only', 'running', ?, ?)
-    `).bind(runId, PROVIDER, municipality.id, state.target_total, MAX_QUERIES_PER_RUN).run();
+      ) VALUES (?, ?, ?, 'free_osm', 'running', ?, 1)
+    `).bind(runId, OSM_PROVIDER, municipality.id, state.target_total).run();
 
-    const month = new Date().toISOString().slice(0, 7);
+    queriesAttempted = 1;
+    externalRequests = 1;
+    const candidates = await searchOsmCandidates();
 
-    for (const query of FORMIA_DISCOVERY_QUERIES.slice(0, MAX_QUERIES_PER_RUN)) {
+    for (const candidate of candidates) {
       if (candidatesInserted >= desiredNew) break;
+      candidatesSeen += 1;
 
-      const reserved = await reserveIdsOnlyRequest(env.SUDPONTINO_DB, month);
-      if (!reserved) {
+      const inserted = await env.SUDPONTINO_DB.prepare(`
+        INSERT OR IGNORE INTO business_discovery_candidates (
+          provider,provider_identity,municipality_id,discovery_query,status,
+          display_name_hint,category_hint,lat_hint,lon_hint,source_url,license_ref,
+          provenance_ref
+        ) VALUES (?, ?, ?, ?, 'new', ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        OSM_PROVIDER,
+        candidate.identity,
+        municipality.id,
+        OSM_DISCOVERY_QUERY_KEY,
+        candidate.name,
+        candidate.category,
+        candidate.lat,
+        candidate.lon,
+        candidate.sourceUrl,
+        candidate.licenseRef,
+        `openstreetmap:overpass:${candidate.identity}`,
+      ).run();
+
+      if (Number(inserted.meta.changes || 0) === 1) {
+        candidatesInserted += 1;
+      } else {
         await env.SUDPONTINO_DB.prepare(`
-          UPDATE business_discovery_runs
-          SET status='blocked', error_code='ids_only_internal_cap',
-              queries_attempted=?, candidates_seen=?, candidates_inserted=?,
-              finished_at=CURRENT_TIMESTAMP
-          WHERE run_id=?
-        `).bind(queriesAttempted, candidatesSeen, candidatesInserted, runId).run();
-        await releaseLock(env.SUDPONTINO_DB);
-        return {
-          ok: false,
-          status: "blocked",
-          targetTotal: state.target_total,
-          currentTotal: currentTotal + candidatesInserted,
-          queriesAttempted,
-          candidatesSeen,
-          candidatesInserted,
-          externalRequests,
-        };
-      }
-
-      queriesAttempted += 1;
-      externalRequests += 1;
-      const remaining = desiredNew - candidatesInserted;
-      const ids = await searchPlaceIds(
-        env.GOOGLE_PLACES_API_KEY,
-        query,
-        Math.min(20, Math.max(8, remaining)),
-      );
-
-      for (const placeId of ids) {
-        candidatesSeen += 1;
-        const provenance = `google_places:text_search:ids_only:${query}`;
-        const inserted = await env.SUDPONTINO_DB.prepare(`
-          INSERT OR IGNORE INTO business_discovery_candidates (
-            provider,provider_identity,municipality_id,discovery_query,status,provenance_ref
-          ) VALUES (?, ?, ?, ?, 'new', ?)
-        `).bind(PROVIDER, placeId, municipality.id, query, provenance).run();
-
-        if (Number(inserted.meta.changes || 0) === 1) {
-          candidatesInserted += 1;
-        } else {
-          await env.SUDPONTINO_DB.prepare(`
-            UPDATE business_discovery_candidates
-            SET last_seen_at=CURRENT_TIMESTAMP
-            WHERE provider=? AND provider_identity=?
-          `).bind(PROVIDER, placeId).run();
-        }
-
-        if (candidatesInserted >= desiredNew) break;
+          UPDATE business_discovery_candidates
+          SET last_seen_at=CURRENT_TIMESTAMP,
+              display_name_hint=COALESCE(?,display_name_hint),
+              category_hint=COALESCE(?,category_hint),
+              lat_hint=COALESCE(?,lat_hint),
+              lon_hint=COALESCE(?,lon_hint),
+              source_url=COALESCE(?,source_url),
+              license_ref=COALESCE(?,license_ref)
+          WHERE provider=? AND provider_identity=?
+        `).bind(
+          candidate.name,
+          candidate.category,
+          candidate.lat,
+          candidate.lon,
+          candidate.sourceUrl,
+          candidate.licenseRef,
+          OSM_PROVIDER,
+          candidate.identity,
+        ).run();
       }
     }
 
     const after = await env.SUDPONTINO_DB.prepare(`
       SELECT COUNT(*) AS n FROM business_discovery_candidates
-      WHERE provider=? AND municipality_id=?
-    `).bind(PROVIDER, municipality.id).first<CountRow>();
+      WHERE municipality_id=?
+    `).bind(municipality.id).first<CountRow>();
     const finalTotal = Number(after?.n || 0);
 
     await env.SUDPONTINO_DB.prepare(`
@@ -355,6 +433,7 @@ export async function runRegistryDiscovery(env: Bindings): Promise<DiscoveryResu
     return {
       ok: true,
       status: finalTotal >= state.target_total ? "target_reached" : "completed",
+      provider: "openstreetmap",
       targetTotal: state.target_total,
       currentTotal: finalTotal,
       queriesAttempted,
