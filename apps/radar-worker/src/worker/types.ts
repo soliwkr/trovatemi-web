@@ -1,6 +1,7 @@
 export type Bindings = {
   ASSETS: Fetcher;
   GOOGLE_PLACES_API_KEY?: string;
+  SUDPONTINO_DB: D1Database;
   RADAR_STORE: DurableObjectNamespace;
   APP_ENV?: string;
   RUN_LIMIT?: string;

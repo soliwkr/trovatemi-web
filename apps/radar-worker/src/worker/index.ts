@@ -7,6 +7,7 @@ import { csvEscape, mapLimit, sha256 } from "./utils.ts";
 import { buildOutreachMessage, buildPublicCheck, createShareToken } from "./share.ts";
 import { climboConfigured, createClimboClient, normalizeActivationInput } from "./climbo.ts";
 import { renderPublicCheck } from "./public-check.ts";
+import { registryDiscoveryStatus, runRegistryDiscovery } from "./registry-discovery.ts";
 import { decideOpportunities } from "./opportunities.ts";
 import type { ActivationDraft, Bindings, RadarRun } from "./types.ts";
 
@@ -22,6 +23,26 @@ app.use("*", async (c, next) => {
 });
 
 app.get("/health", (c) => c.json({ ok: true, service: "trovatemi-radar", env: c.env.APP_ENV ?? "unknown" }));
+
+app.get("/api/registry/discovery/status", async (c) => {
+  try {
+    return c.json(await registryDiscoveryStatus(c.env));
+  } catch (error) {
+    return c.json({ error: error instanceof Error ? error.message : "registry_discovery_status_failed" }, 503);
+  }
+});
+
+app.post("/api/registry/discovery/run", async (c) => {
+  try {
+    return c.json(await runRegistryDiscovery(c.env));
+  } catch (error) {
+    console.error(JSON.stringify({
+      event: "registry.discovery.failed",
+      message: error instanceof Error ? error.message : "unknown",
+    }));
+    return c.json({ error: error instanceof Error ? error.message : "registry_discovery_failed" }, 502);
+  }
+});
 
 app.get("/api/funnel/stats", async (c) => c.json(await getFunnelStats(c.env)));
 
@@ -425,4 +446,24 @@ app.get("/api/runs/:id/export.csv", async (c) => {
 app.notFound((c) => c.json({ error: "not_found" }, 404));
 
 export { RadarStore };
-export default app;
+
+export default {
+  fetch(request: Request, env: Bindings, ctx: ExecutionContext) {
+    return app.fetch(request, env, ctx);
+  },
+
+  scheduled(_controller: ScheduledController, env: Bindings, ctx: ExecutionContext) {
+    ctx.waitUntil(
+      runRegistryDiscovery(env)
+        .then((result) => {
+          console.log(JSON.stringify({ event: "registry.discovery.completed", ...result }));
+        })
+        .catch((error) => {
+          console.error(JSON.stringify({
+            event: "registry.discovery.failed",
+            message: error instanceof Error ? error.message : "unknown",
+          }));
+        }),
+    );
+  },
+};

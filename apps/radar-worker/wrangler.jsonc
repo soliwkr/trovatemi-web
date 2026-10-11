@@ -14,6 +14,16 @@
     "PUBLIC_CHECK_BASE_URL": "https://check.trovatemi.it",
     "PUBLIC_HOME_URL": "https://trovatemi.it"
   },
+  "d1_databases": [
+    {
+      "binding": "SUDPONTINO_DB",
+      "database_name": "sudpontino",
+      "database_id": "c12c8a9e-08ae-42a1-abf7-50bb74c67d73"
+    }
+  ],
+  "triggers": {
+    "crons": ["17 4 * * *"]
+  },
   "durable_objects": {
     "bindings": [
       {
