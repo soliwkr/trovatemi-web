@@ -67,7 +67,24 @@ export async function searchPlaceIds(
     }),
   });
 
-  if (!response.ok) throw new Error(`places_ids_only_${response.status}`);
+  if (!response.ok) {
+    let status = "UNKNOWN";
+    let reason = "UNKNOWN";
+    try {
+      const errorPayload = await response.clone().json() as {
+        error?: {
+          status?: unknown;
+          details?: Array<{ reason?: unknown }>;
+        };
+      };
+      if (typeof errorPayload.error?.status === "string") status = errorPayload.error.status.slice(0, 80);
+      const foundReason = Array.isArray(errorPayload.error?.details)
+        ? errorPayload.error.details.find((item) => typeof item?.reason === "string")?.reason
+        : undefined;
+      if (typeof foundReason === "string") reason = foundReason.slice(0, 100);
+    } catch {}
+    throw new Error(`places_ids_only_${response.status}_${status}_${reason}`);
+  }
 
   const payload = await response.json() as { places?: Array<{ id?: unknown }> };
   const ids = (Array.isArray(payload.places) ? payload.places : [])
