@@ -90,7 +90,7 @@ test("OSM discovery uses one fixed Formia Overpass query and preserves provenanc
 
   const params = new URLSearchParams(String(seenInit?.body));
   assert.equal(params.get("data"), FORMIA_OVERPASS_QUERY);
-  assert.match(FORMIA_OVERPASS_QUERY, /name"="Formia/);
+  assert.match(FORMIA_OVERPASS_QUERY, /area\(3600041192\)->\.formia/);
   assert.match(FORMIA_OVERPASS_QUERY, /out center 120/);
 
   assert.equal(rows.length, 3);
@@ -110,4 +110,28 @@ test("OSM discovery fails closed on provider error", async () => {
     () => searchOsmCandidates(fakeFetch),
     /overpass_429/,
   );
+});
+
+
+test("OSM discovery fails over after transient Overpass error", async () => {
+  const urls: string[] = [];
+  const fakeFetch: typeof fetch = async (input) => {
+    urls.push(String(input));
+    if (urls.length === 1) return new Response("timeout", { status: 522 });
+    return new Response(JSON.stringify({
+      elements: [{
+        type: "node",
+        id: 505,
+        lat: 41.25,
+        lon: 13.61,
+        tags: { name: "Fallback Bar", amenity: "bar" },
+      }],
+    }), { status: 200, headers: { "content-type": "application/json" } });
+  };
+
+  const rows = await searchOsmCandidates(fakeFetch);
+  assert.equal(urls.length, 2);
+  assert.equal(urls[0], "https://overpass-api.de/api/interpreter");
+  assert.equal(urls[1], "https://overpass.private.coffee/api/interpreter");
+  assert.equal(rows[0].identity, "node/505");
 });

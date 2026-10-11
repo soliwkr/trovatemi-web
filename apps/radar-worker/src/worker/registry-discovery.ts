@@ -5,7 +5,10 @@ const OSM_PROVIDER = "openstreetmap";
 const IDS_ONLY_CAP = 50_000;
 const LOCK_MINUTES = 5;
 const OSM_LICENSE = "ODbL-1.0 © OpenStreetMap contributors";
-const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+const OVERPASS_URLS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+] as const;
 const OSM_DISCOVERY_QUERY_KEY = "overpass:formia:businesses:v0";
 
 export const FORMIA_DISCOVERY_QUERIES = [
@@ -28,7 +31,7 @@ export const FORMIA_DISCOVERY_QUERIES = [
 
 export const FORMIA_OVERPASS_QUERY = `
 [out:json][timeout:20];
-area["boundary"="administrative"]["admin_level"="8"]["name"="Formia"]->.formia;
+area(3600041192)->.formia;
 (
   nwr(area.formia)["name"]["amenity"];
   nwr(area.formia)["name"]["shop"];
@@ -162,16 +165,29 @@ function osmCategory(tags: Record<string, unknown>): string | null {
 }
 
 export async function searchOsmCandidates(fetcher: FetchLike = fetch): Promise<OsmCandidate[]> {
-  const response = await fetcher(OVERPASS_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-      "accept": "application/json",
-    },
-    body: "data=" + encodeURIComponent(FORMIA_OVERPASS_QUERY),
-  });
+  let response: Response | null = null;
+  let lastStatus = 0;
 
-  if (!response.ok) throw new Error(`overpass_${response.status}`);
+  for (const endpoint of OVERPASS_URLS) {
+    response = await fetcher(endpoint, {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "accept": "application/json",
+      },
+      body: "data=" + encodeURIComponent(FORMIA_OVERPASS_QUERY),
+    });
+
+    if (response.ok) break;
+    lastStatus = response.status;
+
+    // Only fail over on transient/provider-side conditions.
+    if (![408, 425, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524].includes(response.status)) {
+      throw new Error(`overpass_${response.status}`);
+    }
+  }
+
+  if (!response?.ok) throw new Error(`overpass_${lastStatus || 503}`);
 
   const payload = await response.json() as {
     elements?: Array<{
