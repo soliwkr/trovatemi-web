@@ -1,0 +1,139 @@
+---
+const examples = [
+  "Barca domani per quattro",
+  "Dove porto mia moglie stasera?",
+  "Come vado a Ponza domani?",
+  "Piove: che facciamo con i bambini?",
+];
+
+const journeys = [
+  { label: "FARE", copy: "Esperienze, mare, cultura e cose da fare adesso." },
+  { label: "DORMIRE", copy: "Trova una soluzione adatta a quando e quanto vuoi spendere." },
+  { label: "MUOVERSI", copy: "Traghetti, collegamenti e modi pratici per arrivare dove vuoi." },
+  { label: "MANGIARE", copy: "Poche idee sensate per il momento, non cinquanta risultati." },
+];
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Trovatemi Gaeta — esperimento</title>
+    <meta name="description" content="Dimmi cosa vuoi fare a Gaeta. Trovatemi riduce la scelta e ti porta all'azione." />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="/" class="brand">TROVATEMI</a>
+        <span class="badge">GAETA · EXPERIMENT</span>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">NON CERCARE. DIMMELO.</p>
+        <h1>Che vuoi fare<br /><em>a Gaeta?</em></h1>
+        <p class="lead">Scrivilo come ti viene. L'obiettivo non è mostrarti tutto: è arrivare a poche opzioni che abbiano senso per te.</p>
+
+        <form id="intent-form" class="intent-box">
+          <label for="intent">Cosa ti serve?</label>
+          <div class="input-row">
+            <input id="intent" name="intent" required autocomplete="off" placeholder="Es. domani vorrei fare qualcosa sul mare..." />
+            <button type="submit">TROVAMELO →</button>
+          </div>
+          <p id="status" aria-live="polite"></p>
+        </form>
+
+        <div class="examples" aria-label="Esempi">
+          {examples.map((example) => <button type="button" data-example={example}>{example}</button>)}
+        </div>
+      </section>
+
+      <section class="journeys">
+        {journeys.map((journey) => (
+          <article>
+            <strong>{journey.label}</strong>
+            <p>{journey.copy}</p>
+          </article>
+        ))}
+      </section>
+
+      <section class="manifesto">
+        <p>Questo è un esperimento.</p>
+        <h2>Una risposta utile vale più di una lista infinita.</h2>
+        <p>Stiamo misurando quali bisogni esistono davvero e quali azioni aiutano le persone a risolverli. Nessuna promessa di disponibilità viene mostrata senza verifica.</p>
+      </section>
+    </main>
+
+    <script>
+      const form = document.querySelector('#intent-form');
+      const input = document.querySelector('#intent');
+      const status = document.querySelector('#status');
+
+      document.querySelectorAll('[data-example]').forEach((button) => {
+        button.addEventListener('click', () => {
+          input.value = button.dataset.example || '';
+          input.focus();
+        });
+      });
+
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const query = input?.value?.trim();
+        if (!query) return;
+
+        status.textContent = 'Intento registrato. Il motore di risposta arriva nel prossimo gate.';
+
+        try {
+          await fetch('/api/intent', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ query, destination: 'gaeta', source: 'gaeta_mvp' }),
+          });
+        } catch {
+          // The experiment remains usable even when telemetry is unavailable.
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(body) { margin: 0; background: #f3efe5; color: #111; font-family: Arial, Helvetica, sans-serif; }
+  main { min-height: 100vh; }
+  header { max-width: 1180px; margin: auto; padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { color: inherit; font-weight: 900; letter-spacing: -.05em; text-decoration: none; font-size: 1.35rem; }
+  .badge { border: 1px solid #111; border-radius: 999px; padding: 7px 10px; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
+  .hero { max-width: 1180px; margin: auto; padding: 9vh 24px 8vh; }
+  .eyebrow { font-weight: 900; letter-spacing: .12em; font-size: .76rem; }
+  h1 { margin: 18px 0 22px; max-width: 900px; font-size: clamp(4rem, 12vw, 9.5rem); line-height: .82; letter-spacing: -.075em; }
+  h1 em { font-style: normal; color: #e94b28; }
+  .lead { max-width: 680px; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.45; }
+  .intent-box { margin-top: 48px; padding: 18px; background: #111; color: #fff; border-radius: 18px; }
+  .intent-box label { display: block; margin-bottom: 10px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; }
+  .input-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+  input { width: 100%; border: 0; border-radius: 10px; padding: 18px; font: inherit; font-size: 1.05rem; }
+  button { cursor: pointer; }
+  .input-row button { border: 0; border-radius: 10px; padding: 0 22px; background: #e94b28; color: #fff; font-weight: 900; }
+  #status { min-height: 1.2em; margin: 10px 0 0; color: #d8d8d8; font-size: .85rem; }
+  .examples { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .examples button { border: 1px solid #bbb4a8; background: transparent; border-radius: 999px; padding: 9px 12px; }
+  .journeys { max-width: 1180px; margin: auto; padding: 20px 24px 90px; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .journeys article { min-height: 190px; padding: 24px; border: 1px solid #111; margin: -1px 0 0 -1px; }
+  .journeys strong { font-size: 1.7rem; letter-spacing: -.05em; }
+  .journeys p { line-height: 1.45; }
+  .manifesto { background: #e94b28; color: #111; padding: 12vh max(24px, calc((100vw - 1132px) / 2)); }
+  .manifesto > p:first-child { font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+  .manifesto h2 { max-width: 900px; margin: 16px 0 24px; font-size: clamp(2.8rem, 7vw, 6rem); line-height: .92; letter-spacing: -.06em; }
+  .manifesto > p:last-child { max-width: 650px; font-size: 1.15rem; line-height: 1.5; }
+  @media (max-width: 760px) {
+    .hero { padding-top: 6vh; }
+    .input-row { grid-template-columns: 1fr; }
+    .input-row button { min-height: 54px; }
+    .journeys { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 460px) {
+    .badge { display: none; }
+    .journeys { grid-template-columns: 1fr; }
+  }
+</style>
